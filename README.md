@@ -18,66 +18,6 @@
 
 ## 팀원 소개
 
-<table role="table" style="width:100%;">
-  <tbody>
-  <tr>
-    <td align="center" style="background-color: #C2FDE1; color: #111111"><b>FE</b></td>
-    <td align="center" style="background-color: #C2FDE1; color: #111111"><b>FE</b></td>
-    <td align="center" style="background-color: #C2FDE1; color: #111111"><b>FE</b></td>
-    <td align="center" style="background-color: #D57BC6; color: #111111"><b>BE</b></td>
-    <td align="center" style="background-color: #D57BC6; color: #111111"><b>BE</b></td>
-  </tr>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/dev2820" style="text-underline-position: under;">
-          <img src="https://github.com/dev2820.png" width="100px;" alt="" style="max-width: 100%;" />
-          <br>
-          <sub>
-            <b>J079 양기조 <br />(dev2820)</b>
-          </sub>
-        </a>
-        <br>
-      </td>
-      <td align="center">
-          <a href="https://github.com/dmdmdkdkr" style="text-underline-position: under;">
-            <img src="https://github.com/dmdmdkdkr.png" width="100px;" alt="" style="max-width: 100%;" />
-            <br>
-            <sub>
-              <b>J111 이우찬 <br />(dmdmdkdkr)</b>
-            </sub>
-          </a>
-          <br>
-        </td>
-        <td align="center">
-          <a href="https://github.com/mahwin" style="text-underline-position: under;">
-            <img src="https://github.com/mahwin.png" width="100px;" alt="" style="max-width: 100%;" />
-            <br>
-            <sub>
-              <b>J140 정유석 <br />(mahwin)</b>
-            </sub>
-          </a>
-          <br>
-        </td>
-      <td align="center">
-          <a href="https://github.com/rladydgn" style="text-underline-position: under;">
-            <img src="https://github.com/rladydgn.png" width="100px;" alt="" style="max-width: 100%;" />
-            <br>
-            <sub>
-              <b>J026 김용후 <br />(rladydgn)</b>
-            </sub>
-          </a>
-          <br>
-        </td>
-      <td align="center">
-          <a href="https://github.com/yechan2468" style="text-underline-position: under;">
-            <img src="https://github.com/yechan2468.png" width="100px;" alt="" style="max-width: 100%;" />
-            <br>
-            <sub>
-              <b>J109 이예찬 <br />(yechan2468)</b>
-            </sub>
-          </a>
-          <br>
-        </td>
-    </tr>
-  </tbody>
-</table>
+| FE | FE | FE | BE | BE |
+|:-:|:-:|:-:|:-:|:-:|
+| <img src="https://github.com/dev2820.png" width="300px" alt=""/> <br> <sub> **J079 양기조** <br> ([dev2820](https://github.com/dev2820)) | <img src="https://github.com/dmdmdkdkr.png" width="300px" alt=""/> <br> <sub> **J111 이우찬** <br> ([dmdmdkdkr](https://github.com/dmdmdkdkr)) | <img src="https://github.com/mahwin.png" width="300px" alt=""/> <br> <sub> **J140 정유석** <br> ([mahwin](https://github.com/mahwin)) | <img src="https://github.com/rladydgn.png" width="300px" alt=""/> <br> <sub> **J026 김용후** <br> ([rladydgn](https://github.com/rladydgn)) | <img src="https://github.com/yechan2468.png" width="300px" alt=""/> <br> <sub> **J109 이예찬** <br> ([yechan2468](https://github.com/yechan2468)) |
