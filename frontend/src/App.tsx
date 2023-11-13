@@ -3,6 +3,7 @@ import './App.css';
 import { useState } from 'react';
 
 import reactLogo from '@/assets/react.svg';
+import { Counter } from '@/components/counter';
 
 import viteLogo from '/vite.svg';
 
@@ -20,6 +21,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+      <Counter></Counter>
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={handleClickCount}>count is {count}</button>
