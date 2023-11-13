@@ -53,8 +53,10 @@ module.exports = {
   settings: {
     // import sort 관련 설정
     'import/resolver': {
-      typescript: true,
-      node: true,
+      typescript: {},
+      node: {
+        paths: ['src'],
+      },
     },
   },
 };
