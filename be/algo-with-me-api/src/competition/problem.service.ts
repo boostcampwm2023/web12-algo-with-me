@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { readFileSync } from 'fs';
+import * as path from 'path';
+
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { Problem } from './entities/problem.entity';
 
@@ -29,11 +32,16 @@ export class ProblemService {
 
   async findOne(id: number) {
     const problem = await this.problemRepository.findOneBy({ id });
+    const fileName = id.toString() + '.md';
+    const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
+    console.log(paths);
+    const content = readFileSync(paths).toString();
     return {
       id: problem.id,
       title: problem.title,
       timeLimit: problem.timeLimit,
       memoryLimit: problem.memoryLimit,
+      content: content,
       createdAt: problem.createdAt,
     };
   }
