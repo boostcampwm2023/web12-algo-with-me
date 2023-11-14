@@ -26,6 +26,9 @@ export class Problem {
   @Column('text')
   frameCode: string;
 
+  @Column('text')
+  solutionCode: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
