@@ -27,8 +27,15 @@ export class ProblemService {
     });
   }
 
-  findOne(id: number) {
-    return this.problemRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const problem = await this.problemRepository.findOneBy({ id });
+    return {
+      id: problem.id,
+      title: problem.title,
+      timeLimit: problem.timeLimit,
+      memoryLimit: problem.memoryLimit,
+      createdAt: problem.createdAt,
+    };
   }
 
   // update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
