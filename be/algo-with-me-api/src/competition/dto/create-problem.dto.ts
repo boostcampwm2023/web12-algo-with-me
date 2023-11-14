@@ -18,6 +18,9 @@ export class CreateProblemDto {
   @IsNotEmpty()
   frameCode: string;
 
+  @IsNotEmpty()
+  solutionCode: string;
+
   toEntity(): Problem {
     const problem = new Problem();
     problem.title = this.title;
@@ -25,6 +28,7 @@ export class CreateProblemDto {
     problem.memoryLimit = this.memoryLimit;
     problem.testcaseNum = this.testcaseNum;
     problem.frameCode = this.frameCode;
+    problem.solutionCode = this.solutionCode;
     return problem;
   }
 }
