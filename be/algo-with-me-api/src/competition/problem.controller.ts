@@ -12,7 +12,7 @@ import {
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { ProblemService } from './problem.service';
 
-@Controller('competitions/problems')
+@Controller('problems')
 export class ProblemController {
   constructor(private readonly problemService: ProblemService) {}
 
