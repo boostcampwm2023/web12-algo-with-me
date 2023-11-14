@@ -12,7 +12,9 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-javascript": "^6.2.1",
+    "@uiw/codemirror-theme-vscode": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
     "codemirror": "^6.0.1",
     "react": "^18.2.0",
