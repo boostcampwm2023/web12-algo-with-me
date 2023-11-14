@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UsePipes,
+  ValidationPipe,
+  Param,
+  Delete,
+} from '@nestjs/common';
 
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { ProblemService } from './problem.service';
@@ -18,18 +27,18 @@ export class ProblemController {
     return this.problemService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.problemService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.problemService.findOne(id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateCompetitionDto: UpdateCompetitionDto) {
   //   return this.competitionService.update(+id, updateCompetitionDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.problemService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    this.problemService.remove(id);
+  }
 }

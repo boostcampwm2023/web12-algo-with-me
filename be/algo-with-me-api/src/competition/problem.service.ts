@@ -17,19 +17,25 @@ export class ProblemService {
     return savedProblem;
   }
 
-  findAll() {
-    return this.problemRepository.find();
+  async findAll() {
+    const problems = await this.problemRepository.find();
+    return problems.map((problem: Problem) => {
+      return {
+        id: problem.id,
+        title: problem.title,
+      };
+    });
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} competition`;
-  // }
+  findOne(id: number) {
+    return this.problemRepository.findOneBy({ id });
+  }
 
   // update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
   //   return `This action updates a #${id} competition`;
   // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} competition`;
-  // }
+  remove(id: number) {
+    this.problemRepository.delete({ id });
+  }
 }
