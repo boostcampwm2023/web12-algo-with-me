@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { forwardRef, useImperativeHandle, useCallback, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { historyField } from '@codemirror/commands';
 import { javascript } from '@codemirror/lang-javascript';
@@ -8,18 +8,25 @@ const stateFields = { history: historyField };
 
 const EditorWithInitialState = forwardRef(({ value: externalValue }, ref) => {
   const serializedState = localStorage.getItem('myEditorState');
-  const value = localStorage.getItem('myValue') || externalValue;
+  const [value, setValue] = useState(localStorage.getItem('myValue') || externalValue);
 
   const returnCode = useCallback(() => {
     return value;
   }, [value]);
 
+  const clearLocalStorage = useCallback(() => {
+    setValue(externalValue); // externalValue로 코드 갱신
+    localStorage.removeItem('myValue');
+    localStorage.removeItem('myEditorState');
+  }, [externalValue]);
+
   useImperativeHandle(
     ref,
     () => ({
       returnCode,
+      clearLocalStorage,
     }),
-    [returnCode],
+    [returnCode, clearLocalStorage],
   );
 
   return (
@@ -37,6 +44,7 @@ const EditorWithInitialState = forwardRef(({ value: externalValue }, ref) => {
           : undefined
       }
       onChange={(value, viewUpdate) => {
+        setValue(value);
         localStorage.setItem('myValue', value);
 
         const state = viewUpdate.state.toJSON(stateFields);
