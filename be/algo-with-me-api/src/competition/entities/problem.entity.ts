@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Submission } from './submission.entity';
 
 @Entity()
 export class Problem {
@@ -28,6 +31,9 @@ export class Problem {
 
   @Column('text')
   solutionCode: string;
+
+  @OneToMany(() => Submission, (submission) => submission.problem)
+  submissions: Submission[];
 
   @CreateDateColumn()
   createdAt: Date;
