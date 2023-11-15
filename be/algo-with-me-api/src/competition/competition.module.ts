@@ -8,6 +8,7 @@ import { Problem } from './entities/problem.entity';
 import { Submission } from './entities/submission.entity';
 import { CompetitionService } from './services/competition.service';
 import { ProblemService } from './services/problem.service';
+import { SubmissionConsumer } from './tem.consumer';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { ProblemService } from './services/problem.service';
     }),
   ],
   controllers: [ProblemController, CompetitionController],
-  providers: [ProblemService, CompetitionService],
+  providers: [ProblemService, CompetitionService, SubmissionConsumer],
 })
 export class CompetitionModule {}
