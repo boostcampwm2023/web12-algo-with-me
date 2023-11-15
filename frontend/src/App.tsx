@@ -5,6 +5,7 @@ import { useState } from 'react';
 import reactLogo from '@/assets/react.svg';
 import { Counter } from '@/components/counter';
 
+import ContestPage from './components/ContestPage';
 import viteLogo from '/vite.svg';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <ContestPage></ContestPage>
     </>
   );
 }
