@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import { CompetitionService } from './competition.service';
+import { CompetitionService } from '../services/competition.service';
 
 @Controller('competitions')
 export class CompetitionController {
