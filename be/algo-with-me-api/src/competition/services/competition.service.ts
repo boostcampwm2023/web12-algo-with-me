@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
-import { Problem } from './entities/problem.entity';
+import { Problem } from '../entities/problem.entity';
 
 @Injectable()
 export class CompetitionService {

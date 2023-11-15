@@ -9,8 +9,8 @@ import {
   Delete,
 } from '@nestjs/common';
 
-import { CreateProblemDto } from './dto/create-problem.dto';
-import { ProblemService } from './problem.service';
+import { CreateProblemDto } from '../dto/create-problem.dto';
+import { ProblemService } from '../services/problem.service';
 
 @Controller('problems')
 export class ProblemController {

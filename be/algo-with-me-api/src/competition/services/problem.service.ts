@@ -5,8 +5,8 @@ import { Repository } from 'typeorm';
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
-import { CreateProblemDto } from './dto/create-problem.dto';
-import { Problem } from './entities/problem.entity';
+import { CreateProblemDto } from '../dto/create-problem.dto';
+import { Problem } from '../entities/problem.entity';
 
 @Injectable()
 export class ProblemService {
