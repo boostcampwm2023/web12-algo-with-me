@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from '@src/app.controller';
-import { AppService } from '@src/app.service';
+import { CompetitionModule } from './competition/competition.module';
+import { Problem } from './competition/entities/problem.entity';
 
 @Module({
   imports: [
@@ -19,10 +19,9 @@ import { AppService } from '@src/app.service';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [],
+      entities: [Problem],
     }),
+    CompetitionModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
