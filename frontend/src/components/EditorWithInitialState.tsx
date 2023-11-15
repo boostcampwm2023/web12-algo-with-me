@@ -1,8 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useCallback, useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
+import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
+
 import { historyField } from '@codemirror/commands';
 import { javascript } from '@codemirror/lang-javascript';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import CodeMirror from '@uiw/react-codemirror';
 
 const stateFields = { history: historyField };
 

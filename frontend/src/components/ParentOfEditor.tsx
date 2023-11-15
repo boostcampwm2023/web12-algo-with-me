@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+
 import EditorWithInitialState from './EditorWithInitialState';
 
 const ParentComponent = () => {

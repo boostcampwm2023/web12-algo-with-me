@@ -6,7 +6,6 @@ import reactLogo from '@/assets/react.svg';
 import { Counter } from '@/components/counter';
 
 import viteLogo from '/vite.svg';
-
 function App() {
   const [count, setCount] = useState(0);
   const handleClickCount = () => setCount((count) => count + 1);
