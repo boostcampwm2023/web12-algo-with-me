@@ -26,6 +26,7 @@ import { Problem } from './competition/entities/problem.entity';
       redis: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
       },
     }),
     CompetitionModule,

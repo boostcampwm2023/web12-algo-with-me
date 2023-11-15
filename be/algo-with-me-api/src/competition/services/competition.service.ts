@@ -1,5 +1,7 @@
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 
 import { existsSync, readFileSync } from 'fs';
@@ -9,9 +11,15 @@ import { Problem } from '../entities/problem.entity';
 
 @Injectable()
 export class CompetitionService {
-  constructor(@InjectRepository(Problem) private readonly problemRepository: Repository<Problem>) {}
+  constructor(
+    @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
+    @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
+  ) {}
 
   async findOneProblem(id: number) {
+    await this.submissionQueue.add({
+      test: 'test',
+    });
     const problem = await this.problemRepository.findOneBy({ id });
     const fileName = id.toString() + '.md';
     const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
