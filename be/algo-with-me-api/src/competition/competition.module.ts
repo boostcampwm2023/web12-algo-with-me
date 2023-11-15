@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CompetitionController } from './controllers/competition.controller';
+import { SubmissionConsumer } from './controllers/consumer';
 import { ProblemController } from './controllers/problem.controller';
 import { Problem } from './entities/problem.entity';
 import { CompetitionService } from './services/competition.service';
@@ -12,10 +13,10 @@ import { ProblemService } from './services/problem.service';
   imports: [
     TypeOrmModule.forFeature([Problem]),
     BullModule.registerQueue({
-      name: process.env.REDIS_MESSAGE_QUEU_NAME,
+      name: process.env.REDIS_MESSAGE_QUEUE_NAME,
     }),
   ],
   controllers: [ProblemController, CompetitionController],
-  providers: [ProblemService, CompetitionService],
+  providers: [ProblemService, CompetitionService, SubmissionConsumer],
 })
 export class CompetitionModule {}
