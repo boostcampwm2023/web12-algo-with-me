@@ -2,13 +2,24 @@ import { javascript } from '@codemirror/lang-javascript';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import CodeMirror from '@uiw/react-codemirror';
 
-const Editor = (props: { code: string | undefined; setCode: (arg0: string) => void }) => {
+const style = {
+  height: '200px',
+  width: '400px',
+  theme: vscodeDark,
+};
+
+interface Props {
+  code: string;
+  setCode: (newCode: string) => void;
+}
+
+const Editor = (props: Props) => {
   return (
     <CodeMirror
       value={props.code}
-      height="200px"
-      width="400px"
-      theme={vscodeDark}
+      height={style.height}
+      width={style.width}
+      theme={style.theme}
       extensions={[javascript()]}
       initialState={undefined}
       onChange={(value) => {

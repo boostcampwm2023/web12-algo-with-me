@@ -2,13 +2,8 @@ import { useState } from 'react';
 
 import Editor from './Editor';
 
-const TempMainPage = () => {
+const ContestPage = () => {
   const [code, setCode] = useState(localStorage.getItem('myValue') || 'function solution() {\n\n}');
-
-  const getCode = () => {
-    // Editor에서 작성한 code를 return해줍니다.
-    return code;
-  };
 
   const saveToLocalStorage = () => {
     // Editor에서 작성한 code를 로컬스토리지에 저장합니다.
@@ -26,10 +21,9 @@ const TempMainPage = () => {
 
   return (
     <div>
-      <h1>Parent Component</h1>
       <Editor code={code} setCode={setCode} />
     </div>
   );
 };
 
-export default TempMainPage;
+export default ContestPage;
