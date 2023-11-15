@@ -7,12 +7,15 @@ import { Repository } from 'typeorm';
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
+import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { Problem } from '../entities/problem.entity';
+import { Submission } from '../entities/submission.entity';
 
 @Injectable()
 export class CompetitionService {
   constructor(
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
+    @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
   ) {}
 
@@ -35,5 +38,18 @@ export class CompetitionService {
       testcases: '임시',
       createdAt: problem.createdAt,
     };
+  }
+
+  async scoreSubmission(createSubmissionDto: CreateSubmissionDto) {
+    const problem: Problem = await this.problemRepository.findOneBy({
+      id: createSubmissionDto.problemId,
+    });
+    const submission: Submission = createSubmissionDto.toEntity(problem);
+    const savedSubmission: Submission = await this.submissionRepository.save(submission);
+    await this.submissionQueue.add({
+      problemId: savedSubmission.problem.id,
+    });
+
+    return savedSubmission;
   }
 }
