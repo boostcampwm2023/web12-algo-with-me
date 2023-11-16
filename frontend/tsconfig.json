@@ -25,5 +25,8 @@
     }
   },
   "include": ["src", "styled-system"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "ts-node": {
+    "esm": true
+  }
 }
