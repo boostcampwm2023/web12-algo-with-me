@@ -10,7 +10,7 @@ const style = {
 
 interface Props {
   code: string;
-  setCode: (newCode: string) => void;
+  onChangeCode: (newCode: string) => void;
 }
 
 const Editor = (props: Props) => {
@@ -23,7 +23,7 @@ const Editor = (props: Props) => {
       extensions={[javascript()]}
       initialState={undefined}
       onChange={(value) => {
-        props.setCode(value);
+        props.onChangeCode(value);
       }}
     />
   );

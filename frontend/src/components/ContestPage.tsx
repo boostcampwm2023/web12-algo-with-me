@@ -1,13 +1,21 @@
 import { useState } from 'react';
 
 import Editor from './Editor';
+import Tester from './Tester';
 
 const ContestPage = () => {
-  const [code, setCode] = useState(localStorage.getItem('myValue') || 'function solution() {\n\n}');
+  const [code, setCode] = useState<string>(
+    localStorage.getItem('myValue') || 'function solution() {\n\n}',
+  );
+
+  const handleChangeCode = (newCode: string) => {
+    setCode(newCode);
+  };
 
   return (
     <div>
-      <Editor code={code} setCode={setCode} />
+      <Editor code={code} onChangeCode={handleChangeCode} />
+      <Tester code={code}></Tester>
     </div>
   );
 };
