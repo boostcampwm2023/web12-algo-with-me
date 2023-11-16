@@ -1,6 +1,20 @@
 import { css } from '@style/css';
 
-import MarkdownComponent from './markdownComponent';
+import MarkdownComponent from './MarkdownComponent';
+
+interface Props {
+  content: { content: string };
+}
+
+export default function ProblemContent(props: Props) {
+  const { content } = props.content;
+
+  return (
+    <div className={style}>
+      <MarkdownComponent markdownContent={content} />
+    </div>
+  );
+}
 
 const style = css({
   backgroundColor: '#1e1e1e',
@@ -11,14 +25,3 @@ const style = css({
   width: '500px',
   height: '800px',
 });
-
-const ProblemContent = (props) => {
-  const { content } = props.content;
-  return (
-    <div className={style}>
-      <MarkdownComponent markdownContent={content} />
-    </div>
-  );
-};
-
-export default ProblemContent;

@@ -2,28 +2,35 @@ import { css } from '@style/css';
 
 import { useState } from 'react';
 
-import mokData from '../mokData.json';
+import mockData from '../mockData.json';
 import Editor from './Editor';
-import ProblemContent from './problemContent';
+import ProblemContent from './ProblemContent';
 import Tester from './Tester';
 
-const test = css({
-  display: 'flex',
-});
+const notFoundProblem = {
+  title: 'Problem Not Found',
+  timeLimit: 0,
+  memoryLimit: 0,
+  content: 'The requested problem could not be found.',
+  solutionCode: '',
+  testcases: [],
+  createdAt: new Date().toISOString(),
+};
 
-const ContestPage = () => {
-  const [targetId, setTargetId] = useState(6);
-  const targetProblem = mokData.problems.find((problem) => problem.id === targetId);
-  const [code, setCode] = useState<string>(
-    localStorage.getItem('myValue') || targetProblem?.solutionCode,
-  );
+export default function ContestPage() {
+  const INITIAL_PROBLEM_ID = 6;
+
+  const [currentProblemId, setcurrentProblemId] = useState(INITIAL_PROBLEM_ID);
+  const targetProblem =
+    mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
+  const [code, setCode] = useState<string>(targetProblem.solutionCode);
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
   };
 
   return (
-    <div className={test}>
+    <div className={layout}>
       <ProblemContent content={targetProblem}></ProblemContent>
       <div>
         <Editor code={code} onChangeCode={handleChangeCode} />
@@ -31,6 +38,8 @@ const ContestPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ContestPage;
+const layout = css({
+  display: 'flex',
+});
