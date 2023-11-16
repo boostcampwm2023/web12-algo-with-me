@@ -1,1 +1,1 @@
-sudo docker build . -t algo-with-me-judge:latest
+sudo docker build . -t algo-with-me-docker:latest

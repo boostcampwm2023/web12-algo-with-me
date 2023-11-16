@@ -2,7 +2,6 @@ ARG NODE_VERSION=20.9.0
 ARG ALPINE_VERSION=3.18
 
 FROM node:${NODE_VERSION}-alpine
-MAINTAINER Yechan Lee <yechan24680@gmail.com>
 
 CMD "mkdir -p /algo-with-me"
 
