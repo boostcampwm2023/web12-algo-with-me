@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import Loading from './Loading';
-import ResultInfoWrapper from './ResultInfo';
+import ResultInfo from './ResultInfo';
 import { type SubmitResult } from './ResultList';
 
 interface Props {
@@ -10,13 +10,13 @@ interface Props {
   index: number;
 }
 
-export default function ResultLi({ isLoaded, submitResult, index }: Props) {
+export default function ResultInfoWrapper({ isLoaded, submitResult, index }: Props) {
   return (
     <section className={wrapperStyle}>
       <p className={testcaseTextStyle}>테스트 케이스 {index + 1} </p>
       <div>
         {isLoaded ? (
-          <ResultInfoWrapper submitResult={submitResult} />
+          <ResultInfo submitResult={submitResult} />
         ) : (
           <Loading color="#e15b64" size="2rem" />
         )}

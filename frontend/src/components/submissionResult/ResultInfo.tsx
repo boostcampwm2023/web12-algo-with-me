@@ -11,7 +11,7 @@ export default function ResultInfo({ submitResult }: Props) {
 
   if (resultStatus === RESULT_STATUS.correct) {
     return (
-      <span className={correctColor}>
+      <span className={correctStyle}>
         {RESULT_STATUS_TEXT[RESULT_STATUS.correct]} ({elapsedTime}ms ,{memoryUsage}MB)
       </span>
     );
@@ -19,14 +19,14 @@ export default function ResultInfo({ submitResult }: Props) {
 
   if (resultStatus === RESULT_STATUS.inCorrect) {
     return (
-      <span className={inCorrectColor}>
+      <span className={inCorrectStyle}>
         {RESULT_STATUS_TEXT[RESULT_STATUS.inCorrect]} ({elapsedTime}ms ,{memoryUsage}MB)
       </span>
     );
   }
 
   if (resultStatus === RESULT_STATUS.timeOut) {
-    return <span className={inCorrectColor}>{RESULT_STATUS_TEXT[RESULT_STATUS.timeOut]}</span>;
+    return <span className={inCorrectStyle}>{RESULT_STATUS_TEXT[RESULT_STATUS.timeOut]}</span>;
   }
 }
 
@@ -47,10 +47,10 @@ const THEME = {
   CORRECT: 'blue',
 } as const;
 
-const correctColor = css({
+const correctStyle = css({
   color: THEME.CORRECT,
 });
 
-const inCorrectColor = css({
+const inCorrectStyle = css({
   color: THEME.WRONG,
 });

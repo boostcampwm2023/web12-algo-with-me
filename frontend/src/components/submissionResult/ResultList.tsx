@@ -19,10 +19,10 @@ interface TestcaseLoadInfo {
 
 interface Props {
   testcaseNum: number;
-  onSetIsAllTestDone: (state: boolean) => void;
+  onSetIsAllTestDone: () => void;
 }
 
-export default function ResultUl({ testcaseNum, onSetIsAllTestDone }: Props) {
+export default function ResultList({ testcaseNum, onSetIsAllTestDone }: Props) {
   const [submitResult, setSubmitResult] = useState<SubmitResult[]>([]);
 
   const [testcaseLoadInfo, setTestcaseLoadInfo] = useState<TestcaseLoadInfo>({});
@@ -76,12 +76,12 @@ export default function ResultUl({ testcaseNum, onSetIsAllTestDone }: Props) {
     const testcaseIds = Object.keys(testcaseLoadInfo);
     if (testcaseIds.length === 0) return;
     if (!testcaseIds.some((key) => testcaseLoadInfo[key] === false)) {
-      onSetIsAllTestDone(true);
+      onSetIsAllTestDone();
     }
   }, [testcaseLoadInfo, onSetIsAllTestDone]);
 
   return (
-    <ul className={ulStyle}>
+    <ul className={resultListStyle}>
       {Object.keys(testcaseLoadInfo).map((key, i) => (
         <li key={`testCase-list-${i}`}>
           <ResultInfo
@@ -94,7 +94,7 @@ export default function ResultUl({ testcaseNum, onSetIsAllTestDone }: Props) {
     </ul>
   );
 }
-const ulStyle = css({
+const resultListStyle = css({
   border: '1.5px solid #909090',
   width: '100%',
   padding: '4px',
