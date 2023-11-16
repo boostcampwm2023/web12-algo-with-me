@@ -6,11 +6,11 @@ FROM node:${NODE_VERSION}-alpine AS base
 CMD "mkdir -p /algo-with-me"
 WORKDIR /algo-with-me
 COPY --chmod=555 ./node-sh /algo-with-me/node-sh
+COPY . /algo-with-me
 
 RUN apk update  \
-#    && apk add --no-cache libc6-compat \
     && npm install -g pnpm \
-    && pnpm install --prod
+    && pnpm install
 
 # EXPOSE 3000
 

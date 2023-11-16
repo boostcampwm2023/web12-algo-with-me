@@ -21,7 +21,8 @@ if [ -f "$SUBMISSION_JS_FILE" ]; then
   #   U      Total number of CPU-seconds that the process used directly (in user mode), in seconds.
   #   e      Elapsed real (wall clock) time used by the process, in seconds.
   #   M      Maximum resident set size of the process during its lifetime, in Kilobytes.
-  /usr/bin/time -o "$DETAIL_FILE" -f "%e %M" /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3"
+  #  /usr/bin/time -o "$DETAIL_FILE" -f "%e %M" /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3"
+  /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3"
   echo "[algo-with-me] run.sh: successfully ran $SUBMISSION_JS_FILE"
 else
   echo "[algo-with-me] run.sh: cannot find submitted js file $SUBMISSION_JS_FILE"
