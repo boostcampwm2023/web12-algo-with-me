@@ -16,4 +16,4 @@ RESULT_FILE="/algo-with-me/submissions/$1/$2/$3.result"
 
 node "$SUBMISSION_JS_FILE" "$RESULT_FILE" 1> "$STDOUT_FILE" 2> "$STDERR_FILE"
 
-exit
+exit 0

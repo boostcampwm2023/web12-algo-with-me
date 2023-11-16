@@ -1,5 +1,6 @@
 ARG NODE_VERSION=20.9.0
 ARG ALPINE_VERSION=3.18
+ARG PORT=3000
 
 FROM node:${NODE_VERSION}-alpine AS base
 
@@ -12,6 +13,6 @@ RUN apk update  \
     && npm install -g pnpm \
     && pnpm install
 
-# EXPOSE 3000
+EXPOSE ${PORT}
 
-CMD ./node-sh/run.sh $COMPETITION_ID $USER_ID $PROBLEM_ID
+CMD node dist/app.js
