@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import ResultComponent from '@/components/result/ResultComponent';
+import SubmissionResult from '@/components/submissionResult';
 
 import ContestPage from './components/ContestPage';
 import worker from './mocks';
@@ -13,7 +13,7 @@ function App() {
   return (
     <main className={mainTmpStyle}>
       <ContestPage />
-      <ResultComponent></ResultComponent>
+      <SubmissionResult></SubmissionResult>
     </main>
   );
 }

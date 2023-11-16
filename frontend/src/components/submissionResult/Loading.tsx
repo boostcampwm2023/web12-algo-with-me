@@ -1,4 +1,9 @@
-export default function Loading({ color, size }: { color: string; size: string }) {
+interface Props {
+  color: string;
+  size: string;
+}
+
+export default function Loading({ color, size }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
