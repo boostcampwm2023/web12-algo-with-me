@@ -1,6 +1,11 @@
 export type Listener<T> = (result: T) => void;
 
-export function createObserver<T>(listeners: Listener<T>[] = []) {
+export interface Observer<T> {
+  notify: (data: T) => void;
+  subscribe: (listener: Listener<T>) => () => void;
+}
+
+export function createObserver<T>(listeners: Listener<T>[] = []): Observer<T> {
   function notify(data: T) {
     listeners.forEach((l) => l(data));
   }
