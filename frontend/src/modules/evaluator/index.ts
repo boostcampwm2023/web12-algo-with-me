@@ -1,3 +1,4 @@
+import { range } from '@/utils/array';
 import { createObserver, type Listener } from '@/utils/observer';
 
 import EvalWorker from './eval.worker?worker';
@@ -23,10 +24,9 @@ const evaluatorFactory = {
     return evaluator;
   },
 };
+
 const taskEndNotifier = createObserver<TaskEndMessage>();
-const evalWorkers = Array(TOTAL_WORKERS)
-  .fill(undefined)
-  .map(() => evaluatorFactory.createEvalWorker());
+const evalWorkers = range(0, TOTAL_WORKERS).map(() => evaluatorFactory.createEvalWorker());
 const evalManager = new EvalTaskManager(taskEndNotifier, evalWorkers);
 
 function safeEval(tasks: EvalMessage[]) {
