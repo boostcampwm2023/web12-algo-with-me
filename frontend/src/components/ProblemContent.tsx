@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import MarkdownComponent from './MarkdownComponent';
 
 interface Props {
-  content: { content: string };
+  content: string;
 }
 
 export default function ProblemContent(props: Props) {
