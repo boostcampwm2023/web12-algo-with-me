@@ -1,37 +1,100 @@
-import type { EvalResult } from './types';
+import { createObserver, type Listener } from '@/utils/observer';
 
-type WorkerListener = (args: EvalResult) => void;
+import EvalWorker from './eval.worker?worker';
+import type { EvalMessage, EvalResult } from './types';
 
-const evalWorker = new Worker(new URL('./eval.worker.ts', import.meta.url), {
-  type: 'module',
-});
+const TOTAL_WORKERS = 3;
 
-let listeners: WorkerListener[] = [];
+type Evaluator = {
+  isIdle: boolean;
+  worker: Worker;
+  currentTask: EvalMessage | null;
+};
+type TaskEndMessage = EvalResult & { task: EvalMessage | null };
 
-evalWorker.addEventListener('message', ({ data }) => {
-  notify(data);
-});
+const taskEndNotifier = createObserver<TaskEndMessage>();
 
-function notify(data: EvalResult) {
-  listeners.forEach((l) => l(data));
+const evalManager = {
+  queuedTasks: [] as EvalMessage[],
+  evaluators: [] as Evaluator[],
+  addEvaluator(evaluator: Evaluator) {
+    this.evaluators.push(evaluator);
+  },
+  queueTasks(tasks: EvalMessage[]) {
+    this.queuedTasks.push(...tasks);
+  },
+  isWorking() {
+    return this.queuedTasks.length > 0;
+  },
+  popTask() {
+    return this.queuedTasks.shift();
+  },
+  deployTask() {
+    const restingEvaluator = this.evaluators.find((evaluator) => evaluator.isIdle);
+    if (!restingEvaluator) return;
+
+    const task = this.queuedTasks.shift();
+    if (!task) return;
+
+    restingEvaluator.isIdle = false;
+    restingEvaluator.currentTask = task;
+    restingEvaluator.worker.postMessage(task);
+
+    if (this.queuedTasks.length > 0) {
+      this.deployTask();
+    }
+  },
+  receiveTaskEnd({ result }: EvalResult, evaluator: Evaluator) {
+    taskEndNotifier.notify({
+      result,
+      task: evaluator.currentTask,
+    });
+
+    evaluator.isIdle = true;
+    evaluator.currentTask = null;
+    this.deployTask();
+  },
+};
+
+function init() {
+  for (let i = 0; i < TOTAL_WORKERS; i++) {
+    const worker = evaluatorFactory.createEvalWorker();
+    evalManager.addEvaluator(worker);
+  }
 }
 
-function safeEval(code: string, param: string) {
-  const message = {
-    code,
-    param,
-  };
+const evaluatorFactory = {
+  createEvalWorker() {
+    const evaluator = {
+      isIdle: true,
+      worker: new EvalWorker(),
+      currentTask: null,
+    };
 
-  evalWorker.postMessage(message);
+    evaluator.worker.addEventListener('message', function (msg: MessageEvent<EvalResult>) {
+      const { data } = msg;
+
+      evalManager.receiveTaskEnd(data, evaluator);
+    });
+
+    return evaluator;
+  },
+};
+
+function safeEval(tasks: EvalMessage[]) {
+  if (evalManager.isWorking()) {
+    return false;
+  }
+
+  evalManager.queueTasks(tasks);
+  evalManager.deployTask();
 }
 
-function subscribe(listener: WorkerListener) {
-  listeners.push(listener);
-
-  return () => {
-    listeners = listeners.filter((l) => l !== listener);
-  };
+function subscribe(listener: Listener<TaskEndMessage>) {
+  taskEndNotifier.subscribe(listener);
 }
+
+init();
 
 export default {
   safeEval,
