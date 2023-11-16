@@ -1,4 +1,5 @@
-import { css } from '../../../styled-system/css';
+// import { css } from '../../../styled-system/css';
+import { css } from '@style/css';
 
 interface SubMitResult {
   contestId: number;
@@ -8,16 +9,14 @@ interface SubMitResult {
   elapsedTime: number;
   memoryUsage: number;
 }
-
+// 맞다 blue
 const correctColor = css({
   color: 'blue',
 });
+// 틀리다 red, 시간초과 red
 const inCorrectColor = css({
   color: 'red',
 });
-
-// 맞다 blue
-// 틀리다 red, 시간초과 red
 
 export default function ResultInfo({ submitResult }: { submitResult: SubMitResult }) {
   const { isCorrect, elapsedTime, memoryUsage } = submitResult;
