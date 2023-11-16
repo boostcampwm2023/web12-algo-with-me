@@ -17,9 +17,9 @@ const notFoundProblem = {
   createdAt: new Date().toISOString(),
 };
 
-export default function ContestPage() {
-  const INITIAL_PROBLEM_ID = 6;
+const INITIAL_PROBLEM_ID = 6;
 
+export default function ContestPage() {
   const [currentProblemId, setcurrentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;

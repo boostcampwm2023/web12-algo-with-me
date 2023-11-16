@@ -3,7 +3,6 @@ import { css } from '@style/css';
 import ReactMarkdown from 'react-markdown';
 
 import remarkGfm from 'remark-gfm';
-
 export default function MarkdownComponent(props) {
   const { markdownContent } = props;
 
@@ -35,16 +34,35 @@ const tdStyle = css({
   borderBottom: '1px solid #fff',
 });
 
-const codeBlockStyle = {
+const codeBlockStyle = css({
   backgroundColor: '#f4f4f4',
   padding: '10px',
   borderRadius: '5px',
   fontFamily: 'monospace',
   color: 'black',
-};
+});
+
+const codeBlockStyleWithWrap = css({
+  backgroundColor: '#f4f4f4',
+  padding: '10px',
+  borderRadius: '5px',
+  fontFamily: 'monospace',
+  color: 'black',
+  whiteSpace: 'pre-wrap',
+});
 
 const listItemStyle = css({
   marginBottom: '8px',
+});
+
+const ulStyle = css({
+  listStyleType: 'square',
+  marginLeft: '20px',
+});
+
+const olStyle = css({
+  listStyleType: 'decimal',
+  marginLeft: '20px',
 });
 
 const components = {
@@ -58,29 +76,23 @@ const components = {
     return <td className={tdStyle}>{children}</td>;
   },
   code: ({ node, inline, className, children, ...props }) => {
-    const match = /language-(\w+)/.exec(className || '');
+    const languageMatch = /language-(\w+)/.exec(className || '');
 
-    return !inline && match ? (
-      <pre
-        className={`language-${match[1]}`}
-        style={{ ...codeBlockStyle, whiteSpace: 'pre-wrap' }}
-        {...props}
-      >
-        <code className={`language-${match[1]}`} style={codeBlockStyle}>
-          {children}
-        </code>
+    return !inline && languageMatch ? (
+      <pre className={codeBlockStyleWithWrap} {...props}>
+        <code className={codeBlockStyle}>{children}</code>
       </pre>
     ) : (
-      <code className={className} style={codeBlockStyle} {...props}>
+      <code className={codeBlockStyle} {...props}>
         {children}
       </code>
     );
   },
   ul: ({ node, children }) => {
-    return <ul style={{ listStyleType: 'square', marginLeft: '20px' }}>{children}</ul>;
+    return <ul className={ulStyle}>{children}</ul>;
   },
   ol: ({ node, children }) => {
-    return <ol style={{ listStyleType: 'decimal', marginLeft: '20px' }}>{children}</ol>;
+    return <ol className={olStyle}>{children}</ol>;
   },
   li: ({ node, children }) => {
     return <li className={listItemStyle}>{children}</li>;
