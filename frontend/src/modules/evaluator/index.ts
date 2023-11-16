@@ -1,41 +1,34 @@
-import type { EvalResult } from './types';
+import { range } from '@/utils/array';
+import { createObserver, type Listener } from '@/utils/observer';
 
-type WorkerListener = (args: EvalResult) => void;
+import createEvalMessage from './createEvalMessage';
+import createEvaluator from './createEvaluator';
+import EvalTaskManager from './EvalTaskManager';
+import type { EvalMessage, TaskEndMessage } from './types';
 
-const evalWorker = new Worker(new URL('./eval.worker.ts', import.meta.url), {
-  type: 'module',
-});
+const TOTAL_WORKERS = 3;
 
-let listeners: WorkerListener[] = [];
+const taskEndNotifier = createObserver<TaskEndMessage>();
+const evalWorkers = range(0, TOTAL_WORKERS).map(createEvaluator);
+const evalManager = new EvalTaskManager(taskEndNotifier, evalWorkers);
 
-evalWorker.addEventListener('message', ({ data }) => {
-  notify(data);
-});
+function evaluate(tasks: EvalMessage[]) {
+  if (evalManager.isWorking()) {
+    return false;
+  }
 
-function notify(data: EvalResult) {
-  listeners.forEach((l) => l(data));
+  evalManager.queueTasks(tasks);
+  evalManager.deployTask();
 }
 
-function safeEval(code: string, param: string) {
-  const message = {
-    code,
-    param,
-  };
-
-  evalWorker.postMessage(message);
-}
-
-function subscribe(listener: WorkerListener) {
-  listeners.push(listener);
-
-  return () => {
-    listeners = listeners.filter((l) => l !== listener);
-  };
+function subscribe(listener: Listener<TaskEndMessage>) {
+  taskEndNotifier.subscribe(listener);
 }
 
 export default {
-  safeEval,
+  evaluate,
   subscribe,
+  createEvalMessage,
 };
 
 export * from './types';

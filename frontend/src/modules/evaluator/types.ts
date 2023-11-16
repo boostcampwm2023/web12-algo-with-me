@@ -1,5 +1,6 @@
 export type EvalMessage = {
   type: 'EVAL';
+  clientId: number | string;
   code: string;
   param: string;
 };
@@ -7,3 +8,5 @@ export type EvalMessage = {
 export type EvalResult = {
   result: unknown;
 };
+
+export type TaskEndMessage = EvalResult & { task: EvalMessage | null };
