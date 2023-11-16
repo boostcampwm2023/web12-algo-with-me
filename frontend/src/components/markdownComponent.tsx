@@ -36,7 +36,7 @@ const tdStyle = css({
 
 const codeBlockStyle = css({
   backgroundColor: '#f4f4f4',
-  padding: '10px',
+  padding: '5px',
   borderRadius: '5px',
   fontFamily: 'monospace',
   color: 'black',
