@@ -48,7 +48,7 @@ const ContestPage = () => {
 
     const tasks = testCases.map((tc, index) => evaluator.createEvalMessage(index, code, tc.param));
 
-    evaluator.safeEval(tasks);
+    evaluator.evaluate(tasks);
   };
 
   const handleChangeParam = (index: number, newParam: string) => {

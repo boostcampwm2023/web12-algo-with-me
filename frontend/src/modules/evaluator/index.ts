@@ -12,7 +12,7 @@ const taskEndNotifier = createObserver<TaskEndMessage>();
 const evalWorkers = range(0, TOTAL_WORKERS).map(createEvaluator);
 const evalManager = new EvalTaskManager(taskEndNotifier, evalWorkers);
 
-function safeEval(tasks: EvalMessage[]) {
+function evaluate(tasks: EvalMessage[]) {
   if (evalManager.isWorking()) {
     return false;
   }
@@ -26,7 +26,7 @@ function subscribe(listener: Listener<TaskEndMessage>) {
 }
 
 export default {
-  safeEval,
+  evaluate,
   subscribe,
   createEvalMessage,
 };
