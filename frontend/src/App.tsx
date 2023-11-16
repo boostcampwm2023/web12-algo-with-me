@@ -2,8 +2,8 @@ import { css } from '@style/css';
 
 import SubmissionResult from '@/components/submissionResult';
 
+import worker from './__mocks__';
 import ContestPage from './components/ContestPage';
-import worker from './mocks';
 
 if (process.env.NODE_ENV === 'development') {
   worker.start();
