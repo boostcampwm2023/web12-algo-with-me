@@ -7,10 +7,11 @@ interface Props {
   problemName: string;
 }
 
+const category = 'Algo With Me';
+const tt = '>';
+
 export default function TextForHeader(props: Props) {
   const { title, problemName } = props;
-  const category = 'Algo With Me';
-  const tt = '>';
 
   return (
     <div>
