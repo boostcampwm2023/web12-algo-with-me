@@ -1,4 +1,4 @@
-import MswTestComponent from '@/components/ResultComponent/ResultComponent';
+import MswTestComponent from '@/components/result/ResultComponent';
 
 import worker from './mocks';
 
