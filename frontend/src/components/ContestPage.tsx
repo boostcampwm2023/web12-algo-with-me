@@ -37,7 +37,16 @@ const ContestPage = () => {
         evaluatedTestcase.result = String(result);
       }
 
-      setTestCases([...testCases]);
+      setTestCases((oldTestCases) => {
+        return oldTestCases.map((tc, index) => {
+          if (index !== taskId) return tc;
+
+          return {
+            ...tc,
+            result,
+          };
+        });
+      });
     });
   }, []);
 
