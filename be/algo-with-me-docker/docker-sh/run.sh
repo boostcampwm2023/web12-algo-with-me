@@ -7,7 +7,7 @@ sudo docker run \
 -v $HOME/algo-with-me/testcases:/algo-with-me/testcases:ro \
 -v $HOME/algo-with-me/submissions:/algo-with-me/submissions \
 --user $(id -u):$(id -g) \
---name algo-with-me-judge \
+--name algo-with-me-docker \
 algo-with-me-docker:latest
 
 #--network none \

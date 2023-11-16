@@ -1,5 +1,4 @@
 node-modules/
-docker-sh/
 src/
 build.sh
 .eslintrc.js
