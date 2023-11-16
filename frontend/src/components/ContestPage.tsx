@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import mokData from '../mokData.json';
 import Editor from './Editor';
@@ -11,16 +11,16 @@ const style = css({
 
 const ContestPage = () => {
   const [targetId, setTargetId] = useState(6);
-
   const targetProblem = mokData.problems.find((problem) => problem.id === targetId);
-
-  const [code, setCode] = useState(localStorage.getItem('myValue') || targetProblem?.solutionCode);
+  const [code, onChangeCode] = useState(
+    localStorage.getItem('myValue') || targetProblem?.solutionCode,
+  );
 
   return (
     <div className={style}>
       <ProblemContent content={targetProblem}></ProblemContent>
       <div>
-        <Editor code={code} setCode={setCode}></Editor>
+        <Editor code={code} setCode={onChangeCode}></Editor>
       </div>
     </div>
   );

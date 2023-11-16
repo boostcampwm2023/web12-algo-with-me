@@ -2,12 +2,12 @@
   "problems": [
     {
       "id": 6,
-      "title": "제목test",
+      "title": "Markdown Example",
       "timeLimit": 5,
       "memoryLimit": 10,
-      "content": "이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하이것은 테스트 문제 내용입니다 하하하하",
-      "solutionCode": "function solution() {\n\n}",
-      "testcases": "임시",
+      "content": "# Problem Title\n\nThis is a Markdown example that includes various elements.\n\n## Text\n\n- Text can include **bold** or *italic* formatting.\n\n## Image\n\n![React Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png)\n\n## Table\n\n| Header 1 | Header 2 |\n|----------|----------|\n| Row 1    | Cell 1   |\n| Row 2    | Cell 2   |\n\n## Code\n\n```javascript\nfunction solution() {\n  console.log('Hello, Markdown!');\n}\n```",
+      "solutionCode": "function solution() {\n  console.log('Hello, Markdown!');\n}",
+      "testcases": "Temporary",
       "createdAt": "2023-11-14T08:35:24.358Z"
     }
   ]

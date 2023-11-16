@@ -1,3 +1,4 @@
+import MarkdownComponent from './markdownComponent';
 import { css } from '@style/css';
 
 const style = css({
@@ -6,15 +7,15 @@ const style = css({
   padding: '10px',
   overflowY: 'auto',
   whiteSpace: 'pre-wrap',
-  width: '300px',
-  height: '200px',
+  width: '500px',
+  height: '800px',
 });
 
 const ProblemContent = (props) => {
   const { content } = props.content;
   return (
     <div className={style}>
-      <p>{content}</p>
+      <MarkdownComponent markdownContent={content} />
     </div>
   );
 };
