@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import { useCallback, useEffect, useState } from 'react';
 
-import ResultInfo from './ResultInfo';
+import ResultInfo from './ResultInfoWrapper';
 
 interface SubmitResult {
   contestId: number;
@@ -17,13 +17,12 @@ interface TestcaseLoadInfo {
   [index: string]: boolean;
 }
 
-export default function ResultUl({
-  testcaseNum,
-  onSetIsAllTestDone,
-}: {
+interface Props {
   testcaseNum: number;
   onSetIsAllTestDone: (state: boolean) => void;
-}) {
+}
+
+export default function ResultUl({ testcaseNum, onSetIsAllTestDone }: Props) {
   const [submitResult, setSubmitResult] = useState<SubmitResult[]>([]);
 
   const [testcaseLoadInfo, setTestcaseLoadInfo] = useState<TestcaseLoadInfo>({});
@@ -33,9 +32,11 @@ export default function ResultUl({
 
   // 첫 테스트 버튼 누르면 isLoaded 값 초기화
   useEffect(() => {
+    const testcaseLoadInfo: TestcaseLoadInfo = {};
     for (let testcaseId = 1; testcaseId <= testcaseNum; testcaseId++) {
-      setTestcaseLoadInfo((prevState) => ({ ...prevState, [testcaseId]: false }));
+      testcaseLoadInfo[testcaseId] = false;
     }
+    setTestcaseLoadInfo({ ...testcaseLoadInfo });
   }, [testcaseNum]);
 
   // 모든 테스트 케이스에 해당하는 값들이 도착했는지 서버는 체크 안함
@@ -72,14 +73,11 @@ export default function ResultUl({
   );
 
   useEffect(() => {
-    const testcaseKey = Object.keys(testcaseLoadInfo);
-    if (testcaseKey.length === 0) return;
-
-    let isAllTestDone = true;
-    testcaseKey.forEach((key) => {
-      if (testcaseLoadInfo[key] === false) isAllTestDone = false;
-    });
-    if (isAllTestDone) onSetIsAllTestDone(true);
+    const testcaseIds = Object.keys(testcaseLoadInfo);
+    if (testcaseIds.length === 0) return;
+    if (!testcaseIds.some((key) => testcaseLoadInfo[key] === false)) {
+      onSetIsAllTestDone(true);
+    }
   }, [testcaseLoadInfo, onSetIsAllTestDone]);
 
   return (

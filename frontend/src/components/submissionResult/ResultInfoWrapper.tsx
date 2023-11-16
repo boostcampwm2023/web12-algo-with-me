@@ -1,24 +1,22 @@
 import { css } from '@style/css';
 
 import Loading from './Loading';
-import ResultInfo from './ResultDetailInfo';
+import ResultInfoWrapper from './ResultInfo';
 import { type SubmitResult } from './ResultList';
 
-export default function ResultLi({
-  isLoaded,
-  submitResult,
-  index,
-}: {
+interface Props {
   isLoaded: boolean;
   submitResult: SubmitResult;
   index: number;
-}) {
+}
+
+export default function ResultLi({ isLoaded, submitResult, index }: Props) {
   return (
-    <section className={resultLiStyle}>
-      <p className={resultPStyle}>테스트 케이스 {index + 1} </p>
+    <section className={wrapperStyle}>
+      <p className={testcaseTextStyle}>테스트 케이스 {index + 1} </p>
       <div>
         {isLoaded ? (
-          <ResultInfo submitResult={submitResult} />
+          <ResultInfoWrapper submitResult={submitResult} />
         ) : (
           <Loading color="#e15b64" size="2rem" />
         )}
@@ -27,7 +25,7 @@ export default function ResultLi({
   );
 }
 
-const resultLiStyle = css({
+const wrapperStyle = css({
   width: '100%',
   padding: '4px',
   display: 'flex',
@@ -35,6 +33,6 @@ const resultLiStyle = css({
   gap: '8px',
 });
 
-const resultPStyle = css({
+const testcaseTextStyle = css({
   minWidth: '120px',
 });

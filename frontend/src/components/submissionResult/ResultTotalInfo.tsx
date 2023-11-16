@@ -2,7 +2,11 @@ import { css } from '@style/css';
 
 import Loading from './Loading';
 
-export default function ResultDetailInfo({ isAllTestDone }: { isAllTestDone: boolean }) {
+interface Props {
+  isAllTestDone: boolean;
+}
+
+export default function ResultDetailInfo({ isAllTestDone }: Props) {
   // Todo 계산 로직은 웹소켓 논의 후에 추가
   return (
     <section>
