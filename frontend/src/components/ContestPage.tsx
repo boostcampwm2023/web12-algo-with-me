@@ -9,6 +9,7 @@ type TestCase = {
   param: string;
   result: unknown;
 };
+
 const ContestPage = () => {
   const [code, setCode] = useState<string>(
     localStorage.getItem('myValue') || 'function solution() {\n\n}',
@@ -26,21 +27,17 @@ const ContestPage = () => {
   };
 
   useEffect(() => {
-    evaluator.subscribe((data) => {
-      const { result, task } = data;
+    return evaluator.subscribe(({ result, task }) => {
       if (!task) return;
 
       const taskId = task.clientId;
 
-      setTestCases((oldTestCases) => {
-        return [...oldTestCases].map((tc, index) => {
-          if (index !== taskId) return tc;
+      const evaluatedTestcase = testCases.find((_, index) => index === taskId);
+      if (evaluatedTestcase) {
+        evaluatedTestcase.result = String(result);
+      }
 
-          tc.result = result;
-
-          return tc;
-        });
-      });
+      setTestCases([...testCases]);
     });
   }, []);
 
@@ -55,14 +52,11 @@ const ContestPage = () => {
   };
 
   const handleChangeParam = (index: number, newParam: string) => {
-    setTestCases((oldTestCases) => {
-      const newTestCase = { param: newParam, result: oldTestCases[index].result };
-
-      return oldTestCases
-        .slice(0, index)
-        .concat([newTestCase])
-        .concat(oldTestCases.slice(index + 1));
-    });
+    const changedTestCase = testCases.find((_, i) => i === index);
+    if (changedTestCase) {
+      changedTestCase.param = newParam;
+    }
+    setTestCases([...testCases]);
   };
 
   return (
