@@ -9,15 +9,6 @@ if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
 
-const mainTmpStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100vh',
-  width: '100vw',
-});
-
 function App() {
   return (
     <main className={mainTmpStyle}>
@@ -28,3 +19,12 @@ function App() {
 }
 
 export default App;
+
+const mainTmpStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+  width: '100vw',
+});
