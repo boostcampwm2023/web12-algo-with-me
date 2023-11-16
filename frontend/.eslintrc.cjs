@@ -15,11 +15,13 @@ module.exports = {
     'object-curly-spacing': 'off',
     'require-jsdoc': 'off',
     'max-len': 'off',
+    'operator-linebreak': 'off',
     indent: 'off',
+    'space-before-function-paren': 'off',
     'simple-import-sort/imports': [
       'error',
       {
-        groups: [['^.+\\.s?css$'], ['^react'], ['^@(/.*|$)']],
+        groups: [['^.+\\.s?css$', '^@style(/.*|$)'], ['^react'], ['^@(/.*|$)']],
       },
     ],
   },

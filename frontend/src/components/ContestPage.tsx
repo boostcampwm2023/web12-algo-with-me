@@ -1,27 +1,34 @@
-import { useEffect, useState } from 'react';
+import { css } from '@style/css';
+
+import { useState } from 'react';
+
+import Tester from './Tester';
 
 import mokData from '../mokData.json';
 import Editor from './Editor';
-import MarkdownComponent from './markdownComponent';
 import ProblemContent from './problemContent';
-import { css } from '@style/css';
 
-const style = css({
+const test = css({
   display: 'flex',
 });
 
 const ContestPage = () => {
   const [targetId, setTargetId] = useState(6);
   const targetProblem = mokData.problems.find((problem) => problem.id === targetId);
-  const [code, onChangeCode] = useState(
+  const [code, setCode] = useState<string>(
     localStorage.getItem('myValue') || targetProblem?.solutionCode,
   );
 
+  const handleChangeCode = (newCode: string) => {
+    setCode(newCode);
+  };
+
   return (
-    <div className={style}>
+    <div className={test}>
       <ProblemContent content={targetProblem}></ProblemContent>
       <div>
-        <Editor code={code} setCode={onChangeCode}></Editor>
+        <Editor code={code} onChangeCode={handleChangeCode} />
+        <Tester code={code}></Tester>
       </div>
     </div>
   );
