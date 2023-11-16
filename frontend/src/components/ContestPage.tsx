@@ -30,16 +30,16 @@ const ContestPage = () => {
       const { result, task } = data;
       if (!task) return;
 
-      const taskIndex = task.requestIndex;
-      const updatedTestCase = {
-        param: task.param,
-        result: result,
-      };
+      const taskId = task.clientId;
+
       setTestCases((oldTestCases) => {
-        return oldTestCases
-          .slice(0, taskIndex)
-          .concat([updatedTestCase])
-          .concat(oldTestCases.slice(taskIndex + 1));
+        return [...oldTestCases].map((tc, index) => {
+          if (index !== taskId) return tc;
+
+          tc.result = result;
+
+          return tc;
+        });
       });
     });
   }, []);
@@ -56,7 +56,7 @@ const ContestPage = () => {
       (tc, index) =>
         ({
           type: 'EVAL',
-          requestIndex: index,
+          clientId: index,
           code,
           param: tc.param,
         } as EvalMessage),

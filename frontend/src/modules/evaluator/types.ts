@@ -1,6 +1,6 @@
 export type EvalMessage = {
   type: 'EVAL';
-  requestIndex: number;
+  clientId: number;
   code: string;
   param: string;
 };
