@@ -2,11 +2,10 @@ import { css } from '@style/css';
 
 import { useState } from 'react';
 
-import Tester from './Tester';
-
 import mokData from '../mokData.json';
 import Editor from './Editor';
 import ProblemContent from './problemContent';
+import Tester from './Tester';
 
 const test = css({
   display: 'flex',

@@ -1,5 +1,6 @@
-import MarkdownComponent from './markdownComponent';
 import { css } from '@style/css';
+
+import MarkdownComponent from './markdownComponent';
 
 const style = css({
   backgroundColor: '#1e1e1e',
