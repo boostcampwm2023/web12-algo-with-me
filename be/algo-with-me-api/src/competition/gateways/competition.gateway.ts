@@ -9,10 +9,15 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+import { CreateSubmissionDto } from '../dto/create-submission.dto';
+import { CompetitionService } from '../services/competition.service';
+
 @WebSocketGateway({ namespace: 'competitions' })
 export class CompetitionGateWay implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
+
+  constructor(private readonly competitionService: CompetitionService) {}
 
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket): WsResponse<unknown> {
@@ -25,8 +30,13 @@ export class CompetitionGateWay implements OnGatewayConnection {
   }
 
   @SubscribeMessage('submissions')
-  handleSubmission(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-    console.log(data, client);
+  handleSubmission(
+    @MessageBody() createSubmissionDto: CreateSubmissionDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.competitionService.scoreSubmission(createSubmissionDto);
+    client.emit('message', { message: '채점을 시작합니다.' });
+    console.log(createSubmissionDto, client);
   }
 
   public handleConnection(client: Socket, ...args: any[]) {
