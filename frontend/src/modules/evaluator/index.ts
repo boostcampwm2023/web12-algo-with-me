@@ -1,32 +1,14 @@
 import { range } from '@/utils/array';
 import { createObserver, type Listener } from '@/utils/observer';
 
-import EvalWorker from './eval.worker?worker';
 import EvalTaskManager from './EvalTaskManager';
-import type { EvalMessage, EvalResult, TaskEndMessage } from './types';
+import EvaluatorFactory from './EvaluatorFactory';
+import type { EvalMessage, TaskEndMessage } from './types';
 
 const TOTAL_WORKERS = 3;
 
-const evaluatorFactory = {
-  createEvalWorker() {
-    const evaluator = {
-      isIdle: true,
-      worker: new EvalWorker(),
-      currentTask: null,
-    };
-
-    evaluator.worker.addEventListener('message', function (msg: MessageEvent<EvalResult>) {
-      const { data } = msg;
-
-      evalManager.receiveTaskEnd(data, evaluator);
-    });
-
-    return evaluator;
-  },
-};
-
 const taskEndNotifier = createObserver<TaskEndMessage>();
-const evalWorkers = range(0, TOTAL_WORKERS).map(() => evaluatorFactory.createEvalWorker());
+const evalWorkers = range(0, TOTAL_WORKERS).map(() => EvaluatorFactory.createEvaluator());
 const evalManager = new EvalTaskManager(taskEndNotifier, evalWorkers);
 
 function safeEval(tasks: EvalMessage[]) {

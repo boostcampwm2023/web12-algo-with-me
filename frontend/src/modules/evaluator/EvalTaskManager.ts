@@ -10,6 +10,14 @@ export default class EvalTaskManager {
   constructor(taskEndNotifier: Observer<TaskEndMessage>, evaluators: Evaluator[]) {
     this.taskEndNotifier = taskEndNotifier;
     this.evaluators = evaluators;
+
+    this.evaluators.forEach((evaluator) => {
+      const { worker } = evaluator;
+      const handleWorkerMessage = ({ data }: MessageEvent<EvalResult>) => {
+        this.receiveTaskEnd(data, evaluator);
+      };
+      worker.addEventListener('message', handleWorkerMessage.bind(this));
+    });
   }
 
   queueTasks(tasks: EvalMessage[]) {
