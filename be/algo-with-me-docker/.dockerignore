@@ -1,2 +1,7 @@
-docker-sh/
+node-modules/
+src/
 build.sh
+.eslintrc.js
+.prettierrc
+.gitignore
+tsconfig.json
