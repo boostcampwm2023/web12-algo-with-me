@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import evaluator, { EvalMessage } from '@/modules/evaluator';
+import evaluator from '@/modules/evaluator';
 
 import Editor from './Editor';
 import Tester from './Tester';
@@ -9,6 +9,7 @@ type TestCase = {
   param: string;
   result: unknown;
 };
+
 const ContestPage = () => {
   const [code, setCode] = useState<string>(
     localStorage.getItem('myValue') || 'function solution() {\n\n}',
@@ -26,54 +27,34 @@ const ContestPage = () => {
   };
 
   useEffect(() => {
-    evaluator.subscribe((data) => {
-      const { result, task } = data;
+    return evaluator.subscribe(({ result, task }) => {
       if (!task) return;
 
       const taskId = task.clientId;
 
-      setTestCases((oldTestCases) => {
-        return [...oldTestCases].map((tc, index) => {
-          if (index !== taskId) return tc;
+      const evaluatedTestcase = testCases.find((_, index) => index === taskId);
+      if (evaluatedTestcase) {
+        evaluatedTestcase.result = String(result);
+      }
 
-          tc.result = result;
-
-          return tc;
-        });
-      });
+      setTestCases([...testCases]);
     });
   }, []);
 
   const handleTestExec = () => {
-    setTestCases((oldTestCases) => {
-      return oldTestCases.map((tc) => ({
-        ...tc,
-        result: '계산중...',
-      }));
-    });
+    setTestCases(testCases.map(changeToEvaluating));
 
-    const tasks = testCases.map(
-      (tc, index) =>
-        ({
-          type: 'EVAL',
-          clientId: index,
-          code,
-          param: tc.param,
-        } as EvalMessage),
-    );
+    const tasks = testCases.map((tc, index) => evaluator.createEvalMessage(index, code, tc.param));
 
     evaluator.safeEval(tasks);
   };
 
   const handleChangeParam = (index: number, newParam: string) => {
-    setTestCases((oldTestCases) => {
-      const newTestCase = { param: newParam, result: oldTestCases[index].result };
-
-      return oldTestCases
-        .slice(0, index)
-        .concat([newTestCase])
-        .concat(oldTestCases.slice(index + 1));
-    });
+    const changedTestCase = testCases.find((_, i) => i === index);
+    if (changedTestCase) {
+      changedTestCase.param = newParam;
+    }
+    setTestCases([...testCases]);
   };
 
   return (
@@ -90,6 +71,13 @@ const ContestPage = () => {
       ))}
     </div>
   );
+};
+
+const changeToEvaluating = (testcase: TestCase) => {
+  return {
+    ...testcase,
+    result: '평가중...',
+  };
 };
 
 export default ContestPage;

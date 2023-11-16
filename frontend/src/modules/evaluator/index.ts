@@ -1,6 +1,7 @@
 import { range } from '@/utils/array';
 import { createObserver, type Listener } from '@/utils/observer';
 
+import createEvalMessage from './createEvalMessage';
 import createEvaluator from './createEvaluator';
 import EvalTaskManager from './EvalTaskManager';
 import type { EvalMessage, TaskEndMessage } from './types';
@@ -27,6 +28,7 @@ function subscribe(listener: Listener<TaskEndMessage>) {
 export default {
   safeEval,
   subscribe,
+  createEvalMessage,
 };
 
 export * from './types';
