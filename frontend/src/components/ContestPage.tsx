@@ -89,8 +89,8 @@ export default function ContestPage() {
 
   return (
     <div>
-      <Header title={'test'} problemName={'testName'} />
-      <ProblemTitle problemName={'testName'} />
+      <Header title={'test'} problemName={targetProblem.title} />
+      <ProblemTitle problemName={targetProblem.title} />
       <div className={layout}>
         <ProblemContent content={targetProblem}></ProblemContent>
         <div>
