@@ -1,38 +1,52 @@
-import { css } from '../../../styled-system/css';
-import Loading from './Loading';
+import { css } from '@style/css';
 
-const resultDetailTitle = css({
-  margin: '0.5rem 0',
-});
+import { type SubmitResult } from './ResultList';
 
-const resultDetailTextStyle = css({
-  fontSize: '0.8rem',
-  color: 'lightgray',
-});
+export default function ResultInfo({ submitResult }: { submitResult: SubmitResult }) {
+  const { resultStatus, elapsedTime, memoryUsage } = submitResult;
 
-// interface SubMitResult {
-//   contestId: number;
-//   problemId: number;
-//   testcaseId: number;
-//   isCorrect: string;
-//   elapsedTime: number;
-//   memoryUsage: number;
-// }
+  if (resultStatus === RESULT_STATUS.correct) {
+    return (
+      <span className={correctColor}>
+        {RESULT_STATUS_TEXT[resultStatus as 0]} ({elapsedTime}ms ,{memoryUsage}MB)
+      </span>
+    );
+  }
 
-export default function ResultDetailInfo({ isAllTestDone }: { isAllTestDone: boolean }) {
-  // Todo 계산로직을 module에 빼는 게 좋겠지?
+  if (resultStatus === RESULT_STATUS.inCorrect) {
+    return (
+      <span className={inCorrectColor}>
+        {RESULT_STATUS_TEXT[resultStatus as 1]} ({elapsedTime}ms ,{memoryUsage}MB)
+      </span>
+    );
+  }
 
-  return (
-    <section>
-      <header className={resultDetailTitle}>채점 결과</header>
-      {isAllTestDone ? (
-        <>
-          <p className={resultDetailTextStyle}>정확성: 40.0</p>
-          <p className={resultDetailTextStyle}>합계: 40.0 / 100.0 </p>
-        </>
-      ) : (
-        <Loading color="gray" width="2rem" height="2rem" />
-      )}
-    </section>
-  );
+  if (resultStatus === RESULT_STATUS.timeOut) {
+    return <span className={inCorrectColor}>{RESULT_STATUS_TEXT[resultStatus as 2]}</span>;
+  }
 }
+
+const RESULT_STATUS = {
+  correct: 0,
+  inCorrect: 1,
+  timeOut: 2,
+};
+
+const RESULT_STATUS_TEXT = {
+  0: '정답',
+  1: '실패',
+  2: '실패 (시간 초과)',
+};
+
+const THEME = {
+  WRONG: 'red',
+  CORRECT: 'blue',
+};
+
+const correctColor = css({
+  color: THEME.CORRECT,
+});
+
+const inCorrectColor = css({
+  color: THEME.WRONG,
+});

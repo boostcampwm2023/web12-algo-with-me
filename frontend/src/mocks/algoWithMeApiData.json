@@ -3,7 +3,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 1,
-    "isCorrect": "정답",
+    "resultStatus": 0,
     "elapsedTime": 50.13,
     "memoryUsage": 1024
   },
@@ -11,7 +11,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 2,
-    "isCorrect": "시간 초과",
+    "resultStatus": 2,
     "elapsedTime": 10000,
     "memoryUsage": 10000
   },
@@ -19,7 +19,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 3,
-    "isCorrect": "정답",
+    "resultStatus": 0,
     "elapsedTime": 60.76,
     "memoryUsage": 512
   },
@@ -27,7 +27,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 4,
-    "isCorrect": "오답",
+    "resultStatus": 1,
     "elapsedTime": 90.32,
     "memoryUsage": 4096
   },
@@ -35,7 +35,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 5,
-    "isCorrect": "정답",
+    "resultStatus": 0,
     "elapsedTime": 55.46,
     "memoryUsage": 8192
   },
@@ -43,7 +43,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 6,
-    "isCorrect": "오답",
+    "resultStatus": 1,
     "elapsedTime": 70.67,
     "memoryUsage": 1024
   },
@@ -51,7 +51,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 7,
-    "isCorrect": "시간 초과",
+    "resultStatus": 2,
     "elapsedTime": 10000,
     "memoryUsage": 10000
   },
@@ -59,7 +59,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 8,
-    "isCorrect": "오답",
+    "resultStatus": 1,
     "elapsedTime": 65.23,
     "memoryUsage": 512
   },
@@ -67,7 +67,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 9,
-    "isCorrect": "정답",
+    "resultStatus": 0,
     "elapsedTime": 45.01,
     "memoryUsage": 4096
   },
@@ -75,7 +75,7 @@
     "contestId": 131,
     "problemId": 101,
     "testcaseId": 10,
-    "isCorrect": "오답",
+    "resultStatus": 1,
     "elapsedTime": 55,
     "memoryUsage": 8192
   }

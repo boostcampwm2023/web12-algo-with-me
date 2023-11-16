@@ -1,17 +1,9 @@
-export default function Loading({
-  color,
-  width,
-  height,
-}: {
-  color: string;
-  width: string;
-  height: string;
-}) {
+export default function Loading({ color, size }: { color: string; size: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
     >

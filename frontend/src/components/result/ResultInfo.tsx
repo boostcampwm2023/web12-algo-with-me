@@ -1,39 +1,40 @@
-// import { css } from '../../../styled-system/css';
 import { css } from '@style/css';
 
-interface SubMitResult {
-  contestId: number;
-  problemId: number;
-  testcaseId: number;
-  isCorrect: string;
-  elapsedTime: number;
-  memoryUsage: number;
-}
-// 맞다 blue
-const correctColor = css({
-  color: 'blue',
-});
-// 틀리다 red, 시간초과 red
-const inCorrectColor = css({
-  color: 'red',
-});
+import Loading from './Loading';
+import ResultInfo from './ResultDetailInfo';
+import { type SubmitResult } from './ResultList';
 
-export default function ResultInfo({ submitResult }: { submitResult: SubMitResult }) {
-  const { isCorrect, elapsedTime, memoryUsage } = submitResult;
+export default function ResultLi({
+  isLoaded,
+  submitResult,
+  index,
+}: {
+  isLoaded: boolean;
+  submitResult: SubmitResult;
+  index: number;
+}) {
   return (
-    <>
-      {isCorrect === '오답' ? (
-        <span className={inCorrectColor}>
-          실패 ({elapsedTime}ms ,{memoryUsage}MB)
-        </span>
-      ) : isCorrect === '정답' ? (
-        <span className={correctColor}>
-          {' '}
-          정답 ({elapsedTime}ms ,{memoryUsage}MB)
-        </span>
-      ) : (
-        <span className={inCorrectColor}>실패 (시간 초과)</span>
-      )}
-    </>
+    <section className={resultLiStyle}>
+      <p className={resultPStyle}>테스트 케이스 {index + 1} </p>
+      <div>
+        {isLoaded ? (
+          <ResultInfo submitResult={submitResult} />
+        ) : (
+          <Loading color="#e15b64" size="2rem" />
+        )}
+      </div>
+    </section>
   );
 }
+
+const resultLiStyle = css({
+  width: '100%',
+  padding: '4px',
+  display: 'flex',
+  height: '32px',
+  gap: '8px',
+});
+
+const resultPStyle = css({
+  minWidth: '120px',
+});
