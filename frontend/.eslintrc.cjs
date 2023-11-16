@@ -17,6 +17,7 @@ module.exports = {
     'max-len': 'off',
     'operator-linebreak': 'off',
     indent: 'off',
+    'space-before-function-paren': 'off',
     'simple-import-sort/imports': [
       'error',
       {
