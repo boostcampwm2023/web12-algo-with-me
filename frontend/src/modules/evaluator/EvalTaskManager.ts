@@ -1,6 +1,7 @@
 import type { Observer } from '@/utils/observer';
 
-import type { EvalMessage, EvalResult, Evaluator, TaskEndMessage } from './types';
+import type { Evaluator } from './createEvaluator';
+import type { EvalMessage, EvalResult, TaskEndMessage } from './types';
 
 export default class EvalTaskManager {
   queuedTasks: EvalMessage[] = [];
@@ -16,7 +17,7 @@ export default class EvalTaskManager {
       const handleWorkerMessage = ({ data }: MessageEvent<EvalResult>) => {
         this.receiveTaskEnd(data, evaluator);
       };
-      worker.addEventListener('message', handleWorkerMessage.bind(this));
+      worker.addEventListener('message', handleWorkerMessage);
     });
   }
 
