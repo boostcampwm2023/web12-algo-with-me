@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import SubmissionResult from '@/components/submissionResult';
+import SubmissionResult from '@/components/SubmissionResult';
 
 import worker from './__mocks__';
 import ContestPage from './components/ContestPage';
