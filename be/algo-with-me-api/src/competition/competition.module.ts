@@ -6,6 +6,7 @@ import { CompetitionController } from './controllers/competition.controller';
 import { ProblemController } from './controllers/problem.controller';
 import { Problem } from './entities/problem.entity';
 import { Submission } from './entities/submission.entity';
+import { CompetitionGateWay } from './gateways/competition.gateway';
 import { CompetitionService } from './services/competition.service';
 import { ProblemService } from './services/problem.service';
 import { SubmissionConsumer } from './tem.consumer';
@@ -18,6 +19,6 @@ import { SubmissionConsumer } from './tem.consumer';
     }),
   ],
   controllers: [ProblemController, CompetitionController],
-  providers: [ProblemService, CompetitionService, SubmissionConsumer],
+  providers: [ProblemService, CompetitionService, SubmissionConsumer, CompetitionGateWay],
 })
 export class CompetitionModule {}
