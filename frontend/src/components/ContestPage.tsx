@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import mokData from '../mokData.json';
 import Editor from './Editor';
+import MarkdownComponent from './markdownComponent';
 import ProblemContent from './problemContent';
 import { css } from '@style/css';
 
