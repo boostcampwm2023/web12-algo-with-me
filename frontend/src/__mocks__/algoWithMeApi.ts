@@ -1,4 +1,4 @@
-import algoWithMeApiData from '@/mocks/algoWithMeApiData.json';
+import algoWithMeApiData from '@/__mocks__/algoWithMeApiData.json';
 
 import { delay, http, HttpResponse } from 'msw';
 
