@@ -12,7 +12,7 @@ export default function MarkdownComponent(props) {
     </ReactMarkdown>
   );
 }
-// Todo 아래의 스타일, 컴포넌트를 파일로 분리
+
 const tableStyle = css({
   width: '100%',
   borderCollapse: 'collapse',

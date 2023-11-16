@@ -22,6 +22,6 @@ const style = css({
   padding: '10px',
   overflowY: 'auto',
   whiteSpace: 'pre-wrap',
-  width: '500px',
-  height: '800px',
+  width: '450px',
+  height: '500px',
 });
