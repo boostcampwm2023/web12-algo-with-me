@@ -6,14 +6,16 @@ import evaluator from '@/modules/evaluator';
 
 import mockData from '../mockData.json';
 import Editor from './Editor';
+import Header from './Header';
 import ProblemContent from './ProblemContent';
+import ProblemTitle from './ProblemTitle';
 import Tester from './Tester';
 
 type TestCase = {
   param: string;
   result: unknown;
 };
-        
+
 const notFoundProblem = {
   title: 'Problem Not Found',
   timeLimit: 0,
@@ -23,7 +25,7 @@ const notFoundProblem = {
   testcases: [],
   createdAt: new Date().toISOString(),
 };
-        
+
 const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
@@ -38,7 +40,6 @@ export default function ContestPage() {
     { param: '', result: '' },
     { param: '', result: '' },
   ]);
-
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -87,19 +88,23 @@ export default function ContestPage() {
   };
 
   return (
-    <div className={layout}>
-      <ProblemContent content={targetProblem}></ProblemContent>
-      <div>
-        <Editor code={code} onChangeCode={handleChangeCode} />
-        <button onClick={handleTestExec}>테스트 실행</button>
-        {testCases.map((tc, index) => (
-          <Tester
-            param={tc.param}
-            result={tc.result}
-            onChangeParam={(param: string) => handleChangeParam(index, param)}
-            key={index}
-          ></Tester>
-        ))}
+    <div>
+      <Header title={'test'} problemName={'testName'} />
+      <ProblemTitle problemName={'testName'} />
+      <div className={layout}>
+        <ProblemContent content={targetProblem}></ProblemContent>
+        <div>
+          <Editor code={code} onChangeCode={handleChangeCode} />
+          <button onClick={handleTestExec}>테스트 실행</button>
+          {testCases.map((tc, index) => (
+            <Tester
+              param={tc.param}
+              result={tc.result}
+              onChangeParam={(param: string) => handleChangeParam(index, param)}
+              key={index}
+            ></Tester>
+          ))}
+        </div>
       </div>
     </div>
   );
