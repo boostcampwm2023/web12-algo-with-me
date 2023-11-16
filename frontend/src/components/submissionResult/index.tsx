@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { useCallback, useState } from 'react';
 
 import ResultList from './ResultList';
-import ResultDetailInfo from './ResultTotalInfo';
+import ResultTotalInfo from './ResultTotalInfo';
 
 export default function SubmissionResult() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -13,6 +13,10 @@ export default function SubmissionResult() {
     setIsSubmitted(!isSubmitted);
   }, [isSubmitted]);
 
+  const handleSetAllTestDone = () => {
+    setIsAllTestDone(true);
+  };
+
   return (
     <>
       <section className={resultWrapperStyle}>
@@ -21,8 +25,8 @@ export default function SubmissionResult() {
         ) : (
           <>
             <p>채점 결과는 다음과 같습니다.</p>
-            <ResultList testcaseNum={10} onSetIsAllTestDone={setIsAllTestDone} />
-            <ResultDetailInfo isAllTestDone={isAllTestDone} />
+            <ResultList testcaseNum={10} onSetIsAllTestDone={handleSetAllTestDone} />
+            <ResultTotalInfo isAllTestDone={isAllTestDone} />
           </>
         )}
       </section>
