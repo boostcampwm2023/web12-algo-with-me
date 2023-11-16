@@ -20,9 +20,6 @@ export class CompetitionService {
   ) {}
 
   async findOneProblem(id: number) {
-    await this.submissionQueue.add({
-      test: 'test',
-    });
     const problem = await this.problemRepository.findOneBy({ id });
     const fileName = id.toString() + '.md';
     const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
@@ -48,6 +45,7 @@ export class CompetitionService {
     const savedSubmission: Submission = await this.submissionRepository.save(submission);
     await this.submissionQueue.add({
       problemId: savedSubmission.problem.id,
+      submissionId: savedSubmission.id,
     });
 
     return savedSubmission;
