@@ -83,7 +83,7 @@ export default function ResultList({ testcaseNum, onSetIsAllTestDone }: Props) {
   return (
     <ul className={resultListStyle}>
       {Object.keys(testcaseLoadInfo).map((key, i) => (
-        <li key={`testCase-list-${i}`}>
+        <li key={i}>
           <ResultInfo
             isLoaded={testcaseLoadInfo[key]}
             submitResult={resultFilter(Number(key))}
