@@ -15,6 +15,7 @@ module.exports = {
     'object-curly-spacing': 'off',
     'require-jsdoc': 'off',
     'max-len': 'off',
+    'operator-linebreak': 'off',
     indent: 'off',
     'simple-import-sort/imports': [
       'error',

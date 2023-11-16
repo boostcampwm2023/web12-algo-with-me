@@ -12,6 +12,11 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.3.0",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@uiw/codemirror-theme-vscode": "^4.21.20",
+    "@uiw/react-codemirror": "^4.21.20",
+    "codemirror": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -23,10 +28,12 @@
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "eslint": "^8.45.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
+    "vite": "^4.5.0",
     "vitest": "^0.34.6"
   }
 }
