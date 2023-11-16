@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from '@src/app.controller';
-import { AppService } from '@src/app.service';
 import { ScoreController } from './score/score.controller';
-import { ScoreService } from './score/score.service';
 import { ScoreModule } from './score/score.module';
+import { ScoreService } from './score/score.service';
+import { typeORMConfig } from './typeorm.config';
 
 @Module({
-  imports: [ScoreModule],
-  controllers: [AppController, ScoreController],
-  providers: [AppService, ScoreService],
+  imports: [ScoreModule, TypeOrmModule.forRoot(typeORMConfig)],
+  controllers: [ScoreController],
+  providers: [ScoreService],
 })
 export class AppModule {}
