@@ -76,9 +76,9 @@ const components = {
     return <td className={tdStyle}>{children}</td>;
   },
   code: ({ node, inline, className, children, ...props }) => {
-    const languageMatch = /language-(\w+)/.exec(className || '');
+    const languageMatchForStyle = /language-(\w+)/.exec(className || '');
 
-    return !inline && languageMatch ? (
+    return !inline && languageMatchForStyle ? (
       <pre className={codeBlockStyleWithWrap} {...props}>
         <code className={codeBlockStyle}>{children}</code>
       </pre>
