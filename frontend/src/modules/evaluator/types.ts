@@ -1,6 +1,6 @@
 export type EvalMessage = {
   type: 'EVAL';
-  clientId: number;
+  clientId: number | string;
   code: string;
   param: string;
 };

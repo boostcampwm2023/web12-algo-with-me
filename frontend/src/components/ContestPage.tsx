@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import evaluator, { EvalMessage } from '@/modules/evaluator';
+import evaluator from '@/modules/evaluator';
 
 import Editor from './Editor';
 import Tester from './Tester';
@@ -46,21 +46,10 @@ const ContestPage = () => {
 
   const handleTestExec = () => {
     setTestCases((oldTestCases) => {
-      return oldTestCases.map((tc) => ({
-        ...tc,
-        result: '계산중...',
-      }));
+      return oldTestCases.map(toEvaluatingState);
     });
 
-    const tasks = testCases.map(
-      (tc, index) =>
-        ({
-          type: 'EVAL',
-          clientId: index,
-          code,
-          param: tc.param,
-        } as EvalMessage),
-    );
+    const tasks = testCases.map((tc, index) => evaluator.createEvalMessage(index, code, tc.param));
 
     evaluator.safeEval(tasks);
   };
@@ -90,6 +79,13 @@ const ContestPage = () => {
       ))}
     </div>
   );
+};
+
+const toEvaluatingState = (testcase: TestCase) => {
+  return {
+    ...testcase,
+    result: '계산중...',
+  };
 };
 
 export default ContestPage;
