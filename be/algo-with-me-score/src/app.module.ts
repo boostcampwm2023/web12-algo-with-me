@@ -5,8 +5,8 @@ import * as dotenv from 'dotenv';
 
 import * as process from 'node:process';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Submission } from './entities/submission.entity';
+import { SubmissionConsumer } from './services/score.consumer';
 
 dotenv.config();
 
@@ -22,17 +22,19 @@ dotenv.config();
       synchronize: true,
       entities: [],
     }),
+    TypeOrmModule.forFeature([Submission]),
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
-        port: 6379,
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
       },
     }),
     BullModule.registerQueue({
       name: 'testQueue',
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [SubmissionConsumer],
 })
 export class AppModule {}
