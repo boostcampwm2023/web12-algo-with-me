@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { Problem } from './problem.entity';
-import { RESULT } from '../competition.enums';
+import { RESULT } from './submission.enums';
 
 @Entity()
 export class Submission {
