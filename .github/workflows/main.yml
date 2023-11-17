@@ -1,14 +1,12 @@
 name: fe-dev 브랜치 깃허브 페이지스에 배포
 on:
-  pull_request: # master Branch에서 push 이벤트가 일어났을 때만 실행
-    branches:
-      - fe-dev
-
+  push: # fe-dev 파일에 push가 되었을 때 실행해라!
+    branches: ["fe-dev"]
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
       - name: Install Dependencies # 의존 파일 설치
         run: pnpm install
-      - name: 배포
+      - name: 빌드 실행
         run: pnpm run build
