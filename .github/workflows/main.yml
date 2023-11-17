@@ -1,10 +1,10 @@
 name: fe-dev 브랜치 깃허브 페이지스에 배포
 on:
-  push: # fe-dev 파일에 push가 되었을 때 실행해라!
+  push: # fe-dev 브랜치에 push가 되었을 때 실행해라!
     branches: ["fe-dev"]
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04(ubuntu-latest)
     steps:
       - name: Install Dependencies # 의존 파일 설치
         run: pnpm install
