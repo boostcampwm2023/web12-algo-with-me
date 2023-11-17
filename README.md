@@ -26,20 +26,28 @@
 
 ## 문서 링크
 
-
+### 협업 전략
 - [그라운드 룰](https://glacier-aura-f95.notion.site/4410ed6ddffd4eae8dddbf85209ffe0d?pvs=4)
-- 협업 전략
-  - [브랜치 전략](https://glacier-aura-f95.notion.site/139ba03369504e3194571f161288a9fd?pvs=4)
-  - [PR 컨벤션](https://glacier-aura-f95.notion.site/PR-5eed0726451f4cb1875f3130805b6417?pvs=4)
-  - [커밋 컨벤션](https://glacier-aura-f95.notion.site/d109004dbed6436b8bccf76091e592ee?pvs=4)
-  - [코드 컨벤션](https://glacier-aura-f95.notion.site/ef62b57f70e6473bae2a7337a4316a71?pvs=4)
-- [스토리맵 & 백로그](https://www.figma.com/file/gWCcjBIjAStADIuIHnZuFD/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%B5-%26-%EB%B0%B1%EB%A1%9C%EA%B7%B8?type=whiteboard&t=GBJdiPhU3claQAHv-0)
+- [브랜치 전략](https://glacier-aura-f95.notion.site/139ba03369504e3194571f161288a9fd?pvs=4)
+- [PR 컨벤션](https://glacier-aura-f95.notion.site/PR-5eed0726451f4cb1875f3130805b6417?pvs=4)
+- [커밋 컨벤션](https://glacier-aura-f95.notion.site/d109004dbed6436b8bccf76091e592ee?pvs=4)
+- [코드 컨벤션](https://glacier-aura-f95.notion.site/ef62b57f70e6473bae2a7337a4316a71?pvs=4)
+
+### 기획
 - [기획/디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&mode=design&t=GBJdiPhU3claQAHv-0)
-- [아키텍처](https://www.figma.com/file/Muux6igNnXxpQ2wvXhuuL2/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98?type=whiteboard&t=GBJdiPhU3claQAHv-0)
-- [회의록](https://glacier-aura-f95.notion.site/83e453ea2271445fb803d370ae95db89?v=7e602674650845f7ae387c47f66899da&pvs=4)
+
+### 프로젝트 관리
+- [스토리맵 & 백로그](https://www.figma.com/file/gWCcjBIjAStADIuIHnZuFD/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%B5-%26-%EB%B0%B1%EB%A1%9C%EA%B7%B8?type=whiteboard&t=GBJdiPhU3claQAHv-0)
 - [이슈](https://github.com/boostcampwm2023/web12-algo-with-me/issues)
+- [회의록](https://glacier-aura-f95.notion.site/83e453ea2271445fb803d370ae95db89?v=7e602674650845f7ae387c47f66899da&pvs=4)
 - [개발 문서](https://glacier-aura-f95.notion.site/546cc227d80c4f34ac521e6b0ccdb843?v=c2655197d89f4d609a100c434f08a927&pvs=4)
 - [칸반보드](https://github.com/orgs/boostcampwm2023/projects/51/views/1?layout=board)
+- [회고](https://glacier-aura-f95.notion.site/8ea4c4fa419e42bd837a4a1785a96374?pvs=4)
+
+### 개발
+- [아키텍처](https://www.figma.com/file/Muux6igNnXxpQ2wvXhuuL2/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98?type=whiteboard&t=GBJdiPhU3claQAHv-0)
+- [FE 기술 스택](https://www.notion.so/FE-aeec2288d5bc4347a3ab1db177d2ae20?pvs=4)
+- [BE 기술 스택](https://www.notion.so/c4d9dfa965cd421a866844356d47b693?pvs=4)
 
 ## 팀원 소개
 
