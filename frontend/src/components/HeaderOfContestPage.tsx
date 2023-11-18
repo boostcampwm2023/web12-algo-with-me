@@ -1,10 +1,11 @@
 import TextForHeader from './TextForHeader';
+
 interface Props {
   title: string;
   problemName: string;
 }
 
-export default function Header(props: Props) {
+export default function HeaderOfContestPage(props: Props) {
   const { title, problemName } = props;
   return (
     <div>

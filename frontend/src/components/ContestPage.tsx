@@ -6,7 +6,7 @@ import evaluator from '@/modules/evaluator';
 
 import mockData from '../mockData.json';
 import Editor from './Editor';
-import Header from './Header';
+import HeaderOfContestPage from './HeaderOfContestPage';
 import ProblemContent from './ProblemContent';
 import ProblemTitle from './ProblemTitle';
 import Tester from './Tester';
@@ -88,10 +88,10 @@ export default function ContestPage() {
   };
 
   return (
-    <div>
-      <Header title={'test'} problemName={targetProblem.title} />
+    <main>
+      <HeaderOfContestPage title={'test'} problemName={targetProblem.title} />
       <ProblemTitle problemName={targetProblem.title} />
-      <div className={layout}>
+      <section className={layout}>
         <ProblemContent content={targetProblem}></ProblemContent>
         <div>
           <Editor code={code} onChangeCode={handleChangeCode} />
@@ -105,8 +105,8 @@ export default function ContestPage() {
             ></Tester>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
