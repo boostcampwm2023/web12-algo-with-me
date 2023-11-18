@@ -1,7 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WebSocketServer } from '@nestjs/websockets';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
 import { Repository } from 'typeorm';
@@ -16,9 +15,7 @@ import { Submission } from '../entities/submission.entity';
 
 @Injectable()
 export class CompetitionService {
-  @WebSocketServer()
   server: Server;
-
   constructor(
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
@@ -67,13 +64,13 @@ export class CompetitionService {
     const result = {
       testcaseId: scoreResultDto.testcaseId,
       result: scoreResultDto.result,
-      stdOut: scoreResultDto.stdOut,
     };
 
     submission.detail.push(result);
     this.submissionRepository.save(submission);
 
     result['problemId'] = scoreResultDto.problemId;
-    this.server.to(scoreResultDto.socketId).emit("message", result);
+    result['stdOut'] = scoreResultDto.stdOut;
+    this.server.to(scoreResultDto.socketId).emit('messages', result);
   }
 }
