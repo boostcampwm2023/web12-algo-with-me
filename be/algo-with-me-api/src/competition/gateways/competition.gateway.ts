@@ -38,6 +38,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   // }
 
   @SubscribeMessage('submissions')
+  // TODO: 검증 실패시 에러 터져버리고, websocket으로 internal server error 가는거 수정해야됨.
   @UsePipes(new ValidationPipe({ transform: true }))
   handleSubmission(
     @MessageBody() createSubmissionDto: CreateSubmissionDto,
