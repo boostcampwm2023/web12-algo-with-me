@@ -25,17 +25,17 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     this.competitionService.server = server;
   }
 
-  @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket): WsResponse<unknown> {
-    this.server.emit('events', { data: '데이터 간다' });
-    client.emit('events', { data: '데이터 간다22' });
-    this.server.to(client.id).emit('events', { data: '데이터 간다 33' });
-    const event = 'events';
-    console.log(client.id);
-    console.log(client.rooms);
-    console.log(data);
-    return { event, data };
-  }
+  // @SubscribeMessage('events')
+  // handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket): WsResponse<unknown> {
+  //   this.server.emit('events', { data: '데이터 간다' });
+  //   client.emit('events', { data: '데이터 간다22' });
+  //   this.server.to(client.id).emit('events', { data: '데이터 간다 33' });
+  //   const event = 'events';
+  //   console.log(client.id);
+  //   console.log(client.rooms);
+  //   console.log(data);
+  //   return { event, data };
+  // }
 
   @SubscribeMessage('submissions')
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -44,9 +44,9 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     @ConnectedSocket() client: Socket,
   ): WsResponse<unknown> {
     this.competitionService.scoreSubmission(createSubmissionDto, client.id);
-    console.log(createSubmissionDto);
     const event = 'messages';
     const data = { message: '채점을 시작합니다.' };
+    console.log(createSubmissionDto);
     return { event, data };
   }
 
