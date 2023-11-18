@@ -23,7 +23,9 @@ export class CompetitionGateWay implements OnGatewayConnection {
   handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket): WsResponse<unknown> {
     this.server.emit('events', { data: '데이터 간다' });
     client.emit('events', { data: '데이터 간다22' });
+    this.server.to(client.id).emit('events', { data: '데이터 간다 33' });
     const event = 'events';
+    console.log(client.id);
     console.log(client.rooms);
     console.log(data);
     return { event, data };
@@ -34,7 +36,7 @@ export class CompetitionGateWay implements OnGatewayConnection {
     @MessageBody() createSubmissionDto: CreateSubmissionDto,
     @ConnectedSocket() client: Socket,
   ) {
-    this.competitionService.scoreSubmission(createSubmissionDto);
+    this.competitionService.scoreSubmission(createSubmissionDto, client.id);
     client.emit('message', { message: '채점을 시작합니다.' });
     console.log(createSubmissionDto, client);
   }
@@ -43,7 +45,6 @@ export class CompetitionGateWay implements OnGatewayConnection {
     // TODO: 사용자가 대회 참여중인지 확인하는 로직 추가해야 함
     const { competitionId } = client.handshake.query;
     client.join(competitionId);
-    client.leave(client.id);
     console.log(competitionId, args);
   }
 }

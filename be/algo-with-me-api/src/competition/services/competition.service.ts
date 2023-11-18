@@ -37,7 +37,7 @@ export class CompetitionService {
     };
   }
 
-  async scoreSubmission(createSubmissionDto: CreateSubmissionDto) {
+  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string) {
     const problem: Problem = await this.problemRepository.findOneBy({
       id: createSubmissionDto.problemId,
     });
@@ -46,6 +46,7 @@ export class CompetitionService {
     await this.submissionQueue.add({
       problemId: savedSubmission.problem.id,
       submissionId: savedSubmission.id,
+      socketId: socketId,
     });
 
     return savedSubmission;
