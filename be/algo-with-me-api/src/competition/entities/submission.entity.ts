@@ -25,8 +25,8 @@ export class Submission {
   })
   result: string;
 
-  @Column('json', { nullable: true })
-  detail: string;
+  @Column('json', { nullable: true, default: [] })
+  detail: object[];
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { nullable: false })
   problem: Problem;
