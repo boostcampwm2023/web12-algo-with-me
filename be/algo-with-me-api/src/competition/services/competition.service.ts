@@ -55,6 +55,7 @@ export class CompetitionService {
     return savedSubmission;
   }
 
+  // TODO: 유저, 대회 도메인 구현 이후 수정 필요
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
     const submission = await this.submissionRepository.findOneBy({
       id: scoreResultDto.submissionId,
