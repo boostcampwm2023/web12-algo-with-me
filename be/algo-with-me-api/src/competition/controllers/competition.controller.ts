@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 
+import { ScoreResultDto } from '../dto/score-result.dto';
 import { CompetitionService } from '../services/competition.service';
 
 @Controller('competitions')
@@ -9,6 +10,12 @@ export class CompetitionController {
   @Get('problems/:id')
   findOne(@Param('id') id: number) {
     return this.competitionService.findOneProblem(id);
+  }
+
+  @Post('scores')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
+    this.competitionService.saveScoreResult(scoreResultDto);
   }
 
   // @Post('submissions')
