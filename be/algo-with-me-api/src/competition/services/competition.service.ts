@@ -71,6 +71,6 @@ export class CompetitionService {
 
     result['problemId'] = scoreResultDto.problemId;
     result['stdOut'] = scoreResultDto.stdOut;
-    this.server.to(scoreResultDto.socketId).emit('messages', result);
+    this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
 }
