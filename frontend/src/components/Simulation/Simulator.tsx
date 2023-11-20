@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   onChangeParam: (newParam: string) => void;
 }
 
-export default function Tester(props: Props) {
+export default function Simulator(props: Props) {
   const { param, result, onChangeParam } = props;
 
   const handleParamChange = (e: ChangeEvent<HTMLInputElement>) => {

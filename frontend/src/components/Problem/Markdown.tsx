@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { Components } from 'hast-util-to-jsx-runtime/lib/components';
+import type { Components } from 'hast-util-to-jsx-runtime/lib/components';
 import remarkGfm from 'remark-gfm';
 
 interface Props {
@@ -40,7 +40,7 @@ interface LiProps {
   children: ReactNode;
 }
 
-export default function MarkdownComponent(props: Props) {
+export default function Markdown(props: Props) {
   const { markdownContent } = props;
 
   return (

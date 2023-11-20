@@ -1,17 +1,17 @@
 import { css } from '@style/css';
 
-import MarkdownComponent from './MarkdownComponent';
+import Markdown from './Markdown';
 
 interface Props {
   content: string;
 }
 
-export default function ProblemContent(props: Props) {
+export default function ProblemViewer(props: Props) {
   const { content } = props;
 
   return (
     <div className={style}>
-      <MarkdownComponent markdownContent={content} />
+      <Markdown markdownContent={content} />
     </div>
   );
 }

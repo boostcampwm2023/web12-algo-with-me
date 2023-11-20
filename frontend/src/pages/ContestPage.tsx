@@ -2,12 +2,12 @@ import { css } from '@style/css';
 
 import { useEffect, useState } from 'react';
 
-import ContestBreadCrumb from '@/components/ContestBreadCrumb';
-import Editor from '@/components/Editor';
-import ProblemContent from '@/components/ProblemContent';
+import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
+import Editor from '@/components/Editor/Editor';
+import ProblemViewer from '@/components/Problem/ProblemViewer';
+import SimulatorList from '@/components/Simulation/SimulatorList';
+import type { TestCase } from '@/components/Simulation/types';
 import SubmissionResult from '@/components/SubmissionResult';
-import TestResult from '@/components/TestResult';
-import type { TestCase } from '@/components/types';
 import { SITE } from '@/constants';
 import mockData from '@/mockData.json';
 import evaluator from '@/modules/evaluator';
@@ -94,14 +94,14 @@ export default function ContestPage() {
         <span className={problemTitleStyle}>{targetProblem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemContent content={targetProblem.content}></ProblemContent>
+        <ProblemViewer content={targetProblem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
-          <TestResult
+          <SimulatorList
             testCases={testCases}
             onChangeParam={handleChangeParam}
             onTestExec={handleTestExec}
-          ></TestResult>
+          ></SimulatorList>
         </div>
       </section>
       <section>
