@@ -1,23 +1,30 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 import { Problem } from '../entities/problem.entity';
 
 export class CreateProblemDto {
+  @ApiProperty()
   @IsNotEmpty()
   title: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   timeLimit: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   memoryLimit: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   testcaseNum: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   frameCode: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   solutionCode: string;
 

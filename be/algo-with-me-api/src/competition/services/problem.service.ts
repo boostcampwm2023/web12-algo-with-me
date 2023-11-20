@@ -6,6 +6,8 @@ import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
 import { CreateProblemDto } from '../dto/create-problem.dto';
+import { ProblemListResponseDto } from '../dto/problem.list.response.dto';
+import { ProblemResponseDto } from '../dto/problem.response.dto';
 import { Problem } from '../entities/problem.entity';
 
 @Injectable()
@@ -22,10 +24,7 @@ export class ProblemService {
   async findAll() {
     const problems = await this.problemRepository.find();
     return problems.map((problem: Problem) => {
-      return {
-        id: problem.id,
-        title: problem.title,
-      };
+      return new ProblemListResponseDto(problem.id, problem.title);
     });
   }
 
@@ -35,14 +34,14 @@ export class ProblemService {
     const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
-    return {
-      id: problem.id,
-      title: problem.title,
-      timeLimit: problem.timeLimit,
-      memoryLimit: problem.memoryLimit,
-      content: content,
-      createdAt: problem.createdAt,
-    };
+    return new ProblemResponseDto(
+      problem.id,
+      problem.title,
+      problem.timeLimit,
+      problem.memoryLimit,
+      content,
+      problem.createdAt,
+    );
   }
 
   // update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
