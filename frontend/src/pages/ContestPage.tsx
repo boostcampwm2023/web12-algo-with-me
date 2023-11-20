@@ -2,16 +2,15 @@ import { css } from '@style/css';
 
 import { useEffect, useState } from 'react';
 
+import ContestBreadCrumb from '@/components/ContestBreadCrumb';
+import Editor from '@/components/Editor';
+import ProblemContent from '@/components/ProblemContent';
+import SubmissionResult from '@/components/SubmissionResult';
+import TestResult from '@/components/TestResult';
+import type { TestCase } from '@/components/types';
 import { SITE } from '@/constants';
+import mockData from '@/mockData.json';
 import evaluator from '@/modules/evaluator';
-
-import mockData from '../mockData.json';
-import ContestBreadCrumb from './ContestBreadCrumb';
-import Editor from './Editor';
-import ProblemContent from './ProblemContent';
-import SubmissionResult from './SubmissionResult';
-import TestResult from './TestResult';
-import type { TestCase } from './types';
 
 const notFoundProblem = {
   title: 'Problem Not Found',
