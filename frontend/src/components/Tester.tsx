@@ -26,4 +26,5 @@ export default function Tester(props: Props) {
 
 const inputStyle = css({
   border: '1px solid black',
+  color: 'black',
 });
