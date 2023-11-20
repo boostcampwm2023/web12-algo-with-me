@@ -1,9 +1,10 @@
+import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from '@src/app.module';
 
-function setSwagger(app) {
+function setSwagger(app: INestApplication<any>) {
   const config = new DocumentBuilder()
     .setTitle('algo-with-me-api')
     .setDescription('algo with me API description')
