@@ -9,6 +9,7 @@ import mockData from '../mockData.json';
 import ContestBreadCrumb from './ContestBreadCrumb';
 import Editor from './Editor';
 import ProblemContent from './ProblemContent';
+import SubmissionResult from './SubmissionResult';
 import TestResult from './TestResult';
 import type { TestCase } from './types';
 
@@ -103,6 +104,9 @@ export default function ContestPage() {
             onTestExec={handleTestExec}
           ></TestResult>
         </div>
+      </section>
+      <section>
+        <SubmissionResult></SubmissionResult>
       </section>
     </main>
   );
