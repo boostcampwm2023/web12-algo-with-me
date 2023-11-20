@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import Loading from './Loading';
 import ResultInfo from './ResultInfo';
-import { type SubmitResult } from './ResultList';
+import type { SubmitResult } from './types';
 
 interface Props {
   isLoaded: boolean;

@@ -21,6 +21,7 @@
     "@uiw/react-codemirror": "^4.21.20",
     "axios": "^1.6.1",
     "codemirror": "^6.0.1",
+    "hast-util-to-jsx-runtime": "^2.2.0",
     "marked": "^2.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

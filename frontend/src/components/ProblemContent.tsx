@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function ProblemContent(props: Props) {
-  const { content } = props.content;
+  const { content } = props;
 
   return (
     <div className={style}>

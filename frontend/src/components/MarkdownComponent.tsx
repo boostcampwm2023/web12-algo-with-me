@@ -1,9 +1,46 @@
 import { css } from '@style/css';
 
+import { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { Components } from 'hast-util-to-jsx-runtime/lib/components';
 import remarkGfm from 'remark-gfm';
-export default function MarkdownComponent(props) {
+
+interface Props {
+  markdownContent: string;
+}
+
+interface TableProps {
+  children: ReactNode;
+}
+
+interface ThProps {
+  children: ReactNode;
+}
+
+interface TdProps {
+  children: ReactNode;
+}
+
+interface CodeProps {
+  inline?: boolean;
+  className?: string;
+  children: ReactNode;
+}
+
+interface UlProps {
+  children: ReactNode;
+}
+
+interface OlProps {
+  children: ReactNode;
+}
+
+interface LiProps {
+  children: ReactNode;
+}
+
+export default function MarkdownComponent(props: Props) {
   const { markdownContent } = props;
 
   return (
@@ -65,17 +102,17 @@ const olStyle = css({
   marginLeft: '20px',
 });
 
-const components = {
-  table: ({ node, children }) => {
+const components: Components = {
+  table: ({ children }: TableProps) => {
     return <table className={tableStyle}>{children}</table>;
   },
-  th: ({ node, children }) => {
+  th: ({ children }: ThProps) => {
     return <th className={thStyle}>{children}</th>;
   },
-  td: ({ node, children }) => {
+  td: ({ children }: TdProps) => {
     return <td className={tdStyle}>{children}</td>;
   },
-  code: ({ node, inline, className, children, ...props }) => {
+  code: ({ inline, className, children, ...props }: CodeProps) => {
     const languageMatchForStyle = /language-(\w+)/.exec(className || '');
 
     return !inline && languageMatchForStyle ? (
@@ -88,13 +125,13 @@ const components = {
       </code>
     );
   },
-  ul: ({ node, children }) => {
+  ul: ({ children }: UlProps) => {
     return <ul className={ulStyle}>{children}</ul>;
   },
-  ol: ({ node, children }) => {
+  ol: ({ children }: OlProps) => {
     return <ol className={olStyle}>{children}</ol>;
   },
-  li: ({ node, children }) => {
+  li: ({ children }: LiProps) => {
     return <li className={listItemStyle}>{children}</li>;
   },
 };

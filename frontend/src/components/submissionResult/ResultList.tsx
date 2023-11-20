@@ -2,16 +2,7 @@ import { css } from '@style/css';
 
 import { useCallback, useEffect, useState } from 'react';
 
-import ResultInfo from './ResultInfoWrapper';
-
-interface SubmitResult {
-  contestId: number;
-  problemId: number;
-  testcaseId: number;
-  resultStatus: number;
-  elapsedTime: number;
-  memoryUsage: number;
-}
+import ResultInfoWrapper from './ResultInfoWrapper';
 
 interface TestcaseLoadInfo {
   [index: string]: boolean;
@@ -84,7 +75,7 @@ export default function ResultList({ testcaseNum, onSetIsAllTestDone }: Props) {
     <ul className={resultListStyle}>
       {Object.keys(testcaseLoadInfo).map((key, i) => (
         <li key={i}>
-          <ResultInfo
+          <ResultInfoWrapper
             isLoaded={testcaseLoadInfo[key]}
             submitResult={resultFilter(Number(key))}
             index={i}
