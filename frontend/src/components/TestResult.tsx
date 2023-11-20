@@ -1,3 +1,5 @@
+import { css } from '@style/css';
+
 import Tester from './Tester';
 import type { TestCase } from './types';
 
@@ -12,7 +14,9 @@ export default function TestResult(props: Props) {
 
   return (
     <div>
-      <button onClick={onTestExec}>테스트 실행</button>
+      <button className={execButtonStyle} onClick={onTestExec}>
+        테스트 실행
+      </button>
       {testCases.map((tc, index) => (
         <Tester
           param={tc.param}
@@ -24,3 +28,7 @@ export default function TestResult(props: Props) {
     </div>
   );
 }
+
+const execButtonStyle = css({
+  color: 'black',
+});
