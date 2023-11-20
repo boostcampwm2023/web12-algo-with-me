@@ -37,7 +37,7 @@ export class ProblemController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: '문제 세부 정보 조회', description: '문제 세부 정보를 조회한다.' })
+  @ApiOperation({ summary: '문제 상세 조회', description: '문제 세부 정보를 조회한다.' })
   @ApiResponse({ type: ProblemResponseDto })
   findOne(@Param('id') id: number) {
     return this.problemService.findOne(id);

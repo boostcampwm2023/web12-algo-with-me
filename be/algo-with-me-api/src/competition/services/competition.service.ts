@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
+import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { Problem } from '../entities/problem.entity';
@@ -28,16 +29,16 @@ export class CompetitionService {
     const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
-    return {
-      id: problem.id,
-      title: problem.title,
-      timeLimit: problem.timeLimit,
-      memoryLimit: problem.memoryLimit,
-      content: content,
-      solutionCode: problem.solutionCode,
-      testcases: '임시',
-      createdAt: problem.createdAt,
-    };
+    return new CompetitionProblemResponseDto(
+      problem.id,
+      problem.title,
+      problem.timeLimit,
+      problem.memoryLimit,
+      content,
+      problem.solutionCode,
+      [{ temp: '임시' }],
+      problem.createdAt,
+    );
   }
 
   async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string) {
