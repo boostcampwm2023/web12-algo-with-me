@@ -2,19 +2,15 @@ import { css } from '@style/css';
 
 import { useEffect, useState } from 'react';
 
+import { SITE } from '@/constants';
 import evaluator from '@/modules/evaluator';
 
 import mockData from '../mockData.json';
+import ContestBreadCrumb from './ContestBreadCrumb';
 import Editor from './Editor';
-import HeaderOfContestPage from './HeaderOfContestPage';
 import ProblemContent from './ProblemContent';
-import ProblemTitle from './ProblemTitle';
-import Tester from './Tester';
-
-type TestCase = {
-  param: string;
-  result: unknown;
-};
+import TestResult from './TestResult';
+import type { TestCase } from './types';
 
 const notFoundProblem = {
   title: 'Problem Not Found',
@@ -29,7 +25,9 @@ const notFoundProblem = {
 const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
-  const [currentProblemId, setcurrentProblemId] = useState(INITIAL_PROBLEM_ID);
+  const CONTEST_NAME = 'Test'; // api로 받을 정보
+
+  const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
   const [code, setCode] = useState<string>(targetProblem.solutionCode);
@@ -87,23 +85,23 @@ export default function ContestPage() {
     setTestCases([...testCases]);
   };
 
+  const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
+
   return (
-    <main>
-      <HeaderOfContestPage title={'test'} problemName={targetProblem.title} />
-      <ProblemTitle problemName={targetProblem.title} />
-      <section className={layout}>
-        <ProblemContent content={targetProblem}></ProblemContent>
-        <div>
-          <Editor code={code} onChangeCode={handleChangeCode} />
-          <button onClick={handleTestExec}>테스트 실행</button>
-          {testCases.map((tc, index) => (
-            <Tester
-              param={tc.param}
-              result={tc.result}
-              onChangeParam={(param: string) => handleChangeParam(index, param)}
-              key={index}
-            ></Tester>
-          ))}
+    <main className={style}>
+      <ContestBreadCrumb crumbs={crumbs} />
+      <section>
+        <span className={problemTitleStyle}>{targetProblem.title}</span>
+      </section>
+      <section className={rowListStyle}>
+        <ProblemContent content={targetProblem.content}></ProblemContent>
+        <div className={colListStyle}>
+          <Editor code={code} onChangeCode={handleChangeCode}></Editor>
+          <TestResult
+            testCases={testCases}
+            onChangeParam={handleChangeParam}
+            onTestExec={handleTestExec}
+          ></TestResult>
         </div>
       </section>
     </main>
@@ -117,6 +115,23 @@ const toEvaluatingState = (testcase: TestCase) => {
   };
 };
 
-const layout = css({
+const style = css({
+  backgroundColor: '#1e1e1e',
+  color: '#ffffff',
+});
+
+const rowListStyle = css({
   display: 'flex',
+});
+
+const colListStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const problemTitleStyle = css({
+  display: 'inline-block',
+  height: '50px',
+  padding: '10px',
+  borderBottom: '2px solid white',
 });
