@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import Tester from './Tester';
+import Simulator from './Simulator';
 import type { TestCase } from './types';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onChangeParam: (index: number, param: string) => void;
 }
 
-export default function TestResult(props: Props) {
+export default function SimulatorList(props: Props) {
   const { testCases, onTestExec, onChangeParam } = props;
 
   return (
@@ -17,14 +17,18 @@ export default function TestResult(props: Props) {
       <button className={execButtonStyle} onClick={onTestExec}>
         테스트 실행
       </button>
-      {testCases.map((tc, index) => (
-        <Tester
-          param={tc.param}
-          result={tc.result}
-          onChangeParam={(param: string) => onChangeParam(index, param)}
-          key={index}
-        ></Tester>
-      ))}
+      <ul>
+        {testCases.map((tc, index) => (
+          <li>
+            <Simulator
+              param={tc.param}
+              result={tc.result}
+              onChangeParam={(param: string) => onChangeParam(index, param)}
+              key={index}
+            ></Simulator>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
