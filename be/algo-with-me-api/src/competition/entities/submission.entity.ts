@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Competition } from './competition.entity';
 import { Problem } from './problem.entity';
 import { RESULT } from '../competition.enums';
 
@@ -30,6 +31,9 @@ export class Submission {
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { nullable: false })
   problem: Problem;
+
+  @ManyToOne(() => Competition, (competition) => competition.submissions)
+  competition: Competition;
 
   @CreateDateColumn()
   createdAt: Date;

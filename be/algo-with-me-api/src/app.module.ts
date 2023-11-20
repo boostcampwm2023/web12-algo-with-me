@@ -7,6 +7,8 @@ import { CompetitionModule } from './competition/competition.module';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 
+import { Competition } from '@src/competition/entities/competition.entity';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,7 +23,7 @@ import { Submission } from './competition/entities/submission.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [Problem, Submission],
+      entities: [Problem, Submission, Competition],
     }),
     BullModule.forRoot({
       redis: {
