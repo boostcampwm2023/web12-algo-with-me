@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { Submission } from './competition/entities/submission.entity';
       },
     }),
     CompetitionModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
