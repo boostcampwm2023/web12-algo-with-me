@@ -25,14 +25,20 @@ export class CompetitionController {
   constructor(private readonly competitionService: CompetitionService) {}
 
   @Get('/:id')
-  @ApiOperation({ summary: '대회 정보 조회' })
+  @ApiOperation({
+    summary: '대회 정보 조회',
+    description: 'URL의 파라미터(`/:id`)로 주어진 대회 id에 해당하는 대회 정보를 조회한다.',
+  })
   @ApiResponse({ type: CompetitionResponseDto })
   async findOne(@Param('id') id: number) {
     return await this.competitionService.findOne(id);
   }
 
   @Post('/')
-  @ApiOperation({ summary: '대회 생성' })
+  @ApiOperation({
+    summary: '대회 생성',
+    description: `주어진 대회 관련 정보를 이용해 대회를 생성한다.`,
+  })
   @ApiResponse({ type: CompetitionResponseDto })
   @UsePipes(new ValidationPipe({ transform: true }))
   create(@Body() createCompetitionDto: CreateCompetitionDto) {
@@ -42,7 +48,7 @@ export class CompetitionController {
   @Put('/:id')
   @ApiOperation({
     summary: '대회 정보 수정',
-    description: `URL의 파라미터(/:id)로 주어진 대회 id에 해당하는 대회 정보를 수정한다.`,
+    description: `URL의 파라미터(\`/:id\`)로 주어진 대회 id에 해당하는 대회 정보를 수정한다. request JSON 중 **수정하기를 원하는 것만** key: value 형식으로 요청한다.`,
   })
   @ApiResponse({})
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -59,8 +65,9 @@ export class CompetitionController {
 
   @Post('scores')
   @ApiOperation({
-    summary: '채점 서버에서 채점 완료시 요청받을 api',
-    description: '채점 서버에서 테스트케이스 별로 채점이 완료될경우 호출할 api',
+    summary: '[백엔드 전용] 채점 서버에서 채점 완료시 요청받을 api',
+    description:
+      '**[프론트엔드에서는 사용되지 않음. 백엔드에서만 사용됨]** 채점 서버에서 테스트케이스 별로 채점이 완료될경우 호출할 api',
   })
   @UsePipes(new ValidationPipe({ transform: true }))
   saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
