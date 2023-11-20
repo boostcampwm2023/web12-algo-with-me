@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { CompetitionService } from '../services/competition.service';
 
+@ApiTags('competitions')
 @Controller('competitions')
 export class CompetitionController {
   constructor(private readonly competitionService: CompetitionService) {}
