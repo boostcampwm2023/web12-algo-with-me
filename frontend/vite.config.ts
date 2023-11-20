@@ -3,6 +3,10 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  server: {
+    open: 'frontend/dist/index.html',
+  },
+  base: '',
   resolve: {
     alias: [
       {
