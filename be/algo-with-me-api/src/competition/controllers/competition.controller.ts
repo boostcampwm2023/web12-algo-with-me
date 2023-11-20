@@ -40,7 +40,7 @@ export class CompetitionController {
     summary: '대회 정보 수정',
     description: `URL의 파라미터(\`/:id\`)로 주어진 대회 id에 해당하는 대회 정보를 수정한다. request JSON 중 **수정하기를 원하는 것만** key: value 형식으로 요청한다.`,
   })
-  @ApiResponse({})
+  @ApiResponse({ type: Boolean })
   @UsePipes(new ValidationPipe({ transform: true }))
   update(@Param('id') id: number, @Body() updateCompetitionDto: UpdateCompetitionDto) {
     return this.competitionService.update(id, updateCompetitionDto);
