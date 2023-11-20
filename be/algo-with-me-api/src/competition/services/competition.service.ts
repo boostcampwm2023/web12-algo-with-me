@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
@@ -14,14 +14,32 @@ import { ScoreResultDto } from '../dto/score-result.dto';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
+import { CreateCompetitionDto } from '@src/competition/dto/create-competition.dto';
+import { UpdateCompetitionDto } from '@src/competition/dto/update-competition.dto';
+import { Competition } from '@src/competition/entities/competition.entity';
+
 @Injectable()
 export class CompetitionService {
   server: Server;
   constructor(
+    @InjectRepository(Competition) private readonly competitionRepository: Repository<Competition>,
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
   ) {}
+
+  async findOne(id: number) {
+    return await this.competitionRepository.findOneBy({ id });
+  }
+
+  async create(createCompetitionDto: CreateCompetitionDto) {
+    return this.competitionRepository.create(createCompetitionDto.toEntity());
+  }
+
+  async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
+    const result = await this.competitionRepository.update({ id: id }, { ...updateCompetitionDto });
+    return !!result.affected;
+  }
 
   async findOneProblem(id: number) {
     const problem = await this.problemRepository.findOneBy({ id });
@@ -55,8 +73,8 @@ export class CompetitionService {
 
     return savedSubmission;
   }
-
   // TODO: 유저, 대회 도메인 구현 이후 수정 필요
+
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
     const submission = await this.submissionRepository.findOneBy({
       id: scoreResultDto.submissionId,
