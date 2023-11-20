@@ -19,10 +19,6 @@ export class Competition {
   @ApiProperty({ description: '대회 id' })
   id: number;
 
-  @ApiProperty({ description: '대회를 개최한 유저의 id' })
-  @Column()
-  userId: number;
-
   @ApiProperty({ description: '대회 이름' })
   @Column()
   name: string;
