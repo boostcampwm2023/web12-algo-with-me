@@ -9,7 +9,7 @@ import { SimulationInputList } from '@/components/Simulation/SimulationInputList
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
-import { useSimulations } from '@/hooks/simulation/useSimulations';
+import { useSimulations } from '@/hooks/simulation';
 import mockData from '@/mockData.json';
 
 const notFoundProblem = {

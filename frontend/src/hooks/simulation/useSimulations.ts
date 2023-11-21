@@ -2,20 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import evaluator from '@/modules/evaluator';
 
-export type Simulation = {
-  id: number;
-  input: string;
-};
-
-export type SimulationResult = {
-  id: number;
-  isDone: boolean;
-  input: string;
-  output: unknown;
-};
+import type { SimulationInput, SimulationResult } from './types';
 
 export const useSimulations = () => {
-  const [simulations, setSimulations] = useState<Simulation[]>([
+  const [simulations, setSimulations] = useState<SimulationInput[]>([
     { id: 1, input: '' },
     { id: 2, input: '' },
     { id: 3, input: '' },

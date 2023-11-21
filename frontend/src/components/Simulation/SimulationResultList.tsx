@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import type { SimulationResult } from '@/hooks/simulation/useSimulations';
+import type { SimulationResult } from '@/hooks/simulation';
 
 interface Props extends HTMLAttributes<HTMLUListElement> {
   resultList: SimulationResult[];
