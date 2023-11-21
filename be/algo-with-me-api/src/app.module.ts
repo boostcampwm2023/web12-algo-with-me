@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
+import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -24,7 +25,7 @@ import { UserModule } from './user/user.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [Problem, Submission, UserModule],
+      entities: [Problem, Submission, UserModule, User],
     }),
     BullModule.forRoot({
       redis: {

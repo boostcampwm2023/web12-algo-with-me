@@ -3,13 +3,17 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-github';
 
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
+
+import { UserResponseDto } from '@src/user/dto/user.response.dto';
+import { UserService } from '@src/user/services/user.service';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(
     configService: ConfigService,
     private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {
     super({
       clientID: configService.get<string>('GITHUB_CLIENT_ID'),
@@ -19,8 +23,10 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     });
   }
 
-  async validate(accessToken: string, _refreshToken: string, profile: Profile) {
-    profile.email = await this.authService.getGithubPrimaryEmail(accessToken);
-    return profile;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async validate(accessToken: string, _refreshToken: string, _profile: Profile) {
+    const email: string = await this.authService.getGithubPrimaryEmail(accessToken);
+    const user: UserResponseDto = await this.userService.saveOrGetByEmail(email);
+    return user;
   }
 }
