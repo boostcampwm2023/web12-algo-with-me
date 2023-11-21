@@ -29,11 +29,14 @@ export class CompetitionService {
   ) {}
 
   async findOne(id: number) {
-    return await this.competitionRepository.findOneBy({ id });
+    const result = await this.competitionRepository.findOneBy({ id });
+    if (result === null)
+      throw new NotFoundException(`대회 id ${id}에 해당하는 대회 정보를 찾을 수 없습니다`);
+    return result;
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
-    return this.competitionRepository.create(createCompetitionDto.toEntity());
+    return this.competitionRepository.save(createCompetitionDto.toEntity());
   }
 
   async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {

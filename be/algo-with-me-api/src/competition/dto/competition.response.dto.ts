@@ -2,6 +2,26 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class CompetitionResponseDto {
+  constructor(
+    id: number,
+    name: string,
+    detail: string,
+    maxParticipants: number,
+    startsAt: string,
+    endsAt: string,
+    createdAt: string,
+    updatedAt: string,
+  ) {
+    this.id = id;
+    this.name = name;
+    this.detail = detail;
+    this.maxParticipants = maxParticipants;
+    this.startsAt = startsAt;
+    this.endsAt = endsAt;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
+
   @ApiProperty({ description: '대회 id' })
   @IsNotEmpty()
   id: number;

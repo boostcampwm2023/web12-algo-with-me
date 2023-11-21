@@ -4,6 +4,20 @@ import { IsNotEmpty } from 'class-validator';
 import { Competition } from '@src/competition/entities/competition.entity';
 
 export class CreateCompetitionDto {
+  constructor(
+    name: string,
+    detail: string,
+    maxParticipants: number,
+    startsAt: string,
+    endsAt: string,
+  ) {
+    this.name = name;
+    this.detail = detail;
+    this.maxParticipants = maxParticipants;
+    this.startsAt = startsAt;
+    this.endsAt = endsAt;
+  }
+
   @ApiProperty({ description: '대회 이름' })
   @IsNotEmpty()
   name: string;

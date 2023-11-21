@@ -31,8 +31,8 @@ export class CompetitionController {
   })
   @ApiResponse({ type: CompetitionResponseDto })
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(@Body() createCompetitionDto: CreateCompetitionDto) {
-    return this.competitionService.create(createCompetitionDto);
+  async create(@Body() createCompetitionDto: CreateCompetitionDto) {
+    return await this.competitionService.create(createCompetitionDto);
   }
 
   @Put('/:id')

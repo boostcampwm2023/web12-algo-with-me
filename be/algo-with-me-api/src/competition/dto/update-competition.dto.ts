@@ -4,6 +4,20 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Competition } from '@src/competition/entities/competition.entity';
 
 export class UpdateCompetitionDto {
+  constructor(
+    name: string,
+    detail: string,
+    maxParticipants: number,
+    startsAt: string,
+    endsAt: string,
+  ) {
+    this.name = name;
+    this.detail = detail;
+    this.maxParticipants = maxParticipants;
+    this.startsAt = startsAt;
+    this.endsAt = endsAt;
+  }
+
   @ApiProperty({ description: '대회 이름' })
   @Optional()
   name: string;
