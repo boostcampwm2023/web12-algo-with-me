@@ -1,4 +1,4 @@
-import evalCode from './evalCode';
+import * as QuickJS from './quickjs';
 import type { EvalMessage } from './types';
 
 type MessageEvent = {
@@ -10,7 +10,7 @@ self.addEventListener('message', async function (e: MessageEvent) {
 
   try {
     const { code, param } = message;
-    const result = evalCode(code, param);
+    const result = await QuickJS.evaluate(code, param);
 
     self.postMessage(result);
   } catch (err) {
