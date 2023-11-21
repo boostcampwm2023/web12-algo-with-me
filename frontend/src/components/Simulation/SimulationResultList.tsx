@@ -6,10 +6,6 @@ interface Props extends HTMLAttributes<HTMLUListElement> {
   resultList: SimulationResult[];
 }
 
-interface SimulResultProps {
-  result: SimulationResult;
-}
-
 export function SimulationResultList(props: Props) {
   const { resultList = [] } = props;
 
@@ -17,21 +13,13 @@ export function SimulationResultList(props: Props) {
     <ul>
       {resultList.map((result) => (
         <li key={result.id}>
-          <SimulResult result={result}></SimulResult>
+          <div>
+            <p>입력: {result.input}</p>
+            <p>결과: {String(result.output)}</p>
+            <hr />
+          </div>
         </li>
       ))}
     </ul>
   );
 }
-
-const SimulResult = (props: SimulResultProps) => {
-  const { result } = props;
-
-  return (
-    <div>
-      <p>입력: {result.input}</p>
-      <p>결과: {String(result.output)}</p>
-      <hr />
-    </div>
-  );
-};
