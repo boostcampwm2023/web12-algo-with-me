@@ -62,9 +62,14 @@ export const useSimulations = () => {
     setSimulations([...simulations]);
   }
 
+  function cancelSimulation() {
+    evaluator.cancelEvaluation();
+  }
+
   return {
     simulations,
     runSimulation,
+    cancelSimulation,
     changeParam,
   };
 };

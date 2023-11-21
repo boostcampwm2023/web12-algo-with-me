@@ -25,7 +25,7 @@ const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
-  const { simulations, runSimulation, changeParam } = useSimulations();
+  const { simulations, runSimulation, changeParam, cancelSimulation } = useSimulations();
   const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
@@ -41,6 +41,10 @@ export default function ContestPage() {
 
   const handleChangeParam = (index: number, newParam: string) => {
     changeParam(index, newParam);
+  };
+
+  const handleSimulationCancel = () => {
+    cancelSimulation();
   };
 
   const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
@@ -59,6 +63,7 @@ export default function ContestPage() {
             simulations={simulations}
             onChangeParam={handleChangeParam}
             onSimulate={handleSimulate}
+            onSimulationCancel={handleSimulationCancel}
           ></SimulatorList>
         </div>
       </section>
