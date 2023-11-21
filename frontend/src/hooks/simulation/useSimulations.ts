@@ -5,7 +5,7 @@ import evaluator from '@/modules/evaluator';
 import type { SimulationInput, SimulationResult } from './types';
 
 export const useSimulations = () => {
-  const [simulations, setSimulations] = useState<SimulationInput[]>([
+  const [simulationInputs, setSimulationInputs] = useState<SimulationInput[]>([
     { id: 1, input: '' },
     { id: 2, input: '' },
     { id: 3, input: '' },
@@ -49,7 +49,9 @@ export const useSimulations = () => {
   }, []);
 
   function runSimulation(code: string) {
-    const tasks = simulations.map(({ id, input }) => evaluator.createEvalMessage(id, code, input));
+    const tasks = simulationInputs.map(({ id, input }) =>
+      evaluator.createEvalMessage(id, code, input),
+    );
 
     const isRequestSuccess = evaluator.evaluate(tasks);
 
@@ -61,18 +63,18 @@ export const useSimulations = () => {
       return simulResults
         .map((simul, index) => ({
           ...simul,
-          input: simulations[index].input,
+          input: simulationInputs[index].input,
         }))
         .map(toEvaluatingState);
     });
   }
 
   function changeInput(targetId: number, newParam: string) {
-    const changedSimulation = simulations.find(({ id }) => id === targetId);
+    const changedSimulation = simulationInputs.find(({ id }) => id === targetId);
     if (changedSimulation) {
       changedSimulation.input = newParam;
     }
-    setSimulations([...simulations]);
+    setSimulationInputs([...simulationInputs]);
   }
 
   function cancelSimulation() {
@@ -80,7 +82,7 @@ export const useSimulations = () => {
   }
 
   return {
-    simulations,
+    simulationInputs,
     simulationResults,
     isSimulating,
     runSimulation,

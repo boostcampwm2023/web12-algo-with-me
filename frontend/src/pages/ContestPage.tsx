@@ -29,7 +29,7 @@ const CANCEL_SIMULATION = '실행 취소';
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
   const {
-    simulations,
+    simulationInputs,
     simulationResults,
     isSimulating,
     runSimulation,
@@ -70,7 +70,7 @@ export default function ContestPage() {
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
           <SimulationInputList
-            inputList={simulations}
+            inputList={simulationInputs}
             onChangeInput={handleChangeInput}
           ></SimulationInputList>
           <SimulationResultList resultList={simulationResults}></SimulationResultList>
