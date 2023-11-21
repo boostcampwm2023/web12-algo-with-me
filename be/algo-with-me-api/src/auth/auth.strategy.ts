@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-github';
+import { ExtractJwt, Strategy as PassportJwtStrategy } from 'passport-jwt';
 
 import { AuthService } from './services/auth.service';
 
@@ -11,7 +12,7 @@ import { UserService } from '@src/user/services/user.service';
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(
-    configService: ConfigService,
+    private readonly configService: ConfigService,
     private readonly authService: AuthService,
     private readonly userService: UserService,
   ) {
@@ -28,5 +29,21 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     const email: string = await this.authService.getGithubPrimaryEmail(accessToken);
     const user: UserResponseDto = await this.userService.saveOrGetByEmail(email);
     return user;
+  }
+}
+
+@Injectable()
+export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
+  constructor(private readonly configservice: ConfigService) {
+    console.log('test', configservice.get<string>('JWT_SECRET'));
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configservice.get<string>('JWT_SECRET'),
+    });
+  }
+
+  async validate(content: any) {
+    return { email: content.email, nickname: content.nickname };
   }
 }

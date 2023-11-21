@@ -53,6 +53,9 @@ dependencies:
   passport-github:
     specifier: ^1.1.0
     version: 1.1.0
+  passport-jwt:
+    specifier: ^4.0.1
+    version: 4.0.1
   pg:
     specifier: ^8.11.3
     version: 8.11.3
@@ -5280,6 +5283,13 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       passport-oauth2: 1.7.0
+    dev: false
+
+  /passport-jwt@4.0.1:
+    resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==}
+    dependencies:
+      jsonwebtoken: 9.0.2
+      passport-strategy: 1.0.0
     dev: false
 
   /passport-oauth2@1.7.0:

@@ -21,4 +21,11 @@ export class AuthController {
     };
     return { accessToken: this.jwtService.sign(content) };
   }
+
+  // 인증 테스트 api
+  @Get('/tests')
+  @UseGuards(AuthGuard('jwt'))
+  test(@Req() req) {
+    return req.user;
+  }
 }
