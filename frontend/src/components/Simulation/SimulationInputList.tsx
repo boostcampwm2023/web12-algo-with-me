@@ -2,10 +2,10 @@ import { css } from '@style/css';
 
 import type { ChangeEvent, HTMLAttributes } from 'react';
 
-import type { Simulation } from '@/hooks/simulation/useSimulations';
+import type { SimulationInput } from '@/hooks/simulation';
 
 interface Props extends HTMLAttributes<HTMLUListElement> {
-  inputList: Simulation[];
+  inputList: SimulationInput[];
   onChangeInput: (index: number, newInput: string) => void;
 }
 
