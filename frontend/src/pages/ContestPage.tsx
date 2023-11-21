@@ -94,7 +94,9 @@ export default function ContestPage() {
         <span className={problemTitleStyle}>{targetProblem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemViewer content={targetProblem.content}></ProblemViewer>
+        <div className={problemViewerStyle}>
+          <ProblemViewer content={targetProblem.content}></ProblemViewer>
+        </div>
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
           <SimulatorList
@@ -137,4 +139,14 @@ const problemTitleStyle = css({
   height: '50px',
   padding: '10px',
   borderBottom: '2px solid white',
+});
+
+const problemViewerStyle = css({
+  width: '450px',
+  height: '500px',
+  backgroundColor: '#1e1e1e',
+  color: '#ffffff',
+  padding: '10px',
+  overflowY: 'auto',
+  whiteSpace: 'pre-wrap',
 });
