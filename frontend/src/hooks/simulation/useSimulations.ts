@@ -4,7 +4,7 @@ import evaluator from '@/modules/evaluator';
 
 export type Simulation = {
   id: number;
-  param: string;
+  input: string;
 };
 
 export type SimulationResult = {
@@ -15,11 +15,11 @@ export type SimulationResult = {
 
 export const useSimulations = () => {
   const [simulations, setSimulations] = useState<Simulation[]>([
-    { id: 1, param: '' },
-    { id: 2, param: '' },
-    { id: 3, param: '' },
-    { id: 4, param: '' },
-    { id: 5, param: '' },
+    { id: 1, input: '' },
+    { id: 2, input: '' },
+    { id: 3, input: '' },
+    { id: 4, input: '' },
+    { id: 5, input: '' },
   ]);
   const [simulationResults, setSimulationResults] = useState<SimulationResult[]>([
     { id: 1, input: '', output: '' },
@@ -53,27 +53,28 @@ export const useSimulations = () => {
   }, []);
 
   function runSimulation(code: string) {
-    const tasks = simulations.map(({ id, param }) => evaluator.createEvalMessage(id, code, param));
+    const tasks = simulations.map(({ id, input }) => evaluator.createEvalMessage(id, code, input));
 
     const isRequestSuccess = evaluator.evaluate(tasks);
-    if (isRequestSuccess) {
-      setSimulationResults((simulResults) => {
-        return simulResults
-          .map((simul, index) => {
-            return {
-              ...simul,
-              input: simulations[index].param,
-            };
-          })
-          .map(toEvaluatingState);
-      });
+
+    if (!isRequestSuccess) {
+      return;
     }
+
+    setSimulationResults((simulResults) => {
+      return simulResults
+        .map((simul, index) => ({
+          ...simul,
+          input: simulations[index].input,
+        }))
+        .map(toEvaluatingState);
+    });
   }
 
-  function changeParam(targetId: number, newParam: string) {
+  function changeInput(targetId: number, newParam: string) {
     const changedSimulation = simulations.find(({ id }) => id === targetId);
     if (changedSimulation) {
-      changedSimulation.param = newParam;
+      changedSimulation.input = newParam;
     }
     setSimulations([...simulations]);
   }
@@ -87,7 +88,7 @@ export const useSimulations = () => {
     simulationResults,
     runSimulation,
     cancelSimulation,
-    changeParam,
+    changeInput,
   };
 };
 
