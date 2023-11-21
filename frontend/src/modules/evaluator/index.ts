@@ -19,6 +19,8 @@ function evaluate(tasks: EvalMessage[]) {
 
   evalManager.queueTasks(tasks);
   evalManager.deployTask();
+
+  return true;
 }
 
 function subscribe(listener: Listener<TaskEndMessage>) {
