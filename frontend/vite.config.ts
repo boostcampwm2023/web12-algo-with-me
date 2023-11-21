@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   server: {
-    open: 'frontend/dist/index.html',
+    open: process.env.NODE_ENV === 'development' ? '' : 'dist/index.html',
   },
   base: '',
   resolve: {
