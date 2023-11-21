@@ -20,8 +20,8 @@ export class CompetitionController {
     description: 'URL의 파라미터(`/:id`)로 주어진 대회 id에 해당하는 대회 정보를 조회한다.',
   })
   @ApiResponse({ type: CompetitionResponseDto })
-  async findOne(@Param('id') id: number) {
-    return await this.competitionService.findOne(id);
+  findOne(@Param('id') id: number) {
+    return this.competitionService.findOne(id);
   }
 
   @Post('/')
@@ -31,8 +31,8 @@ export class CompetitionController {
   })
   @ApiResponse({ type: CompetitionResponseDto })
   @UsePipes(new ValidationPipe({ transform: true }))
-  async create(@Body() createCompetitionDto: CreateCompetitionDto) {
-    return await this.competitionService.create(createCompetitionDto);
+  create(@Body() createCompetitionDto: CreateCompetitionDto) {
+    return this.competitionService.create(createCompetitionDto);
   }
 
   @Put('/:id')

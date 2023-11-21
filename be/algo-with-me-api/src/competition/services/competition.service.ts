@@ -14,6 +14,7 @@ import { ScoreResultDto } from '../dto/score-result.dto';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
+import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
 import { CreateCompetitionDto } from '@src/competition/dto/create-competition.dto';
 import { UpdateCompetitionDto } from '@src/competition/dto/update-competition.dto';
 import { Competition } from '@src/competition/entities/competition.entity';
@@ -30,13 +31,32 @@ export class CompetitionService {
 
   async findOne(id: number) {
     const result = await this.competitionRepository.findOneBy({ id });
-    if (result === null)
+    if (!result)
       throw new NotFoundException(`대회 id ${id}에 해당하는 대회 정보를 찾을 수 없습니다`);
-    return result;
+    return new CompetitionResponseDto(
+      result.id,
+      result.name,
+      result.detail,
+      result.maxParticipants,
+      result.startsAt.toISOString(),
+      result.endsAt.toISOString(),
+      result.createdAt.toISOString(),
+      result.updatedAt.toISOString(),
+    );
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
-    return this.competitionRepository.save(createCompetitionDto.toEntity());
+    const result = await this.competitionRepository.save(createCompetitionDto.toEntity());
+    return new CompetitionResponseDto(
+      result.id,
+      result.name,
+      result.detail,
+      result.maxParticipants,
+      result.startsAt.toISOString(),
+      result.endsAt.toISOString(),
+      result.createdAt.toISOString(),
+      result.updatedAt.toISOString(),
+    );
   }
 
   async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
