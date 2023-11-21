@@ -26,8 +26,14 @@ const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
-  const { simulations, simulationResults, runSimulation, changeInput, cancelSimulation } =
-    useSimulations();
+  const {
+    simulations,
+    simulationResults,
+    isSimulating,
+    runSimulation,
+    changeInput,
+    cancelSimulation,
+  } = useSimulations();
   const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
@@ -66,12 +72,15 @@ export default function ContestPage() {
             onChangeInput={handleChangeInput}
           ></SimulationInputList>
           <SimulationResultList resultList={simulationResults}></SimulationResultList>
-          <button className={execButtonStyle} onClick={handleSimulate}>
-            테스트 실행
-          </button>
-          <button className={execButtonStyle} onClick={handleSimulationCancel}>
-            실행 취소
-          </button>
+          {isSimulating ? (
+            <button className={execButtonStyle} onClick={handleSimulationCancel}>
+              실행 취소
+            </button>
+          ) : (
+            <button className={execButtonStyle} onClick={handleSimulate}>
+              테스트 실행
+            </button>
+          )}
         </div>
       </section>
       <section>
