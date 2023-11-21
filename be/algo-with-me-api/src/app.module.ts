@@ -24,7 +24,7 @@ import { UserModule } from './user/user.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [Problem, Submission],
+      entities: [Problem, Submission, UserModule],
     }),
     BullModule.forRoot({
       redis: {
