@@ -25,7 +25,10 @@ export default class EvalTaskManager {
     this.queuedTasks.push(...tasks);
   }
   isWorking() {
-    return this.queuedTasks.length > 0;
+    const hasTask = this.queuedTasks.length > 0;
+    const hasWorkingEvaluator = this.evaluators.some((evaluator) => !evaluator.isIdle);
+
+    return hasTask || hasWorkingEvaluator;
   }
   popTask() {
     return this.queuedTasks.shift();
