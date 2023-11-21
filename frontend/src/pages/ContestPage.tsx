@@ -17,7 +17,7 @@ const notFoundProblem = {
   memoryLimit: 0,
   content: 'The requested problem could not be found.',
   solutionCode: '',
-  testcases: [],
+  simulations: [],
   createdAt: new Date().toISOString(),
 };
 
@@ -25,7 +25,7 @@ const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
-  const { testCases, runSimulation, changeParam } = useSimulations();
+  const { simulations, runSimulation, changeParam } = useSimulations();
   const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
@@ -35,7 +35,7 @@ export default function ContestPage() {
     setCode(newCode);
   };
 
-  const handleTestExec = () => {
+  const handleSimulate = () => {
     runSimulation(code);
   };
 
@@ -56,9 +56,9 @@ export default function ContestPage() {
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
           <SimulatorList
-            testCases={testCases}
+            simulations={simulations}
             onChangeParam={handleChangeParam}
-            onTestExec={handleTestExec}
+            onSimulate={handleSimulate}
           ></SimulatorList>
         </div>
       </section>
