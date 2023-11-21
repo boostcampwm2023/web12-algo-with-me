@@ -19,5 +19,15 @@ export default defineConfig({
       },
     ],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
+  },
+  worker: {
+    format: 'es',
+  },
   plugins: [react()],
 });
