@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import evaluator from '@/modules/evaluator';
 
@@ -9,6 +9,7 @@ export type Simulation = {
 
 export type SimulationResult = {
   id: number;
+  isDone: boolean;
   input: string;
   output: unknown;
 };
@@ -22,12 +23,15 @@ export const useSimulations = () => {
     { id: 5, input: '' },
   ]);
   const [simulationResults, setSimulationResults] = useState<SimulationResult[]>([
-    { id: 1, input: '', output: '' },
-    { id: 2, input: '', output: '' },
-    { id: 3, input: '', output: '' },
-    { id: 4, input: '', output: '' },
-    { id: 5, input: '', output: '' },
+    { id: 1, isDone: true, input: '', output: '' },
+    { id: 2, isDone: true, input: '', output: '' },
+    { id: 3, isDone: true, input: '', output: '' },
+    { id: 4, isDone: true, input: '', output: '' },
+    { id: 5, isDone: true, input: '', output: '' },
   ]);
+  const isSimulating = useMemo(() => {
+    return simulationResults.some((result) => !result.isDone);
+  }, [simulationResults]);
 
   useEffect(() => {
     return evaluator.subscribe(({ result, error, task }) => {
@@ -40,11 +44,13 @@ export const useSimulations = () => {
           if (error) {
             return {
               ...simul,
+              isDone: true,
               output: `${error.name}: ${error.message} \n${error.stack}`,
             };
           }
           return {
             ...simul,
+            isDone: true,
             output: result,
           };
         });
@@ -86,6 +92,7 @@ export const useSimulations = () => {
   return {
     simulations,
     simulationResults,
+    isSimulating,
     runSimulation,
     cancelSimulation,
     changeInput,
@@ -96,5 +103,6 @@ const toEvaluatingState = (simulation: SimulationResult) => {
   return {
     ...simulation,
     output: '계산중...',
+    isDone: false,
   };
 };
