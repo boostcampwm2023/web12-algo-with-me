@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
-import Markdown from '@/components/Problem/Markdown';
+import ProblemViewer from '@/components/Problem/ProblemViewer';
 import SimulatorList from '@/components/Simulation/SimulatorList';
 import type { TestCase } from '@/components/Simulation/types';
 import SubmissionResult from '@/components/SubmissionResult';
@@ -94,9 +94,7 @@ export default function ContestPage() {
         <span className={problemTitleStyle}>{targetProblem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <div className={problemViewerStyle}>
-          <Markdown markdownContent={targetProblem.content} />
-        </div>
+        <ProblemViewer content={targetProblem.content} />
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
           <SimulatorList
@@ -139,14 +137,4 @@ const problemTitleStyle = css({
   height: '50px',
   padding: '10px',
   borderBottom: '2px solid white',
-});
-
-const problemViewerStyle = css({
-  width: '450px',
-  height: '500px',
-  backgroundColor: '#1e1e1e',
-  color: '#ffffff',
-  padding: '10px',
-  overflowY: 'auto',
-  whiteSpace: 'pre-wrap',
 });

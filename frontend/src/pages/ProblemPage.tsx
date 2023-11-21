@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import { useState } from 'react';
 
-import Markdown from '@/components/Problem/Markdown';
+import ProblemViewer from '@/components/Problem/ProblemViewer';
 import mockData from '@/mockData.json';
 
 const notFoundProblem = {
@@ -25,9 +25,7 @@ function ProblemPage() {
   return (
     <main className={style}>
       <span className={problemTitleStyle}>{targetProblem.title}</span>
-      <div className={problemViewerStyle}>
-        <Markdown markdownContent={targetProblem.content} />
-      </div>
+      <ProblemViewer content={targetProblem.content} />
     </main>
   );
 }
@@ -37,16 +35,6 @@ export default ProblemPage;
 const style = css({
   backgroundColor: '#1e1e1e',
   color: '#ffffff',
-});
-
-const problemViewerStyle = css({
-  width: '450px',
-  height: '500px',
-  backgroundColor: '#1e1e1e',
-  color: '#ffffff',
-  padding: '10px',
-  overflowY: 'auto',
-  whiteSpace: 'pre-wrap',
 });
 
 const problemTitleStyle = css({
