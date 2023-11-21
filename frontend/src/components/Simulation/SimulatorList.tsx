@@ -1,28 +1,29 @@
 import { css } from '@style/css';
 
+import type { Simulation } from '@/hooks/simulation/useSimulations';
+
 import Simulator from './Simulator';
-import type { TestCase } from './types';
 
 interface Props {
-  testCases: TestCase[];
-  onTestExec: () => void;
+  simulations: Simulation[];
+  onSimulate: () => void;
   onChangeParam: (index: number, param: string) => void;
 }
 
 export default function SimulatorList(props: Props) {
-  const { testCases, onTestExec, onChangeParam } = props;
+  const { simulations, onSimulate, onChangeParam } = props;
 
   return (
     <div>
-      <button className={execButtonStyle} onClick={onTestExec}>
+      <button className={execButtonStyle} onClick={onSimulate}>
         테스트 실행
       </button>
       <ul>
-        {testCases.map((tc, index) => (
+        {simulations.map(({ param, result }, index) => (
           <li>
             <Simulator
-              param={tc.param}
-              result={tc.result}
+              param={param}
+              result={result}
               onChangeParam={(param: string) => onChangeParam(index, param)}
               key={index}
             ></Simulator>

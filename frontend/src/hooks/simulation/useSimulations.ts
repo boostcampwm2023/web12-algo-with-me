@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import type { TestCase } from '@/components/Simulation/types';
 import evaluator from '@/modules/evaluator';
 
+export type Simulation = {
+  param: string;
+  result: unknown;
+};
+
 export const useSimulations = () => {
-  const [testCases, setTestCases] = useState<TestCase[]>([
+  const [simulations, setSimulations] = useState<Simulation[]>([
     { param: '', result: '' },
     { param: '', result: '' },
     { param: '', result: '' },
@@ -18,18 +22,18 @@ export const useSimulations = () => {
 
       const taskId = task.clientId;
 
-      setTestCases((oldTestCases) => {
-        return oldTestCases.map((tc, index) => {
-          if (index !== taskId) return tc;
+      setSimulations((oldSimulations) => {
+        return oldSimulations.map((simul, index) => {
+          if (index !== taskId) return simul;
 
           if (error) {
             return {
-              ...tc,
+              ...simul,
               result: `${error.name}: ${error.message} \n${error.stack}`,
             };
           }
           return {
-            ...tc,
+            ...simul,
             result,
           };
         });
@@ -38,34 +42,36 @@ export const useSimulations = () => {
   }, []);
 
   function runSimulation(code: string) {
-    const tasks = testCases.map((tc, index) => evaluator.createEvalMessage(index, code, tc.param));
+    const tasks = simulations.map(({ param }, index) =>
+      evaluator.createEvalMessage(index, code, param),
+    );
 
     const isRequestSuccess = evaluator.evaluate(tasks);
     if (isRequestSuccess) {
-      setTestCases((oldTestCases) => {
-        return oldTestCases.map(toEvaluatingState);
+      setSimulations((simulations) => {
+        return simulations.map(toEvaluatingState);
       });
     }
   }
 
   function changeParam(index: number, newParam: string) {
-    const changedTestCase = testCases.find((_, i) => i === index);
-    if (changedTestCase) {
-      changedTestCase.param = newParam;
+    const changedSimulation = simulations.find((_, i) => i === index);
+    if (changedSimulation) {
+      changedSimulation.param = newParam;
     }
-    setTestCases([...testCases]);
+    setSimulations([...simulations]);
   }
 
   return {
-    testCases,
+    simulations,
     runSimulation,
     changeParam,
   };
 };
 
-const toEvaluatingState = (testcase: TestCase) => {
+const toEvaluatingState = (simulation: Simulation) => {
   return {
-    ...testcase,
+    ...simulation,
     result: '계산중...',
   };
 };
