@@ -3,9 +3,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
+import { User } from './user/entities/user.entity';
+import { UserModule } from './user/user.module';
 
 import { Competition } from '@src/competition/entities/competition.entity';
 
@@ -23,7 +26,7 @@ import { Competition } from '@src/competition/entities/competition.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [Problem, Submission, Competition],
+      entities: [Problem, Submission, Competition, User],
     }),
     BullModule.forRoot({
       redis: {
@@ -33,6 +36,8 @@ import { Competition } from '@src/competition/entities/competition.entity';
       },
     }),
     CompetitionModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
