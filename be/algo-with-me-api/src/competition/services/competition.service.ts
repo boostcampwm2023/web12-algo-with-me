@@ -44,7 +44,7 @@ export class CompetitionService {
   async findOneProblem(id: number) {
     const problem = await this.problemRepository.findOneBy({ id });
     const fileName = id.toString() + '.md';
-    const paths = path.join(process.env.PROBLEM_PATH, id.toString(), fileName);
+    const paths = path.join(process.env.PROBLEM_PATH, fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
     return new CompetitionProblemResponseDto(
