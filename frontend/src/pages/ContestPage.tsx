@@ -5,8 +5,8 @@ import { useState } from 'react';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import { SimulationResult } from '@/components/Simulation/SimulationResult';
-import Simulator from '@/components/Simulation/Simulator';
+import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
+import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
 import { useSimulations } from '@/hooks/simulation/useSimulations';
@@ -26,7 +26,7 @@ const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
-  const { simulations, simulationResults, runSimulation, changeParam, cancelSimulation } =
+  const { simulations, simulationResults, runSimulation, changeInput, cancelSimulation } =
     useSimulations();
   const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
@@ -45,8 +45,8 @@ export default function ContestPage() {
     cancelSimulation();
   };
 
-  const handleChangeParam = (id: number, newParam: string) => {
-    changeParam(id, newParam);
+  const handleChangeInput = (id: number, newParam: string) => {
+    changeInput(id, newParam);
   };
 
   const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
@@ -61,30 +61,18 @@ export default function ContestPage() {
         <ProblemViewer content={targetProblem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
-          <ul>
-            {simulations.map(({ param, id }) => (
-              <li key={id}>
-                <Simulator
-                  param={param}
-                  onChangeParam={(newParam: string) => handleChangeParam(id, newParam)}
-                ></Simulator>
-              </li>
-            ))}
-          </ul>
-          <ul>
-            {simulationResults.map((result) => (
-              <li key={result.id}>
-                <SimulationResult result={result}></SimulationResult>
-              </li>
-            ))}
-          </ul>
+          <SimulationInputList
+            inputList={simulations}
+            onChangeInput={handleChangeInput}
+          ></SimulationInputList>
+          <SimulationResultList resultList={simulationResults}></SimulationResultList>
+          <button className={execButtonStyle} onClick={handleSimulate}>
+            테스트 실행
+          </button>
+          <button className={execButtonStyle} onClick={handleSimulationCancel}>
+            실행 취소
+          </button>
         </div>
-        <button className={execButtonStyle} onClick={handleSimulate}>
-          테스트 실행
-        </button>
-        <button className={execButtonStyle} onClick={handleSimulationCancel}>
-          실행 취소
-        </button>
       </section>
       <section>
         <SubmissionResult></SubmissionResult>
