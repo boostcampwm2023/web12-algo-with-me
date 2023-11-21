@@ -1,26 +1,19 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('auth')
+@ApiTags('인증(auths)')
+@Controller('auths')
 export class AuthController {
   constructor() {}
 
   @Get()
   @UseGuards(AuthGuard('github'))
-  async login() {
-    //
-  }
+  async login() {}
 
-  @Get('test')
-  @UseGuards(AuthGuard('github'))
-  async test() {
-    //
-  }
-
-  @Get('callback')
+  @Get('github/callback')
   @UseGuards(AuthGuard('github'))
   async authCallback(@Req() req) {
-    // console.log(req);
     return req.user;
   }
 }

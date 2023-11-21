@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
@@ -31,6 +32,10 @@ import { UserModule } from './user/user.module';
         port: parseInt(process.env.REDIS_PORT),
         password: process.env.REDIS_PASSWORD,
       },
+    }),
+    JwtModule.register({
+      signOptions: { expiresIn: process.env.JWT_ACCESSTOKEN_EXPIRE_TIME },
+      secret: process.env.JWT_SECRET,
     }),
     CompetitionModule,
     AuthModule,

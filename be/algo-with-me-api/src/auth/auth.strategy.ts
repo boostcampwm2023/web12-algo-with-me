@@ -3,9 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-github';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
-  constructor(configService: ConfigService) {
+  constructor(
+    configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {
     super({
       clientID: configService.get<string>('GITHUB_CLIENT_ID'),
       clientSecret: configService.get<string>('GITHUB_CLIENT_SECRET'),
@@ -15,23 +20,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   }
 
   async validate(accessToken: string, _refreshToken: string, profile: Profile) {
-    profile.email = await this.getPrimaryEmail(accessToken);
+    profile.email = await this.authService.getGithubPrimaryEmail(accessToken);
     return profile;
-  }
-
-  async getPrimaryEmail(accessToken: string) {
-    const res: Response = await fetch('https://api.github.com/user/emails', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    // github에 primary로 등록된 이메일을 가져온다.
-    const emails: object[] = await res.json();
-    const email = emails.find((element) => {
-      if (element['primary']) return element;
-    });
-    return email['email'];
   }
 }
