@@ -23,6 +23,8 @@ const notFoundProblem = {
 };
 
 const INITIAL_PROBLEM_ID = 6;
+const RUN_SIMULATION = '테스트 실행';
+const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
@@ -74,11 +76,11 @@ export default function ContestPage() {
           <SimulationResultList resultList={simulationResults}></SimulationResultList>
           {isSimulating ? (
             <button className={execButtonStyle} onClick={handleSimulationCancel}>
-              실행 취소
+              {CANCEL_SIMULATION}
             </button>
           ) : (
             <button className={execButtonStyle} onClick={handleSimulate}>
-              테스트 실행
+              {RUN_SIMULATION}
             </button>
           )}
         </div>
