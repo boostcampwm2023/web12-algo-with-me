@@ -26,13 +26,12 @@ const createRuntime = (quickjs: QuickJSWASMModule) => {
 };
 
 const evalCode = (vm: QuickJSContext, code: string, params: string) => {
-  const script = wrapCodeWithTemplate(code, params);
+  const script = toRunableScript(code, params);
 
   const startTime = performance.now();
   const result = vm.unwrapResult(vm.evalCode(script));
   const endTime = performance.now();
   const value = vm.dump(result);
-
   result.dispose();
 
   return {
@@ -41,7 +40,7 @@ const evalCode = (vm: QuickJSContext, code: string, params: string) => {
   };
 };
 
-const wrapCodeWithTemplate = (code: string, params: string) => {
+const toRunableScript = (code: string, params: string) => {
   return `
     ${code}\n
     solution(${params});
