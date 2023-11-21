@@ -6,6 +6,11 @@ export type EvalMessage = {
 };
 
 export type EvalResult = {
+  error?: {
+    name: string;
+    message: string;
+    stack: string;
+  };
   result: unknown;
 };
 

@@ -44,20 +44,21 @@ export default function ContestPage() {
   };
 
   useEffect(() => {
-    return evaluator.subscribe(({ result, task }) => {
+    return evaluator.subscribe(({ result, error, task }) => {
       if (!task) return;
 
       const taskId = task.clientId;
-
-      const evaluatedTestcase = testCases.find((_, index) => index === taskId);
-      if (evaluatedTestcase) {
-        evaluatedTestcase.result = String(result);
-      }
 
       setTestCases((oldTestCases) => {
         return oldTestCases.map((tc, index) => {
           if (index !== taskId) return tc;
 
+          if (error) {
+            return {
+              ...tc,
+              result: `${error.name}: ${error.message} \n${error.stack}`,
+            };
+          }
           return {
             ...tc,
             result,

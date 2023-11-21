@@ -45,9 +45,10 @@ export default class EvalTaskManager {
       this.deployTask();
     }
   }
-  receiveTaskEnd({ result }: EvalResult, evaluator: Evaluator) {
+  receiveTaskEnd({ result, error }: EvalResult, evaluator: Evaluator) {
     this.taskEndNotifier.notify({
       result,
+      error,
       task: evaluator.currentTask,
     });
 
