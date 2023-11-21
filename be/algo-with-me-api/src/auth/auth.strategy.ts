@@ -35,7 +35,6 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 @Injectable()
 export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
   constructor(private readonly configservice: ConfigService) {
-    console.log('test', configservice.get<string>('JWT_SECRET'));
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -44,6 +43,6 @@ export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
   }
 
   async validate(content: any) {
-    return { email: content.email, nickname: content.nickname };
+    return { email: content.sub, nickname: content.nickname };
   }
 }

@@ -1,19 +1,27 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('인증(auths)')
 @Controller('auths')
 export class AuthController {
   constructor(private jwtService: JwtService) {}
 
-  @Get()
+  @Get('github')
+  @ApiOperation({
+    summary: 'github 로그인/회원가입',
+    description: 'github 로그인/회원가입 api 입니다.',
+  })
   @UseGuards(AuthGuard('github'))
   async login() {}
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
+  @ApiOperation({
+    summary: '깃허브 인증 완료시 리다이렉트 되는 api',
+    description: '깃허브 인증이 완료되면 리다이렉트 되는 api 입니다. accessToken을 반환합니다.',
+  })
   async authCallback(@Req() req) {
     const content = {
       sub: req.user.email,
