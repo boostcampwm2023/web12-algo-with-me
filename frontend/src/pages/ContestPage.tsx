@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
-import ProblemViewer from '@/components/Problem/ProblemViewer';
+import Markdown from '@/components/Problem/Markdown';
 import SimulatorList from '@/components/Simulation/SimulatorList';
 import type { TestCase } from '@/components/Simulation/types';
 import SubmissionResult from '@/components/SubmissionResult';
@@ -95,7 +95,7 @@ export default function ContestPage() {
       </section>
       <section className={rowListStyle}>
         <div className={problemViewerStyle}>
-          <ProblemViewer content={targetProblem.content}></ProblemViewer>
+          <Markdown markdownContent={targetProblem.content} />
         </div>
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>

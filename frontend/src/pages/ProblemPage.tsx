@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import { useState } from 'react';
 
-import ProblemViewer from '@/components/Problem/ProblemViewer';
+import Markdown from '@/components/Problem/Markdown';
 import mockData from '@/mockData.json';
 
 const notFoundProblem = {
@@ -26,7 +26,7 @@ function ProblemPage() {
     <main className={style}>
       <span className={problemTitleStyle}>{targetProblem.title}</span>
       <div className={problemViewerStyle}>
-        <ProblemViewer content={targetProblem.content} />
+        <Markdown markdownContent={targetProblem.content} />
       </div>
     </main>
   );
