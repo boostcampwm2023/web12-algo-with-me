@@ -10,9 +10,11 @@ export default function ContestBreadCrumb(props: Props) {
   return (
     <header>
       <div className={titleContainerStyle}>
-        {crumbs.map((crumb) => {
-          return <span className={crumbStyle}>{crumb}</span>;
-        })}
+        {crumbs.map((crumb, index) => (
+          <span key={index} className={crumbStyle}>
+            {crumb}
+          </span>
+        ))}
       </div>
     </header>
   );
