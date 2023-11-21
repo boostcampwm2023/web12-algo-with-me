@@ -62,10 +62,14 @@ export default function ContestPage() {
           <SimulatorList
             simulations={simulations}
             onChangeParam={handleChangeParam}
-            onSimulate={handleSimulate}
-            onSimulationCancel={handleSimulationCancel}
           ></SimulatorList>
         </div>
+        <button className={execButtonStyle} onClick={handleSimulate}>
+          테스트 실행
+        </button>
+        <button className={execButtonStyle} onClick={handleSimulationCancel}>
+          실행 취소
+        </button>
       </section>
       <section>
         <SubmissionResult></SubmissionResult>
@@ -93,4 +97,8 @@ const problemTitleStyle = css({
   height: '50px',
   padding: '10px',
   borderBottom: '2px solid white',
+});
+
+const execButtonStyle = css({
+  color: 'black',
 });
