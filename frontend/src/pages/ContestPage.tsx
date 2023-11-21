@@ -5,7 +5,8 @@ import { useState } from 'react';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import SimulatorList from '@/components/Simulation/SimulatorList';
+import { SimulationResult } from '@/components/Simulation/SimulationResult';
+import Simulator from '@/components/Simulation/Simulator';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
 import { useSimulations } from '@/hooks/simulation/useSimulations';
@@ -25,7 +26,8 @@ const INITIAL_PROBLEM_ID = 6;
 
 export default function ContestPage() {
   const CONTEST_NAME = 'Test'; // api로 받을 정보
-  const { simulations, runSimulation, changeParam, cancelSimulation } = useSimulations();
+  const { simulations, simulationResults, runSimulation, changeParam, cancelSimulation } =
+    useSimulations();
   const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
   const targetProblem =
     mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
@@ -39,12 +41,12 @@ export default function ContestPage() {
     runSimulation(code);
   };
 
-  const handleChangeParam = (index: number, newParam: string) => {
-    changeParam(index, newParam);
-  };
-
   const handleSimulationCancel = () => {
     cancelSimulation();
+  };
+
+  const handleChangeParam = (id: number, newParam: string) => {
+    changeParam(id, newParam);
   };
 
   const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
@@ -59,10 +61,23 @@ export default function ContestPage() {
         <ProblemViewer content={targetProblem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={code} onChangeCode={handleChangeCode}></Editor>
-          <SimulatorList
-            simulations={simulations}
-            onChangeParam={handleChangeParam}
-          ></SimulatorList>
+          <ul>
+            {simulations.map(({ param, id }) => (
+              <li key={id}>
+                <Simulator
+                  param={param}
+                  onChangeParam={(newParam: string) => handleChangeParam(id, newParam)}
+                ></Simulator>
+              </li>
+            ))}
+          </ul>
+          <ul>
+            {simulationResults.map((result) => (
+              <li key={result.id}>
+                <SimulationResult result={result}></SimulationResult>
+              </li>
+            ))}
+          </ul>
         </div>
         <button className={execButtonStyle} onClick={handleSimulate}>
           테스트 실행
