@@ -31,18 +31,36 @@ const evalCode = (vm: QuickJSContext, code: string, params: string) => {
   const startTime = performance.now();
   const result = vm.unwrapResult(vm.evalCode(script));
   const endTime = performance.now();
-  const value = vm.dump(result);
+  const { error, value } = vm.dump(result);
   result.dispose();
 
   return {
     time: endTime - startTime,
     result: value,
+    error,
   };
 };
 
 const toRunableScript = (code: string, params: string) => {
   return `
     ${code}\n
-    solution(${params});
+
+    (()=>{
+      try {
+        const result = solution(${params});
+        return {
+          value: result,
+          error: undefined
+        }
+      } catch(err) {
+        return {
+          error: { 
+            name: err.name, 
+            message: err.message,
+            stack: err.stack
+          }
+        }
+      }
+    })()
   `;
 };
