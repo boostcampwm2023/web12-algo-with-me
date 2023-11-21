@@ -7,16 +7,20 @@ import Simulator from './Simulator';
 interface Props {
   simulations: Simulation[];
   onSimulate: () => void;
+  onSimulationCancel: () => void;
   onChangeParam: (index: number, param: string) => void;
 }
 
 export default function SimulatorList(props: Props) {
-  const { simulations, onSimulate, onChangeParam } = props;
+  const { simulations, onSimulate, onSimulationCancel, onChangeParam } = props;
 
   return (
     <div>
       <button className={execButtonStyle} onClick={onSimulate}>
         테스트 실행
+      </button>
+      <button className={execButtonStyle} onClick={onSimulationCancel}>
+        실행 취소
       </button>
       <ul>
         {simulations.map(({ param, result }, index) => (

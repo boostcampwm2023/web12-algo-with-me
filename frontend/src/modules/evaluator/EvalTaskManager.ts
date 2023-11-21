@@ -12,6 +12,10 @@ export default class EvalTaskManager {
     this.taskEndNotifier = taskEndNotifier;
     this.evaluators = evaluators;
 
+    this.setupEvaluators();
+  }
+
+  setupEvaluators() {
     this.evaluators.forEach((evaluator) => {
       const { worker } = evaluator;
       const handleWorkerMessage = ({ data }: MessageEvent<EvalResult>) => {
@@ -58,5 +62,29 @@ export default class EvalTaskManager {
     evaluator.isIdle = true;
     evaluator.currentTask = null;
     this.deployTask();
+  }
+  notifyTaskCanceled(task: EvalMessage | null) {
+    this.taskEndNotifier.notify({
+      result: undefined,
+      error: {
+        name: 'Error',
+        message: '실행 중단',
+        stack: '',
+      },
+      task,
+    });
+  }
+  cancelTasks() {
+    const readyTasks = [...this.queuedTasks];
+    const workingTasks = this.evaluators.map(({ currentTask }) => currentTask);
+
+    [...readyTasks, ...workingTasks].forEach((task) => {
+      this.notifyTaskCanceled(task);
+    });
+    this.queuedTasks = [];
+  }
+  setNewWorkers(evaluators: Evaluator[]) {
+    this.evaluators = evaluators;
+    this.setupEvaluators();
   }
 }

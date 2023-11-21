@@ -23,12 +23,21 @@ function evaluate(tasks: EvalMessage[]) {
   return true;
 }
 
+function cancelEvaluation() {
+  evalWorkers.forEach(({ worker }) => worker.terminate());
+  evalManager.cancelTasks();
+
+  const newEvalWorkers = range(0, TOTAL_WORKERS).map(createEvaluator);
+  evalManager.setNewWorkers(newEvalWorkers);
+}
+
 function subscribe(listener: Listener<TaskEndMessage>) {
   taskEndNotifier.subscribe(listener);
 }
 
 export default {
   evaluate,
+  cancelEvaluation,
   subscribe,
   createEvalMessage,
 };
