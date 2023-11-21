@@ -11,9 +11,11 @@ import { CompetitionService } from './services/competition.service';
 import { ProblemService } from './services/problem.service';
 import { SubmissionConsumer } from './tem.consumer';
 
+import { Competition } from '@src/competition/entities/competition.entity';
+
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Problem, Submission]),
+    TypeOrmModule.forFeature([Problem, Submission, Competition]),
     BullModule.registerQueue({
       name: process.env.REDIS_MESSAGE_QUEUE_NAME,
     }),
