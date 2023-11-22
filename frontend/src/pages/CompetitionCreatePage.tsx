@@ -1,13 +1,21 @@
 import { css } from '@style/css';
 
-import type { ChangeEvent, HTMLAttributes } from 'react';
-import { useState } from 'react';
+import type { ChangeEvent, HTMLAttributes, MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { formatDate, toLocalDate } from '@/utils/date';
 
 import axios from 'axios';
 
+type ProblemId = number;
+type ProblemInfo = {
+  id: ProblemId;
+  title: string;
+};
+
 export default function CompetitionCreatePage() {
+  const navigate = useNavigate();
   const [name, setName] = useState<string>('');
   const [detail, setDetail] = useState<string>('');
   const [maxParticipants, setMaxParticipants] = useState<number>(0);
@@ -17,6 +25,19 @@ export default function CompetitionCreatePage() {
 
   const [startsAt, setStartsAt] = useState<string>(currentDateStr);
   const [endsAt, setEndsAt] = useState<string>(currentDateStr);
+  const [pickedProblemIds, setPickedProblemIds] = useState<ProblemId[]>([]);
+  const [allProblems, setAllProblems] = useState<ProblemInfo[]>([]);
+
+  useEffect(() => {
+    async function fetchProblemList() {
+      const res = await axios.get('http://101.101.208.240:3000/problems');
+      const problems = res.data;
+
+      setAllProblems(problems);
+    }
+
+    fetchProblemList();
+  }, []);
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
@@ -43,21 +64,36 @@ export default function CompetitionCreatePage() {
     setEndsAt(newEndsAt);
   }
 
-  const handleSubmitCompetition = async () => {
-    // TODO: problems추가하기
+  function handleSelectProblem(e: MouseEvent<HTMLUListElement>) {
+    const $target = (e.target as HTMLUListElement).closest('li');
+    if (!$target) return;
+
+    const problemId = Number($target.dataset['problemId']);
+
+    if (pickedProblemIds.includes(problemId)) {
+      setPickedProblemIds((ids) => ids.filter((id) => id !== problemId));
+    } else {
+      setPickedProblemIds((ids) => [...ids, problemId]);
+    }
+  }
+
+  async function handleSubmitCompetition() {
     const data = {
       name,
       detail,
       maxParticipants,
       startsAt: new Date(startsAt).toISOString(),
       endsAt: new Date(endsAt).toISOString(),
+      problems: pickedProblemIds,
     };
-    await axios.post('http://101.101.208.240:3000/competitions', data);
-  };
+    const res = await axios.post('http://101.101.208.240:3000/competitions', data);
+    const { id } = res.data;
+
+    navigate(`/contest/detail/${id}`);
+  }
 
   return (
     <main>
-      <h1>대회 생성</h1>
       <fieldset className={fieldSetStyle}>
         <Label>
           <Label.Text>대회 이름</Label.Text>
@@ -115,6 +151,23 @@ export default function CompetitionCreatePage() {
             required
           ></input>
         </Label>
+        <ul onClick={handleSelectProblem}>
+          {allProblems.map(({ id, title }) => (
+            <li key={id} data-problem-id={id}>
+              <span>
+                {id}: {title}
+              </span>
+              {pickedProblemIds.includes(id) ? <button>취소</button> : <button>선택</button>}
+            </li>
+          ))}
+        </ul>
+        <div>
+          <ul>
+            {pickedProblemIds.map((problemId) => (
+              <li key={problemId}>{problemId}</li>
+            ))}
+          </ul>
+        </div>
       </fieldset>
       <button id="create-competition" onClick={handleSubmitCompetition}>
         대회 생성
