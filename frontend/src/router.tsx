@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        path: '/contest/:id',
         element: <ContestPage />,
       },
       {
