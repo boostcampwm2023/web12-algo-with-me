@@ -151,9 +151,7 @@ export default function CompetitionCreatePage() {
         </ul>
         <div>선택된 문제: {[...pickedProblemIds].sort().join(',')}</div>
       </fieldset>
-      <button id="create-competition" onClick={handleSubmitCompetition}>
-        대회 생성
-      </button>
+      <button onClick={handleSubmitCompetition}>대회 생성</button>
     </main>
   );
 }
