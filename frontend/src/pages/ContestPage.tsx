@@ -25,7 +25,7 @@ interface Competition {
   updatedAt: string;
 }
 
-interface Problem {
+interface CompetitionProblem {
   id: number;
   title: string;
   timeLimit: number;
@@ -47,7 +47,7 @@ const notFoundCompetition: Competition = {
   updatedAt: 'Competition Not Found',
 };
 
-const notFoundProblem: Problem = {
+const notFoundProblem: CompetitionProblem = {
   id: 0,
   title: 'Problem Not Found',
   timeLimit: 0,
@@ -71,12 +71,12 @@ export default function ContestPage() {
     cancelSimulation,
   } = useSimulations();
   const { id } = useParams<{ id: string }>();
-  const competitionId = id ? parseInt(id, 10) : null;
+  const competitionId: number = id ? parseInt(id, 10) : -1;
   const [competition, setCompetition] = useState<Competition | null>(notFoundCompetition);
   const currentProblemId = 0; // TODO: 문제 선택 로직 작성시 currentProblemId를 바꿀 수 있게 해야함
 
   const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
-  const [problemList, setProblemList] = useState<Problem[]>([notFoundProblem]);
+  const [problemList, setProblemList] = useState<CompetitionProblem[]>([notFoundProblem]);
 
   const [code, setCode] = useState<string>(notFoundProblem.solutionCode);
 
@@ -116,7 +116,7 @@ export default function ContestPage() {
       try {
         const responses = await Promise.all(problemRequests);
         const newProblemList = responses.map((response) => response.data);
-        setProblemList(newProblemList || notFoundProblem);
+        setProblemList(newProblemList || [notFoundProblem]);
       } catch (error) {
         console.error('Error fetching problem data:', error);
       }
@@ -125,25 +125,19 @@ export default function ContestPage() {
     fetchProblems();
   }, []);
 
-  const crumbs = [
-    SITE.NAME,
-    competition?.name || notFoundCompetition.name,
-    problemList[currentProblemId].title,
-  ];
+  const currentProblem = problemList[currentProblemId];
+  const crumbs = [SITE.NAME, competition?.name || notFoundCompetition.name, currentProblem.title];
 
   return (
     <main className={style}>
       <ContestBreadCrumb crumbs={crumbs} />
       <section>
-        <span className={problemTitleStyle}>{problemList[currentProblemId].title}</span>
+        <span className={problemTitleStyle}>{currentProblem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemViewer content={problemList[currentProblemId].content}></ProblemViewer>
+        <ProblemViewer content={currentProblem.content}></ProblemViewer>
         <div className={colListStyle}>
-          <Editor
-            code={problemList[currentProblemId].solutionCode}
-            onChangeCode={handleChangeCode}
-          ></Editor>
+          <Editor code={currentProblem.solutionCode} onChangeCode={handleChangeCode}></Editor>
           <SimulationInputList
             inputList={simulationInputs}
             onChangeInput={handleChangeInput}
