@@ -1,13 +1,13 @@
 import { css } from '@style/css';
 
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CompetitionForm, createCompetition } from '@/apis/competitions';
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
-import { fetchProblemList } from '@/apis/problems';
 import { Input } from '@/components/Common';
+import { useProblemList } from '@/hooks/problem/useProblemList';
 import { formatDate, toLocalDate } from '@/utils/date';
 import { isNil } from '@/utils/type';
 
@@ -22,18 +22,7 @@ export default function CompetitionCreatePage() {
 
   const [startsAt, setStartsAt] = useState<string>(currentDateStr);
   const [endsAt, setEndsAt] = useState<string>(currentDateStr);
-  const [pickedProblemIds, setPickedProblemIds] = useState<ProblemId[]>([]);
-  const [allProblems, setAllProblems] = useState<ProblemInfo[]>([]);
-
-  async function updateProblemList() {
-    const problems = await fetchProblemList();
-
-    setAllProblems(problems);
-  }
-
-  useEffect(() => {
-    updateProblemList();
-  }, []);
+  const { pickedProblemIds, allProblems, togglePickedProblem } = useProblemList();
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
@@ -61,11 +50,7 @@ export default function CompetitionCreatePage() {
   }
 
   function handleSelectProblem(problemId: ProblemId) {
-    if (pickedProblemIds.includes(problemId)) {
-      setPickedProblemIds((ids) => ids.filter((id) => id !== problemId));
-    } else {
-      setPickedProblemIds((ids) => [...ids, problemId]);
-    }
+    togglePickedProblem(problemId);
   }
 
   async function handleSubmitCompetition() {
@@ -136,7 +121,7 @@ export default function CompetitionCreatePage() {
           pickedProblemIds={pickedProblemIds}
           onSelectProblem={handleSelectProblem}
         ></ProblemList>
-        <div>선택된 문제: {[...pickedProblemIds].sort().join(',')}</div>
+        <div>선택된 문제: {[...pickedProblemIds].join(',')}</div>
       </fieldset>
       <button onClick={handleSubmitCompetition}>대회 생성</button>
     </main>
