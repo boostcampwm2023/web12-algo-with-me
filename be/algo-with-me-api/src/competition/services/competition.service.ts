@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
@@ -41,16 +41,34 @@ export class CompetitionService {
     });
   }
 
-  async findOne(id: number) {
-    const result = await this.competitionRepository.findOneBy({ id });
-    if (!result)
-      throw new NotFoundException(`대회 id ${id}에 해당하는 대회 정보를 찾을 수 없습니다`);
-    return CompetitionResponseDto.from(result);
+  async findOne(competitionId: number) {
+    const competition = await this.competitionRepository.findOneBy({ id: competitionId });
+    const problems = await this.competitionProblemRepository.find({
+      select: {
+        problem: { id: true },
+      },
+      where: {
+        competition: { id: competitionId },
+      },
+      relations: {
+        problem: true,
+      },
+    });
+    const problemIds = problems.map((element) => element.problem.id);
+    if (!competition)
+      throw new NotFoundException(
+        `대회 id ${competitionId}에 해당하는 대회 정보를 찾을 수 없습니다`,
+      );
+    if (!problems)
+      throw new NotFoundException(
+        `대회 id ${competitionId}에 해당하는 문제 리스트를 찾는 데에 실패했습니다`,
+      );
+    return CompetitionResponseDto.from({ ...competition, problemIds });
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
-    const result = await this.competitionRepository.save(createCompetitionDto.toEntity());
-    return CompetitionResponseDto.from(result);
+    // const result = await this.competitionRepository.save(createCompetitionDto.toEntity());
+    // return CompetitionResponseDto.from(result);
   }
 
   async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
