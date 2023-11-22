@@ -4,27 +4,57 @@ import JoinCompetitionButton from '@/components/Commoms/Buttons/JoinCompetitionB
 import ViewDashboardButton from '@/components/Commoms/Buttons/ViewDashboardButton';
 
 const generateMockData = () => {
+  // API배포가 완료되면 삭제 에정
   return [
     {
       id: 1,
-      name: '모의 대회 1',
-      startsAt: '2023-12-01T12:00:00.000Z',
-      endsAt: '2023-12-05T18:00:00.000Z',
-      maxParticipants: 50,
+      name: '테스트 대회 이름',
+      detail: '테스트 대회 설명',
+      maxParticipants: 70,
+      startsAt: '2023-11-14T08:35:24.358Z',
+      endsAt: '2023-11-20T12:13:04.005Z',
+      createdAt: '2023-11-14T08:35:24.358Z',
+      updatedAt: '2023-11-21T02:28:43.955Z',
     },
     {
       id: 2,
-      name: '모의 대회 2',
-      startsAt: '2023-12-10T10:00:00.000Z',
-      endsAt: '2023-12-15T16:00:00.000Z',
-      maxParticipants: 30,
+      name: 'ICPC 서울',
+      detail: '이거슨 아이씨피씨입니다',
+      maxParticipants: 1000,
+      startsAt: '2023-11-21T07:10:44.456Z',
+      endsAt: '2023-11-21T10:10:44.456Z',
+      createdAt: '2023-11-21T07:50:58.686Z',
+      updatedAt: '2023-11-21T07:50:58.686Z',
     },
     {
       id: 3,
-      name: '모의 대회 3',
-      startsAt: '2023-11-10T10:00:00.000Z',
-      endsAt: '2023-11-16T16:00:00.000Z',
-      maxParticipants: 30,
+      name: '천하제일코딩대회',
+      detail: '^오^',
+      maxParticipants: 10,
+      startsAt: '2023-11-21T07:10:44.456Z',
+      endsAt: '2023-11-21T10:10:44.456Z',
+      createdAt: '2023-11-21T07:57:07.563Z',
+      updatedAt: '2023-11-21T07:57:07.563Z',
+    },
+    {
+      id: 4,
+      name: 'fe테스트대회',
+      detail: '가나다라마바사',
+      maxParticipants: 3,
+      startsAt: '2023-11-22T01:20:00.000Z',
+      endsAt: '2023-11-23T01:20:00.000Z',
+      createdAt: '2023-11-22T10:22:03.723Z',
+      updatedAt: '2023-11-22T10:22:03.723Z',
+    },
+    {
+      id: 5,
+      name: '가나다라',
+      detail: '마바사아자차카타파하',
+      maxParticipants: 3,
+      startsAt: '2023-11-23T03:00:00.000Z',
+      endsAt: '2023-11-23T04:00:00.000Z',
+      createdAt: '2023-11-22T12:00:46.942Z',
+      updatedAt: '2023-11-22T12:00:46.942Z',
     },
   ];
 };
@@ -44,22 +74,24 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 
   if (endDate.getTime() < now.getTime()) {
     return '종료';
+  } else if (startDate.getTime() > now.getTime()) {
+    const timeDiff = startDate.getTime() - now.getTime();
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+    return `시작까지 ${days}일 ${hours}:${minutes}:${seconds}`;
+  } else {
+    return '진행중';
   }
-
-  const timeDiff = startDate.getTime() - now.getTime();
-  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-  return `시작까지 ${days}일 ${hours}:${minutes}:${seconds}`;
 }
 
-function MainList() {
+export default function MainList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
   useEffect(() => {
-    // 실제 API 요청 대신 목업 데이터 사용
+    // 실제 API 요청 대신 목업 데이터 사용 -> TODO: API배포가 완료되면 API처리하는 코드로 바꿔야함
     const mockData = generateMockData();
     setCompetitions(mockData);
   }, []);
@@ -97,5 +129,3 @@ function MainList() {
     </div>
   );
 }
-
-export default MainList;
