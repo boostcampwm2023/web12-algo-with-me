@@ -18,27 +18,30 @@ interface Problem {
 
 const PROBLEM_API_ENDPOINT = 'http://101.101.208.240:3000/problems/';
 
+const fetchProblem = async (
+  problemId: number,
+  setProblem: (problem: Problem | null) => void,
+  setLoading: (loading: boolean) => void,
+) => {
+  try {
+    const response = await axios.get<Problem>(`${PROBLEM_API_ENDPOINT}${problemId}`);
+    const data = response.data;
+    setProblem(data);
+  } catch (error) {
+    console.error('Error fetching problem:', (error as Error).message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 function ProblemPage() {
   const { id } = useParams<{ id: string }>();
-  const problemId = id ? parseInt(id, 10) : null;
+  const problemId = id ? parseInt(id, 10) : -1;
   const [problem, setProblem] = useState<Problem | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProblem = async () => {
-      try {
-        const response = await axios.get<Problem>(`${PROBLEM_API_ENDPOINT}${problemId}`);
-        const data = response.data;
-
-        setProblem(data);
-      } catch (error) {
-        console.error('Error fetching problem:', (error as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProblem();
+    fetchProblem(problemId, setProblem, setLoading);
   }, [problemId]);
 
   if (loading) {

@@ -27,19 +27,18 @@ const notFoundProblem: CompetitionProblem = {
 export const useProblem = (problemId: number) => {
   const [problem, setProblem] = useState<CompetitionProblem>(notFoundProblem);
 
+  const fetchProblem = async (id: number) => {
+    try {
+      const response = await axios.get(`http://101.101.208.240:3000/competitions/problems/${id}`);
+      const fetchedProblem = response.data;
+      setProblem(fetchedProblem || notFoundProblem);
+    } catch (error) {
+      console.error('Error fetching problem data:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProblem = async () => {
-      try {
-        const response = await axios.get(
-          `http://101.101.208.240:3000/competitions/problems/${problemId}`,
-        );
-        const problem = response.data;
-        setProblem(problem || [notFoundProblem]);
-      } catch (error) {
-        console.error('Error fetching problem data:', error);
-      }
-    };
-    fetchProblem();
+    fetchProblem(problemId);
   }, [problemId]);
 
   return {
