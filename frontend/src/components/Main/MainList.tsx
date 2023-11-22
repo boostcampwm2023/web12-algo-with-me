@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import JoinCompetitionButton from '@/commons/Buttons/JoinCompetitionButton';
-import ViewDashboardButton from '@/commons/Buttons/ViewDashboardButton';
+import JoinCompetitionButton from '@/components/Commoms/Buttons/JoinCompetitionButton';
+import ViewDashboardButton from '@/components/Commoms/Buttons/ViewDashboardButton';
 
 const generateMockData = () => {
   return [

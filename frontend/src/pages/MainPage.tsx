@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import CreateCompetitionButton from '@/commons/Buttons/CreateCompetitionButton';
+import CreateCompetitionButton from '@/components/Commoms/Buttons/CreateCompetitionButton';
 import MainList from '@/components/Main/MainList';
 import { SITE } from '@/constants';
 
