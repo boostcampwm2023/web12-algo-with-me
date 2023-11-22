@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import CompetitionCreatePage from '@/pages/CompetitionCreatePage';
 import ContestPage from '@/pages/ContestPage';
+import CreateCompetitionPage from '@/pages/CreateCompetitionPage';
 import ProblemPage from '@/pages/ProblemPage';
 
 import App from './App';
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/competition/create',
-        element: <CompetitionCreatePage />,
+        element: <CreateCompetitionPage />,
       },
     ],
   },
