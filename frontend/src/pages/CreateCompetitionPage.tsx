@@ -14,7 +14,7 @@ export default function CompetitionCreatePage() {
   const navigate = useNavigate();
 
   const form = useCompetitionForm();
-  const { pickedProblemIds, allProblems, togglePickedProblem } = useProblemList();
+  const { allProblems } = useProblemList();
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
@@ -42,13 +42,12 @@ export default function CompetitionCreatePage() {
   }
 
   function handleSelectProblem(problemId: ProblemId) {
-    togglePickedProblem(problemId);
+    form.togglePickedProblem(problemId);
   }
 
   async function handleSubmitCompetition() {
     const competitionForm = {
       ...form.getAllFormData(),
-      problems: pickedProblemIds,
     } satisfies CompetitionForm;
 
     const competitionInfo = await createCompetition(competitionForm);
@@ -106,10 +105,10 @@ export default function CompetitionCreatePage() {
         </Input>
         <ProblemList
           allProblems={allProblems}
-          pickedProblemIds={pickedProblemIds}
+          pickedProblemIds={form.problems}
           onSelectProblem={handleSelectProblem}
         ></ProblemList>
-        <div>선택된 문제: {[...pickedProblemIds].join(',')}</div>
+        <div>선택된 문제: {[...form.problems].join(',')}</div>
       </fieldset>
       <button onClick={handleSubmitCompetition}>대회 생성</button>
     </main>

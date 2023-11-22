@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import type { CompetitionForm } from '@/apis/competitions';
+import type { ProblemId } from '@/apis/problems';
 import { formatDate, toLocalDate } from '@/utils/date';
 
 export function useCompetitionForm(initialForm?: Partial<CompetitionForm>) {
@@ -15,6 +16,15 @@ export function useCompetitionForm(initialForm?: Partial<CompetitionForm>) {
 
   const [startsAt, setStartsAt] = useState<string>(initialForm.startsAt ?? currentDateStr);
   const [endsAt, setEndsAt] = useState<string>(initialForm.endsAt ?? currentDateStr);
+  const [problems, setProblems] = useState<ProblemId[]>([]);
+
+  function togglePickedProblem(problemId: ProblemId) {
+    if (problems.includes(problemId)) {
+      setProblems((ids) => ids.filter((id) => id !== problemId).sort());
+    } else {
+      setProblems((ids) => [...ids, problemId].sort());
+    }
+  }
 
   function getAllFormData() {
     return {
@@ -23,6 +33,7 @@ export function useCompetitionForm(initialForm?: Partial<CompetitionForm>) {
       maxParticipants,
       startsAt: new Date(startsAt).toISOString(),
       endsAt: new Date(endsAt).toISOString(),
+      problems,
     };
   }
 
@@ -32,11 +43,13 @@ export function useCompetitionForm(initialForm?: Partial<CompetitionForm>) {
     maxParticipants,
     startsAt,
     endsAt,
+    problems,
     setName,
     setDetail,
     setMaxParticipants,
     setStartsAt,
     setEndsAt,
+    togglePickedProblem,
     getAllFormData,
   };
 }
