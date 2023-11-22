@@ -15,10 +15,20 @@ import { CompetitionResponseDto } from '@src/competition/dto/competition.respons
 export class CompetitionController {
   constructor(private readonly competitionService: CompetitionService) {}
 
+  @Get('/')
+  @ApiOperation({
+    summary: '대회 정보 전체 조회',
+    description: '모든 대회 정보를 조회한다.',
+  })
+  @ApiResponse({ type: CompetitionResponseDto })
+  findAll() {
+    return this.competitionService.findAll();
+  }
+
   @Get('/:competitionId')
   @ApiOperation({
-    summary: '대회 정보 조회',
-    description: 'URL의 파라미터(`/:id`)로 주어진 대회 id에 해당하는 대회 정보를 조회한다.',
+    summary: '대회 세부 정보 조회',
+    description: 'URL의 파라미터(`/:id`)로 주어진 대회 id에 해당하는 대회 세부 정보를 조회한다.',
   })
   @ApiResponse({ type: CompetitionResponseDto })
   findOne(@Param('competitionId') competitionId: number) {
