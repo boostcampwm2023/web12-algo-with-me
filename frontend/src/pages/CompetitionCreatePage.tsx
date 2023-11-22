@@ -4,15 +4,11 @@ import type { ChangeEvent, HTMLAttributes, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { ProblemId, ProblemInfo } from '@/apis/problems';
+import { fetchProblemList } from '@/apis/problems';
 import { formatDate, toLocalDate } from '@/utils/date';
 
 import axios from 'axios';
-
-type ProblemId = number;
-type ProblemInfo = {
-  id: ProblemId;
-  title: string;
-};
 
 export default function CompetitionCreatePage() {
   const navigate = useNavigate();
@@ -28,15 +24,14 @@ export default function CompetitionCreatePage() {
   const [pickedProblemIds, setPickedProblemIds] = useState<ProblemId[]>([]);
   const [allProblems, setAllProblems] = useState<ProblemInfo[]>([]);
 
+  async function updateProblemList() {
+    const problems = await fetchProblemList();
+
+    setAllProblems(problems);
+  }
+
   useEffect(() => {
-    async function fetchProblemList() {
-      const res = await axios.get('http://101.101.208.240:3000/problems');
-      const problems = res.data;
-
-      setAllProblems(problems);
-    }
-
-    fetchProblemList();
+    updateProblemList();
   }, []);
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
