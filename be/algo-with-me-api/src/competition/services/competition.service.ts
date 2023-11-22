@@ -17,6 +17,7 @@ import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
 import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
+import { CompetitionSimpleResponseDto } from '@src/competition/dto/competition.simple-response.dto';
 import { CreateCompetitionDto } from '@src/competition/dto/create-competition.dto';
 import { UpdateCompetitionDto } from '@src/competition/dto/update-competition.dto';
 import { Competition } from '@src/competition/entities/competition.entity';
@@ -32,6 +33,22 @@ export class CompetitionService {
     private readonly competitionProblemRepository: Repository<CompetitionProblem>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
   ) {}
+
+  async findAll() {
+    const competitionList = await this.competitionRepository.find();
+    return competitionList.map((competition) => {
+      return new CompetitionSimpleResponseDto(
+        competition.id,
+        competition.name,
+        competition.detail,
+        competition.maxParticipants,
+        competition.startsAt.toISOString(),
+        competition.endsAt.toISOString(),
+        competition.createdAt.toISOString(),
+        competition.updatedAt.toISOString(),
+      );
+    });
+  }
 
   async findOne(id: number) {
     const result = await this.competitionRepository.findOneBy({ id });
