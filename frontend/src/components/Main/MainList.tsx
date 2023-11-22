@@ -3,8 +3,8 @@ import { css } from '@style/css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import JoinCompetitionButton from '@/components/Commoms/Buttons/JoinCompetitionButton';
-import ViewDashboardButton from '@/components/Commoms/Buttons/ViewDashboardButton';
+import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
+import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
 const generateMockData = () => {
   // API배포가 완료되면 삭제 에정
   return [
@@ -69,6 +69,15 @@ interface Competition {
   maxParticipants: number;
 }
 
+function calculateTimeDiff(timeDiff: number) {
+  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+  return { days, hours, minutes, seconds };
+}
+
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
   const startDate = new Date(startsAt);
@@ -78,10 +87,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
     return '종료';
   } else if (startDate.getTime() > now.getTime()) {
     const timeDiff = startDate.getTime() - now.getTime();
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    const { days, hours, minutes, seconds } = calculateTimeDiff(timeDiff);
 
     return `시작까지 ${days}일 ${hours}:${minutes}:${seconds}`;
   } else {

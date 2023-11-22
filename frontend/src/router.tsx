@@ -13,16 +13,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <MainPage />,
+      },
+      {
         path: '/contest/:id',
         element: <ContestPage />,
       },
       {
         path: '/problem/:id',
         element: <ProblemPage />,
-      },
-      {
-        path: '/main',
-        element: <MainPage />,
       },
     ],
   },
