@@ -1,8 +1,10 @@
+import { css } from '@style/css';
+
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import JoinCompetitionButton from '@/components/Commoms/Buttons/JoinCompetitionButton';
 import ViewDashboardButton from '@/components/Commoms/Buttons/ViewDashboardButton';
-
 const generateMockData = () => {
   // API배포가 완료되면 삭제 에정
   return [
@@ -89,6 +91,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 
 export default function MainList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 실제 API 요청 대신 목업 데이터 사용 -> TODO: API배포가 완료되면 API처리하는 코드로 바꿔야함
@@ -96,6 +99,10 @@ export default function MainList() {
     setCompetitions(mockData);
   }, []);
 
+  const handleCompetitionClick = (id: number) => {
+    navigate(`/contest/detail/${id}`);
+  };
+  // TODO: 대회 시작 전에 들어와서 대회가 시작된 뒤에 참여 버튼을 누르면 서버에서 거절하고 화면에 alert을 띄우고 새로고침
   return (
     <div>
       <table>
@@ -112,12 +119,19 @@ export default function MainList() {
         <tbody>
           {competitions.map((competition) => (
             <tr key={competition.id}>
-              <td>{competition.name}</td>
+              <td>
+                <span
+                  className={competitionDetailLinkStyle}
+                  onClick={() => handleCompetitionClick(competition.id)}
+                >
+                  {competition.name}
+                </span>
+              </td>
               <td>{new Date(competition.startsAt).toLocaleString()}</td>
               <td>{new Date(competition.endsAt).toLocaleString()}</td>
               <td>{formatTimeRemaining(competition.startsAt, competition.endsAt)}</td>
               <td>
-                <JoinCompetitionButton />
+                {competition.startsAt > new Date().toISOString() && <JoinCompetitionButton />}
               </td>
               <td>
                 <ViewDashboardButton id={competition.id} />
@@ -129,3 +143,9 @@ export default function MainList() {
     </div>
   );
 }
+
+const competitionDetailLinkStyle = css({
+  color: 'blue',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+});
