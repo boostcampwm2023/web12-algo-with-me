@@ -140,7 +140,10 @@ export default function ContestPage() {
       <section className={rowListStyle}>
         <ProblemViewer content={problemList[currentProblemId].content}></ProblemViewer>
         <div className={colListStyle}>
-          <Editor code={code} onChangeCode={handleChangeCode}></Editor>
+          <Editor
+            code={problemList[currentProblemId].solutionCode}
+            onChangeCode={handleChangeCode}
+          ></Editor>
           <SimulationInputList
             inputList={simulationInputs}
             onChangeInput={handleChangeInput}
