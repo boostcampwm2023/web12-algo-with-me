@@ -12,10 +12,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        path: '/contest/:id',
         element: <ContestPage />,
       },
       {
-        path: '/problem/:id', // TODO: api 연동 후 수정
+        path: '/problem/:id',
         element: <ProblemPage />,
       },
     ],
