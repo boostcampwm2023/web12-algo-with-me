@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as process from 'node:process';
 
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { Problem } from './score/entities/problem.entity';
 import { Submission } from './score/entities/submission.entity';
 import { ScoreModule } from './score/score.module';
@@ -32,9 +34,12 @@ import { ScoreModule } from './score/score.module';
         password: process.env.REDIS_PASSWORD,
       },
     }),
+    BullModule.registerQueue({
+      name: 'testQueue',
+    }),
     ScoreModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
