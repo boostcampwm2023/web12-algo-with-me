@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-import { Competition } from '@src/competition/entities/competition.entity';
-
 export class CompetitionResponseDto {
   constructor(
     id: number,
@@ -11,6 +9,7 @@ export class CompetitionResponseDto {
     maxParticipants: number,
     startsAt: string,
     endsAt: string,
+    problems: number[],
     createdAt: string,
     updatedAt: string,
   ) {
@@ -20,6 +19,7 @@ export class CompetitionResponseDto {
     this.maxParticipants = maxParticipants;
     this.startsAt = startsAt;
     this.endsAt = endsAt;
+    this.problemIds = problems;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -48,6 +48,10 @@ export class CompetitionResponseDto {
   @IsNotEmpty()
   endsAt: string;
 
+  @ApiProperty({ description: '대회에 사용되는 문제 id 리스트' })
+  @IsNotEmpty()
+  problemIds: number[];
+
   @ApiProperty({ description: '레코드 생성 일시 (ISO string)' })
   @IsNotEmpty()
   createdAt: string;
@@ -56,16 +60,27 @@ export class CompetitionResponseDto {
   @IsNotEmpty()
   updatedAt: string;
 
-  static from(competition: Competition) {
+  static from(args: {
+    id: number;
+    name: string;
+    detail: string;
+    maxParticipants: number;
+    startsAt: Date;
+    endsAt: Date;
+    problemIds: number[];
+    createdAt: Date;
+    updatedAt: Date;
+  }) {
     return new CompetitionResponseDto(
-      competition.id,
-      competition.name,
-      competition.detail,
-      competition.maxParticipants,
-      competition.startsAt.toISOString(),
-      competition.endsAt.toISOString(),
-      competition.createdAt.toISOString(),
-      competition.updatedAt.toISOString(),
+      args.id,
+      args.name,
+      args.detail,
+      args.maxParticipants,
+      args.startsAt.toISOString(),
+      args.endsAt.toISOString(),
+      args.problemIds,
+      args.createdAt.toISOString(),
+      args.updatedAt.toISOString(),
     );
   }
 }
