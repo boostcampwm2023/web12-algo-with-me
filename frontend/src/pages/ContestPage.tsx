@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
@@ -10,58 +10,17 @@ import { SimulationInputList } from '@/components/Simulation/SimulationInputList
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
+import { useCompetition } from '@/hooks/competition/useCompetition';
+import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
-
-import axios from 'axios';
-
-interface Competition {
-  id: number;
-  name: string;
-  detail: string;
-  maxParticipants: number;
-  startsAt: string;
-  endsAt: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface CompetitionProblem {
-  id: number;
-  title: string;
-  timeLimit: number;
-  memoryLimit: number;
-  content: string;
-  createdAt: string;
-  solutionCode: string;
-  testcases: string;
-}
-
-const notFoundCompetition: Competition = {
-  id: 0,
-  name: 'Competition Not Found',
-  detail: 'Competition Not Found',
-  maxParticipants: 0,
-  startsAt: 'Competition Not Found',
-  endsAt: 'Competition Not Found',
-  createdAt: 'Competition Not Found',
-  updatedAt: 'Competition Not Found',
-};
-
-const notFoundProblem: CompetitionProblem = {
-  id: 0,
-  title: 'Problem Not Found',
-  timeLimit: 0,
-  memoryLimit: 0,
-  content: 'The requested problem could not be found.',
-  solutionCode: '',
-  testcases: '',
-  createdAt: new Date().toISOString(),
-};
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
+  const { id } = useParams<{ id: string }>();
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+
   const {
     simulationInputs,
     simulationResults,
@@ -70,15 +29,18 @@ export default function ContestPage() {
     changeInput,
     cancelSimulation,
   } = useSimulations();
-  const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
-  const [competition, setCompetition] = useState<Competition | null>(notFoundCompetition);
-  const currentProblemId = 0; // TODO: 문제 선택 로직 작성시 currentProblemId를 바꿀 수 있게 해야함
 
-  const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
-  const [problemList, setProblemList] = useState<CompetitionProblem[]>([notFoundProblem]);
+  const { problems, competition } = useCompetition(competitionId);
+  const currentProblemId = useMemo(() => {
+    return problems[currentProblemIndex];
+  }, [problems, currentProblemIndex]);
 
-  const [code, setCode] = useState<string>(notFoundProblem.solutionCode);
+  const { problem } = useProblem(currentProblemId);
+
+  const [code, setCode] = useState<string>(problem.solutionCode);
+
+  const crumbs = [SITE.NAME, competition.name, problem.title];
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -96,48 +58,21 @@ export default function ContestPage() {
     changeInput(id, newParam);
   };
 
-  useEffect(() => {
-    axios
-      .get(`http://101.101.208.240:3000/competitions/${competitionId}`)
-      .then((response) => {
-        setCompetition(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching competition data:', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const fetchProblems = async () => {
-      const problemRequests = problems.map((problemId) =>
-        axios.get(`http://101.101.208.240:3000/competitions/problems/${problemId}`),
-      );
-
-      try {
-        const responses = await Promise.all(problemRequests);
-        const newProblemList = responses.map((response) => response.data);
-        setProblemList(newProblemList || [notFoundProblem]);
-      } catch (error) {
-        console.error('Error fetching problem data:', error);
-      }
-    };
-
-    fetchProblems();
-  }, []);
-
-  const currentProblem = problemList[currentProblemId];
-  const crumbs = [SITE.NAME, competition?.name || notFoundCompetition.name, currentProblem.title];
+  const handleNextProblem = () => {
+    setCurrentProblemIndex(currentProblemIndex + 1);
+  };
 
   return (
     <main className={style}>
+      <button onClick={handleNextProblem}>다음 문제</button>
       <ContestBreadCrumb crumbs={crumbs} />
       <section>
-        <span className={problemTitleStyle}>{currentProblem.title}</span>
+        <span className={problemTitleStyle}>{problem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemViewer content={currentProblem.content}></ProblemViewer>
+        <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
-          <Editor code={currentProblem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+          <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
           <SimulationInputList
             inputList={simulationInputs}
             onChangeInput={handleChangeInput}
