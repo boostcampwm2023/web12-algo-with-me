@@ -6,8 +6,8 @@ import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
 import { CreateProblemDto } from '../dto/create-problem.dto';
-import { ProblemListResponseDto } from '../dto/problem.list.response.dto';
 import { ProblemResponseDto } from '../dto/problem.response.dto';
+import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { Problem } from '../entities/problem.entity';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ProblemService {
   async findAll() {
     const problems = await this.problemRepository.find();
     return problems.map((problem: Problem) => {
-      return new ProblemListResponseDto(problem.id, problem.title);
+      return new ProblemSimpleResponseDto(problem.id, problem.title);
     });
   }
 

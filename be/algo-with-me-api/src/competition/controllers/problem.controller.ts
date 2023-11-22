@@ -11,8 +11,8 @@ import {
 import { ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateProblemDto } from '../dto/create-problem.dto';
-import { ProblemListResponseDto } from '../dto/problem.list.response.dto';
 import { ProblemResponseDto } from '../dto/problem.response.dto';
+import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { Problem } from '../entities/problem.entity';
 import { ProblemService } from '../services/problem.service';
 
@@ -31,7 +31,7 @@ export class ProblemController {
 
   @Get()
   @ApiOperation({ summary: '문제 전체 조회', description: '문제 목록을 조회한다.' })
-  @ApiResponse({ type: ProblemListResponseDto, isArray: true })
+  @ApiResponse({ type: ProblemSimpleResponseDto, isArray: true })
   findAll() {
     return this.problemService.findAll();
   }
