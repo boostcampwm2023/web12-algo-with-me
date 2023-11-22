@@ -19,7 +19,13 @@ const generateMockData = () => {
       endsAt: '2023-12-15T16:00:00.000Z',
       maxParticipants: 30,
     },
-    // 추가적인 목업 데이터
+    {
+      id: 3,
+      name: '모의 대회 3',
+      startsAt: '2023-11-10T10:00:00.000Z',
+      endsAt: '2023-11-16T16:00:00.000Z',
+      maxParticipants: 30,
+    },
   ];
 };
 
@@ -31,11 +37,16 @@ interface Competition {
   maxParticipants: number;
 }
 
-function formatTimeRemaining(startsAt: string): string {
+function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
   const startDate = new Date(startsAt);
-  const timeDiff = startDate.getTime() - now.getTime();
+  const endDate = new Date(endsAt);
 
+  if (endDate.getTime() < now.getTime()) {
+    return '종료';
+  }
+
+  const timeDiff = startDate.getTime() - now.getTime();
   const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -72,7 +83,7 @@ function MainList() {
               <td>{competition.name}</td>
               <td>{new Date(competition.startsAt).toLocaleString()}</td>
               <td>{new Date(competition.endsAt).toLocaleString()}</td>
-              <td>{formatTimeRemaining(competition.startsAt)}</td>
+              <td>{formatTimeRemaining(competition.startsAt, competition.endsAt)}</td>
               <td>
                 <JoinCompetitionButton />
               </td>
