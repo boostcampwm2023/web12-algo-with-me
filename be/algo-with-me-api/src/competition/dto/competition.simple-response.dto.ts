@@ -55,4 +55,17 @@ export class CompetitionSimpleResponseDto {
   @ApiProperty({ description: '레코드 수정 일시 (ISO string)' })
   @IsNotEmpty()
   updatedAt: string;
+
+  static from(competition: Competition) {
+    return new CompetitionSimpleResponseDto(
+      competition.id,
+      competition.name,
+      competition.detail,
+      competition.maxParticipants,
+      competition.startsAt.toISOString(),
+      competition.endsAt.toISOString(),
+      competition.createdAt.toISOString(),
+      competition.updatedAt.toISOString(),
+    );
+  }
 }

@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
+import { Competition } from '@src/competition/entities/competition.entity';
+
 export class CompetitionResponseDto {
   constructor(
     id: number,
@@ -53,4 +55,17 @@ export class CompetitionResponseDto {
   @ApiProperty({ description: '레코드 수정 일시 (ISO string)' })
   @IsNotEmpty()
   updatedAt: string;
+
+  static from(competition: Competition) {
+    return new CompetitionResponseDto(
+      competition.id,
+      competition.name,
+      competition.detail,
+      competition.maxParticipants,
+      competition.startsAt.toISOString(),
+      competition.endsAt.toISOString(),
+      competition.createdAt.toISOString(),
+      competition.updatedAt.toISOString(),
+    );
+  }
 }
