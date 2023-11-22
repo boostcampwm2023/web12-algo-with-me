@@ -15,14 +15,14 @@ import { CompetitionResponseDto } from '@src/competition/dto/competition.respons
 export class CompetitionController {
   constructor(private readonly competitionService: CompetitionService) {}
 
-  @Get('/:id')
+  @Get('/:competitionId')
   @ApiOperation({
     summary: '대회 정보 조회',
     description: 'URL의 파라미터(`/:id`)로 주어진 대회 id에 해당하는 대회 정보를 조회한다.',
   })
   @ApiResponse({ type: CompetitionResponseDto })
-  findOne(@Param('id') id: number) {
-    return this.competitionService.findOne(id);
+  findOne(@Param('competitionId') competitionId: number) {
+    return this.competitionService.findOne(competitionId);
   }
 
   @Post('/')
@@ -36,15 +36,18 @@ export class CompetitionController {
     return this.competitionService.create(createCompetitionDto);
   }
 
-  @Put('/:id')
+  @Put('/:competitionId')
   @ApiOperation({
     summary: '대회 정보 수정',
     description: `URL의 파라미터(\`/:id\`)로 주어진 대회 id에 해당하는 대회 정보를 수정한다. request JSON 중 **수정하기를 원하는 것만** key: value 형식으로 요청한다.`,
   })
   @ApiResponse({ type: Boolean })
   @UsePipes(new ValidationPipe({ transform: true }))
-  update(@Param('id') id: number, @Body() updateCompetitionDto: UpdateCompetitionDto) {
-    return this.competitionService.update(id, updateCompetitionDto);
+  update(
+    @Param('competitionId') competitionId: number,
+    @Body() updateCompetitionDto: UpdateCompetitionDto,
+  ) {
+    return this.competitionService.update(competitionId, updateCompetitionDto);
   }
 
   @Get('/:competitionId/problems')
@@ -54,11 +57,11 @@ export class CompetitionController {
     return this.competitionService.findCompetitionProblemList(competitionId);
   }
 
-  @Get('problems/:id')
+  @Get('problems/:problemId')
   @ApiOperation({ summary: '대회 문제 상세 조회' })
   @ApiResponse({ type: CompetitionProblemResponseDto })
-  findOneProblem(@Param('id') id: number) {
-    return this.competitionService.findOneProblem(id);
+  findOneProblem(@Param('problemId') problemId: number) {
+    return this.competitionService.findOneProblem(problemId);
   }
 
   @Post('scores')
