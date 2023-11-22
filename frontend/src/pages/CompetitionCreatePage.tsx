@@ -1,12 +1,13 @@
 import { css } from '@style/css';
 
-import type { ChangeEvent, HTMLAttributes, MouseEvent } from 'react';
+import type { ChangeEvent, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CompetitionForm, createCompetition } from '@/apis/competitions';
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
 import { fetchProblemList } from '@/apis/problems';
+import { Input } from '@/components/Common';
 import { formatDate, toLocalDate } from '@/utils/date';
 import { isNil } from '@/utils/type';
 
@@ -95,62 +96,49 @@ export default function CompetitionCreatePage() {
   return (
     <main>
       <fieldset className={fieldSetStyle}>
-        <Label>
-          <Label.Text>대회 이름</Label.Text>
-          <input
+        <Input label="대회 이름">
+          <Input.TextField
             name="name"
-            className={inputStyle}
             value={name}
             onChange={handleChangeName}
             placeholder="대회 이름을 입력해주세요"
             required
-          ></input>
-        </Label>
-        <Label>
-          <Label.Text>대회 설명</Label.Text>
-          <textarea
+          ></Input.TextField>
+        </Input>
+        <Input label="대회 설명">
+          <Input.TextArea
             name="detail"
-            className={inputStyle}
             value={detail}
             onChange={handleChangeDetail}
             placeholder="대회 설명을 입력해주세요"
             required
-          ></textarea>
-        </Label>
-        <Label>
-          <Label.Text>최대 참여 인원</Label.Text>
-          <input
+          ></Input.TextArea>
+        </Input>
+        <Input label="최대 참여 인원">
+          <Input.NumberField
             name="max-participants"
-            type="number"
-            min="0"
-            className={inputStyle}
             value={maxParticipants}
+            min="0"
             onChange={handleChangeMaxParticipants}
             required
-          ></input>
-        </Label>
-        <Label>
-          <Label.Text>대회 시작 시간</Label.Text>
-          <input
-            type="datetime-local"
+          ></Input.NumberField>
+        </Input>
+        <Input label="대회 시작 시간">
+          <Input.DateTimeField
             name="starts-at"
-            className={inputStyle}
             value={startsAt}
             onChange={handleChangeStartsAt}
             required
-          ></input>
-        </Label>
-        <Label>
-          <Label.Text>대회 종료 시간</Label.Text>
-          <input
+          ></Input.DateTimeField>
+        </Input>
+        <Input label="대회 종료 시간">
+          <Input.DateTimeField
             name="ends-at"
-            type="datetime-local"
-            className={inputStyle}
             value={endsAt}
             onChange={handleChangeEndsAt}
             required
-          ></input>
-        </Label>
+          ></Input.DateTimeField>
+        </Input>
         <ul onClick={handleSelectProblem}>
           {allProblems.map(({ id, title }) => (
             <li key={id} data-problem-id={id}>
@@ -176,45 +164,7 @@ export default function CompetitionCreatePage() {
   );
 }
 
-interface LabelProps extends HTMLAttributes<HTMLLabelElement> {}
-
-const Label = ({ className, children, ...rest }: LabelProps) => {
-  return (
-    <label {...rest} className={`${className} ${labelStyle}`}>
-      {children}
-    </label>
-  );
-};
-
-interface LabelTextProps extends HTMLAttributes<HTMLSpanElement> {}
-
-Label.Text = ({ className, children, ...rest }: LabelTextProps) => {
-  return (
-    <span {...rest} className={`${className} ${labelTextStyle}`}>
-      {children}
-    </span>
-  );
-};
-
 const fieldSetStyle = css({
   display: 'flex',
   flexDirection: 'column',
-});
-
-const inputStyle = css({
-  border: '1px solid black',
-  width: '20rem',
-});
-
-const labelStyle = css({
-  display: 'flex',
-  flexDirection: 'row',
-  textAlign: 'center',
-  gap: '4',
-});
-
-const labelTextStyle = css({
-  margin: 'auto 0',
-  width: '8rem',
-  textAlign: 'left',
 });
