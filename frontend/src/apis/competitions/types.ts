@@ -11,7 +11,7 @@ export type CompetitionForm = {
   problems: ProblemId[];
 };
 
-export type CreateCompetitionResponse = {
+export type CompetitionInfo = {
   id: CompetitionId;
   name: string;
   detail: string;
@@ -21,3 +21,5 @@ export type CreateCompetitionResponse = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CreateCompetitionResponse = CompetitionInfo;

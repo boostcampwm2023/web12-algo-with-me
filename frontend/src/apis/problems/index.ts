@@ -1,15 +1,12 @@
-import type { ProblemInfo } from './types';
-import axios from 'axios';
+import api from '@/utils/api';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
+import type { FetchProblemListResponse, ProblemInfo } from './types';
 
 export * from './types';
 
-export async function fetchProblemList() {
+export async function fetchProblemList(): Promise<ProblemInfo[]> {
   try {
-    const { data } = await api.get<ProblemInfo[]>('/problems');
+    const { data } = await api.get<FetchProblemListResponse>('/problems');
 
     return data;
   } catch (err) {

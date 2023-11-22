@@ -1,13 +1,12 @@
-import type { CompetitionForm, CreateCompetitionResponse } from './types';
-import axios from 'axios';
+import api from '@/utils/api';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
+import type { CompetitionForm, CompetitionInfo, CreateCompetitionResponse } from './types';
 
 export * from './types';
 
-export async function createCompetition(competitionForm: CompetitionForm) {
+export async function createCompetition(
+  competitionForm: CompetitionForm,
+): Promise<CompetitionInfo | null> {
   const { name, detail, maxParticipants, startsAt, endsAt, problems } = competitionForm;
 
   try {
