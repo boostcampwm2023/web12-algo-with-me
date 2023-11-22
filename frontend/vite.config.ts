@@ -3,10 +3,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  server: {
-    open: process.env.NODE_ENV === 'development' ? '' : 'dist/index.html',
-  },
-  base: '',
+  base: './',
   resolve: {
     alias: [
       {
