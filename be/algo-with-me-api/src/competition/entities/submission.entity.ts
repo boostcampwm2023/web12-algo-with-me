@@ -11,6 +11,8 @@ import { Competition } from './competition.entity';
 import { Problem } from './problem.entity';
 import { RESULT } from '../competition.enums';
 
+import { User } from '@src/user/entities/user.entity';
+
 @Entity()
 export class Submission {
   @PrimaryGeneratedColumn()
@@ -38,8 +40,11 @@ export class Submission {
   @Column()
   competitionId: number;
 
-  @ManyToOne(() => Competition, (competition) => competition.submissions, {nullable: false})
+  @ManyToOne(() => Competition, (competition) => competition.submissions, { nullable: false })
   competition: Competition;
+
+  @ManyToOne(() => User, (user) => user.submissions, { nullable: false })
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;
