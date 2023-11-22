@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CreateCompetitionDto } from '../dto/create-competition.dto';
+import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { UpdateCompetitionDto } from '../dto/update-competition.dto';
 import { CompetitionService } from '../services/competition.service';
@@ -44,6 +45,13 @@ export class CompetitionController {
   @UsePipes(new ValidationPipe({ transform: true }))
   update(@Param('id') id: number, @Body() updateCompetitionDto: UpdateCompetitionDto) {
     return this.competitionService.update(id, updateCompetitionDto);
+  }
+
+  @Get('/:competitionId/problems')
+  @ApiOperation({ summary: '대회별 문제 목록 조회' })
+  @ApiResponse({ type: ProblemSimpleResponseDto, isArray: true })
+  findCompetitionProblem(@Param('competitionId') competitionId: number) {
+    return this.competitionService.findCompetitionProblemList(competitionId);
   }
 
   @Get('problems/:id')

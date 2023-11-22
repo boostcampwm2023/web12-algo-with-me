@@ -10,7 +10,9 @@ import * as path from 'path';
 
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
+import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
+import { CompetitionProblem } from '../entities/competition.problem.entity';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
@@ -26,6 +28,8 @@ export class CompetitionService {
     @InjectRepository(Competition) private readonly competitionRepository: Repository<Competition>,
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
+    @InjectRepository(CompetitionProblem)
+    private readonly competitionProblemRepository: Repository<CompetitionProblem>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
   ) {}
 
@@ -96,8 +100,8 @@ export class CompetitionService {
 
     return savedSubmission;
   }
-  // TODO: 유저, 대회 도메인 구현 이후 수정 필요
 
+  // TODO: 유저, 대회 도메인 구현 이후 수정 필요
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
     const submission = await this.submissionRepository.findOneBy({
       id: scoreResultDto.submissionId,
@@ -115,5 +119,28 @@ export class CompetitionService {
     result['problemId'] = scoreResultDto.problemId;
     result['stdOut'] = scoreResultDto.stdOut;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
+  }
+
+  async findCompetitionProblemList(competitionId: number) {
+    const competition = await this.competitionProblemRepository.find({
+      select: {
+        problem: {
+          id: true,
+          title: true,
+        },
+      },
+      where: {
+        competition: {
+          id: competitionId,
+        },
+      },
+      relations: {
+        problem: true,
+      },
+    });
+
+    return competition.map((element: CompetitionProblem) => {
+      return new ProblemSimpleResponseDto(element.problem.id, element.problem.title);
+    });
   }
 }

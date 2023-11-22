@@ -11,11 +11,11 @@ export class CompetitionProblem {
   id: number;
 
   @ApiProperty({ description: '대회(competition) 테이블과 다대일 관계' })
-  @ManyToOne(() => CompetitionProblem, (competitionProblem) => competitionProblem.competition)
+  @ManyToOne(() => Competition, (competition) => competition.competitionProblems)
   competition: Competition;
 
   @ApiProperty({ description: '문제(problem) 테이블과 다대일 관계' })
-  @ManyToOne(() => CompetitionProblem, (CompetitionProblem) => CompetitionProblem.problem)
+  @ManyToOne(() => Problem, (problem) => problem.competitionProblems)
   problem: Problem;
 
   @CreateDateColumn()
