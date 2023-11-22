@@ -69,11 +69,11 @@ interface Competition {
   maxParticipants: number;
 }
 
-function calculateTimeDiff(timeDiff: number) {
-  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+function secToTime(sec: number) {
+  const days = Math.floor(sec / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((sec % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((sec % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((sec % (1000 * 60)) / 1000);
 
   return { days, hours, minutes, seconds };
 }
@@ -87,7 +87,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
     return '종료';
   } else if (startDate.getTime() > now.getTime()) {
     const timeDiff = startDate.getTime() - now.getTime();
-    const { days, hours, minutes, seconds } = calculateTimeDiff(timeDiff);
+    const { days, hours, minutes, seconds } = secToTime(timeDiff);
 
     return `시작까지 ${days}일 ${hours}:${minutes}:${seconds}`;
   } else {
@@ -95,7 +95,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
   }
 }
 
-export default function MainList() {
+export default function CompetitionList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const navigate = useNavigate();
 
