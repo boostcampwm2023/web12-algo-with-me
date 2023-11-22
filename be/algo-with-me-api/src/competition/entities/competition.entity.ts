@@ -3,14 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Problem } from './problem.entity';
+import { CompetitionProblem } from './competition.problem.entity';
 import { Submission } from './submission.entity';
 
 @Entity()
@@ -43,14 +41,9 @@ export class Competition {
   @OneToMany(() => Submission, (submission) => submission.competition)
   submissions: Submission[];
 
-  @ApiProperty({ description: '문제(problem) 테이블과 다대다 관계' })
-  @ManyToMany(() => Problem, (problem) => problem.competitions)
-  @JoinTable({
-    name: 'CompetitionProblem',
-    joinColumn: { name: 'competitionId', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'problemId', referencedColumnName: 'id' },
-  })
-  problems: Problem[];
+  @ApiProperty({ description: '대회문제(competitionProblem) 테이블과 일대다 관계' })
+  @OneToMany(() => CompetitionProblem, (competitionProblem) => competitionProblem.competition)
+  competitionProblems: CompetitionProblem[];
 
   @ApiProperty({ description: '레코드 생성 일시' })
   @CreateDateColumn()

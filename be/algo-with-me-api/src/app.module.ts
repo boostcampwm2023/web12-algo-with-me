@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
+import { CompetitionProblem } from './competition/entities/competition.problem.entity';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 import { User } from './user/entities/user.entity';
@@ -26,7 +27,8 @@ import { Competition } from '@src/competition/entities/competition.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [Problem, Submission, Competition, User],
+      entities: [Problem, Submission, Competition, User, CompetitionProblem],
+      logging: true,
     }),
     BullModule.forRoot({
       redis: {
