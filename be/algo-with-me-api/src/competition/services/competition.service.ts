@@ -37,16 +37,7 @@ export class CompetitionService {
   async findAll() {
     const competitionList = await this.competitionRepository.find();
     return competitionList.map((competition) => {
-      return new CompetitionSimpleResponseDto(
-        competition.id,
-        competition.name,
-        competition.detail,
-        competition.maxParticipants,
-        competition.startsAt.toISOString(),
-        competition.endsAt.toISOString(),
-        competition.createdAt.toISOString(),
-        competition.updatedAt.toISOString(),
-      );
+      return CompetitionSimpleResponseDto.from(competition);
     });
   }
 
@@ -54,30 +45,12 @@ export class CompetitionService {
     const result = await this.competitionRepository.findOneBy({ id });
     if (!result)
       throw new NotFoundException(`대회 id ${id}에 해당하는 대회 정보를 찾을 수 없습니다`);
-    return new CompetitionResponseDto(
-      result.id,
-      result.name,
-      result.detail,
-      result.maxParticipants,
-      result.startsAt.toISOString(),
-      result.endsAt.toISOString(),
-      result.createdAt.toISOString(),
-      result.updatedAt.toISOString(),
-    );
+    return CompetitionResponseDto.from(result);
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
     const result = await this.competitionRepository.save(createCompetitionDto.toEntity());
-    return new CompetitionResponseDto(
-      result.id,
-      result.name,
-      result.detail,
-      result.maxParticipants,
-      result.startsAt.toISOString(),
-      result.endsAt.toISOString(),
-      result.createdAt.toISOString(),
-      result.updatedAt.toISOString(),
-    );
+    return CompetitionResponseDto.from(result);
   }
 
   async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
