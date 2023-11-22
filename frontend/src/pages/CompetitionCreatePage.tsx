@@ -149,13 +149,7 @@ export default function CompetitionCreatePage() {
             </li>
           ))}
         </ul>
-        <div>
-          <ul>
-            {pickedProblemIds.map((problemId) => (
-              <li key={problemId}>{problemId}</li>
-            ))}
-          </ul>
-        </div>
+        <div>선택된 문제: {[...pickedProblemIds].sort().join(',')}</div>
       </fieldset>
       <button id="create-competition" onClick={handleSubmitCompetition}>
         대회 생성
