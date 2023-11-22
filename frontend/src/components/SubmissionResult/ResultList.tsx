@@ -3,6 +3,7 @@ import { css } from '@style/css';
 import { useCallback, useEffect, useState } from 'react';
 
 import ResultInfoWrapper from './ResultInfoWrapper';
+import type { SubmitResult } from './types.ts';
 
 interface TestcaseLoadInfo {
   [index: string]: boolean;

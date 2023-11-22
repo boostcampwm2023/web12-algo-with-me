@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { type SubmitResult } from './types';
+import type { SubmitResult } from './types';
 
 interface Props {
   submitResult: SubmitResult;
