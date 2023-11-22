@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import CompetitionCreatePage from '@/pages/CompetitionCreatePage';
 import ContestPage from '@/pages/ContestPage';
 import ProblemPage from '@/pages/ProblemPage';
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: '/problem/:id', // TODO: api 연동 후 수정
         element: <ProblemPage />,
+      },
+      {
+        path: '/competition/create',
+        element: <CompetitionCreatePage />,
       },
     ],
   },
