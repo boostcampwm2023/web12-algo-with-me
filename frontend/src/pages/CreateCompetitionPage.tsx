@@ -60,15 +60,7 @@ export default function CompetitionCreatePage() {
     setEndsAt(newEndsAt);
   }
 
-  function handleSelectProblem(e: MouseEvent<HTMLUListElement>) {
-    const $target = e.target as HTMLElement;
-    if ($target.tagName !== 'BUTTON') return;
-
-    const $li = $target.closest('li');
-    if (!$li) return;
-
-    const problemId = Number($li.dataset['problemId']);
-
+  function handleSelectProblem(problemId: ProblemId) {
     if (pickedProblemIds.includes(problemId)) {
       setPickedProblemIds((ids) => ids.filter((id) => id !== problemId));
     } else {
@@ -139,22 +131,49 @@ export default function CompetitionCreatePage() {
             required
           ></Input.DateTimeField>
         </Input>
-        <ul onClick={handleSelectProblem}>
-          {allProblems.map(({ id, title }) => (
-            <li key={id} data-problem-id={id}>
-              <span>
-                {id}: {title}
-              </span>
-              {pickedProblemIds.includes(id) ? <button>취소</button> : <button>선택</button>}
-            </li>
-          ))}
-        </ul>
+        <ProblemList
+          allProblems={allProblems}
+          pickedProblemIds={pickedProblemIds}
+          onSelectProblem={handleSelectProblem}
+        ></ProblemList>
         <div>선택된 문제: {[...pickedProblemIds].sort().join(',')}</div>
       </fieldset>
       <button onClick={handleSubmitCompetition}>대회 생성</button>
     </main>
   );
 }
+
+interface ProblemListProps {
+  allProblems: ProblemInfo[];
+  pickedProblemIds: ProblemId[];
+  onSelectProblem: (problemId: ProblemId) => void;
+}
+
+const ProblemList = ({ allProblems, pickedProblemIds, onSelectProblem }: ProblemListProps) => {
+  function handleSelectProblem(e: MouseEvent<HTMLUListElement>) {
+    const $target = e.target as HTMLElement;
+    if ($target.tagName !== 'BUTTON') return;
+
+    const $li = $target.closest('li');
+    if (!$li) return;
+
+    const problemId = Number($li.dataset['problemId']);
+    onSelectProblem(problemId);
+  }
+
+  return (
+    <ul onClick={handleSelectProblem}>
+      {allProblems.map(({ id, title }) => (
+        <li key={id} data-problem-id={id}>
+          <span>
+            {id}: {title}
+          </span>
+          <button>{pickedProblemIds.includes(id) ? '취소' : '선택'}</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 const fieldSetStyle = css({
   display: 'flex',
