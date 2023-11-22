@@ -1,107 +1,92 @@
 import { css } from '@style/css';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import SimulatorList from '@/components/Simulation/SimulatorList';
-import type { TestCase } from '@/components/Simulation/types';
-import SubmissionResult from '@/components/SubmissionResult';
+import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import { SimulationInputList } from '@/components/Simulation/SimulatorList';
+import SubmissionResult from '@/components/Submittion';
 import { SITE } from '@/constants';
-import mockData from '@/mockData.json';
-import evaluator from '@/modules/evaluator';
+import { useCompetition } from '@/hooks/competition/useCompetition';
+import { useProblem } from '@/hooks/problem/useProblem';
+import { useSimulations } from '@/hooks/simulation';
 
-const notFoundProblem = {
-  title: 'Problem Not Found',
-  timeLimit: 0,
-  memoryLimit: 0,
-  content: 'The requested problem could not be found.',
-  solutionCode: '',
-  testcases: [],
-  createdAt: new Date().toISOString(),
-};
-
-const INITIAL_PROBLEM_ID = 6;
+const RUN_SIMULATION = '테스트 실행';
+const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
-  const CONTEST_NAME = 'Test'; // api로 받을 정보
+  const { id } = useParams<{ id: string }>();
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
 
-  const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
-  const targetProblem =
-    mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
-  const [code, setCode] = useState<string>(targetProblem.solutionCode);
-  const [testCases, setTestCases] = useState<TestCase[]>([
-    { param: '', result: '' },
-    { param: '', result: '' },
-    { param: '', result: '' },
-    { param: '', result: '' },
-    { param: '', result: '' },
-  ]);
+  const {
+    simulationInputs,
+    simulationResults,
+    isSimulating,
+    runSimulation,
+    changeInput,
+    cancelSimulation,
+  } = useSimulations();
+  const competitionId: number = id ? parseInt(id, 10) : -1;
+
+  const { problems, competition } = useCompetition(competitionId);
+  const currentProblemId = useMemo(() => {
+    return problems[currentProblemIndex];
+  }, [problems, currentProblemIndex]);
+
+  const { problem } = useProblem(currentProblemId);
+
+  const [code, setCode] = useState<string>(problem.solutionCode);
+
+  const crumbs = [SITE.NAME, competition.name, problem.title];
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
   };
 
-  useEffect(() => {
-    return evaluator.subscribe(({ result, task }) => {
-      if (!task) return;
-
-      const taskId = task.clientId;
-
-      const evaluatedTestcase = testCases.find((_, index) => index === taskId);
-      if (evaluatedTestcase) {
-        evaluatedTestcase.result = String(result);
-      }
-
-      setTestCases((oldTestCases) => {
-        return oldTestCases.map((tc, index) => {
-          if (index !== taskId) return tc;
-
-          return {
-            ...tc,
-            result,
-          };
-        });
-      });
-    });
-  }, []);
-
-  const handleTestExec = () => {
-    setTestCases((oldTestCases) => {
-      return oldTestCases.map(toEvaluatingState);
-    });
-
-    const tasks = testCases.map((tc, index) => evaluator.createEvalMessage(index, code, tc.param));
-
-    evaluator.evaluate(tasks);
+  const handleSimulate = () => {
+    runSimulation(code);
   };
 
-  const handleChangeParam = (index: number, newParam: string) => {
-    const changedTestCase = testCases.find((_, i) => i === index);
-    if (changedTestCase) {
-      changedTestCase.param = newParam;
-    }
-    setTestCases([...testCases]);
+  const handleSimulationCancel = () => {
+    cancelSimulation();
   };
 
-  const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
+  const handleChangeInput = (id: number, newParam: string) => {
+    changeInput(id, newParam);
+  };
+
+  const handleNextProblem = () => {
+    setCurrentProblemIndex(currentProblemIndex + 1);
+  };
 
   return (
     <main className={style}>
+      <button onClick={handleNextProblem}>다음 문제</button>
       <ContestBreadCrumb crumbs={crumbs} />
       <section>
-        <span className={problemTitleStyle}>{targetProblem.title}</span>
+        <span className={problemTitleStyle}>{problem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemViewer content={targetProblem.content}></ProblemViewer>
+        <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
-          <Editor code={code} onChangeCode={handleChangeCode}></Editor>
-          <SimulatorList
-            testCases={testCases}
-            onChangeParam={handleChangeParam}
-            onTestExec={handleTestExec}
-          ></SimulatorList>
+          <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+          <SimulationInputList
+            inputList={simulationInputs}
+            onChangeInput={handleChangeInput}
+          ></SimulationInputList>
+          <SimulationResultList resultList={simulationResults}></SimulationResultList>
+          {isSimulating ? (
+            <button className={execButtonStyle} onClick={handleSimulationCancel}>
+              {CANCEL_SIMULATION}
+            </button>
+          ) : (
+            <button className={execButtonStyle} onClick={handleSimulate}>
+              {RUN_SIMULATION}
+            </button>
+          )}
         </div>
       </section>
       <section>
@@ -110,13 +95,6 @@ export default function ContestPage() {
     </main>
   );
 }
-
-const toEvaluatingState = (testcase: TestCase) => {
-  return {
-    ...testcase,
-    result: '계산중...',
-  };
-};
 
 const style = css({
   backgroundColor: '#1e1e1e',
@@ -137,4 +115,8 @@ const problemTitleStyle = css({
   height: '50px',
   padding: '10px',
   borderBottom: '2px solid white',
+});
+
+const execButtonStyle = css({
+  color: 'black',
 });

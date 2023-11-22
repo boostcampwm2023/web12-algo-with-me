@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
-import Loading from './Loading';
-import ResultInfo from './ResultInfo';
+import Loading from './Loading.tsx';
+import ResultInfo from './ResultInfo.tsx';
 import type { SubmitResult } from './types.ts';
 
 interface Props {
