@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import CreateCompetitionButton from '@/components/Main/Buttons/CreateCompetitionButton';
-import MainList from '@/components/Main/MainList';
+import CompetitionList from '@/components/Main/CompetitionList';
 import { SITE } from '@/constants';
 
 function MainPage() {
@@ -10,7 +10,7 @@ function MainPage() {
       <span className={ProjectNameStyle}>{SITE.NAME} </span>
       <span>{SITE.PAGE_DESCRIPTION} </span>
       <CreateCompetitionButton />
-      <MainList />
+      <CompetitionList />
     </main>
   );
 }
