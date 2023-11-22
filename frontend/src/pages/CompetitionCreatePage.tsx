@@ -60,10 +60,13 @@ export default function CompetitionCreatePage() {
   }
 
   function handleSelectProblem(e: MouseEvent<HTMLUListElement>) {
-    const $target = (e.target as HTMLUListElement).closest('li');
-    if (!$target) return;
+    const $target = e.target as HTMLElement;
+    if ($target.tagName !== 'BUTTON') return;
 
-    const problemId = Number($target.dataset['problemId']);
+    const $li = $target.closest('li');
+    if (!$li) return;
+
+    const problemId = Number($li.dataset['problemId']);
 
     if (pickedProblemIds.includes(problemId)) {
       setPickedProblemIds((ids) => ids.filter((id) => id !== problemId));
