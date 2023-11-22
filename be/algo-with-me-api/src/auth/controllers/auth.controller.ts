@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Redirect, Req, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -18,6 +18,7 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
+  @Redirect()
   @ApiOperation({
     summary: '깃허브 인증 완료시 리다이렉트 되는 api',
     description: '깃허브 인증이 완료되면 리다이렉트 되는 api 입니다. accessToken을 반환합니다.',
@@ -27,7 +28,11 @@ export class AuthController {
       sub: req.user.email,
       nickname: req.user.nickname,
     };
-    return { accessToken: this.jwtService.sign(content) };
+    return {
+      url: `https://boostcampwm2023.github.io/web12-algo-with-me?accessToken=${this.jwtService.sign(
+        content,
+      )}`,
+    };
   }
 
   // 인증 테스트 api
