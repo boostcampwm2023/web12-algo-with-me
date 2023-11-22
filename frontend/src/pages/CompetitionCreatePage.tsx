@@ -4,11 +4,11 @@ import type { ChangeEvent, HTMLAttributes, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { CompetitionForm, createCompetition } from '@/apis/competitions';
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
 import { fetchProblemList } from '@/apis/problems';
 import { formatDate, toLocalDate } from '@/utils/date';
-
-import axios from 'axios';
+import { isNil } from '@/utils/type';
 
 export default function CompetitionCreatePage() {
   const navigate = useNavigate();
@@ -73,17 +73,19 @@ export default function CompetitionCreatePage() {
   }
 
   async function handleSubmitCompetition() {
-    const data = {
+    const competitionForm = {
       name,
       detail,
       maxParticipants,
       startsAt: new Date(startsAt).toISOString(),
       endsAt: new Date(endsAt).toISOString(),
       problems: pickedProblemIds,
-    };
-    const res = await axios.post('http://101.101.208.240:3000/competitions', data);
-    const { id } = res.data;
+    } satisfies CompetitionForm;
 
+    const competitionInfo = await createCompetition(competitionForm);
+    if (isNil(competitionInfo)) return;
+
+    const { id } = competitionInfo;
     navigate(`/contest/detail/${id}`);
   }
 
