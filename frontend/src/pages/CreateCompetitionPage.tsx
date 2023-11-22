@@ -1,52 +1,44 @@
 import { css } from '@style/css';
 
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CompetitionForm, createCompetition } from '@/apis/competitions';
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
 import { Input } from '@/components/Common';
+import { useCompetitionForm } from '@/hooks/competition/useCompetitionForm';
 import { useProblemList } from '@/hooks/problem/useProblemList';
-import { formatDate, toLocalDate } from '@/utils/date';
 import { isNil } from '@/utils/type';
 
 export default function CompetitionCreatePage() {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>('');
-  const [detail, setDetail] = useState<string>('');
-  const [maxParticipants, setMaxParticipants] = useState<number>(0);
 
-  const currentDate = toLocalDate(new Date());
-  const currentDateStr = formatDate(currentDate, 'YYYY-MM-DDThh:mm');
-
-  const [startsAt, setStartsAt] = useState<string>(currentDateStr);
-  const [endsAt, setEndsAt] = useState<string>(currentDateStr);
+  const form = useCompetitionForm();
   const { pickedProblemIds, allProblems, togglePickedProblem } = useProblemList();
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
-    setName(newName);
+    form.setName(newName);
   }
 
   function handleChangeDetail(e: ChangeEvent<HTMLTextAreaElement>) {
     const newDetail = e.target.value;
-    setDetail(newDetail);
+    form.setDetail(newDetail);
   }
 
   function handleChangeMaxParticipants(e: ChangeEvent<HTMLInputElement>) {
     const newMaxParticipants = Number(e.target.value);
-    setMaxParticipants(newMaxParticipants);
+    form.setMaxParticipants(newMaxParticipants);
   }
 
   function handleChangeStartsAt(e: ChangeEvent<HTMLInputElement>) {
     const newStartsAt = e.target.value;
-    setStartsAt(newStartsAt);
+    form.setStartsAt(newStartsAt);
   }
 
   function handleChangeEndsAt(e: ChangeEvent<HTMLInputElement>) {
     const newEndsAt = e.target.value;
-    setEndsAt(newEndsAt);
+    form.setEndsAt(newEndsAt);
   }
 
   function handleSelectProblem(problemId: ProblemId) {
@@ -55,11 +47,7 @@ export default function CompetitionCreatePage() {
 
   async function handleSubmitCompetition() {
     const competitionForm = {
-      name,
-      detail,
-      maxParticipants,
-      startsAt: new Date(startsAt).toISOString(),
-      endsAt: new Date(endsAt).toISOString(),
+      ...form.getAllFormData(),
       problems: pickedProblemIds,
     } satisfies CompetitionForm;
 
@@ -76,7 +64,7 @@ export default function CompetitionCreatePage() {
         <Input label="대회 이름">
           <Input.TextField
             name="name"
-            value={name}
+            value={form.name}
             onChange={handleChangeName}
             placeholder="대회 이름을 입력해주세요"
             required
@@ -85,7 +73,7 @@ export default function CompetitionCreatePage() {
         <Input label="대회 설명">
           <Input.TextArea
             name="detail"
-            value={detail}
+            value={form.detail}
             onChange={handleChangeDetail}
             placeholder="대회 설명을 입력해주세요"
             required
@@ -94,7 +82,7 @@ export default function CompetitionCreatePage() {
         <Input label="최대 참여 인원">
           <Input.NumberField
             name="max-participants"
-            value={maxParticipants}
+            value={form.maxParticipants}
             min="0"
             onChange={handleChangeMaxParticipants}
             required
@@ -103,7 +91,7 @@ export default function CompetitionCreatePage() {
         <Input label="대회 시작 시간">
           <Input.DateTimeField
             name="starts-at"
-            value={startsAt}
+            value={form.startsAt}
             onChange={handleChangeStartsAt}
             required
           ></Input.DateTimeField>
@@ -111,7 +99,7 @@ export default function CompetitionCreatePage() {
         <Input label="대회 종료 시간">
           <Input.DateTimeField
             name="ends-at"
-            value={endsAt}
+            value={form.endsAt}
             onChange={handleChangeEndsAt}
             required
           ></Input.DateTimeField>
