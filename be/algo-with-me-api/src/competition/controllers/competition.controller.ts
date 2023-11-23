@@ -82,8 +82,8 @@ export class CompetitionController {
   @Get('problems/:problemId')
   @ApiOperation({ summary: '대회 문제 상세 조회' })
   @ApiResponse({ type: CompetitionProblemResponseDto })
-  findOneProblem(@Param('problemId') problemId: number) {
-    return this.competitionService.findOneProblem(problemId);
+  async findOneProblem(@Param('problemId') problemId: number) {
+    return await this.competitionService.findOneProblem(problemId);
   }
 
   @Post('scores')
@@ -93,8 +93,8 @@ export class CompetitionController {
       '**[프론트엔드에서는 사용되지 않음. 백엔드에서만 사용됨]** 채점 서버에서 테스트케이스 별로 채점이 완료될경우 호출할 api',
   })
   @UsePipes(new ValidationPipe({ transform: true }))
-  saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
-    this.competitionService.saveScoreResult(scoreResultDto);
+  async saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
+    await this.competitionService.saveScoreResult(scoreResultDto);
   }
 
   @Post('/:competitionId/participations')
@@ -104,8 +104,8 @@ export class CompetitionController {
   })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  joinCompetition(@Req() req, @Param('competitionId') competitionId: number) {
-    this.competitionService.joinCompetition(competitionId, req.user.email);
+  async joinCompetition(@Req() req, @Param('competitionId') competitionId: number) {
+    await this.competitionService.joinCompetition(competitionId, req.user.email);
   }
 
   // @Post('submissions')
