@@ -1,22 +1,34 @@
 import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import fs from 'node:fs';
-import process from 'process';
 
 import { Problem } from '../entities/problem.entity';
 
 export class FilesystemService {
-  constructor(private readonly problemRepository: Repository<Problem>) {}
+  constructor(
+    @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
+    private readonly configService: ConfigService,
+  ) {}
 
-  public writeSubmittedCode(competitionId: number, userId: number, problemId: number) {
-    // TODO: code와 프레임코드 조인해서 가져오기
-    const code = '';
-    const frameCode = '';
-    const mergedCode = this.getMergedCode(code, frameCode);
-    const filepath = `${process.env.SUBMISSION_PATH}/${competitionId}/${userId}/${problemId}`;
-    if (!fs.existsSync(filepath))
+  async writeSubmittedCode(code: string, competitionId: number, userId: number, problemId: number) {
+    const logger = new Logger();
+    const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
+    const mergedCode = this.getMergedCode(code, problem.frameCode);
+
+    const submissionPath = this.configService.get<string>('SUBMISSION_PATH');
+    logger.debug(JSON.stringify(submissionPath));
+    const filepath = `${submissionPath}/${competitionId}/${userId}/${problemId}`;
+    logger.debug(JSON.stringify(filepath));
+
+    if (!fs.existsSync(filepath)) {
+      logger.debug('어루');
       throw new InternalServerErrorException(`경로 ${filepath}가 없습니다`);
+    }
+    logger.debug('?');
+
     fs.writeFileSync(filepath, mergedCode);
   }
 

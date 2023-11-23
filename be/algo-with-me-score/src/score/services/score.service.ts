@@ -1,4 +1,5 @@
 import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import fs from 'node:fs';
 import process from 'process';
@@ -9,6 +10,8 @@ import { RESULT } from '../entities/submission.enums';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
 export class ScoreService {
+  constructor(private readonly configService: ConfigService) {}
+
   public async scoreAllAndSendResult(
     submission: Submission,
     submissionId: number,
@@ -62,14 +65,15 @@ export class ScoreService {
 
   private async sendScoreResult(scoreResult: ScoreResultDto) {
     const logger = new Logger();
-    logger.debug(JSON.stringify(scoreResult));
-    await fetch(
-      `http://${process.env.API_SERVER_HOST}:${process.env.API_SERVER_PORT}/competitions/scores`,
-      {
-        method: 'POST',
-        body: JSON.stringify(scoreResult),
-      },
-    );
+    logger.debug('sendScoreResult: ', JSON.stringify(scoreResult));
+    const [apiServerHost, apiServerPort] = [
+      this.configService.get<string>('API_SERVER_HOST'),
+      this.configService.get<string>('API_SERVER_HOST'),
+    ];
+    await fetch(`http://${apiServerHost}:${apiServerPort}/competitions/scores`, {
+      method: 'POST',
+      body: JSON.stringify(scoreResult),
+    });
   }
 
   private async runCode(
@@ -91,7 +95,8 @@ export class ScoreService {
     problemId: number,
     testcaseId: number,
   ): { result: string; stdout: string; stderr: string } {
-    const submissionBaseFilename = `${process.env.SUBMISSION_PATH}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
+    const submissionPath = this.configService.get<string>('SUBMISSION_PATH');
+    const submissionBaseFilename = `${submissionPath}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
     const [resultFilepath, stdoutFilepath, stderrFilepath] = [
       `${submissionBaseFilename}.result`,
       `${submissionBaseFilename}.stdout`,
@@ -116,7 +121,8 @@ export class ScoreService {
   }
 
   private getTestcaseAnswer(problemId: number, testcaseId: number) {
-    const filepath = `${process.env.TESTCASE_PATH}/${problemId}/secrets/${testcaseId}.ans`;
+    const testcasePath = this.configService.get<string>('TESTCASE_PATH');
+    const filepath = `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
     if (!fs.existsSync(filepath))
       throw new InternalServerErrorException(
         `경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`,
