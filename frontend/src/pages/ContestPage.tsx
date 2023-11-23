@@ -8,7 +8,7 @@ import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
-import SubmissionResult from '@/components/SubmissionResult';
+import { SubmissionResult } from '@/components/Submission';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
