@@ -10,10 +10,10 @@ export class CompetitionParticipant {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.participants)
+  @ManyToOne(() => User, (user) => user.participants, {nullable: false})
   user: User;
 
-  @ManyToOne(() => Competition, (competition) => competition)
+  @ManyToOne(() => Competition, (competition) => competition, {nullable: false})
   competition: Competition;
 
   @CreateDateColumn()
