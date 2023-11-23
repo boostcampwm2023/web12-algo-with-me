@@ -3,41 +3,50 @@ import { css } from '@style/css';
 import { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import type { Components } from 'hast-util-to-jsx-runtime/lib/components';
 import remarkGfm from 'remark-gfm';
+
+interface Components {
+  table: (props: TableProps) => JSX.Element;
+  th: (props: ThProps) => JSX.Element;
+  td: (props: TdProps) => JSX.Element;
+  code: (props: CodeProps) => JSX.Element;
+  ul: (props: UlProps) => JSX.Element;
+  ol: (props: OlProps) => JSX.Element;
+  li: (props: LiProps) => JSX.Element;
+}
 
 interface Props {
   markdownContent: string;
 }
 
 interface TableProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface ThProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface TdProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface CodeProps {
   inline?: boolean;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface UlProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface OlProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface LiProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function Markdown(props: Props) {
