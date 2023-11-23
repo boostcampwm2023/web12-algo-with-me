@@ -5,10 +5,10 @@ interface AsideProps {
   setCurrentProblemIndex: (index: number) => void;
 }
 
-export default function Aside(props: AsideProps) {
+export default function ContestProblemSelector(props: AsideProps) {
   return (
     <aside>
-      <h2>문제 목록</h2>
+      <span>문제 목록</span>
       <ul>
         {props.problemIds.map((id: number, index: number) => (
           <li key={id}>

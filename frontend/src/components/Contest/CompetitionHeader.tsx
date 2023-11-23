@@ -7,7 +7,7 @@ interface Props {
   id: number;
 }
 
-export default function CompetitionPageHeader(props: Props) {
+export default function CompetitionHeader(props: Props) {
   return (
     <header className={headerStyle}>
       <ContestBreadCrumb crumbs={props.crumbs} />
