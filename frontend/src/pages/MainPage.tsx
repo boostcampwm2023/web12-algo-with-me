@@ -1,17 +1,21 @@
 import { css } from '@style/css';
 
+import Header from '@/components/Header';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
 import CompetitionList from '@/components/Main/CompetitionList';
 import { SITE } from '@/constants';
 
 function MainPage() {
   return (
-    <main className={style}>
-      <span className={ProjectNameStyle}>{SITE.NAME} </span>
-      <span>{SITE.PAGE_DESCRIPTION} </span>
-      <GoToCreateCompetitionLink />
-      <CompetitionList />
-    </main>
+    <>
+      <Header />
+      <main className={style}>
+        <span className={ProjectNameStyle}>{SITE.NAME} </span>
+        <span>{SITE.PAGE_DESCRIPTION} </span>
+        <GoToCreateCompetitionLink />
+        <CompetitionList />
+      </main>
+    </>
   );
 }
 
