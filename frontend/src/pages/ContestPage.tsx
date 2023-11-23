@@ -10,7 +10,7 @@ import { SimulationInputList } from '@/components/Simulation/SimulationInputList
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
-import { useCompetition } from '@/hooks/competition/useCompetition';
+import { useCompetition } from '@/hooks/competition';
 import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
 
@@ -30,8 +30,7 @@ export default function ContestPage() {
     cancelSimulation,
   } = useSimulations();
   const competitionId: number = id ? parseInt(id, 10) : -1;
-
-  const { problems, competition } = useCompetition(competitionId);
+  const { problems, competition, submitSolution } = useCompetition(competitionId);
   const currentProblemId = useMemo(() => {
     return problems[currentProblemIndex];
   }, [problems, currentProblemIndex]);
@@ -62,6 +61,14 @@ export default function ContestPage() {
     setCurrentProblemIndex(currentProblemIndex + 1);
   };
 
+  function handleSubmitSolution() {
+    const form = {
+      problemId: currentProblemId,
+      code,
+    };
+    submitSolution(form);
+  }
+
   return (
     <main className={style}>
       <button onClick={handleNextProblem}>다음 문제</button>
@@ -90,7 +97,7 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult></SubmissionResult>
+        <SubmissionResult onSubmit={handleSubmitSolution}></SubmissionResult>
       </section>
     </main>
   );
