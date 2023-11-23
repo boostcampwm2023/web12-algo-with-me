@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { fetchCompetition } from '@/apis/competitions';
 import type { ProblemId } from '@/apis/problems';
 import { createSocketInstance } from '@/utils/socket';
-
-import axios from 'axios';
+import { isNil } from '@/utils/type';
 
 interface Competition {
   id: number;
@@ -63,15 +63,13 @@ export const useCompetition = (competitionId: number) => {
   }
 
   async function updateCompetition(competitionId: number) {
-    try {
-      const { data } = await axios.get<Competition>(
-        `http://101.101.208.240:3000/competitions/${competitionId}`,
-      );
-      setCompetition(data);
-    } catch (err) {
-      console.error('Error fetching competition data:', err);
+    const competition = await fetchCompetition(competitionId);
+    if (isNil(competition)) {
       alert('대회 정보 패치에 실패했습니다.');
+      return;
     }
+
+    setCompetition(competition);
   }
 
   useEffect(() => {
