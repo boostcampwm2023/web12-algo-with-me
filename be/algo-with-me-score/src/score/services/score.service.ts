@@ -1,8 +1,6 @@
 import { InternalServerErrorException, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
-import fs from 'node:fs';
-import process from 'process';
+import * as fs from 'node:fs';
 
 import { ScoreResultDto } from '../dtos/score-result.dto';
 import { Submission } from '../entities/submission.entity';
@@ -10,16 +8,17 @@ import { RESULT } from '../entities/submission.enums';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
 export class ScoreService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor() {}
 
   public async scoreAllAndSendResult(
     submission: Submission,
+    testcaseNum: number,
     submissionId: number,
     competitionId: number,
     userId: number,
     problemId: number,
   ) {
-    for (let testcaseId = 1; testcaseId <= submission.problem.testcaseNum; testcaseId++) {
+    for (let testcaseId = 1; testcaseId <= testcaseNum; testcaseId++) {
       await this.scoreOneTestcaseAndSendResult(
         submissionId,
         competitionId,
@@ -65,8 +64,8 @@ export class ScoreService {
 
   private async sendScoreResult(scoreResult: ScoreResultDto) {
     const [apiServerHost, apiServerPort] = [
-      this.configService.get<string>('API_SERVER_HOST'),
-      this.configService.get<string>('API_SERVER_PORT'),
+      process.env.API_SERVER_HOST,
+      process.env.API_SERVER_PORT,
     ];
     const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
     try {
@@ -104,7 +103,7 @@ export class ScoreService {
     problemId: number,
     testcaseId: number,
   ): { result: string; stdout: string; stderr: string } {
-    const submissionPath = this.configService.get<string>('SUBMISSION_PATH');
+    const submissionPath = process.env.SUBMISSION_PATH;
     const submissionBaseFilename = `${submissionPath}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
     const [resultFilepath, stdoutFilepath, stderrFilepath] = [
       `${submissionBaseFilename}.result`,
@@ -130,7 +129,7 @@ export class ScoreService {
   }
 
   private getTestcaseAnswer(problemId: number, testcaseId: number) {
-    const testcasePath = this.configService.get<string>('TESTCASE_PATH');
+    const testcasePath = process.env.TESTCASE_PATH;
     const filepath = `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
     if (!fs.existsSync(filepath)) {
       const message = `경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`;
@@ -138,8 +137,7 @@ export class ScoreService {
       throw new InternalServerErrorException(message);
     }
 
-    const testcaseAnswer = fs.readFileSync(filepath).toString();
-    return testcaseAnswer;
+    return fs.readFileSync(filepath).toString();
   }
 
   private judge(
