@@ -1,5 +1,5 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { Repository } from 'typeorm';
@@ -11,7 +11,7 @@ import { ScoreService } from './score.service';
 import { MessageQueueItemDto } from '../dtos/message-queue-item.dto';
 import { Submission } from '../entities/submission.entity';
 
-@Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
+@Processor('submission')
 export class SubmissionConsumer {
   constructor(
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
@@ -21,22 +21,22 @@ export class SubmissionConsumer {
 
   @Process('score')
   async getMessageQueue(job: Job) {
-    const messageQueueItem = new MessageQueueItemDto(
-      job.data.submissionId,
-      job.data.problemId,
-      job.data.sessionId,
-    );
+    const logger = new Logger();
+    const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.sessionId);
+    logger.debug(JSON.stringify(messageQueueItem));
     const submissionId = messageQueueItem.submissionId;
-    const submission = await this.submissionRepository.findOneBy({ id: submissionId });
+    const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
+    logger.debug(JSON.stringify(submission));
     if (!submission)
       throw new InternalServerErrorException(
         `제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`,
       );
-
-    const problemId = messageQueueItem.problemId;
-    const competitionId = submission.competition.id;
+    logger.debug('hey');
+    const problemId = submission.problemId;
+    const competitionId = submission.competitionId;
     // TODO: userId 가져오기
     const userId = 1;
+    logger.debug(JSON.stringify({ problemId, competitionId, userId }));
 
     this.filesystemService.writeSubmittedCode(competitionId, userId, problemId);
 
