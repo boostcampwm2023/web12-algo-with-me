@@ -1,10 +1,11 @@
 import { css } from '@style/css';
 
-import type { ChangeEvent, MouseEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { ProblemId, ProblemInfo } from '@/apis/problems';
+import type { ProblemId } from '@/apis/problems';
 import { Input } from '@/components/Common';
+import SelectableProblemList from '@/components/Problem/SelectableProblemList';
 import { useCompetitionForm } from '@/hooks/competition/useCompetitionForm';
 import { useProblemList } from '@/hooks/problem/useProblemList';
 import { isNil } from '@/utils/type';
@@ -112,49 +113,17 @@ export default function CompetitionCreatePage() {
             required
           ></Input.DateTimeField>
         </Input>
-        <ProblemList
-          allProblems={problemList}
+        <SelectableProblemList
+          problemList={problemList}
           pickedProblemIds={form.problems}
           onSelectProblem={handleSelectProblem}
-        ></ProblemList>
+        ></SelectableProblemList>
         <div>선택된 문제: {[...form.problems].join(',')}</div>
       </fieldset>
       <button onClick={handleSumbitCompetition}>대회 생성</button>
     </main>
   );
 }
-
-interface ProblemListProps {
-  allProblems: ProblemInfo[];
-  pickedProblemIds: ProblemId[];
-  onSelectProblem: (problemId: ProblemId) => void;
-}
-
-const ProblemList = ({ allProblems, pickedProblemIds, onSelectProblem }: ProblemListProps) => {
-  function handleSelectProblem(e: MouseEvent<HTMLUListElement>) {
-    const $target = e.target as HTMLElement;
-    if ($target.tagName !== 'BUTTON') return;
-
-    const $li = $target.closest('li');
-    if (!$li) return;
-
-    const problemId = Number($li.dataset['problemId']);
-    onSelectProblem(problemId);
-  }
-
-  return (
-    <ul onClick={handleSelectProblem}>
-      {allProblems.map(({ id, title }) => (
-        <li key={id} data-problem-id={id}>
-          <span>
-            {id}: {title}
-          </span>
-          <button>{pickedProblemIds.includes(id) ? '취소' : '선택'}</button>
-        </li>
-      ))}
-    </ul>
-  );
-};
 
 const fieldSetStyle = css({
   display: 'flex',
