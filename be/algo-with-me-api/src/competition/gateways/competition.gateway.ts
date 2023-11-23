@@ -12,7 +12,10 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
+import { ProblemResponseDto } from '../dto/problem.response.dto';
+import { Problem } from '../entities/problem.entity';
 import { CompetitionService } from '../services/competition.service';
+import { ProblemService } from '../services/problem.service';
 
 import { AuthTokenPayloadDto } from '@src/auth/dto/auth.token.payload.dto';
 import { AuthService } from '@src/auth/services/auth.service';
@@ -28,6 +31,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     private readonly competitionService: CompetitionService,
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly problemService: ProblemService,
   ) {}
 
   afterInit(server: Server) {
@@ -45,9 +49,12 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       client.handshake.headers.authorization,
     );
     const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
+    const problem: ProblemResponseDto = await this.problemService.findOne(
+      createSubmissionDto.problemId,
+    );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
     const event = 'messages';
-    const data = { message: '채점을 시작합니다.' };
+    const data = { message: '채점을 시작합니다.', testcaseNum: problem.testcaseNum };
     console.log(createSubmissionDto);
     return { event, data };
   }

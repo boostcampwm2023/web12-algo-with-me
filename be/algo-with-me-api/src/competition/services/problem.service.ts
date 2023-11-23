@@ -28,7 +28,7 @@ export class ProblemService {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ProblemResponseDto> {
     const problem = await this.problemRepository.findOneBy({ id });
     const fileName = id.toString() + '.md';
     const paths = path.join(process.env.PROBLEM_PATH, fileName);
