@@ -15,6 +15,8 @@ interface Competition {
   maxParticipants: number;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const getCompetitionDetailURL = (competitionId: number) => `/contest/detail/${competitionId}`;
 
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
@@ -37,9 +39,9 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 export default function CompetitionList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
-  const fetchCompetitions = async () => {
+  const fetchCompetitionList = async () => {
     try {
-      const response = await axios.get<Competition[]>('http://101.101.208.240:3000/competitions');
+      const response = await axios.get<Competition[]>(`${apiUrl}competitions`);
       setCompetitions(response.data);
     } catch (error) {
       console.error('Error fetching competitions:', (error as Error).message);
@@ -47,7 +49,7 @@ export default function CompetitionList() {
   };
 
   useEffect(() => {
-    fetchCompetitions();
+    fetchCompetitionList();
   }, []);
 
   return (
