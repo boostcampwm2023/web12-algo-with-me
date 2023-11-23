@@ -84,6 +84,8 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
+  const problems = problemList.map((problem) => problem.id);
+
   return (
     <main className={style}>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
