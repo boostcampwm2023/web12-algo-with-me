@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import fs from 'node:fs';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 import { Problem } from '../entities/problem.entity';
 
@@ -14,22 +15,19 @@ export class FilesystemService {
   ) {}
 
   async writeSubmittedCode(code: string, competitionId: number, userId: number, problemId: number) {
-    const logger = new Logger();
     const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     const mergedCode = this.getMergedCode(code, problem.frameCode);
 
     const submissionPath = this.configService.get<string>('SUBMISSION_PATH');
-    logger.debug(JSON.stringify(submissionPath));
-    const filepath = `${submissionPath}/${competitionId}/${userId}/${problemId}`;
-    logger.debug(JSON.stringify(filepath));
+    const baseDirectory = `${submissionPath}/${competitionId}/${userId}/`;
 
-    if (!fs.existsSync(filepath)) {
-      logger.debug('어루');
-      throw new InternalServerErrorException(`경로 ${filepath}가 없습니다`);
+    if (!fs.existsSync(baseDirectory)) {
+      const logger = new Logger();
+      logger.error(`파일시스템에 ${baseDirectory} 경로가 존재하지 않습니다`);
+      throw new InternalServerErrorException(`경로 ${baseDirectory}가 없습니다`);
     }
-    logger.debug('?');
 
-    fs.writeFileSync(filepath, mergedCode);
+    fs.writeFileSync(path.join(baseDirectory, `${problemId}.js`), mergedCode);
   }
 
   private getMergedCode(code: string, frameCode: string) {
