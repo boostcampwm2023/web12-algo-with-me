@@ -1,4 +1,4 @@
-import { RESULT } from '../entities/submission.enums';
+import { RESULT } from '../entities/competition.enums';
 
 export class ScoreResultDto {
   constructor(

@@ -1,4 +1,4 @@
-import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Competition } from './competition.entity';
 import { Problem } from './problem.entity';
@@ -8,10 +8,18 @@ export class CompetitionProblem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Competition, (competition) => competition.competitionProblems)
+  @Column()
+  competitionId: number;
+
+  @ManyToOne(() => Competition, (competition) => competition.competitionProblems, {
+    nullable: false,
+  })
   competition: Competition;
 
-  @ManyToOne(() => Problem, (problem) => problem.competitionProblems)
+  @Column()
+  problemId: number;
+
+  @ManyToOne(() => Problem, (problem) => problem.competitionProblems, { nullable: false })
   problem: Problem;
 
   @CreateDateColumn()

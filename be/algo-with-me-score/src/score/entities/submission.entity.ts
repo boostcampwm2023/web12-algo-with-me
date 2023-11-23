@@ -2,15 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { Competition } from './competition.entity';
+import { RESULT } from './competition.enums';
 import { Problem } from './problem.entity';
-import { RESULT } from './submission.enums';
+import { User } from './user.entity';
 
 @Entity()
 export class Submission {
@@ -34,15 +34,19 @@ export class Submission {
   problemId: number;
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { nullable: false })
-  @JoinColumn({ name: 'problemId', referencedColumnName: 'id' })
   problem: Problem;
 
   @Column()
   competitionId: number;
 
-  @ManyToOne(() => Competition, (competition) => competition.submissions)
-  @JoinColumn({ name: 'competitionId', referencedColumnName: 'id' })
+  @ManyToOne(() => Competition, (competition) => competition.submissions, { nullable: false })
   competition: Competition;
+
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User, (user) => user.submissions, { nullable: false })
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;
