@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { CompetitionParticipant } from '@src/competition/entities/participant.entity';
 
 @Entity()
 export class User {
@@ -18,6 +21,9 @@ export class User {
 
   @Column()
   nickname: string;
+
+  @OneToMany(() => CompetitionParticipant, (competitionParticipant) => competitionParticipant.user)
+  participants: CompetitionParticipant[];
 
   @CreateDateColumn()
   createdAt: Date;
