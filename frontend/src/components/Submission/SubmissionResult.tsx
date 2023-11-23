@@ -4,7 +4,7 @@ interface Props {
   onSubmit: () => void;
 }
 
-export default function SubmissionResult({ onSubmit }: Props) {
+export function SubmissionResult({ onSubmit }: Props) {
   const handleClickSubmit = () => {
     onSubmit();
   };
