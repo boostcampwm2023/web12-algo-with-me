@@ -16,7 +16,15 @@ export default function JoinCompetitionButton(props: { id: number }) {
     }
 
     try {
-      await axios.post(`${apiUrl}/competitions/${props.id}/participations`);
+      await axios.post(
+        `${apiUrl}/competitions/${props.id}/participations`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
       alert('대회에 성공적으로 참여했습니다.');
       window.location.reload();
