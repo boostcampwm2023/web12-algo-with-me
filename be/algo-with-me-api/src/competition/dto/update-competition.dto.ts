@@ -8,8 +8,8 @@ export class UpdateCompetitionDto {
     name: string,
     detail: string,
     maxParticipants: number,
-    startsAt: string,
-    endsAt: string,
+    startsAt: Date,
+    endsAt: Date,
   ) {
     this.name = name;
     this.detail = detail;
@@ -32,11 +32,11 @@ export class UpdateCompetitionDto {
 
   @ApiProperty({ description: '대회 시작 일시 (ISO string)' })
   @Optional()
-  startsAt: string;
+  startsAt: Date;
 
   @ApiProperty({ description: '대회 종료 일시 (ISO string)' })
   @Optional()
-  endsAt: string;
+  endsAt: Date;
 
   toEntity(): Competition {
     const competition = new Competition();
