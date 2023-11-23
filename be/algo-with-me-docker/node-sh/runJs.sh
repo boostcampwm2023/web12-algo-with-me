@@ -2,6 +2,7 @@
 # $1  COMPETITION_ID
 # $2  USER_ID
 # $3  PROBLEM_ID
+# $4  TESTCASE_ID
 
 # DESCRIPTION
 # node로 제출한 파일을 실행한다.
@@ -10,9 +11,9 @@
 # node 실행할 때 첫번째 인자로 RESULT_FILE의 파일 경로를 입력해준다.
 
 SUBMISSION_JS_FILE="/algo-with-me/submissions/$1/$2/$3.js"
-STDOUT_FILE="/algo-with-me/submissions/$1/$2/$3.stdout"
-STDERR_FILE="/algo-with-me/submissions/$1/$2/$3.stderr"
-RESULT_FILE="/algo-with-me/submissions/$1/$2/$3.result"
+STDOUT_FILE="/algo-with-me/submissions/$1/$2/$3.$4.stdout"
+STDERR_FILE="/algo-with-me/submissions/$1/$2/$3.$4.stderr"
+RESULT_FILE="/algo-with-me/submissions/$1/$2/$3.$4.result"
 
 node "$SUBMISSION_JS_FILE" "$RESULT_FILE" 1> "$STDOUT_FILE" 2> "$STDERR_FILE"
 

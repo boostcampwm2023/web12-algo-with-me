@@ -1,5 +1,5 @@
 sudo docker run -d \
--p 3000:3000 \
+-p 5000:5000 \
 -e COMPETITION_ID=$1 \
 -e USER_ID=$2 \
 -e PROBLEM_ID=$3 \
