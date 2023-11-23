@@ -10,12 +10,14 @@ export class CreateCompetitionDto {
     maxParticipants: number,
     startsAt: string,
     endsAt: string,
+    problemIds: number[],
   ) {
     this.name = name;
     this.detail = detail;
     this.maxParticipants = maxParticipants;
-    this.startsAt = startsAt;
+    this.problemIds = problemIds;
     this.endsAt = endsAt;
+    this.startsAt = startsAt;
   }
 
   @ApiProperty({ description: '대회 이름' })
@@ -38,13 +40,7 @@ export class CreateCompetitionDto {
   @IsNotEmpty()
   endsAt: string;
 
-  toEntity(): Competition {
-    const competition = new Competition();
-    competition.name = this.name;
-    competition.detail = this.detail;
-    competition.maxParticipants = this.maxParticipants;
-    competition.startsAt = new Date(this.startsAt);
-    competition.endsAt = new Date(this.endsAt);
-    return competition;
-  }
+  @ApiProperty({ description: '대회에 사용되는 문제 id 리스트' })
+  @IsNotEmpty()
+  problemIds: number[];
 }
