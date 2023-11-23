@@ -6,10 +6,10 @@ import AuthContext from '@/components/Auth/AuthContext';
 import axios from 'axios';
 
 const TOKEN_KEY = 'accessToken';
-const API_URL = 'http://101.101.208.240:3000';
+const BASE_URL = import.meta.env.VITE_API_URL;
 const AUTH_TEST_PATH = '/auths/tests';
 
-const URL = `${API_URL}${AUTH_TEST_PATH}`;
+const URL = `${BASE_URL}${AUTH_TEST_PATH}`;
 
 const fetchTokenValid = async (token: string) => {
   try {
@@ -29,48 +29,35 @@ const fetchTokenValid = async (token: string) => {
 };
 
 export default function useAuth() {
-  const { isLogin, setLogin, setLogout } = useContext(AuthContext);
+  const { isLoggedin, login, logout } = useContext(AuthContext);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 로그인 된 상태라면 아무것도 하지 않음
-    if (isLogin) return;
-
-    // 로그인 안 된 상태라면 검증을 해야할 경우가 두 가지 경우가 있음
-
-    // 1. 쿼리에 accessToken이 있는 경우
-    // 토큰을 검증 후에 localStorage에 저장하고
-    // AuthContext.isLogin = true로 변경
-    // 2. 쿼리에 accessToken이 없지만, localStorage에 accessToken이 있는 경우
-    // 토큰을 꺼내서 검증 후에 AuthContext.isLogin = true로 변경
-
+    if (isLoggedin) return;
     const queryParams = new URLSearchParams(location.search);
-    // 당연히 쿼리에 token 값이 있으면 token 값을 먼저 사용하도록 함.
     const token = queryParams.get(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
 
     if (!token) return;
-    const tokenValidPromise = fetchTokenValid(token);
-    tokenValidPromise.then((isValid) => {
-      if (isValid) {
-        saveAuthInfo(token);
-      } else {
-        removeAuthInfo();
-      }
-    });
+    evaluateToken(token);
   }, []);
+
+  const evaluateToken = async (token: string) => {
+    const isValid = await fetchTokenValid(token);
+    isValid ? saveAuthInfo(token) : removeAuthInfo();
+  };
 
   const saveAuthInfo = (token: string) => {
     localStorage.setItem(TOKEN_KEY, token);
-    setLogin();
+    login();
   };
 
   const removeAuthInfo = () => {
     // accessToken 없애기
     // AuthContext 없애기
     localStorage.removeItem(TOKEN_KEY);
-    setLogout();
+    logout();
   };
 
   const changeLoginInfo = () => {
@@ -86,5 +73,5 @@ export default function useAuth() {
     // AuthContext 없애기
     removeAuthInfo();
   };
-  return { changeLoginInfo, changeLogoutInfo, isLogin };
+  return { changeLoginInfo, changeLogoutInfo, isLoggedin };
 }
