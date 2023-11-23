@@ -24,13 +24,6 @@ const SelectableProblemList = ({
     onSelectProblem(problemId);
   }
 
-  const getSelectButton = ({ isPicked }: { isPicked: boolean }) => {
-    if (isPicked) {
-      return <button>취소</button>;
-    }
-    return <button>선택</button>;
-  };
-
   return (
     <ul onClick={handleSelectProblem}>
       {problemList.map(({ id, title }) => (
@@ -38,7 +31,7 @@ const SelectableProblemList = ({
           <span>
             {id}: {title}
           </span>
-          {getSelectButton({ isPicked: pickedProblemIds.includes(id) })}
+          <SelectButton isPicked={pickedProblemIds.includes(id)}></SelectButton>
         </li>
       ))}
     </ul>
@@ -46,3 +39,10 @@ const SelectableProblemList = ({
 };
 
 export default SelectableProblemList;
+
+const SelectButton = ({ isPicked }: { isPicked: boolean }) => {
+  if (isPicked) {
+    return <button>취소</button>;
+  }
+  return <button>선택</button>;
+};
