@@ -68,7 +68,7 @@ export default function ContestPage() {
       <section className={rowListStyle}>
         <ContestProblemSelector
           problemIds={problems}
-          setCurrentProblemIndex={setCurrentProblemIndex}
+          onCurrentProblemIndex={setCurrentProblemIndex}
         />
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>

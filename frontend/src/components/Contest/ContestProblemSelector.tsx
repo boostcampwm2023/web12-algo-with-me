@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 interface AsideProps {
   problemIds: number[];
-  setCurrentProblemIndex: (index: number) => void;
+  onCurrentProblemIndex: (index: number) => void;
 }
 
 export default function ContestProblemSelector(props: AsideProps) {
@@ -14,7 +14,7 @@ export default function ContestProblemSelector(props: AsideProps) {
           <li key={id}>
             <button
               className={selectProblemStyle}
-              onClick={() => props.setCurrentProblemIndex(index)}
+              onClick={() => props.onCurrentProblemIndex(index)}
             >
               문제 {index + 1}
             </button>
