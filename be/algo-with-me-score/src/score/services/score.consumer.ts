@@ -4,15 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { Repository } from 'typeorm';
 
-import * as process from 'process';
-
 import { FilesystemService } from './filesystem.service';
 import { ScoreService } from './score.service';
 import { MessageQueueItemDto } from '../dtos/message-queue-item.dto';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
-@Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
+// @Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
+@Processor('submission')
 export class SubmissionConsumer {
   constructor(
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
