@@ -53,7 +53,7 @@ export class CompetitionService {
     return CompetitionResponseDto.from(competition);
   }
 
-  async create(createCompetitionDto: CreateCompetitionDto) {
+  async create(createCompetitionDto: CreateCompetitionDto, user: User) {
     this.assertProblemIdsArrayLengthNotExceeds30(createCompetitionDto);
 
     const competitionProblems: CompetitionProblem[] = [];
@@ -64,15 +64,17 @@ export class CompetitionService {
       competitionProblems.push(competitionProblem);
     }
 
+    const competition: Competition = createCompetitionDto.toEntity(user);
+
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const competition: Competition = await this.competitionRepository.save(createCompetitionDto, {
+      const savedCompetition: Competition = await this.competitionRepository.save(competition, {
         transaction: false,
       });
       for (const competitionProblem of competitionProblems) {
-        competitionProblem.competition = competition;
+        competitionProblem.competition = savedCompetition;
         await this.competitionProblemRepository.save(competitionProblem, { transaction: false });
       }
       await queryRunner.commitTransaction();

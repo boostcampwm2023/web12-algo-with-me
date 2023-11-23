@@ -21,6 +21,8 @@ import { UpdateCompetitionDto } from '../dto/update-competition.dto';
 import { CompetitionService } from '../services/competition.service';
 
 import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
+import { AuthUser } from '@src/user/decorators/user.decorators';
+import { User } from '@src/user/entities/user.entity';
 
 @ApiTags('대회(competitions)')
 @Controller('competitions')
@@ -56,8 +58,8 @@ export class CompetitionController {
   @ApiBearerAuth()
   @UsePipes(new ValidationPipe({ transform: true }))
   @UseGuards(AuthGuard('jwt'))
-  create(@Body() createCompetitionDto: CreateCompetitionDto) {
-    return this.competitionService.create(createCompetitionDto);
+  create(@Body() createCompetitionDto: CreateCompetitionDto, @AuthUser() user: User) {
+    return this.competitionService.create(createCompetitionDto, user);
   }
 
   @Put('/:competitionId')

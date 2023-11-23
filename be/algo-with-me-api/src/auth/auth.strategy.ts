@@ -7,6 +7,7 @@ import { ExtractJwt, Strategy as PassportJwtStrategy } from 'passport-jwt';
 import { AuthService } from './services/auth.service';
 
 import { UserResponseDto } from '@src/user/dto/user.response.dto';
+import { User } from '@src/user/entities/user.entity';
 import { UserService } from '@src/user/services/user.service';
 
 @Injectable()
@@ -34,7 +35,10 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
-  constructor(private readonly configservice: ConfigService) {
+  constructor(
+    private readonly configservice: ConfigService,
+    private readonly userService: UserService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -42,7 +46,8 @@ export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
     });
   }
 
-  async validate(content: any) {
-    return new UserResponseDto(content.sub, content.nickname);
+  async validate(content: any): Promise<User> {
+    // user가 null이면 인가 실패
+    return this.userService.getByEmail(content.sub);
   }
 }
