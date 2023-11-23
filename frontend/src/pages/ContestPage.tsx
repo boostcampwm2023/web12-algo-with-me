@@ -12,8 +12,10 @@ import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
+import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
+import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
@@ -32,12 +34,17 @@ export default function ContestPage() {
     cancelSimulation,
   } = useSimulations();
 
-  const { problems, competition, submitSolution } = useCompetition(competitionId);
-  const currentProblemId = useMemo(() => {
-    return problems[currentProblemIndex];
-  }, [problems, currentProblemIndex]);
+  const { competition, submitSolution } = useCompetition(competitionId);
+  const { problemList } = useCompetitionProblemList(competitionId);
 
-  const { problem } = useProblem(currentProblemId);
+  const currentProblem = useMemo(() => {
+    if (problemList.length > 0) {
+      return problemList[currentProblemIndex];
+    }
+    return null;
+  }, [problemList, currentProblemIndex]);
+
+  const { problem } = useProblem(currentProblem?.id ?? -1);
 
   const [code, setCode] = useState<string>(problem.solutionCode);
 
@@ -64,8 +71,13 @@ export default function ContestPage() {
   };
 
   function handleSubmitSolution() {
+    if (isNil(currentProblem)) {
+      console.error('존재하지 않는 문제입니다.');
+      return;
+    }
+
     const form = {
-      problemId: currentProblemId,
+      problemId: currentProblem.id,
       code,
     } satisfies SubmissionForm;
     submitSolution(form);

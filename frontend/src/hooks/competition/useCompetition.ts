@@ -45,7 +45,6 @@ const notFoundCompetition: Competition = {
 
 export const useCompetition = (competitionId: number) => {
   const [competition, setCompetition] = useState<Competition>(notFoundCompetition);
-  const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
 
   const socket = useRef(
     createSocketInstance('/competitions', {
@@ -93,19 +92,23 @@ export const useCompetition = (competitionId: number) => {
     socket.current.emit('submissions', form);
   }
 
+  async function updateCompetition(competitionId: number) {
+    try {
+      const { data } = await axios.get<Competition>(
+        `http://101.101.208.240:3000/competitions/${competitionId}`,
+      );
+      setCompetition(data);
+    } catch (err) {
+      console.error('Error fetching competition data:', err);
+      alert('대회 정보 패치에 실패했습니다.');
+    }
+  }
+
   useEffect(() => {
-    axios
-      .get(`http://101.101.208.240:3000/competitions/${competitionId}`)
-      .then((response) => {
-        setCompetition(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching competition data:', error);
-      });
+    updateCompetition(competitionId);
   }, [competitionId]);
 
   return {
-    problems,
     competition,
     submitSolution,
   };

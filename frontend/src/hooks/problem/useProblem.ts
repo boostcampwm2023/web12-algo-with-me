@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import type { ProblemId } from '@/apis/problems';
+
 import axios from 'axios';
 
 interface CompetitionProblem {
@@ -24,10 +26,12 @@ const notFoundProblem: CompetitionProblem = {
   createdAt: new Date().toISOString(),
 };
 
-export const useProblem = (problemId: number) => {
+export const useProblem = (problemId: ProblemId) => {
   const [problem, setProblem] = useState<CompetitionProblem>(notFoundProblem);
 
   const fetchProblem = async (id: number) => {
+    if (id < 0) return;
+
     try {
       const response = await axios.get(`http://101.101.208.240:3000/competitions/problems/${id}`);
       const fetchedProblem = response.data;
