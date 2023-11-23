@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
-import { CompetitionProblem } from './competition/entities/competition.problem.entity';
 import { CompetitionParticipant } from './competition/entities/competition.participant.entity';
+import { CompetitionProblem } from './competition/entities/competition.problem.entity';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 import { User } from './user/entities/user.entity';
