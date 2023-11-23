@@ -44,10 +44,7 @@ export class CompetitionService {
 
   async findOne(competitionId: number) {
     const competition = await this.competitionRepository.findOneBy({ id: competitionId });
-    if (!competition)
-      throw new NotFoundException(
-        `대회 id ${competitionId}에 해당하는 대회 정보를 찾을 수 없습니다`,
-      );
+    this.assertCompetitionExists(competition);
     return CompetitionResponseDto.from(competition);
   }
 
@@ -77,29 +74,6 @@ export class CompetitionService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
-    }
-  }
-
-  private async assertProblemExistsInDb(
-    problemId: number,
-    createCompetitionDto: CreateCompetitionDto,
-  ) {
-    const problem = await this.problemRepository.findOneBy({ id: problemId });
-    if (!problem) {
-      throw new NotFoundException(
-        `대회를 생성할 때 주어진 문제 리스트 ${JSON.stringify(
-          createCompetitionDto.problemIds,
-        )}에 존재하지 않는 문제가 있습니다 (id: ${problemId})`,
-      );
-    }
-    return problem;
-  }
-
-  private assertProblemIdsArrayLengthNotExceeds30(createCompetitionDto: CreateCompetitionDto) {
-    if (createCompetitionDto.problemIds.length > 30) {
-      throw new BadRequestException(
-        `정책 상 하나의 대회에서는 30개가 넘는 문제를 출제할 수 없습니다. (${createCompetitionDto.problemIds.length}개를 출제함)`,
-      );
     }
   }
 
@@ -142,6 +116,7 @@ export class CompetitionService {
   }
 
   // TODO: 유저, 대회 도메인 구현 이후 수정 필요
+
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
     const submission = await this.submissionRepository.findOneBy({
       id: scoreResultDto.submissionId,
@@ -182,5 +157,34 @@ export class CompetitionService {
     return competition.map((element: CompetitionProblem) => {
       return new ProblemSimpleResponseDto(element.problem.id, element.problem.title);
     });
+  }
+  private assertCompetitionExists(competition: Competition) {
+    if (!competition)
+      throw new NotFoundException(
+        `대회 id ${competition.id}에 해당하는 대회 정보를 찾을 수 없습니다`,
+      );
+  }
+
+  private async assertProblemExistsInDb(
+    problemId: number,
+    createCompetitionDto: CreateCompetitionDto,
+  ) {
+    const problem = await this.problemRepository.findOneBy({ id: problemId });
+    if (!problem) {
+      throw new NotFoundException(
+        `대회를 생성할 때 주어진 문제 리스트 ${JSON.stringify(
+          createCompetitionDto.problemIds,
+        )}에 존재하지 않는 문제가 있습니다 (id: ${problemId})`,
+      );
+    }
+    return problem;
+  }
+
+  private assertProblemIdsArrayLengthNotExceeds30(createCompetitionDto: CreateCompetitionDto) {
+    if (createCompetitionDto.problemIds.length > 30) {
+      throw new BadRequestException(
+        `정책 상 하나의 대회에서는 30개가 넘는 문제를 출제할 수 없습니다. (${createCompetitionDto.problemIds.length}개를 출제함)`,
+      );
+    }
   }
 }
