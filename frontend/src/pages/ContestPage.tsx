@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import CompetitionHeader from '@/components/Contest/CompetitionHeader';
+import CompetitionPageHeader from '@/components/Contest/CompetitionPageHeader';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
@@ -65,7 +65,7 @@ export default function ContestPage() {
   return (
     <main className={style}>
       <button onClick={handleNextProblem}>다음 문제</button>
-      <CompetitionHeader crumbs={crumbs} id={competitionId} />
+      <CompetitionPageHeader crumbs={crumbs} id={competitionId} />
       <section>
         <span className={problemTitleStyle}>{problem.title}</span>
       </section>
