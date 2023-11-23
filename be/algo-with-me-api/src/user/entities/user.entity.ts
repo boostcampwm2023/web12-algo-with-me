@@ -23,7 +23,7 @@ export class User {
   nickname: string;
 
   @OneToMany(() => CompetitionParticipant, (competitionParticipant) => competitionParticipant.user)
-  participants: CompetitionParticipant[];
+  competitionParticipant: CompetitionParticipant[];
 
   @CreateDateColumn()
   createdAt: Date;
