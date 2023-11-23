@@ -44,27 +44,11 @@ export class CompetitionService {
 
   async findOne(competitionId: number) {
     const competition = await this.competitionRepository.findOneBy({ id: competitionId });
-    const problems = await this.competitionProblemRepository.find({
-      select: {
-        problem: { id: true },
-      },
-      where: {
-        competition: { id: competitionId },
-      },
-      relations: {
-        problem: true,
-      },
-    });
-    const problemIds = problems.map((element) => element.problem.id);
     if (!competition)
       throw new NotFoundException(
         `대회 id ${competitionId}에 해당하는 대회 정보를 찾을 수 없습니다`,
       );
-    if (!problems)
-      throw new NotFoundException(
-        `대회 id ${competitionId}에 해당하는 문제 리스트를 찾는 데에 실패했습니다`,
-      );
-    return CompetitionResponseDto.from({ ...competition, problemIds });
+    return CompetitionResponseDto.from(competition);
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
