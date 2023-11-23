@@ -11,32 +11,29 @@ import { CompetitionProblem } from './competition.problem.entity';
 import { Submission } from './submission.entity';
 
 @Entity()
-export class Problem {
+export class Competition {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  title: string;
-
-  @Column()
-  timeLimit: number;
-
-  @Column()
-  memoryLimit: number;
-
-  @Column()
-  testcaseNum: number;
+  name: string;
 
   @Column('text')
-  frameCode: string;
+  detail: string;
 
-  @Column('text')
-  solutionCode: string;
+  @Column()
+  maxParticipants: number;
 
-  @OneToMany(() => Submission, (submission) => submission.problem)
+  @Column()
+  startsAt: Date;
+
+  @Column()
+  endsAt: Date;
+
+  @OneToMany(() => Submission, (submission) => submission.competition)
   submissions: Submission[];
 
-  @OneToMany(() => CompetitionProblem, (competitionProblem) => competitionProblem.problem)
+  @OneToMany(() => CompetitionProblem, (competitionProblem) => competitionProblem.competition)
   competitionProblems: CompetitionProblem[];
 
   @CreateDateColumn()
