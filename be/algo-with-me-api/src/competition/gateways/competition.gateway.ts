@@ -1,5 +1,6 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
+  BaseWsExceptionFilter,
   ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
@@ -57,11 +58,15 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   }
 
   public handleConnection(client: Socket, ...args: any[]) {
-    // TODO: 사용자가 대회 참여중인지 확인하는 로직 추가해야 함
-    const { competitionId } = client.handshake.query;
-    this.authService.verifyToken(client.handshake.headers.authorization);
-    client.join(competitionId);
-    console.log(client.id);
-    console.log(competitionId, args);
+    try {
+      const { competitionId } = client.handshake.query;
+      this.authService.verifyToken(client.handshake.headers.authorization);
+      // TODO: 유저가 대회 참가했는지 검증 필요
+      client.join(competitionId);
+      console.log(client.id);
+      console.log(competitionId, args);
+    } catch (error) {
+      client.emit('messages', { message: `${error.message}` });
+    }
   }
 }
