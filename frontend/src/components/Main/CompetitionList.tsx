@@ -68,6 +68,8 @@ interface Competition {
   maxParticipants: number;
 }
 
+const getCompetitionDetailURL = (competitionId: number) => `/contest/detail/${competitionId}`;
+
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
   const startDate = new Date(startsAt);
@@ -112,7 +114,7 @@ export default function CompetitionList() {
           {competitions.map((competition) => (
             <tr key={competition.id}>
               <td>
-                <Link to={`/contest/detail/${competition.id}`}>{competition.name}</Link>
+                <Link to={getCompetitionDetailURL(competition.id)}>{competition.name}</Link>
               </td>
               <td>{new Date(competition.startsAt).toLocaleString()}</td>
               <td>{new Date(competition.endsAt).toLocaleString()}</td>
