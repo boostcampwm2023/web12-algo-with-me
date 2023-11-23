@@ -77,7 +77,11 @@ export class ScoreService {
     problemId: number,
     testcaseId: number,
   ): Promise<ICoderunResponse> {
-    const url = `http://localhost:2000/${competitionId}/${userId}/${problemId}/${testcaseId}`;
+    const [dockerServerHost, dockerServerPort] = [
+      process.env.DOCKER_SERVER_HOST,
+      process.env.DOCKER_SERVER_PORT,
+    ];
+    const url = `http://${dockerServerHost}:${dockerServerPort}/${competitionId}/${userId}/${problemId}/${testcaseId}`;
     try {
       const response = await fetch(url, { method: 'POST' });
       return (await response.json()) as ICoderunResponse;
