@@ -69,15 +69,14 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
         message: VALIDATION_MESSAGE.needMoreParticipants,
       };
     }
-
-    if (new Date(startsAt) > new Date(Date.now() + FIVE_MIN_BY_MS)) {
+    if (new Date(startsAt) <= new Date(Date.now() + FIVE_MIN_BY_MS)) {
       return {
         isValid: false,
         message: VALIDATION_MESSAGE.tooEarlyStartTime,
       };
     }
 
-    if (new Date(endsAt) > new Date(startsAt)) {
+    if (new Date(endsAt) <= new Date(startsAt)) {
       return {
         isValid: false,
         message: VALIDATION_MESSAGE.tooEarlyEndTime,

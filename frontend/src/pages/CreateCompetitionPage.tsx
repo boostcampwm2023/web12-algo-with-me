@@ -47,6 +47,7 @@ export default function CompetitionCreatePage() {
   async function handleSumbitCompetition() {
     const formData = form.getAllFormData();
     const { isValid, message } = form.validateForm(formData);
+
     if (!isValid) {
       if (!isNil(message)) {
         alert(message);
