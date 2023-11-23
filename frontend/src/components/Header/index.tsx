@@ -4,7 +4,7 @@ import Logo from '@/components/Common/Logo';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function Header() {
-  const { changeLoginInfo, changeLogoutInfo, isLogin } = useAuth();
+  const { changeLoginInfo, changeLogoutInfo, isLoggedin } = useAuth();
 
   const handleLogin = () => {
     changeLoginInfo();
@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className={headerStyle}>
       <Logo size="36px" />
-      {isLogin ? (
+      {isLoggedin ? (
         <button onClick={handleLogout}> 로그아웃 </button>
       ) : (
         <button onClick={handleLogin}> 로그인 </button>
