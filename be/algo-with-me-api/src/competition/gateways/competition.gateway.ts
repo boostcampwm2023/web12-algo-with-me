@@ -62,6 +62,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       console.log(competitionId, args);
     } catch (error) {
       client.emit('messages', { message: `${error.message}` });
+      client.disconnect();
     }
   }
 }
