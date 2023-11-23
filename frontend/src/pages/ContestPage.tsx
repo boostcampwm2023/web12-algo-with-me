@@ -59,13 +59,8 @@ export default function ContestPage() {
     changeInput(id, newParam);
   };
 
-  const handleNextProblem = () => {
-    setCurrentProblemIndex(currentProblemIndex + 1);
-  };
-
   return (
     <main className={style}>
-      <button onClick={handleNextProblem}>다음 문제</button>
       <CompetitionPageHeader crumbs={crumbs} id={competitionId} />
       <section>
         <span className={problemTitleStyle}>{problem.title}</span>
