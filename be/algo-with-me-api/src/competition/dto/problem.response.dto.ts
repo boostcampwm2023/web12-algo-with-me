@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Problem } from '../entities/problem.entity';
+
 export class ProblemResponseDto {
   constructor(
     id: number,
@@ -34,4 +36,15 @@ export class ProblemResponseDto {
 
   @ApiProperty()
   createdAt: Date;
+
+  static from(problem: Problem, content: string) {
+    return new ProblemResponseDto(
+      problem.id,
+      problem.title,
+      problem.timeLimit,
+      problem.memoryLimit,
+      content,
+      problem.createdAt,
+    );
+  }
 }
