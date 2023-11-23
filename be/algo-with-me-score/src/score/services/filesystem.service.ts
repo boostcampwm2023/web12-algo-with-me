@@ -22,9 +22,8 @@ export class FilesystemService {
     const baseDirectory = `${submissionPath}/${competitionId}/${userId}/`;
 
     if (!fs.existsSync(baseDirectory)) {
-      const message = `파일시스템에 ${baseDirectory} 경로가 존재하지 않습니다`;
-      new Logger().error(message);
-      throw new InternalServerErrorException(message);
+      new Logger().error(`파일시스템에 ${baseDirectory} 경로가 존재하지 않습니다`);
+      throw new InternalServerErrorException();
     }
 
     fs.writeFileSync(path.join(baseDirectory, `${problemId}.js`), mergedCode);
