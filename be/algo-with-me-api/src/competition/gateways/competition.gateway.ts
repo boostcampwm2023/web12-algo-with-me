@@ -1,6 +1,5 @@
-import { UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+import { UsePipes, ValidationPipe } from '@nestjs/common';
 import {
-  BaseWsExceptionFilter,
   ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
