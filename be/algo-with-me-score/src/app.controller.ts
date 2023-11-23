@@ -8,7 +8,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
-  addMessage(@Body('submissionId') submissionId: number, @Body('sessionId') sessionId: string) {
-    return this.appService.addMessageQueue(new MessageQueueItemDto(submissionId, sessionId));
+  addMessage(@Body('submissionId') submissionId: number, @Body('socketId') socketId: string) {
+    return this.appService.addMessageQueue(new MessageQueueItemDto(submissionId, socketId));
   }
 }

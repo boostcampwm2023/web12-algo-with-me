@@ -1,9 +1,9 @@
 export class MessageQueueItemDto {
-  constructor(submissionId: number, sessionId: string) {
+  constructor(submissionId: number, socketId: string) {
     this.submissionId = submissionId;
-    this.sessionId = sessionId;
+    this.socketId = socketId;
   }
 
   submissionId: number;
-  sessionId: string;
+  socketId: string;
 }
