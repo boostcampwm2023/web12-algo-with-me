@@ -28,7 +28,7 @@ import { UserModule } from '@src/user/user.module';
       User,
     ]),
     BullModule.registerQueue({
-      name: process.env.REDIS_MESSAGE_QUEUE_NAME,
+      name: 'submission',
     }),
     AuthModule,
     UserModule,

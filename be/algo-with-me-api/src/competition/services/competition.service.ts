@@ -41,7 +41,7 @@ export class CompetitionService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(CompetitionParticipant)
     private readonly competitionParticipantRepository: Repository<CompetitionParticipant>,
-    @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
+    @InjectQueue('submission') private submissionQueue: Queue,
     private dataSource: DataSource,
   ) {}
 
