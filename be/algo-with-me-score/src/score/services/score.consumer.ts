@@ -21,7 +21,7 @@ export class SubmissionConsumer {
 
   @Process('score')
   async getMessageQueue(job: Job) {
-    const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.sessionId);
+    const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.socketId);
     const submissionId = messageQueueItem.submissionId;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission) {
