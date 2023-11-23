@@ -27,9 +27,8 @@ export class SubmissionConsumer {
     const submissionId = messageQueueItem.submissionId;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission) {
-      const message = `제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`;
-      new Logger().error(message);
-      throw new InternalServerErrorException(message);
+      new Logger().error(`제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`);
+      throw new InternalServerErrorException();
     }
 
     const problemId = submission.problemId;
