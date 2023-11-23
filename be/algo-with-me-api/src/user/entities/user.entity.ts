@@ -8,8 +8,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+<<<<<<< HEAD
 import { Competition } from '@src/competition/entities/competition.entity';
 import { CompetitionParticipant } from '@src/competition/entities/competition.participant.entity';
+=======
+>>>>>>> 4e7f5da38dc17402cae27b808106db6a5adde1b4
 import { Submission } from '@src/competition/entities/submission.entity';
 
 @Entity()
