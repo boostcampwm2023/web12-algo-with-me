@@ -58,7 +58,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       this.authService.verifyToken(client.handshake.headers.authorization);
       // TODO: 유저가 대회 참가했는지 검증 필요
       client.join(competitionId);
-      console.log(client.id, client.rooms);
+      console.log(client.id);
       console.log(competitionId, args);
     } catch (error) {
       client.emit('messages', { message: `${error.message}` });
