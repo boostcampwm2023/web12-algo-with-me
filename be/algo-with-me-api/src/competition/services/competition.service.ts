@@ -116,8 +116,8 @@ export class CompetitionService {
     const isAlreadyJoined: CompetitionParticipant[] =
       await this.competitionParticipantRepository.find({
         where: {
-          competition: { id: competition.id },
-          user: { id: user.id },
+          competitionId: competition.id,
+          userId: user.id,
         },
       });
     if (isAlreadyJoined.length !== 0) throw new BadRequestException('이미 참여중인 유저입니다.');
