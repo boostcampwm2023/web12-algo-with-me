@@ -3,7 +3,7 @@ import { css } from '@style/css';
 const GITHUB_AUTH_URL = 'http://101.101.208.240:3000/auths/github';
 
 export default function Login() {
-  const handleLogIn = async () => {
+  const handleLogin = () => {
     try {
       window.location.href = GITHUB_AUTH_URL;
     } catch (e) {
@@ -15,7 +15,7 @@ export default function Login() {
   return (
     <section className={loginWrapperStyle}>
       <header className={loginHeaderStyle}>Algo With Me</header>
-      <button onClick={handleLogIn}>Github으로 로그인</button>
+      <button onClick={handleLogin}>Github으로 로그인</button>
     </section>
   );
 }
