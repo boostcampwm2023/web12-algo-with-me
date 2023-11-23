@@ -53,7 +53,6 @@ export class CreateCompetitionDto {
     competition.maxParticipants = this.maxParticipants;
     competition.startsAt = this.startsAt;
     competition.endsAt = this.endsAt;
-    competition.user = user;
     competition.userId = user.id;
     return competition;
   }

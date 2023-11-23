@@ -20,4 +20,9 @@ export class UserService {
     }
     return new UserResponseDto(user.email, user.nickname);
   }
+
+  async getByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    return user;
+  }
 }
