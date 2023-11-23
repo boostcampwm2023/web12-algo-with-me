@@ -35,11 +35,11 @@ import { ScoreModule } from './score/score.module';
       },
     }),
     BullModule.registerQueue({
-      name: 'testQueue',
+      name: process.env.REDIS_MESSAGE_QUEUE_NAME,
     }),
     ScoreModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -11,8 +11,7 @@ import { ScoreService } from './score.service';
 import { MessageQueueItemDto } from '../dtos/message-queue-item.dto';
 import { Submission } from '../entities/submission.entity';
 
-// @Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
-@Processor('testQueue')
+@Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
 export class SubmissionConsumer {
   constructor(
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
@@ -27,7 +26,6 @@ export class SubmissionConsumer {
       job.data.problemId,
       job.data.sessionId,
     );
-    const logger = new Logger();
     const submissionId = messageQueueItem.submissionId;
     const submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission)
