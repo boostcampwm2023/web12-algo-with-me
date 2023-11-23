@@ -24,7 +24,7 @@ export class SubmissionConsumer {
   @Process('score')
   async getMessageQueue(job: Job) {
     const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.socketId);
-    const submissionId = messageQueueItem.submissionId;
+    const { socketId, submissionId } = messageQueueItem;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission) {
       new Logger().error(`제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`);
@@ -51,6 +51,7 @@ export class SubmissionConsumer {
       competitionId,
       userId,
       problemId,
+      socketId,
     );
   }
 
