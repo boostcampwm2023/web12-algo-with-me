@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import axios from 'axios';
+import type { CompetitionInfo } from '@/apis/competitions';
+import { fetchCompetition } from '@/apis/competitions';
+import type { ProblemId } from '@/apis/problems';
+import { createSocketInstance } from '@/utils/socket';
+import { isNil } from '@/utils/type';
 
-interface Competition {
-  id: number;
-  name: string;
-  detail: string;
-  maxParticipants: number;
-  startsAt: string;
-  endsAt: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type SubmissionForm = {
+  problemId: ProblemId;
+  code: string;
+};
 
-const notFoundCompetition: Competition = {
+const notFoundCompetition: CompetitionInfo = {
   id: 0,
   name: 'Competition Not Found',
   detail: 'Competition Not Found',
@@ -25,22 +23,52 @@ const notFoundCompetition: Competition = {
 };
 
 export const useCompetition = (competitionId: number) => {
-  const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
-  const [competition, setCompetition] = useState<Competition>(notFoundCompetition);
+  const [competition, setCompetition] = useState<CompetitionInfo>(notFoundCompetition);
+  const socket = useRef(
+    createSocketInstance('/competitions', {
+      transports: ['websocket'],
+      query: { competitionId: 3 },
+    }),
+  );
+
+  const handleConnect = () => {
+    console.log('connected!');
+  };
+
+  const handleDisconnect = () => {
+    console.log('disconnected!');
+  };
 
   useEffect(() => {
-    axios
-      .get(`http://101.101.208.240:3000/competitions/${competitionId}`)
-      .then((response) => {
-        setCompetition(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching competition data:', error);
-      });
+    if (!socket.current.hasListeners('connect')) {
+      socket.current.on('connect', handleConnect);
+    }
+    if (!socket.current.hasListeners('disconnect')) {
+      socket.current.on('disconnect', handleDisconnect);
+    }
+  }, []);
+
+  function submitSolution(form: SubmissionForm) {
+    socket.current.emit('submissions', form);
+  }
+
+  async function updateCompetition(competitionId: number) {
+    const competition = await fetchCompetition(competitionId);
+    if (isNil(competition)) {
+      alert('대회 정보 패치에 실패했습니다.');
+      return;
+    }
+
+    setCompetition(competition);
+  }
+
+  useEffect(() => {
+    updateCompetition(competitionId);
   }, [competitionId]);
 
   return {
-    problems,
+    socket,
     competition,
+    submitSolution,
   };
 };

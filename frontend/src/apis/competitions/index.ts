@@ -1,8 +1,23 @@
 import api from '@/utils/api';
 
-import type { CompetitionForm, CompetitionInfo, CreateCompetitionResponse } from './types';
+import type {
+  CompetitionForm,
+  CompetitionInfo,
+  CreateCompetitionResponse,
+  FetchCompetitionResponse,
+} from './types';
 
 export * from './types';
+
+export async function fetchCompetition(competitionId: number): Promise<CompetitionInfo | null> {
+  try {
+    const { data } = await api.get<FetchCompetitionResponse>(`/competitions/${competitionId}`);
+    return data;
+  } catch (err) {
+    console.error('Error fetching competition data:', err);
+    return null;
+  }
+}
 
 export async function createCompetition(
   competitionForm: CompetitionForm,

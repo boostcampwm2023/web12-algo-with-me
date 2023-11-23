@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
@@ -9,17 +9,21 @@ import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
-import SubmissionResult from '@/components/SubmissionResult';
+import { SubmissionResult } from '@/components/Submission';
 import { SITE } from '@/constants';
-import { useCompetition } from '@/hooks/competition/useCompetition';
-import { useProblem } from '@/hooks/problem/useProblem';
+import type { SubmissionForm } from '@/hooks/competition';
+import { useCompetition } from '@/hooks/competition';
+import { useCompetitionProblem } from '@/hooks/problem';
+import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { useSimulations } from '@/hooks/simulation';
+import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
+  const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
 
   const {
@@ -30,16 +34,24 @@ export default function ContestPage() {
     changeInput,
     cancelSimulation,
   } = useSimulations();
-  const competitionId: number = id ? parseInt(id, 10) : -1;
 
-  const { problems, competition } = useCompetition(competitionId);
-  const currentProblemId = useMemo(() => {
-    return problems[currentProblemIndex];
-  }, [problems, currentProblemIndex]);
+  const { socket, competition, submitSolution } = useCompetition(competitionId);
+  const { problemList } = useCompetitionProblemList(competitionId);
 
-  const { problem } = useProblem(currentProblemId);
+  const currentProblem = useMemo(() => {
+    if (problemList.length > 0) {
+      return problemList[currentProblemIndex];
+    }
+    return null;
+  }, [problemList, currentProblemIndex]);
+
+  const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
 
   const [code, setCode] = useState<string>(problem.solutionCode);
+
+  useEffect(() => {
+    setCode(problem.solutionCode);
+  }, [problem.solutionCode]);
 
   const crumbs = [SITE.NAME, competition.name, problem.title];
 
@@ -58,6 +70,19 @@ export default function ContestPage() {
   const handleChangeInput = (id: number, newParam: string) => {
     changeInput(id, newParam);
   };
+
+  function handleSubmitSolution() {
+    if (isNil(currentProblem)) {
+      console.error('존재하지 않는 문제입니다.');
+      return;
+    }
+
+    const form = {
+      problemId: currentProblem.id,
+      code,
+    } satisfies SubmissionForm;
+    submitSolution(form);
+  }
 
   return (
     <main className={style}>
@@ -90,7 +115,8 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult></SubmissionResult>
+        <SubmissionResult socket={socket.current}></SubmissionResult>
+        <button onClick={handleSubmitSolution}>제출하기</button>
       </section>
     </main>
   );

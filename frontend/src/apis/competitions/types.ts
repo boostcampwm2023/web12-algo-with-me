@@ -22,4 +22,5 @@ export type CompetitionInfo = {
   updatedAt: string;
 };
 
+export type FetchCompetitionResponse = CompetitionInfo;
 export type CreateCompetitionResponse = CompetitionInfo;
