@@ -28,13 +28,18 @@ export class ProblemService {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ProblemResponseDto> {
     const problem = await this.problemRepository.findOneBy({ id });
     const fileName = id.toString() + '.md';
     const paths = path.join(process.env.PROBLEM_PATH, fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
     return ProblemResponseDto.from(problem, content);
+  }
+
+  async getProblenTestcaseNum(id: number) {
+    const problem = await this.problemRepository.findOneBy({ id });
+    return problem.testcaseNum;
   }
 
   // update(id: number, updateCompetitionDto: UpdateCompetitionDto) {

@@ -9,6 +9,7 @@ export class ProblemResponseDto {
     timeLimit: number,
     memoryLimit: number,
     content: string,
+    testcaseNum: number,
     createdAt: Date,
   ) {
     this.id = id;
@@ -16,6 +17,7 @@ export class ProblemResponseDto {
     this.timeLimit = timeLimit;
     this.memoryLimit = memoryLimit;
     this.content = content;
+    this.testcaseNum = testcaseNum;
     this.createdAt = createdAt;
   }
 
@@ -34,6 +36,9 @@ export class ProblemResponseDto {
   @ApiProperty({ description: '문제 내용' })
   content: string;
 
+  @ApiProperty({ description: '테스트케이스 개수' })
+  testcaseNum: number;
+
   @ApiProperty()
   createdAt: Date;
 
@@ -44,6 +49,7 @@ export class ProblemResponseDto {
       problem.timeLimit,
       problem.memoryLimit,
       content,
+      problem.testcaseNum,
       problem.createdAt,
     );
   }

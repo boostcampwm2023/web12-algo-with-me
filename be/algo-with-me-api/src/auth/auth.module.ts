@@ -23,5 +23,6 @@ import { UserModule } from '@src/user/user.module';
   ],
   controllers: [AuthController],
   providers: [GithubStrategy, AuthService, JWTStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}

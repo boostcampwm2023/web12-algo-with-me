@@ -134,11 +134,20 @@ export class CompetitionService {
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
-  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string) {
+  async isUserJoinedCompetition(competitionId: number, userId: number) {
+    console.log(competitionId, userId);
+    const competitionParticipant: CompetitionParticipant =
+      await this.competitionParticipantRepository.findOneBy({ competitionId, userId });
+
+    if (!competitionParticipant) throw new UnauthorizedException('대회 참여자가 아닙니다.');
+    return true;
+  }
+
+  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string, user: User) {
     const problem: Problem = await this.problemRepository.findOneBy({
       id: createSubmissionDto.problemId,
     });
-    const submission: Submission = createSubmissionDto.toEntity(problem);
+    const submission: Submission = createSubmissionDto.toEntity(problem, user);
     const savedSubmission: Submission = await this.submissionRepository.save(submission);
     await this.submissionQueue.add({
       problemId: savedSubmission.problem.id,
@@ -165,7 +174,7 @@ export class CompetitionService {
     submission.detail.push(result);
     this.submissionRepository.save(submission);
 
-    result['problemId'] = scoreResultDto.problemId;
+    result['problemId'] = submission.problemId;
     result['stdOut'] = scoreResultDto.stdOut;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
