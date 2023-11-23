@@ -3,10 +3,8 @@ import { RESULT } from '../entities/submission.enums';
 export class ScoreResultDto {
   constructor(
     submissionId: number,
-    competitionId: number,
-    userId: number,
-    problemId: number,
     testcaseId: number,
+    socketId: string,
     result: keyof typeof RESULT,
     stdout: string,
     stderr: string,
@@ -14,10 +12,8 @@ export class ScoreResultDto {
     memoryUsage: number,
   ) {
     this.submissionId = submissionId;
-    this.competitionId = competitionId;
-    this.userId = userId;
-    this.problemId = problemId;
     this.testcaseId = testcaseId;
+    this.socketId = socketId;
     this.result = result;
     this.stdout = stdout;
     this.stderr = stderr;
@@ -26,10 +22,8 @@ export class ScoreResultDto {
   }
 
   submissionId: number;
-  competitionId: number;
-  userId: number;
-  problemId: number;
   testcaseId: number;
+  socketId: string;
   result: keyof typeof RESULT;
   stdout: string;
   stderr: string;

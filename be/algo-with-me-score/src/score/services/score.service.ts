@@ -17,6 +17,7 @@ export class ScoreService {
     competitionId: number,
     userId: number,
     problemId: number,
+    socketId: string,
   ) {
     for (let testcaseId = 1; testcaseId <= testcaseNum; testcaseId++) {
       await this.scoreOneTestcaseAndSendResult(
@@ -25,6 +26,7 @@ export class ScoreService {
         userId,
         problemId,
         testcaseId,
+        socketId,
       );
     }
   }
@@ -35,6 +37,7 @@ export class ScoreService {
     userId: number,
     problemId: number,
     testcaseId: number,
+    socketId: string,
   ) {
     const codeRunResponse = await this.runCode(competitionId, userId, problemId, testcaseId);
 
@@ -47,18 +50,7 @@ export class ScoreService {
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
 
     await this.sendScoreResult(
-      new ScoreResultDto(
-        submissionId,
-        competitionId,
-        userId,
-        problemId,
-        testcaseId,
-        judgeResult,
-        stdout,
-        stderr,
-        0,
-        0,
-      ),
+      new ScoreResultDto(submissionId, testcaseId, socketId, judgeResult, stdout, stderr, 0, 0),
     );
   }
 
