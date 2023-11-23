@@ -174,7 +174,7 @@ export class CompetitionService {
     submission.detail.push(result);
     this.submissionRepository.save(submission);
 
-    result['problemId'] = scoreResultDto.problemId;
+    result['problemId'] = submission.problemId;
     result['stdOut'] = scoreResultDto.stdOut;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }

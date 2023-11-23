@@ -10,10 +10,6 @@ export class ScoreResultDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  problemId: number;
-
-  @ApiProperty()
-  @IsNotEmpty()
   testcaseId: number;
 
   @ApiProperty()

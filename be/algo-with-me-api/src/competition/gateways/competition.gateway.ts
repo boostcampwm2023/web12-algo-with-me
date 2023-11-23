@@ -49,12 +49,12 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       client.handshake.headers.authorization,
     );
     const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-    const problem: ProblemResponseDto = await this.problemService.findOne(
+    const testcaseNum: number = await this.problemService.getProblenTestcaseNum(
       createSubmissionDto.problemId,
     );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
     const event = 'messages';
-    const data = { message: '채점을 시작합니다.', testcaseNum: problem.testcaseNum };
+    const data = { message: '채점을 시작합니다.', testcaseNum: testcaseNum };
     console.log(createSubmissionDto);
     return { event, data };
   }
