@@ -64,16 +64,21 @@ export class ScoreService {
   }
 
   private async sendScoreResult(scoreResult: ScoreResultDto) {
-    const logger = new Logger();
-    logger.debug('sendScoreResult: ', JSON.stringify(scoreResult));
     const [apiServerHost, apiServerPort] = [
       this.configService.get<string>('API_SERVER_HOST'),
-      this.configService.get<string>('API_SERVER_HOST'),
+      this.configService.get<string>('API_SERVER_PORT'),
     ];
-    await fetch(`http://${apiServerHost}:${apiServerPort}/competitions/scores`, {
-      method: 'POST',
-      body: JSON.stringify(scoreResult),
-    });
+    const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
+    try {
+      await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(scoreResult),
+      });
+    } catch (error) {
+      const message = `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url})`;
+      new Logger().error(message);
+      throw new InternalServerErrorException(message);
+    }
   }
 
   private async runCode(
@@ -82,11 +87,15 @@ export class ScoreService {
     problemId: number,
     testcaseId: number,
   ): Promise<ICoderunResponse> {
-    const response = await fetch(
-      `http://localhost:2000/${competitionId}/${userId}/${problemId}/${testcaseId}`,
-      { method: 'POST' },
-    );
-    return (await response.json()) as ICoderunResponse;
+    const url = `http://localhost:2000/${competitionId}/${userId}/${problemId}/${testcaseId}`;
+    try {
+      const response = await fetch(url, { method: 'POST' });
+      return (await response.json()) as ICoderunResponse;
+    } catch (error) {
+      const message = `도커 서버로 채점 요청을 보내는 데 실패했습니다 (POST ${url})`;
+      new Logger().error(message);
+      throw new InternalServerErrorException(message);
+    }
   }
 
   private getCodeRunOutputs(
@@ -107,9 +116,9 @@ export class ScoreService {
       !fs.existsSync(stdoutFilepath) ||
       !fs.existsSync(stderrFilepath)
     ) {
-      throw new InternalServerErrorException(
-        `${submissionBaseFilename}에 코드 실행 결과 파일들이 정상적으로 생성되지 않았습니다`,
-      );
+      const message = `${submissionBaseFilename}에 코드 실행 결과 파일들이 정상적으로 생성되지 않았습니다`;
+      new Logger().error(message);
+      throw new InternalServerErrorException(message);
     }
 
     const [result, stdout, stderr] = [
@@ -123,10 +132,12 @@ export class ScoreService {
   private getTestcaseAnswer(problemId: number, testcaseId: number) {
     const testcasePath = this.configService.get<string>('TESTCASE_PATH');
     const filepath = `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
-    if (!fs.existsSync(filepath))
-      throw new InternalServerErrorException(
-        `경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`,
-      );
+    if (!fs.existsSync(filepath)) {
+      const message = `경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`;
+      new Logger().error(message);
+      throw new InternalServerErrorException(message);
+    }
+
     const testcaseAnswer = fs.readFileSync(filepath).toString();
     return testcaseAnswer;
   }
