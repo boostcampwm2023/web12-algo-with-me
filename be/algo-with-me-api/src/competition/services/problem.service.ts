@@ -14,11 +14,11 @@ import { Problem } from '../entities/problem.entity';
 export class ProblemService {
   constructor(@InjectRepository(Problem) private readonly problemRepository: Repository<Problem>) {}
 
-  create(createProblemDto: CreateProblemDto) {
+  async create(createProblemDto: CreateProblemDto) {
     const problem: Problem = createProblemDto.toEntity();
 
-    const savedProblem = this.problemRepository.save(problem);
-    return savedProblem;
+    const savedProblem = await this.problemRepository.save(problem);
+    return ProblemResponseDto.from(savedProblem, '');
   }
 
   async findAll() {
@@ -34,14 +34,7 @@ export class ProblemService {
     const paths = path.join(process.env.PROBLEM_PATH, fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
-    return new ProblemResponseDto(
-      problem.id,
-      problem.title,
-      problem.timeLimit,
-      problem.memoryLimit,
-      content,
-      problem.createdAt,
-    );
+    return ProblemResponseDto.from(problem, content);
   }
 
   // update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
