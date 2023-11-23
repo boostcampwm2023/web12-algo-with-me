@@ -25,10 +25,14 @@ const notFoundCompetition: CompetitionInfo = {
 
 export const useCompetition = (competitionId: number) => {
   const [competition, setCompetition] = useState<CompetitionInfo>(notFoundCompetition);
+
   const socket = useRef(
     createSocketInstance('/competitions', {
       transports: ['websocket'],
       query: { competitionId },
+      auth: {
+        token: `${localStorage.getItem('accessToken')}`,
+      },
     }),
   );
 
