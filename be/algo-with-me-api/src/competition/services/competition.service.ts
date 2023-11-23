@@ -3,7 +3,14 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
-import { Repository } from 'typeorm';
+import {
+  DataSource,
+  EntityManager,
+  getConnection,
+  getConnectionManager,
+  getManager,
+  Repository,
+} from 'typeorm';
 
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
@@ -32,6 +39,7 @@ export class CompetitionService {
     @InjectRepository(CompetitionProblem)
     private readonly competitionProblemRepository: Repository<CompetitionProblem>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
+    private dataSource: DataSource,
   ) {}
 
   async findAll() {
@@ -67,8 +75,38 @@ export class CompetitionService {
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
-    // const result = await this.competitionRepository.save(createCompetitionDto.toEntity());
-    // return CompetitionResponseDto.from(result);
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    const problems: CompetitionProblem[] = [];
+    for (const problemId of createCompetitionDto.problemIds) {
+      const problem = await this.problemRepository.findOneBy({ id: problemId });
+      if (!problem) {
+        throw new NotFoundException(
+          `대회를 생성할 때 주어진 문제 리스트 ${JSON.stringify(
+            createCompetitionDto.problemIds,
+          )}에 존재하지 않는 문제가 있습니다 (id: ${problemId})`,
+        );
+      }
+      const competitionProblem = new CompetitionProblem();
+      competitionProblem.problem = problem;
+      problems.push(competitionProblem);
+    }
+
+    await queryRunner.startTransaction();
+    try {
+      const competition: Competition = await this.competitionRepository.save(createCompetitionDto, {
+        transaction: false,
+      });
+      for (const competitionProblem of problems) {
+        competitionProblem.competition = competition;
+        await this.competitionProblemRepository.save(competitionProblem, { transaction: false });
+      }
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    }
   }
 
   async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
