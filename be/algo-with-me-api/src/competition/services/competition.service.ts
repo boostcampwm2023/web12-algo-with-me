@@ -112,13 +112,15 @@ export class CompetitionService {
     this.assertCompetitionExists(competition);
     const user: User = await this.userRepository.findOneBy({ email: email });
     if (!user) throw new NotFoundException('찾을 수 없는 유저입니다.');
-    console.log(user);
 
-    const isExist: CompetitionParticipant = await this.competitionParticipantRepository.findOneBy({
-      competition: competition,
-      user: user,
-    });
-    if (!isExist) throw new BadRequestException('이미 참여중인 유저입니다.');
+    const isAlreadyJoined: CompetitionParticipant[] =
+      await this.competitionParticipantRepository.find({
+        where: {
+          competition: { id: competition.id },
+          user: { id: user.id },
+        },
+      });
+    if (isAlreadyJoined.length !== 0) throw new BadRequestException('이미 참여중인 유저입니다.');
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
