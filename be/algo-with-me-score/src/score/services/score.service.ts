@@ -3,8 +3,8 @@ import { InternalServerErrorException, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
 
 import { ScoreResultDto } from '../dtos/score-result.dto';
+import { RESULT } from '../entities/competition.enums';
 import { Submission } from '../entities/submission.entity';
-import { RESULT } from '../entities/submission.enums';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
 export class ScoreService {
