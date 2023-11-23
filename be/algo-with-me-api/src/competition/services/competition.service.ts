@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
@@ -52,6 +52,11 @@ export class CompetitionService {
   }
 
   async create(createCompetitionDto: CreateCompetitionDto) {
+    if (createCompetitionDto.problemIds.length > 30) {
+      throw new BadRequestException(
+        `정책 상 하나의 대회에서는 30개가 넘는 문제를 출제할 수 없습니다. (${createCompetitionDto.problemIds.length}개를 출제함)`,
+      );
+    }
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
