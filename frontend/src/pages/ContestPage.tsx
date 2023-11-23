@@ -3,6 +3,7 @@ import { css } from '@style/css';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import Aside from '@/components/Contest/Aside';
 import CompetitionPageHeader from '@/components/Contest/CompetitionPageHeader';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
@@ -70,6 +71,7 @@ export default function ContestPage() {
         <span className={problemTitleStyle}>{problem.title}</span>
       </section>
       <section className={rowListStyle}>
+        <Aside problemIds={problems} setCurrentProblemIndex={setCurrentProblemIndex} />
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
