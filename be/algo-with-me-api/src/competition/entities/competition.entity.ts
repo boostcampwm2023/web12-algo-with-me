@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { CompetitionProblem } from './competition.problem.entity';
+import { CompetitionParticipant } from './participant.entity';
 import { Submission } from './submission.entity';
 
 @Entity()
@@ -35,6 +36,12 @@ export class Competition {
 
   @OneToMany(() => CompetitionProblem, (competitionProblem) => competitionProblem.competition)
   competitionProblems: CompetitionProblem[];
+
+  @OneToMany(
+    () => CompetitionParticipant,
+    (competitionParticipant) => competitionParticipant.competition,
+  )
+  competitionParticipants: CompetitionParticipant[];
 
   @CreateDateColumn()
   createdAt: Date;
