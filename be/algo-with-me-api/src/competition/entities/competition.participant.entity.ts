@@ -1,10 +1,11 @@
-import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Competition } from './competition.entity';
 
 import { User } from '@src/user/entities/user.entity';
 
 @Entity()
+@Unique('unique_participant', ['user', 'competition'])
 export class CompetitionParticipant {
   @PrimaryGeneratedColumn()
   id: number;

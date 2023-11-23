@@ -9,6 +9,7 @@ function setSwagger(app: INestApplication<any>) {
     .setTitle('algo-with-me-api')
     .setDescription('algo with me API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -16,7 +17,7 @@ function setSwagger(app: INestApplication<any>) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {cors: true});
+  const app = await NestFactory.create(AppModule, { cors: true });
   setSwagger(app);
   await app.listen(3000);
 }

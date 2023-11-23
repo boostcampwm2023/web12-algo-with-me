@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { CompetitionParticipant } from './competition.participant.entity';
 import { CompetitionProblem } from './competition.problem.entity';
-import { CompetitionParticipant } from './participant.entity';
 import { Submission } from './submission.entity';
 
 @Entity()
