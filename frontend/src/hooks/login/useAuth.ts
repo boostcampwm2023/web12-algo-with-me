@@ -12,12 +12,11 @@ const AUTH_TEST_PATH = '/auths/tests';
 const URL = `${API_URL}${AUTH_TEST_PATH}`;
 
 const fetchTokenValid = async (token: string) => {
-  console.log('accessToken 검증 시작 5시53분 배포');
   try {
     const response = await axios.get(URL, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    // {email: 'mahwin7085@gmail.com', nickname: 'mahwin7085@gmail.com'
+    // {email: 'mahwin7085@gmail.com', nickname: 'mahwin7085@gmail.com'}
     // 저장할 지 말지는 나중에 결정
     const data = await response.data;
     console.log(data, '인증 받음.');
