@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Login from '@/components/Login';
 import ContestPage from '@/pages/ContestPage';
+import LoginPage from '@/pages/LoginPage';
 import ProblemPage from '@/pages/ProblemPage';
 
 import App from './App';
@@ -21,7 +21,7 @@ const router = createBrowserRouter(
           path: '/problem/:id',
           element: <ProblemPage />,
         },
-        { path: '/login', element: <Login /> },
+        { path: '/login', element: <LoginPage /> },
       ],
     },
   ],

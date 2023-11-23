@@ -1,21 +1,14 @@
 import { css } from '@style/css';
 
-const GITHUB_AUTH_URL = 'http://101.101.208.240:3000/auths/github';
+interface Props {
+  onClickLogin: () => void;
+}
 
-export default function Login() {
-  const handleLogin = () => {
-    try {
-      window.location.href = GITHUB_AUTH_URL;
-    } catch (e) {
-      const error = e as Error;
-      console.error(error.message);
-    }
-  };
-
+export default function Login({ onClickLogin }: Props) {
   return (
     <section className={loginWrapperStyle}>
       <header className={loginHeaderStyle}>Algo With Me</header>
-      <button onClick={handleLogin}>Github으로 로그인</button>
+      <button onClick={onClickLogin}>Github으로 로그인</button>
     </section>
   );
 }
