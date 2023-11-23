@@ -7,6 +7,8 @@ import * as process from 'node:process';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Competition } from './score/entities/competition.entity';
+import { CompetitionProblem } from './score/entities/competition.problem.entity';
 import { Problem } from './score/entities/problem.entity';
 import { Submission } from './score/entities/submission.entity';
 import { ScoreModule } from './score/score.module';
@@ -25,7 +27,7 @@ import { ScoreModule } from './score/score.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: false,
-      entities: [Submission, Problem],
+      entities: [Competition, CompetitionProblem, Submission, Problem],
     }),
     BullModule.forRoot({
       redis: {
@@ -39,7 +41,7 @@ import { ScoreModule } from './score/score.module';
     }),
     ScoreModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
