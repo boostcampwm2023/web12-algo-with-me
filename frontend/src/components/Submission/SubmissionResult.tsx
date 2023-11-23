@@ -38,11 +38,11 @@ export function SubmissionResult({ socket }: Props) {
       socket.on('message', handleMessage);
       const totalSubmissionResult = 10;
       setScoreResults(
-        range(0, totalSubmissionResult).map(() => ({
+        range(0, totalSubmissionResult).map((_, index) => ({
           problemId: -1,
           result: '',
           stdOut: '',
-          testcaseId: -1,
+          testcaseId: index,
         })),
       );
     }
@@ -55,7 +55,7 @@ export function SubmissionResult({ socket }: Props) {
     <>
       <section className={resultWrapperStyle}>
         {scoreResults.map((result) => (
-          <Score score={result} />
+          <Score key={result.testcaseId} score={result} />
         ))}
       </section>
     </>
