@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { AuthTokenPayloadDto } from '../dto/auth.token.payload.dto';
+
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
@@ -21,7 +23,7 @@ export class AuthService {
     return email['email'];
   }
 
-  verifyToken(token: string) {
+  verifyToken(token: string): AuthTokenPayloadDto {
     if (!token) throw new UnauthorizedException('토큰을 찾을 수 없습니다.');
     const tokens = token.split(' ');
     if (tokens.length !== 2) throw new UnauthorizedException('토큰의 양식이 올바르지 않습니다.');

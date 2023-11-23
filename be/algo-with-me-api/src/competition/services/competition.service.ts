@@ -134,11 +134,11 @@ export class CompetitionService {
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
-  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string) {
+  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string, user:User) {
     const problem: Problem = await this.problemRepository.findOneBy({
       id: createSubmissionDto.problemId,
     });
-    const submission: Submission = createSubmissionDto.toEntity(problem);
+    const submission: Submission = createSubmissionDto.toEntity(problem, user);
     const savedSubmission: Submission = await this.submissionRepository.save(submission);
     await this.submissionQueue.add({
       problemId: savedSubmission.problem.id,
