@@ -23,22 +23,26 @@ export class SubmissionConsumer {
   async getMessageQueue(job: Job) {
     const logger = new Logger();
     const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.sessionId);
-    logger.debug(JSON.stringify(messageQueueItem));
     const submissionId = messageQueueItem.submissionId;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
-    logger.debug(JSON.stringify(submission));
     if (!submission)
       throw new InternalServerErrorException(
         `제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`,
       );
-    logger.debug('hey');
     const problemId = submission.problemId;
     const competitionId = submission.competitionId;
     // TODO: userId 가져오기
     const userId = 1;
     logger.debug(JSON.stringify({ problemId, competitionId, userId }));
 
-    this.filesystemService.writeSubmittedCode(competitionId, userId, problemId);
+    await this.filesystemService.writeSubmittedCode(
+      submission.code,
+      competitionId,
+      userId,
+      problemId,
+    );
+
+    logger.debug('씀');
 
     await this.scoreService.scoreAllAndSendResult(
       submission,
