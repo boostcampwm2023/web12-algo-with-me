@@ -68,12 +68,15 @@ export class CompetitionController {
     description: `URL의 파라미터(\`/:id\`)로 주어진 대회 id에 해당하는 대회 정보를 수정한다. request JSON 중 **수정하기를 원하는 것만** key: value 형식으로 요청한다.`,
   })
   @ApiResponse({ type: Boolean })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ transform: true }))
   update(
     @Param('competitionId') competitionId: number,
     @Body() updateCompetitionDto: UpdateCompetitionDto,
+    @AuthUser() user: User,
   ) {
-    return this.competitionService.update(competitionId, updateCompetitionDto);
+    return this.competitionService.update(competitionId, updateCompetitionDto, user);
   }
 
   @Get('/:competitionId/problems')

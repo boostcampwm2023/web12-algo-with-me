@@ -1,5 +1,10 @@
 import { InjectQueue } from '@nestjs/bull';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
@@ -84,7 +89,10 @@ export class CompetitionService {
     }
   }
 
-  async update(id: number, updateCompetitionDto: UpdateCompetitionDto) {
+  async update(id: number, updateCompetitionDto: UpdateCompetitionDto, user: User) {
+    const competition: Competition = await this.competitionRepository.findOneBy({ id });
+    if (!competition) throw new NotFoundException('대회를 찾을 수 없습니다.');
+    if (competition.userId !== user.id) throw new UnauthorizedException('대회 주최자가 아닙니다.');
     const result = await this.competitionRepository.update({ id: id }, { ...updateCompetitionDto });
     return !!result.affected;
   }
