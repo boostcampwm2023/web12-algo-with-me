@@ -6,21 +6,29 @@ import { range } from '@/utils/array';
 import type { Socket } from '@/utils/socket';
 
 import Score from './Score';
-import type { Message, ScoreResult } from './types';
+import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
 
 interface Props {
   socket: Socket;
 }
 
+type SubmitResult = {
+  submitState: SubmitState;
+  score: ScoreResult;
+};
+
 export function SubmissionResult({ socket }: Props) {
-  const [scoreResults, setScoreResults] = useState<ScoreResult[]>([]);
+  const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
 
   const handleScoreResult = (rawData: string) => {
-    const newResult = JSON.parse(rawData) as ScoreResult;
+    const newResult = {
+      submitState: SUBMIT_STATE.submitted,
+      score: JSON.parse(rawData) as ScoreResult,
+    };
 
     setScoreResults((results) => {
       return results.map((result, index) => {
-        if (index === newResult.testcaseId) {
+        if (index === newResult.score.testcaseId) {
           return newResult;
         }
         return result;
@@ -39,10 +47,13 @@ export function SubmissionResult({ socket }: Props) {
       const totalSubmissionResult = 10;
       setScoreResults(
         range(0, totalSubmissionResult).map((_, index) => ({
-          problemId: -1,
-          result: '',
-          stdOut: '',
-          testcaseId: index,
+          submitState: SUBMIT_STATE.loading,
+          score: {
+            problemId: -1,
+            result: '',
+            stdOut: '',
+            testcaseId: index,
+          },
         })),
       );
     }
@@ -54,8 +65,8 @@ export function SubmissionResult({ socket }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
-        {scoreResults.map((result) => (
-          <Score key={result.testcaseId} score={result} />
+        {scoreResults.map(({ score, submitState }) => (
+          <Score key={score.testcaseId} score={score} submitState={submitState} />
         ))}
       </section>
     </>
