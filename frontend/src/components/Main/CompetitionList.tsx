@@ -4,61 +4,8 @@ import { Link } from 'react-router-dom';
 import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
 import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
 import secToTime from '@/utils/secToTime';
-const generateMockData = () => {
-  // API배포가 완료되면 삭제 에정
-  return [
-    {
-      id: 1,
-      name: '테스트 대회 이름',
-      detail: '테스트 대회 설명',
-      maxParticipants: 70,
-      startsAt: '2023-11-14T08:35:24.358Z',
-      endsAt: '2023-11-20T12:13:04.005Z',
-      createdAt: '2023-11-14T08:35:24.358Z',
-      updatedAt: '2023-11-21T02:28:43.955Z',
-    },
-    {
-      id: 2,
-      name: 'ICPC 서울',
-      detail: '이거슨 아이씨피씨입니다',
-      maxParticipants: 1000,
-      startsAt: '2023-11-21T07:10:44.456Z',
-      endsAt: '2023-11-21T10:10:44.456Z',
-      createdAt: '2023-11-21T07:50:58.686Z',
-      updatedAt: '2023-11-21T07:50:58.686Z',
-    },
-    {
-      id: 3,
-      name: '천하제일코딩대회',
-      detail: '^오^',
-      maxParticipants: 10,
-      startsAt: '2023-11-21T07:10:44.456Z',
-      endsAt: '2023-11-21T10:10:44.456Z',
-      createdAt: '2023-11-21T07:57:07.563Z',
-      updatedAt: '2023-11-21T07:57:07.563Z',
-    },
-    {
-      id: 4,
-      name: 'fe테스트대회',
-      detail: '가나다라마바사',
-      maxParticipants: 3,
-      startsAt: '2023-11-22T01:20:00.000Z',
-      endsAt: '2023-11-23T01:20:00.000Z',
-      createdAt: '2023-11-22T10:22:03.723Z',
-      updatedAt: '2023-11-22T10:22:03.723Z',
-    },
-    {
-      id: 5,
-      name: '가나다라',
-      detail: '마바사아자차카타파하',
-      maxParticipants: 3,
-      startsAt: '2023-11-24T03:00:00.000Z',
-      endsAt: '2023-11-24T04:00:00.000Z',
-      createdAt: '2023-11-22T12:00:46.942Z',
-      updatedAt: '2023-11-22T12:00:46.942Z',
-    },
-  ];
-};
+
+import axios from 'axios';
 
 interface Competition {
   id: number;
@@ -90,13 +37,19 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 export default function CompetitionList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
+  const fetchCompetitions = async () => {
+    try {
+      const response = await axios.get<Competition[]>('http://101.101.208.240:3000/competitions');
+      setCompetitions(response.data);
+    } catch (error) {
+      console.error('Error fetching competitions:', (error as Error).message);
+    }
+  };
+
   useEffect(() => {
-    // 실제 API 요청 대신 목업 데이터 사용 -> TODO: API배포가 완료되면 API처리하는 코드로 바꿔야함
-    const mockData = generateMockData();
-    setCompetitions(mockData);
+    fetchCompetitions();
   }, []);
 
-  // TODO: 대회 시작 전에 들어와서 대회가 시작된 뒤에 참여 버튼을 누르면 서버에서 거절하고 화면에 alert을 띄우고 새로고침
   return (
     <div>
       <table>
