@@ -1,14 +1,20 @@
 import Loading from './Loading';
-import type { ScoreResult } from './types';
+import type { ScoreResult, SubmitState } from './types';
+import { SUBMIT_STATE } from './types';
 
 interface Props {
   score: ScoreResult;
+  submitState?: SubmitState;
 }
 
-export default function Score({ score }: Props) {
-  const { problemId, result, stdOut } = score;
+export default function Score({ score, submitState = SUBMIT_STATE.notSubmitted }: Props) {
+  const { result, stdOut } = score;
 
-  if (problemId < 0) {
+  if (submitState === SUBMIT_STATE.notSubmitted) {
+    return '';
+  }
+
+  if (submitState === SUBMIT_STATE.loading) {
     return <Loading color="#e15b64" size="2rem" />;
   }
 
