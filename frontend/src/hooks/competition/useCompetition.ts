@@ -16,7 +16,7 @@ interface Competition {
   updatedAt: string;
 }
 
-type SubmissionForm = {
+export type SubmissionForm = {
   problemId: ProblemId;
   code: string;
 };
@@ -44,8 +44,8 @@ const notFoundCompetition: Competition = {
 };
 
 export const useCompetition = (competitionId: number) => {
-  const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
   const [competition, setCompetition] = useState<Competition>(notFoundCompetition);
+  const problems = [1, 2, 3]; // TODO: 대회에 해당하는 문제의 id를 유동적으로 채워넣을 수 있게 수정해야함
 
   const socket = useRef(
     createSocketInstance('/competitions', {
