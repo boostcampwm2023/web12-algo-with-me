@@ -7,6 +7,7 @@ import { createSocketInstance } from '@/utils/socket';
 import { isNil } from '@/utils/type';
 
 export type SubmissionForm = {
+  competitionId: number;
   problemId: ProblemId;
   code: string;
 };
@@ -49,7 +50,9 @@ export const useCompetition = (competitionId: number) => {
   }, []);
 
   function submitSolution(form: SubmissionForm) {
-    socket.current.emit('submissions', form);
+    socket.current.emit('submissions', {
+      ...form,
+    });
   }
 
   async function updateCompetition(competitionId: number) {

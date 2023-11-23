@@ -83,7 +83,9 @@ export default function ContestPage() {
     const form = {
       problemId: currentProblem.id,
       code,
+      competitionId,
     } satisfies SubmissionForm;
+
     submitSolution(form);
   }
 
