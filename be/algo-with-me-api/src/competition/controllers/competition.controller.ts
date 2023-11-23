@@ -53,7 +53,9 @@ export class CompetitionController {
     description: `주어진 대회 관련 정보를 이용해 대회를 생성한다. 과도한 DB 접근을 막기 위해, 하나의 대회에서 30개가 넘는 문제를 출제할 수 없도록 정책 상 제한한다.`,
   })
   @ApiResponse({ type: CompetitionResponseDto })
+  @ApiBearerAuth()
   @UsePipes(new ValidationPipe({ transform: true }))
+  @UseGuards(AuthGuard('jwt'))
   create(@Body() createCompetitionDto: CreateCompetitionDto) {
     return this.competitionService.create(createCompetitionDto);
   }

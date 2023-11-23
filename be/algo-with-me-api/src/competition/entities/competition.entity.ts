@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +11,8 @@ import {
 import { CompetitionParticipant } from './competition.participant.entity';
 import { CompetitionProblem } from './competition.problem.entity';
 import { Submission } from './submission.entity';
+
+import { User } from '@src/user/entities/user.entity';
 
 @Entity()
 export class Competition {
@@ -42,6 +45,12 @@ export class Competition {
     (competitionParticipant) => competitionParticipant.competition,
   )
   competitionParticipants: CompetitionParticipant[];
+
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User, (user) => user.competitions, { nullable: false })
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;

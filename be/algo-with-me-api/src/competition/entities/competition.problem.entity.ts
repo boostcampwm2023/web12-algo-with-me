@@ -11,13 +11,15 @@ export class CompetitionProblem {
   @Column()
   competitionId: number;
 
-  @ManyToOne(() => Competition, (competition) => competition.competitionProblems)
+  @ManyToOne(() => Competition, (competition) => competition.competitionProblems, {
+    nullable: false,
+  })
   competition: Competition;
 
   @Column()
   problemId: number;
 
-  @ManyToOne(() => Problem, (problem) => problem.competitionProblems)
+  @ManyToOne(() => Problem, (problem) => problem.competitionProblems, { nullable: false })
   problem: Problem;
 
   @CreateDateColumn()

@@ -1,7 +1,7 @@
 import { Controller, Get, Redirect, Req, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('인증(auths)')
 @Controller('auths')
@@ -37,6 +37,7 @@ export class AuthController {
 
   // 인증 테스트 api
   @Get('/tests')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   test(@Req() req) {
     return req.user;
