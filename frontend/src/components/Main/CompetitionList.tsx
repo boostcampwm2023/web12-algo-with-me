@@ -52,8 +52,8 @@ const generateMockData = () => {
       name: '가나다라',
       detail: '마바사아자차카타파하',
       maxParticipants: 3,
-      startsAt: '2023-11-23T03:00:00.000Z',
-      endsAt: '2023-11-23T04:00:00.000Z',
+      startsAt: '2023-11-24T03:00:00.000Z',
+      endsAt: '2023-11-24T04:00:00.000Z',
       createdAt: '2023-11-22T12:00:46.942Z',
       updatedAt: '2023-11-22T12:00:46.942Z',
     },
@@ -120,7 +120,9 @@ export default function CompetitionList() {
               <td>{new Date(competition.endsAt).toLocaleString()}</td>
               <td>{formatTimeRemaining(competition.startsAt, competition.endsAt)}</td>
               <td>
-                {competition.startsAt > new Date().toISOString() && <JoinCompetitionButton />}
+                {competition.startsAt > new Date().toISOString() && (
+                  <JoinCompetitionButton id={competition.id} />
+                )}
               </td>
               <td>
                 <ViewDashboardButton id={competition.id} />
