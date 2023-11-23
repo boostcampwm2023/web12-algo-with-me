@@ -12,6 +12,7 @@ import { CompetitionGateWay } from './gateways/competition.gateway';
 import { CompetitionService } from './services/competition.service';
 import { ProblemService } from './services/problem.service';
 
+import { AuthModule } from '@src/auth/auth.module';
 import { Competition } from '@src/competition/entities/competition.entity';
 import { User } from '@src/user/entities/user.entity';
 
@@ -28,6 +29,7 @@ import { User } from '@src/user/entities/user.entity';
     BullModule.registerQueue({
       name: process.env.REDIS_MESSAGE_QUEUE_NAME,
     }),
+    AuthModule,
   ],
   controllers: [ProblemController, CompetitionController],
   providers: [ProblemService, CompetitionService, CompetitionGateWay],
