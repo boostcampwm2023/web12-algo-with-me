@@ -32,7 +32,8 @@ export class SubmissionConsumer {
       throw new InternalServerErrorException(
         `제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`,
       );
-    const { competitionId, userId, problemId } = this.getIds(submission);
+    const problemId = messageQueueItem.problemId;
+    const { competitionId, userId } = this.getIds(submission);
 
     this.filesystemService.writeSubmittedCode(competitionId, userId, problemId);
 
@@ -46,10 +47,9 @@ export class SubmissionConsumer {
   }
 
   private getIds(submission: Submission) {
-    // TODO: submission으로부터 competitionId, problemId, userId를 받을 수 있어야 함
     const competitionId = 1;
     const userId = 1;
-    const problemId = 1;
+    const problemId = submission.problem.id;
     return { competitionId, userId, problemId };
   }
 
