@@ -14,12 +14,17 @@ import { Server, Socket } from 'socket.io';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { CompetitionService } from '../services/competition.service';
 
+import { AuthService } from '@src/auth/services/auth.service';
+
 @WebSocketGateway({ namespace: 'competitions' })
 export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly competitionService: CompetitionService) {}
+  constructor(
+    private readonly competitionService: CompetitionService,
+    private readonly authService: AuthService,
+  ) {}
 
   afterInit(server: Server) {
     this.competitionService.server = server;
@@ -54,6 +59,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   public handleConnection(client: Socket, ...args: any[]) {
     // TODO: 사용자가 대회 참여중인지 확인하는 로직 추가해야 함
     const { competitionId } = client.handshake.query;
+    this.authService.verifyToken(client.handshake.headers.authorization);
     client.join(competitionId);
     console.log(client.id);
     console.log(competitionId, args);
