@@ -12,8 +12,8 @@ import { SubmissionResult } from '@/components/Submission';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
+import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
-import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
 
@@ -44,7 +44,7 @@ export default function ContestPage() {
     return null;
   }, [problemList, currentProblemIndex]);
 
-  const { problem } = useProblem(currentProblem?.id ?? -1);
+  const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
 
   const [code, setCode] = useState<string>(problem.solutionCode);
 
