@@ -19,9 +19,7 @@ const VALIDATION_MESSAGE = {
   needMoreProblems: '대회 문제는 1개 이상이어야합니다',
 };
 
-export function useCompetitionForm(initialForm?: Partial<CompetitionForm>) {
-  initialForm = initialForm ?? {};
-
+export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
   const [name, setName] = useState<string>(initialForm.name ?? '');
   const [detail, setDetail] = useState<string>(initialForm.detail ?? '');
   const [maxParticipants, setMaxParticipants] = useState<number>(initialForm.maxParticipants ?? 1);
