@@ -9,7 +9,6 @@ export class CompetitionResponseDto {
     maxParticipants: number,
     startsAt: string,
     endsAt: string,
-    problems: number[],
     createdAt: string,
     updatedAt: string,
   ) {
@@ -19,7 +18,6 @@ export class CompetitionResponseDto {
     this.maxParticipants = maxParticipants;
     this.startsAt = startsAt;
     this.endsAt = endsAt;
-    this.problemIds = problems;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -67,7 +65,6 @@ export class CompetitionResponseDto {
     maxParticipants: number;
     startsAt: Date;
     endsAt: Date;
-    problemIds: number[];
     createdAt: Date;
     updatedAt: Date;
   }) {
@@ -78,7 +75,6 @@ export class CompetitionResponseDto {
       args.maxParticipants,
       args.startsAt.toISOString(),
       args.endsAt.toISOString(),
-      args.problemIds,
       args.createdAt.toISOString(),
       args.updatedAt.toISOString(),
     );
