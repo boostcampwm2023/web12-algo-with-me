@@ -12,8 +12,6 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
-import { ProblemResponseDto } from '../dto/problem.response.dto';
-import { Problem } from '../entities/problem.entity';
 import { CompetitionService } from '../services/competition.service';
 import { ProblemService } from '../services/problem.service';
 
