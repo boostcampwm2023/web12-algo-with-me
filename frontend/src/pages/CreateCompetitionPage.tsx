@@ -3,7 +3,6 @@ import { css } from '@style/css';
 import type { ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CompetitionForm, createCompetition } from '@/apis/competitions';
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
 import { Input } from '@/components/Common';
 import { useCompetitionForm } from '@/hooks/competition/useCompetitionForm';
@@ -45,16 +44,23 @@ export default function CompetitionCreatePage() {
     form.togglePickedProblem(problemId);
   }
 
-  async function handleSubmitCompetition() {
-    const competitionForm = {
-      ...form.getAllFormData(),
-    } satisfies CompetitionForm;
+  async function handleSumbitCompetition() {
+    const formData = form.getAllFormData();
+    const { isValid, message } = form.validateForm(formData);
+    if (!isValid) {
+      if (!isNil(message)) {
+        alert(message);
+      }
+      return;
+    }
 
-    const competitionInfo = await createCompetition(competitionForm);
-    if (isNil(competitionInfo)) return;
+    const competition = await form.submitCompetition(formData);
+    if (isNil(competition)) {
+      alert('Oops... 대회 생성에 실패했습니다');
+      return;
+    }
 
-    const { id } = competitionInfo;
-    navigate(`/contest/detail/${id}`);
+    navigate(`/contest/detail/${competition.id}`);
   }
 
   return (
@@ -82,7 +88,7 @@ export default function CompetitionCreatePage() {
           <Input.NumberField
             name="max-participants"
             value={form.maxParticipants}
-            min="0"
+            min="1"
             onChange={handleChangeMaxParticipants}
             required
           ></Input.NumberField>
@@ -110,7 +116,7 @@ export default function CompetitionCreatePage() {
         ></ProblemList>
         <div>선택된 문제: {[...form.problems].join(',')}</div>
       </fieldset>
-      <button onClick={handleSubmitCompetition}>대회 생성</button>
+      <button onClick={handleSumbitCompetition}>대회 생성</button>
     </main>
   );
 }
