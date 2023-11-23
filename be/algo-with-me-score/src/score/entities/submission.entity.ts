@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -29,10 +30,18 @@ export class Submission {
   @Column('json', { nullable: true, default: [] })
   detail: object[];
 
+  @Column()
+  problemId: number;
+
   @ManyToOne(() => Problem, (problem) => problem.submissions, { nullable: false })
+  @JoinColumn({ name: 'problemId', referencedColumnName: 'id' })
   problem: Problem;
 
+  @Column()
+  competitionId: number;
+
   @ManyToOne(() => Competition, (competition) => competition.submissions)
+  @JoinColumn({ name: 'competitionId', referencedColumnName: 'id' })
   competition: Competition;
 
   @CreateDateColumn()
