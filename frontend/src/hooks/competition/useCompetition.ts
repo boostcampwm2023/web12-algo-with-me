@@ -21,17 +21,6 @@ export type SubmissionForm = {
   code: string;
 };
 
-type Message = {
-  message: string;
-};
-
-type ScoreResult = {
-  problemId: ProblemId;
-  result: string;
-  stdOut: string;
-  testcaseId: number;
-};
-
 const notFoundCompetition: Competition = {
   id: 0,
   name: 'Competition Not Found',
@@ -45,7 +34,6 @@ const notFoundCompetition: Competition = {
 
 export const useCompetition = (competitionId: number) => {
   const [competition, setCompetition] = useState<Competition>(notFoundCompetition);
-
   const socket = useRef(
     createSocketInstance('/competitions', {
       transports: ['websocket'],
@@ -61,30 +49,12 @@ export const useCompetition = (competitionId: number) => {
     console.log('disconnected!');
   };
 
-  const handleMessage = (rawData: string) => {
-    const { message } = JSON.parse(rawData) as Message;
-    console.log(message);
-  };
-
-  const handleScoreResult = (rawData: string) => {
-    const { problemId, result, stdOut, testcaseId } = JSON.parse(rawData) as ScoreResult;
-    console.log(problemId, result, stdOut, testcaseId);
-  };
-
   useEffect(() => {
     if (!socket.current.hasListeners('connect')) {
       socket.current.on('connect', handleConnect);
     }
     if (!socket.current.hasListeners('disconnect')) {
       socket.current.on('disconnect', handleDisconnect);
-    }
-
-    if (!socket.current.hasListeners('message')) {
-      socket.current.on('message', handleMessage);
-    }
-
-    if (!socket.current.hasListeners('scoreResult')) {
-      socket.current.on('scoreResult', handleScoreResult);
     }
   }, []);
 
@@ -109,6 +79,7 @@ export const useCompetition = (competitionId: number) => {
   }, [competitionId]);
 
   return {
+    socket,
     competition,
     submitSolution,
   };

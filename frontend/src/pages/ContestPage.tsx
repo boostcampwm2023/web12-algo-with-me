@@ -34,7 +34,7 @@ export default function ContestPage() {
     cancelSimulation,
   } = useSimulations();
 
-  const { competition, submitSolution } = useCompetition(competitionId);
+  const { socket, competition, submitSolution } = useCompetition(competitionId);
   const { problemList } = useCompetitionProblemList(competitionId);
 
   const currentProblem = useMemo(() => {
@@ -111,7 +111,7 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult onSubmit={handleSubmitSolution}></SubmissionResult>
+        <SubmissionResult socket={socket.current}></SubmissionResult>
         <button onClick={handleSubmitSolution}>제출하기</button>
       </section>
     </main>
