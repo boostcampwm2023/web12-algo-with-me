@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Competition } from '@src/competition/entities/competition.entity';
 import { CompetitionParticipant } from '@src/competition/entities/competition.participant.entity';
 import { Submission } from '@src/competition/entities/submission.entity';
 
@@ -26,8 +27,11 @@ export class User {
   @OneToMany(() => CompetitionParticipant, (competitionParticipant) => competitionParticipant.user)
   competitionParticipant: CompetitionParticipant[];
 
-  @OneToMany(() => Submission, (submission) => submission.user, { nullable: false })
-  submissions: Submission;
+  @OneToMany(() => Submission, (submission) => submission.user)
+  submissions: Submission[];
+
+  @OneToMany(() => Competition, (competition) => competition.user)
+  competitions: Competition[];
 
   @CreateDateColumn()
   createdAt: Date;

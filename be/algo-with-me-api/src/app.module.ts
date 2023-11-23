@@ -27,7 +27,8 @@ import { Competition } from '@src/competition/entities/competition.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: true,
+      synchronize: true, // db 스키마(table) 자동 생성
+      migrationsRun: true, // db 변경시 바로 적용
       entities: [
         Problem,
         Submission,

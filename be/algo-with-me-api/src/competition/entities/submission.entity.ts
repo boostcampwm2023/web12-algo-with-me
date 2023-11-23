@@ -43,6 +43,9 @@ export class Submission {
   @ManyToOne(() => Competition, (competition) => competition.submissions, { nullable: false })
   competition: Competition;
 
+  @Column()
+  userId: number;
+
   @ManyToOne(() => User, (user) => user.submissions, { nullable: false })
   user: User;
 
