@@ -2,8 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { ServiceExceptionFilter } from './exception/service.exception.filter';
-
 import { AppModule } from '@src/app.module';
 
 function setSwagger(app: INestApplication<any>) {
