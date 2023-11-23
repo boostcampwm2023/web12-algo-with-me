@@ -1,27 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 
+import type { CompetitionInfo } from '@/apis/competitions';
 import { fetchCompetition } from '@/apis/competitions';
 import type { ProblemId } from '@/apis/problems';
 import { createSocketInstance } from '@/utils/socket';
 import { isNil } from '@/utils/type';
-
-interface Competition {
-  id: number;
-  name: string;
-  detail: string;
-  maxParticipants: number;
-  startsAt: string;
-  endsAt: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export type SubmissionForm = {
   problemId: ProblemId;
   code: string;
 };
 
-const notFoundCompetition: Competition = {
+const notFoundCompetition: CompetitionInfo = {
   id: 0,
   name: 'Competition Not Found',
   detail: 'Competition Not Found',
@@ -33,7 +23,7 @@ const notFoundCompetition: Competition = {
 };
 
 export const useCompetition = (competitionId: number) => {
-  const [competition, setCompetition] = useState<Competition>(notFoundCompetition);
+  const [competition, setCompetition] = useState<CompetitionInfo>(notFoundCompetition);
   const socket = useRef(
     createSocketInstance('/competitions', {
       transports: ['websocket'],
