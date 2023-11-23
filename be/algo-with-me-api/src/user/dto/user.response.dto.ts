@@ -5,6 +5,7 @@ export class UserResponseDto {
     this.email = email;
     this.nickname = nickname;
   }
+
   @ApiProperty({ description: '이메일' })
   email: string;
 

@@ -43,6 +43,6 @@ export class JWTStrategy extends PassportStrategy(PassportJwtStrategy) {
   }
 
   async validate(content: any) {
-    return { email: content.sub, nickname: content.nickname };
+    return new UserResponseDto(content.sub, content.nickname);
   }
 }
