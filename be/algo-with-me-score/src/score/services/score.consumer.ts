@@ -1,5 +1,5 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
-import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { Repository } from 'typeorm';
@@ -32,8 +32,11 @@ export class SubmissionConsumer {
       throw new InternalServerErrorException(
         `제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`,
       );
+
     const problemId = messageQueueItem.problemId;
-    const { competitionId, userId } = this.getIds(submission);
+    const competitionId = submission.competition.id;
+    // TODO: userId 가져오기
+    const userId = 1;
 
     this.filesystemService.writeSubmittedCode(competitionId, userId, problemId);
 
@@ -44,13 +47,6 @@ export class SubmissionConsumer {
       userId,
       problemId,
     );
-  }
-
-  private getIds(submission: Submission) {
-    const competitionId = 1;
-    const userId = 1;
-    const problemId = submission.problem.id;
-    return { competitionId, userId, problemId };
   }
 
   @OnQueueCompleted()

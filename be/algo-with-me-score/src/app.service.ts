@@ -6,7 +6,7 @@ import { MessageQueueItemDto } from './score/dtos/message-queue-item.dto';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectQueue('testQueue') private testQueue: Queue) {}
+  constructor(@InjectQueue('submission') private testQueue: Queue) {}
 
   async addMessageQueue(item: MessageQueueItemDto) {
     return await this.testQueue.add('score', item);
