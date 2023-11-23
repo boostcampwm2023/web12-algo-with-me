@@ -30,8 +30,6 @@ export class FilesystemService {
   }
 
   private getMergedCode(code: string, frameCode: string) {
-    // TODO: 프레임코드
-    const mergedCode = code + frameCode;
-    return mergedCode;
+    return frameCode.replace('${0}', code);
   }
 }
