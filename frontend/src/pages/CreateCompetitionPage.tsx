@@ -65,6 +65,7 @@ export default function CompetitionCreatePage() {
 
   return (
     <main>
+      <h1>대회 생성 하기</h1>
       <fieldset className={fieldSetStyle}>
         <Input label="대회 이름">
           <Input.TextField
