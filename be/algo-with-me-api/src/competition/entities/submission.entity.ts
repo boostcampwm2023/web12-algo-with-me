@@ -29,10 +29,16 @@ export class Submission {
   @Column('json', { nullable: true, default: [] })
   detail: object[];
 
+  @Column()
+  problemId: number;
+
   @ManyToOne(() => Problem, (problem) => problem.submissions, { nullable: false })
   problem: Problem;
 
-  @ManyToOne(() => Competition, (competition) => competition.submissions)
+  @Column()
+  competitionId: number;
+
+  @ManyToOne(() => Competition, (competition) => competition.submissions, {nullable: false})
   competition: Competition;
 
   @CreateDateColumn()

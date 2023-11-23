@@ -1,4 +1,11 @@
-import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 
 import { Competition } from './competition.entity';
 
@@ -10,10 +17,18 @@ export class CompetitionParticipant {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.competitionParticipant, {nullable: false})
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User, (user) => user.competitionParticipant, { nullable: false })
   user: User;
 
-  @ManyToOne(() => Competition, (competition) => competition.competitionParticipants, {nullable: false})
+  @Column()
+  competitionId: number;
+
+  @ManyToOne(() => Competition, (competition) => competition.competitionParticipants, {
+    nullable: false,
+  })
   competition: Competition;
 
   @CreateDateColumn()
