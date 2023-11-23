@@ -3,13 +3,11 @@ import type { ScoreResult, SubmitState } from './types';
 import { SUBMIT_STATE } from './types';
 
 interface Props {
-  score: ScoreResult;
-  submitState?: SubmitState;
+  score?: ScoreResult;
+  submitState: SubmitState;
 }
 
-export default function Score({ score, submitState = SUBMIT_STATE.notSubmitted }: Props) {
-  const { result, stdOut } = score;
-
+export default function Score({ score, submitState }: Props) {
   if (submitState === SUBMIT_STATE.notSubmitted) {
     return '';
   }
@@ -20,8 +18,8 @@ export default function Score({ score, submitState = SUBMIT_STATE.notSubmitted }
 
   return (
     <div>
-      <p>결과: {result}</p>
-      <p>출력: {stdOut}</p>
+      <p>결과: {score?.result ?? ''}</p>
+      <p>출력: {score?.stdOut ?? ''}</p>
     </div>
   );
 }

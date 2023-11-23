@@ -25,5 +25,4 @@ export type ScoreResult = {
   problemId: ProblemId;
   result: string;
   stdOut: string;
-  testcaseId: number;
 };

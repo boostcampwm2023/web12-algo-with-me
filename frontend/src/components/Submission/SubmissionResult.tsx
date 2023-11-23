@@ -13,22 +13,33 @@ interface Props {
 }
 
 type SubmitResult = {
+  testcaseId: number;
   submitState: SubmitState;
-  score: ScoreResult;
+  score?: ScoreResult;
 };
 
 export function SubmissionResult({ socket }: Props) {
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
+  const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
   const handleScoreResult = (rawData: string) => {
+    const { problemId, result, stdOut, testcaseId } = JSON.parse(rawData) as ScoreResult & {
+      testcaseId: number;
+    };
+
     const newResult = {
+      testcaseId,
       submitState: SUBMIT_STATE.submitted,
-      score: JSON.parse(rawData) as ScoreResult,
+      score: {
+        problemId,
+        result,
+        stdOut,
+      } satisfies ScoreResult,
     };
 
     setScoreResults((results) => {
       return results.map((result, index) => {
-        if (index === newResult.score.testcaseId) {
+        if (index === newResult.testcaseId) {
           return newResult;
         }
         return result;
@@ -38,24 +49,20 @@ export function SubmissionResult({ socket }: Props) {
 
   const handleMessage = (rawData: string) => {
     const { message } = JSON.parse(rawData) as Message;
-    console.log(message);
+    const totalSubmissionResult = 10;
+
+    setSubmissionMessage(message);
+    setScoreResults(
+      range(0, totalSubmissionResult).map((_, index) => ({
+        testcaseId: index,
+        submitState: SUBMIT_STATE.loading,
+      })),
+    );
   };
 
   useEffect(() => {
     if (!socket.hasListeners('message')) {
       socket.on('message', handleMessage);
-      const totalSubmissionResult = 10;
-      setScoreResults(
-        range(0, totalSubmissionResult).map((_, index) => ({
-          submitState: SUBMIT_STATE.loading,
-          score: {
-            problemId: -1,
-            result: '',
-            stdOut: '',
-            testcaseId: index,
-          },
-        })),
-      );
     }
     if (!socket.hasListeners('scoreResult')) {
       socket.on('scoreResult', handleScoreResult);
@@ -65,8 +72,9 @@ export function SubmissionResult({ socket }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
-        {scoreResults.map(({ score, submitState }) => (
-          <Score key={score.testcaseId} score={score} submitState={submitState} />
+        <p>{submissionMessage}</p>
+        {scoreResults.map(({ score, submitState, testcaseId }) => (
+          <Score key={testcaseId} score={score} submitState={submitState} />
         ))}
       </section>
     </>
