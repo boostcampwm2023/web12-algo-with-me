@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
-const TOKEN_KEY = 'accessToken';
+import useAuth from '@/hooks/login/useAuth';
 
 export default function GoToCreateCompetitionLink() {
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
+  const { isLoggedin } = useAuth();
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    if (!token) {
+    if (!isLoggedin) {
       alert('로그인이 필요합니다.');
       navigate('/login');
     } else {
