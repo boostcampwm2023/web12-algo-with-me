@@ -53,7 +53,7 @@ export function SubmissionResult({ socket }: Props) {
     setSubmissionMessage(message);
     setScoreResults(
       range(0, testcaseNum).map((_, index) => ({
-        testcaseId: index,
+        testcaseId: index + 1,
         submitState: SUBMIT_STATE.loading,
       })),
     );
