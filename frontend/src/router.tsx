@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <ProblemPage />,
       },
       {
-        path: '/competition/create',
+        path: '/contest/create',
         element: <CreateCompetitionPage />,
       },
     ],
