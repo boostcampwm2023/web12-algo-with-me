@@ -1,16 +1,10 @@
 import { css } from '@style/css';
 
-import { useEffect } from 'react';
-
 import Logo from '@/components/Common/Logo';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function Header() {
   const { changeLoginInfo, changeLogoutInfo, isLogin } = useAuth();
-
-  useEffect(() => {
-    console.log(isLogin, '로그인 정보 확인용입니다.');
-  }, [isLogin]);
 
   const handleLogin = () => {
     changeLoginInfo();
