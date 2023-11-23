@@ -1,10 +1,9 @@
-import { css } from '@style/css';
-
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
 import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
+import secToTime from '@/utils/secToTime';
 const generateMockData = () => {
   // API배포가 완료되면 삭제 에정
   return [
@@ -69,15 +68,6 @@ interface Competition {
   maxParticipants: number;
 }
 
-function secToTime(sec: number) {
-  const days = Math.floor(sec / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((sec % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((sec % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((sec % (1000 * 60)) / 1000);
-
-  return { days, hours, minutes, seconds };
-}
-
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
   const startDate = new Date(startsAt);
@@ -97,7 +87,6 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 
 export default function CompetitionList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // 실제 API 요청 대신 목업 데이터 사용 -> TODO: API배포가 완료되면 API처리하는 코드로 바꿔야함
@@ -105,9 +94,6 @@ export default function CompetitionList() {
     setCompetitions(mockData);
   }, []);
 
-  const handleCompetitionClick = (id: number) => {
-    navigate(`/contest/detail/${id}`);
-  };
   // TODO: 대회 시작 전에 들어와서 대회가 시작된 뒤에 참여 버튼을 누르면 서버에서 거절하고 화면에 alert을 띄우고 새로고침
   return (
     <div>
@@ -126,12 +112,7 @@ export default function CompetitionList() {
           {competitions.map((competition) => (
             <tr key={competition.id}>
               <td>
-                <span
-                  className={competitionDetailLinkStyle}
-                  onClick={() => handleCompetitionClick(competition.id)}
-                >
-                  {competition.name}
-                </span>
+                <Link to={`/contest/detail/${competition.id}`}>{competition.name}</Link>
               </td>
               <td>{new Date(competition.startsAt).toLocaleString()}</td>
               <td>{new Date(competition.endsAt).toLocaleString()}</td>
@@ -149,9 +130,3 @@ export default function CompetitionList() {
     </div>
   );
 }
-
-const competitionDetailLinkStyle = css({
-  color: 'blue',
-  cursor: 'pointer',
-  textDecoration: 'underline',
-});

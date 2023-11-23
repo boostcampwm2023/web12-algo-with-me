@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import CreateCompetitionButton from '@/components/Main/Buttons/CreateCompetitionButton';
+import GoToCreateCompetitionButton from '@/components/Main/Buttons/GoToCreateCompetitionButton';
 import CompetitionList from '@/components/Main/CompetitionList';
 import { SITE } from '@/constants';
 
@@ -9,7 +9,7 @@ function MainPage() {
     <main className={style}>
       <span className={ProjectNameStyle}>{SITE.NAME} </span>
       <span>{SITE.PAGE_DESCRIPTION} </span>
-      <CreateCompetitionButton />
+      <GoToCreateCompetitionButton />
       <CompetitionList />
     </main>
   );
