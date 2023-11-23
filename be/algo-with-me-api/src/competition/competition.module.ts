@@ -4,8 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CompetitionController } from './controllers/competition.controller';
 import { ProblemController } from './controllers/problem.controller';
-import { CompetitionProblem } from './entities/competition.problem.entity';
 import { CompetitionParticipant } from './entities/competition.participant.entity';
+import { CompetitionProblem } from './entities/competition.problem.entity';
 import { Problem } from './entities/problem.entity';
 import { Submission } from './entities/submission.entity';
 import { CompetitionGateWay } from './gateways/competition.gateway';
