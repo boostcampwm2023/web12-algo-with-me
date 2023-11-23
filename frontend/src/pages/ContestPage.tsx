@@ -10,6 +10,7 @@ import { SimulationInputList } from '@/components/Simulation/SimulationInputList
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
+import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
 import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
@@ -19,6 +20,7 @@ const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
+  const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
 
   const {
@@ -29,7 +31,7 @@ export default function ContestPage() {
     changeInput,
     cancelSimulation,
   } = useSimulations();
-  const competitionId: number = id ? parseInt(id, 10) : -1;
+
   const { problems, competition, submitSolution } = useCompetition(competitionId);
   const currentProblemId = useMemo(() => {
     return problems[currentProblemIndex];
@@ -65,7 +67,7 @@ export default function ContestPage() {
     const form = {
       problemId: currentProblemId,
       code,
-    };
+    } satisfies SubmissionForm;
     submitSolution(form);
   }
 
@@ -98,6 +100,7 @@ export default function ContestPage() {
       </section>
       <section>
         <SubmissionResult onSubmit={handleSubmitSolution}></SubmissionResult>
+        <button onClick={handleSubmitSolution}>제출하기</button>
       </section>
     </main>
   );
