@@ -32,6 +32,7 @@
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
     "remark-react": "^9.0.1",
+    "socket.io-client": "^4.7.2",
     "unified": "^11.0.4"
   },
   "devDependencies": {
