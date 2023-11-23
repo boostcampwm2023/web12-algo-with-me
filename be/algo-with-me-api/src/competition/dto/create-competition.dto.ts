@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-import { Competition } from '@src/competition/entities/competition.entity';
-
 export class CreateCompetitionDto {
   constructor(
     name: string,

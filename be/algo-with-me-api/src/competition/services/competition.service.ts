@@ -1,16 +1,9 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Server } from 'socket.io';
-import {
-  DataSource,
-  EntityManager,
-  getConnection,
-  getConnectionManager,
-  getManager,
-  Repository,
-} from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
