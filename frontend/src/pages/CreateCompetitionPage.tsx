@@ -86,7 +86,7 @@ export default function CompetitionCreatePage() {
             required
           ></Input.TextArea>
         </Input>
-        <Input label="최대 참여 인원">
+        <Input label="최대 참여 인원 (1명 이상)">
           <Input.NumberField
             name="max-participants"
             value={form.maxParticipants}
@@ -95,7 +95,7 @@ export default function CompetitionCreatePage() {
             required
           ></Input.NumberField>
         </Input>
-        <Input label="대회 시작 시간">
+        <Input label="대회 시작 시간 (현재 시간보다 5분 늦은 시간부터 가능합니다)">
           <Input.DateTimeField
             name="starts-at"
             value={form.startsAt}
