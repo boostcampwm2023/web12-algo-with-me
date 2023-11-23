@@ -1,5 +1,17 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CreateCompetitionDto } from '../dto/create-competition.dto';
@@ -83,6 +95,17 @@ export class CompetitionController {
   @UsePipes(new ValidationPipe({ transform: true }))
   saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
     this.competitionService.saveScoreResult(scoreResultDto);
+  }
+
+  @Post('/:competitionId/participations')
+  @ApiOperation({
+    summary: '대회 참여 api',
+    description: '유저가 대회에 참여하는 api 입니다.',
+  })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  joinCompetition(@Req() req, @Param('competitionId') competitionId: number) {
+    this.competitionService.joinCompetition(competitionId, req.user.email);
   }
 
   // @Post('submissions')

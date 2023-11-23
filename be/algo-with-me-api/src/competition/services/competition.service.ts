@@ -12,6 +12,7 @@ import { CompetitionProblemResponseDto } from '../dto/competition.problem.respon
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
+import { CompetitionParticipant } from '../entities/competition.participant.entity';
 import { CompetitionProblem } from '../entities/competition.problem.entity';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
@@ -21,6 +22,7 @@ import { CompetitionSimpleResponseDto } from '@src/competition/dto/competition.s
 import { CreateCompetitionDto } from '@src/competition/dto/create-competition.dto';
 import { UpdateCompetitionDto } from '@src/competition/dto/update-competition.dto';
 import { Competition } from '@src/competition/entities/competition.entity';
+import { User } from '@src/user/entities/user.entity';
 
 @Injectable()
 export class CompetitionService {
@@ -31,6 +33,9 @@ export class CompetitionService {
     @InjectRepository(Submission) private readonly submissionRepository: Repository<Submission>,
     @InjectRepository(CompetitionProblem)
     private readonly competitionProblemRepository: Repository<CompetitionProblem>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(CompetitionParticipant)
+    private readonly competitionParticipantRepository: Repository<CompetitionParticipant>,
     @InjectQueue(process.env.REDIS_MESSAGE_QUEUE_NAME) private submissionQueue: Queue,
     private dataSource: DataSource,
   ) {}
@@ -98,6 +103,23 @@ export class CompetitionService {
       [{ temp: '임시' }],
       problem.createdAt,
     );
+  }
+
+  async joinCompetition(competitionId: number, email: string) {
+    const competition: Competition = await this.competitionRepository.findOneBy({
+      id: competitionId,
+    });
+    this.assertCompetitionExists(competition);
+    const user: User = await this.userRepository.findOneBy({ email: email });
+    if (!user) throw new NotFoundException('찾을 수 없는 유저입니다.');
+    console.log(user);
+
+    const isExist: CompetitionParticipant = await this.competitionParticipantRepository.findOneBy({
+      competition: competition,
+      user: user,
+    });
+    if (!isExist) throw new BadRequestException('이미 참여중인 유저입니다.');
+    this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
   async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string) {

@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CompetitionParticipant } from '@src/competition/entities/participant.entity';
+import { CompetitionParticipant } from '@src/competition/entities/competition.participant.entity';
 
 @Entity()
 export class User {
