@@ -13,7 +13,7 @@ export default function CompetitionCreatePage() {
   const navigate = useNavigate();
 
   const form = useCompetitionForm();
-  const { allProblems } = useProblemList();
+  const { problemList } = useProblemList();
 
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
@@ -61,7 +61,8 @@ export default function CompetitionCreatePage() {
       return;
     }
 
-    navigate(`/contest/detail/${competition.id}`);
+    const TO_DETAIL_PAGE = `/contest/detail/${competition.id}`;
+    navigate(TO_DETAIL_PAGE);
   }
 
   return (
@@ -112,7 +113,7 @@ export default function CompetitionCreatePage() {
           ></Input.DateTimeField>
         </Input>
         <ProblemList
-          allProblems={allProblems}
+          allProblems={problemList}
           pickedProblemIds={form.problems}
           onSelectProblem={handleSelectProblem}
         ></ProblemList>

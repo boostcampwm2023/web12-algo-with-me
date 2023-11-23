@@ -4,12 +4,12 @@ import type { ProblemInfo } from '@/apis/problems';
 import { fetchProblemList } from '@/apis/problems';
 
 export function useProblemList() {
-  const [allProblems, setAllProblems] = useState<ProblemInfo[]>([]);
+  const [problemList, setProblemList] = useState<ProblemInfo[]>([]);
 
   async function updateProblemList() {
     const problems = await fetchProblemList();
 
-    setAllProblems(problems);
+    setProblemList(problems);
   }
 
   useEffect(() => {
@@ -17,6 +17,6 @@ export function useProblemList() {
   }, []);
 
   return {
-    allProblems,
+    problemList,
   };
 }
