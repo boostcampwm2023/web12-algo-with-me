@@ -27,7 +27,7 @@ export const useCompetition = (competitionId: number) => {
   const socket = useRef(
     createSocketInstance('/competitions', {
       transports: ['websocket'],
-      query: { competitionId: 3 },
+      query: { competitionId },
     }),
   );
 
