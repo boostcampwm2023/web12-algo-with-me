@@ -41,10 +41,10 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     @MessageBody() createSubmissionDto: CreateSubmissionDto,
     @ConnectedSocket() client: Socket,
   ): Promise<WsResponse<unknown>> {
-    const result: AuthTokenPayloadDto = this.authService.verifyToken(
+    const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
       client.handshake.headers.authorization,
     );
-    const user: User = await this.userService.getByEmail(result.sub);
+    const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
     const event = 'messages';
     const data = { message: '채점을 시작합니다.' };
@@ -52,11 +52,14 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     return { event, data };
   }
 
-  public handleConnection(client: Socket, ...args: any[]) {
+  public async handleConnection(client: Socket, ...args: any[]) {
     try {
       const { competitionId } = client.handshake.query;
-      this.authService.verifyToken(client.handshake.headers.authorization);
-      // TODO: 유저가 대회 참가했는지 검증 필요
+      const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
+        client.handshake.headers.authorization,
+      );
+      const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
+      await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
       console.log(client.id);
       console.log(competitionId, args);

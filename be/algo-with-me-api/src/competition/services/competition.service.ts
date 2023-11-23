@@ -134,7 +134,16 @@ export class CompetitionService {
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
-  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string, user:User) {
+  async isUserJoinedCompetition(competitionId: number, userId: number) {
+    console.log(competitionId, userId);
+    const competitionParticipant: CompetitionParticipant =
+      await this.competitionParticipantRepository.findOneBy({ competitionId, userId });
+
+    if (!competitionParticipant) throw new UnauthorizedException('대회 참여자가 아닙니다.');
+    return true;
+  }
+
+  async scoreSubmission(createSubmissionDto: CreateSubmissionDto, socketId: string, user: User) {
     const problem: Problem = await this.problemRepository.findOneBy({
       id: createSubmissionDto.problemId,
     });
