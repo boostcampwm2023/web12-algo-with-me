@@ -1,6 +1,7 @@
 import { css } from '@style/css';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
@@ -9,25 +10,17 @@ import { SimulationInputList } from '@/components/Simulation/SimulationInputList
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SubmissionResult from '@/components/SubmissionResult';
 import { SITE } from '@/constants';
+import { useCompetition } from '@/hooks/competition/useCompetition';
+import { useProblem } from '@/hooks/problem/useProblem';
 import { useSimulations } from '@/hooks/simulation';
-import mockData from '@/mockData.json';
 
-const notFoundProblem = {
-  title: 'Problem Not Found',
-  timeLimit: 0,
-  memoryLimit: 0,
-  content: 'The requested problem could not be found.',
-  solutionCode: '',
-  simulations: [],
-  createdAt: new Date().toISOString(),
-};
-
-const INITIAL_PROBLEM_ID = 6;
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
 
 export default function ContestPage() {
-  const CONTEST_NAME = 'Test'; // api로 받을 정보
+  const { id } = useParams<{ id: string }>();
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+
   const {
     simulationInputs,
     simulationResults,
@@ -36,10 +29,18 @@ export default function ContestPage() {
     changeInput,
     cancelSimulation,
   } = useSimulations();
-  const [currentProblemId] = useState(INITIAL_PROBLEM_ID);
-  const targetProblem =
-    mockData.problems.find((problem) => problem.id === currentProblemId) || notFoundProblem;
-  const [code, setCode] = useState<string>(targetProblem.solutionCode);
+  const competitionId: number = id ? parseInt(id, 10) : -1;
+
+  const { problems, competition } = useCompetition(competitionId);
+  const currentProblemId = useMemo(() => {
+    return problems[currentProblemIndex];
+  }, [problems, currentProblemIndex]);
+
+  const { problem } = useProblem(currentProblemId);
+
+  const [code, setCode] = useState<string>(problem.solutionCode);
+
+  const crumbs = [SITE.NAME, competition.name, problem.title];
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -57,18 +58,21 @@ export default function ContestPage() {
     changeInput(id, newParam);
   };
 
-  const crumbs = [SITE.NAME, CONTEST_NAME, targetProblem.title];
+  const handleNextProblem = () => {
+    setCurrentProblemIndex(currentProblemIndex + 1);
+  };
 
   return (
     <main className={style}>
+      <button onClick={handleNextProblem}>다음 문제</button>
       <ContestBreadCrumb crumbs={crumbs} />
       <section>
-        <span className={problemTitleStyle}>{targetProblem.title}</span>
+        <span className={problemTitleStyle}>{problem.title}</span>
       </section>
       <section className={rowListStyle}>
-        <ProblemViewer content={targetProblem.content}></ProblemViewer>
+        <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
-          <Editor code={code} onChangeCode={handleChangeCode}></Editor>
+          <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
           <SimulationInputList
             inputList={simulationInputs}
             onChangeInput={handleChangeInput}
