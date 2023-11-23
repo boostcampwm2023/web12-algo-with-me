@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
@@ -47,6 +47,10 @@ export default function ContestPage() {
   const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
 
   const [code, setCode] = useState<string>(problem.solutionCode);
+
+  useEffect(() => {
+    setCode(problem.solutionCode);
+  }, [problem.solutionCode]);
 
   const crumbs = [SITE.NAME, competition.name, problem.title];
 
