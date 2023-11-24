@@ -81,10 +81,11 @@ export class ScoreService {
     const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
     console.log(url);
     try {
-      await fetch(url, {
+      const result = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(scoreResult),
       });
+      console.log(result.status);
     } catch (error) {
       new Logger().error(
         `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
