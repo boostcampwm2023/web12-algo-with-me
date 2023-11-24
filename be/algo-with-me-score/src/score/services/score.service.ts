@@ -83,6 +83,9 @@ export class ScoreService {
     try {
       const result = await fetch(url, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(scoreResult),
       });
       console.log(result.status, await result.json());
