@@ -44,7 +44,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     @ConnectedSocket() client: Socket,
   ): Promise<WsResponse<unknown>> {
     const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
-      client.handshake.headers.authorization,
+      client.handshake.auth.token,
     );
     const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
     const testcaseNum: number = await this.problemService.getProblenTestcaseNum(
@@ -67,7 +67,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
       // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
-      console.log(client.id);
+      console.log(client.id, client.handshake.auth);
       console.log(competitionId, args);
     } catch (error) {
       client.emit('messages', { message: `${error.message}` });
