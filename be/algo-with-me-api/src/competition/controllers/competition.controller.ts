@@ -101,6 +101,7 @@ export class CompetitionController {
   })
   @UsePipes(new ValidationPipe({ transform: true }))
   async saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
+    console.log('채점완료 api', scoreResultDto);
     await this.competitionService.saveScoreResult(scoreResultDto);
   }
 
