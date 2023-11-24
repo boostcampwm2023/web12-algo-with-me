@@ -79,6 +79,7 @@ export class ScoreService {
       process.env.API_SERVER_PORT,
     ];
     const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
+    console.log(url);
     try {
       await fetch(url, {
         method: 'POST',
