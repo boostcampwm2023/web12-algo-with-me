@@ -1,11 +1,9 @@
-import { RESULT } from '../entities/competition.enums';
-
 export class ScoreResultDto {
   constructor(
     submissionId: number,
     testcaseId: number,
     socketId: string,
-    result: keyof typeof RESULT,
+    result: '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과',
     stdout: string,
     stderr: string,
     timeUsage: number,
@@ -24,7 +22,7 @@ export class ScoreResultDto {
   submissionId: number;
   testcaseId: number;
   socketId: string;
-  result: keyof typeof RESULT;
+  result: '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과';
   stdout: string;
   stderr: string;
   timeUsage: number;

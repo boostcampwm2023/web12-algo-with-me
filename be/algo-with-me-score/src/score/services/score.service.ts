@@ -3,7 +3,6 @@ import { InternalServerErrorException, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
 
 import { ScoreResultDto } from '../dtos/score-result.dto';
-import { RESULT } from '../entities/competition.enums';
 import { Submission } from '../entities/submission.entity';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
@@ -166,15 +165,15 @@ export class ScoreService {
     codeRunResponse: ICoderunResponse,
     codeRunOutput: string,
     testcaseAnswer: string,
-  ): keyof typeof RESULT {
+  ): '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과' {
     if (codeRunResponse.result === 'TIMEOUT') {
-      return 'TIMEOUT';
+      return '시간초과';
     } else if (codeRunResponse.result !== 'SUCCESS') {
-      return 'WRONG';
+      return '오답입니다';
     } else if (codeRunOutput === testcaseAnswer) {
-      return 'CORRECT';
+      return '정답입니다';
     } else {
-      return 'WRONG';
+      return '오답입니다';
     }
   }
 }
