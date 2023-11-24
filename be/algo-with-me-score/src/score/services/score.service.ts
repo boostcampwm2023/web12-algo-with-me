@@ -85,7 +85,7 @@ export class ScoreService {
         method: 'POST',
         body: JSON.stringify(scoreResult),
       });
-      console.log(result.status);
+      console.log(result.status, await result.json());
     } catch (error) {
       new Logger().error(
         `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
