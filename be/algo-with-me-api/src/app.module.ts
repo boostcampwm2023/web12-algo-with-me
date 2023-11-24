@@ -2,6 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { config } from 'dotenv';
 
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
@@ -13,6 +14,8 @@ import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 
 import { Competition } from '@src/competition/entities/competition.entity';
+
+config();
 
 @Module({
   imports: [

@@ -60,11 +60,12 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   public async handleConnection(client: Socket, ...args: any[]) {
     try {
       const { competitionId } = client.handshake.query;
-      const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
-        client.handshake.headers.authorization,
-      );
-      const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-      await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
+      // 검증 로직 주석처리
+      // const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
+      //   client.handshake.headers.authorization,
+      // );
+      // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
+      // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
       console.log(client.id);
       console.log(competitionId, args);
