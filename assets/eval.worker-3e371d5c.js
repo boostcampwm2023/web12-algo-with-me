@@ -1,0 +1,1 @@
+self.addEventListener("message",async function(a){const o=a.data;try{const{code:e,param:s}=o,t=await import("./quickjs-2ae4d657.js").then(function(c){return c.q});console.log("qimport",t,e,s);const n=await t.evaluate(e,s);self.postMessage(n)}catch(e){console.log(20,e),self.postMessage(e)}});
