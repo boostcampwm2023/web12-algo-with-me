@@ -2,6 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { config } from 'dotenv';
 
 import * as process from 'node:process';
 
@@ -14,6 +15,8 @@ import { Problem } from './score/entities/problem.entity';
 import { Submission } from './score/entities/submission.entity';
 import { User } from './score/entities/user.entity';
 import { ScoreModule } from './score/score.module';
+
+config();
 
 @Module({
   imports: [
@@ -46,7 +49,7 @@ import { ScoreModule } from './score/score.module';
       },
     }),
     BullModule.registerQueue({
-      name: process.env.REDIS_MESSAGE_QUEUE_NAME,
+      name: 'submission',
     }),
     ScoreModule,
   ],

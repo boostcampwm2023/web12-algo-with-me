@@ -20,8 +20,9 @@ export class SubmissionConsumer {
     private readonly scoreService: ScoreService,
   ) {}
 
-  @Process('score')
+  @Process()
   async getMessageQueue(job: Job) {
+    console.log('test');
     const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.socketId);
     const { socketId, submissionId } = messageQueueItem;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });

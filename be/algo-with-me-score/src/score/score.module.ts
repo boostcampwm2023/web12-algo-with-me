@@ -1,4 +1,3 @@
-import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -22,9 +21,6 @@ import { ScoreService } from './services/score.service';
       CompetitionProblem,
       CompetitionParticipant,
     ]),
-    BullModule.registerQueue({
-      name: process.env.REDIS_MESSAGE_QUEUE_NAME,
-    }),
   ],
   controllers: [],
   providers: [SubmissionConsumer, FilesystemService, ScoreService],
