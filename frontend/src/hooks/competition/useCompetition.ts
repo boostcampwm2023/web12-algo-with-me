@@ -31,7 +31,7 @@ export const useCompetition = (competitionId: number) => {
       transports: ['websocket'],
       query: { competitionId },
       auth: {
-        token: `${localStorage.getItem('accessToken')}`,
+        token: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     }),
   );
