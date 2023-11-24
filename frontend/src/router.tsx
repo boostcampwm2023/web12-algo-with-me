@@ -8,35 +8,30 @@ import ProblemPage from '@/pages/ProblemPage';
 
 import App from './App';
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <App />,
-      children: [
-        {
-          index: true,
-          element: <MainPage />,
-        },
-        {
-          path: '/contest/:id',
-          element: <ContestPage />,
-        },
-        {
-          path: '/problem/:id',
-          element: <ProblemPage />,
-        },
-        {
-          path: '/contest/create',
-          element: <CreateCompetitionPage />,
-        },
-        { path: '/login', element: <LoginPage /> },
-      ],
-    },
-  ],
+const router = createBrowserRouter([
   {
-    basename: process.env.NODE_ENV === 'production' ? '/web12-Algo-With-Me' : '',
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <MainPage />,
+      },
+      {
+        path: '/contest/:id',
+        element: <ContestPage />,
+      },
+      {
+        path: '/problem/:id',
+        element: <ProblemPage />,
+      },
+      {
+        path: '/contest/create',
+        element: <CreateCompetitionPage />,
+      },
+      { path: '/login', element: <LoginPage /> },
+    ],
   },
-);
+]);
 
 export default router;
