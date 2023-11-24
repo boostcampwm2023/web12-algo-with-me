@@ -125,6 +125,9 @@ export default function CompetitionList() {
               <td>
                 <ViewDashboardButton id={competition.id} />
               </td>
+              <td>
+                <Link to={`/contest/${competition.id}`}>대회 참여</Link>
+              </td>
             </tr>
           ))}
         </tbody>
