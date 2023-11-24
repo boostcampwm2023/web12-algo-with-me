@@ -21,5 +21,5 @@ export class ScoreResultDto {
   result: string;
 
   @ApiProperty()
-  stdOut: string;
+  stdout: string;
 }
