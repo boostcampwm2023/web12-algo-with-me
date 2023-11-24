@@ -9,6 +9,6 @@ export class AppService {
   constructor(@InjectQueue('submission') private testQueue: Queue) {}
 
   async addMessageQueue(item: MessageQueueItemDto) {
-    return await this.testQueue.add('score', item);
+    return await this.testQueue.add(item);
   }
 }

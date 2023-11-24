@@ -49,8 +49,27 @@ export class ScoreService {
     const testcaseAnswer = this.getTestcaseAnswer(problemId, testcaseId);
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
 
-    await this.sendScoreResult(
-      new ScoreResultDto(submissionId, testcaseId, socketId, judgeResult, stdout, stderr, 0, 0),
+    const scoreResult = new ScoreResultDto(
+      submissionId,
+      testcaseId,
+      socketId,
+      judgeResult,
+      stdout,
+      stderr,
+      0,
+      0,
+    );
+    await this.sendScoreResult(scoreResult);
+    const logger = new Logger();
+    logger.debug(
+      `채점 완료: ${JSON.stringify({
+        submissionId: scoreResult.submissionId,
+        competitionId,
+        userId,
+        problemId,
+        testcaseId,
+        judgeResult,
+      })}`,
     );
   }
 

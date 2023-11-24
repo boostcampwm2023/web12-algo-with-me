@@ -22,7 +22,9 @@ export class SubmissionConsumer {
 
   @Process()
   async getMessageQueue(job: Job) {
-    console.log('test');
+    const logger = new Logger();
+
+    logger.debug(`Redis로부터 제출 요청 받음: ${JSON.stringify(job.data)}`);
     const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.socketId);
     const { socketId, submissionId } = messageQueueItem;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
@@ -33,8 +35,9 @@ export class SubmissionConsumer {
 
     const problemId = submission.problemId;
     const competitionId = submission.competitionId;
-    // TODO: userId 가져오기
-    const userId = 1;
+    const userId = submission.userId;
+
+    logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
 
     await this.filesystemService.writeSubmittedCode(
       submission.code,

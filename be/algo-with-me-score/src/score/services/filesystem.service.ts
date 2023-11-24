@@ -1,4 +1,4 @@
-import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -22,8 +22,7 @@ export class FilesystemService {
     const baseDirectory = `${submissionPath}/${competitionId}/${userId}/`;
 
     if (!fs.existsSync(baseDirectory)) {
-      new Logger().error(`파일시스템에 ${baseDirectory} 경로가 존재하지 않습니다`);
-      throw new InternalServerErrorException();
+      fs.mkdirSync(baseDirectory, { recursive: true });
     }
 
     fs.writeFileSync(path.join(baseDirectory, `${problemId}.js`), mergedCode);
