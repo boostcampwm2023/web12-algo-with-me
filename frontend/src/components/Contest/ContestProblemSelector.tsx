@@ -16,7 +16,7 @@ export default function ContestProblemSelector(props: AsideProps) {
       <ul>
         {props.problemIds.map((id: number, index: number) => (
           <li key={id}>
-            <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex}>
+            <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
               문제 {index + 1}
             </button>
           </li>

@@ -1,12 +1,14 @@
+import api from '@/utils/api';
+
 import type { CompetitionApiData } from './types';
 import axios from 'axios';
 
 export async function joinCompetition(data: CompetitionApiData) {
-  const { apiUrl, id, token } = data;
+  const { id, token } = data;
 
   try {
-    await axios.post(
-      `${apiUrl}/competitions/${id}/participations`,
+    await api.post(
+      `/competitions/${id}/participations`,
       {},
       {
         headers: {
@@ -16,7 +18,6 @@ export async function joinCompetition(data: CompetitionApiData) {
     );
 
     alert('대회에 성공적으로 참여했습니다.');
-    window.location.reload();
   } catch (error: unknown) {
     let errorMessage = 'Unexpected error occurred.';
 
@@ -39,6 +40,5 @@ export async function joinCompetition(data: CompetitionApiData) {
     }
 
     alert(errorMessage);
-    window.location.reload();
   }
 }

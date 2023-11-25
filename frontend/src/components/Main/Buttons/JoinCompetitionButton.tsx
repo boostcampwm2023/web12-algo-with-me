@@ -6,7 +6,6 @@ const TOKEN_KEY = 'accessToken';
 
 export default function JoinCompetitionButton(props: { id: number }) {
   const { isLoggedin } = useAuth();
-  const apiUrl = import.meta.env.VITE_API_URL;
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
@@ -17,14 +16,14 @@ export default function JoinCompetitionButton(props: { id: number }) {
       window.location.href = '/login';
       return;
     }
+
+    joinCompetition(competitionData);
+    window.location.reload();
   };
   const competitionData: CompetitionApiData = {
-    apiUrl: apiUrl,
     id: props.id,
     token: token,
   };
-
-  joinCompetition(competitionData);
 
   return <button onClick={handleJoinClick}>참여하기</button>;
 }
