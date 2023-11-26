@@ -19,6 +19,7 @@ export interface SubmitResult {
 
 export type Message = {
   message: string;
+  testcaseNum: number;
 };
 
 export type ScoreResult = {

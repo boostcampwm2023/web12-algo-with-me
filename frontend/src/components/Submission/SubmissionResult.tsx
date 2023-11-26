@@ -48,13 +48,12 @@ export function SubmissionResult({ socket }: Props) {
   };
 
   const handleMessage = (rawData: string) => {
-    const { message } = JSON.parse(rawData) as Message;
-    const totalSubmissionResult = 10;
+    const { message, testcaseNum } = JSON.parse(rawData) as Message;
 
     setSubmissionMessage(message);
     setScoreResults(
-      range(0, totalSubmissionResult).map((_, index) => ({
-        testcaseId: index,
+      range(0, testcaseNum).map((_, index) => ({
+        testcaseId: index + 1,
         submitState: SUBMIT_STATE.loading,
       })),
     );
