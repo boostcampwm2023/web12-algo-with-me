@@ -22,16 +22,16 @@ import { CompetitionProblem } from '../entities/competition.problem.entity';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
+import { CompetitionDto } from '@src/competition/dto/competition.dto';
 import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
 import { CompetitionSimpleResponseDto } from '@src/competition/dto/competition.simple-response.dto';
-import { CreateCompetitionDto } from '@src/competition/dto/create-competition.dto';
-import { UpdateCompetitionDto } from '@src/competition/dto/update-competition.dto';
 import { Competition } from '@src/competition/entities/competition.entity';
 import { User } from '@src/user/entities/user.entity';
 
 @Injectable()
 export class CompetitionService {
   server: Server;
+  FIVE_MINUTES: number = 5 * 60 * 1000;
   constructor(
     @InjectRepository(Competition) private readonly competitionRepository: Repository<Competition>,
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
@@ -58,43 +58,70 @@ export class CompetitionService {
     return CompetitionResponseDto.from(competition);
   }
 
-  async create(createCompetitionDto: CreateCompetitionDto, user: User) {
-    this.competitionTimeValidation(createCompetitionDto);
+  async create(competitionDto: CompetitionDto, user: User) {
+    this.competitionTimeValidation(competitionDto);
 
     const competitionProblems: CompetitionProblem[] = [];
-    for (const problemId of createCompetitionDto.problemIds) {
-      const problem = await this.assertProblemExistsInDb(problemId, createCompetitionDto);
+    for (const problemId of competitionDto.problemIds) {
+      const problem = await this.assertProblemExistsInDb(problemId);
       const competitionProblem = new CompetitionProblem();
       competitionProblem.problem = problem;
       competitionProblems.push(competitionProblem);
     }
 
-    const competition: Competition = createCompetitionDto.toEntity(user);
+    const competition: Competition = competitionDto.toEntity(user);
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const savedCompetition: Competition = await this.competitionRepository.save(competition, {
-        transaction: false,
-      });
-      for (const competitionProblem of competitionProblems) {
-        competitionProblem.competition = savedCompetition;
-        await this.competitionProblemRepository.save(competitionProblem, { transaction: false });
-      }
+      const savedCompetition: Competition = await queryRunner.manager.save(competition);
+      competitionProblems.forEach(
+        (element: CompetitionProblem) => (element.competition = savedCompetition),
+      );
+      queryRunner.manager.save(competitionProblems);
       await queryRunner.commitTransaction();
+      await queryRunner.release();
     } catch (error) {
       await queryRunner.rollbackTransaction();
+      await queryRunner.release();
       throw error;
     }
   }
 
-  async update(id: number, updateCompetitionDto: UpdateCompetitionDto, user: User) {
+  async update(id: number, competitionDto: CompetitionDto, user: User) {
     const competition: Competition = await this.competitionRepository.findOneBy({ id });
+
     if (!competition) throw new NotFoundException('대회를 찾을 수 없습니다.');
     if (competition.userId !== user.id) throw new UnauthorizedException('대회 주최자가 아닙니다.');
-    const result = await this.competitionRepository.update({ id: id }, { ...updateCompetitionDto });
-    return !!result.affected;
+    console.log(competition.startsAt.toString(), new Date().toString());
+    if (competition.startsAt.getTime() - new Date().getTime() < this.FIVE_MINUTES)
+      throw new BadRequestException('대회 시작 5분 전 부터는 수정이 불가능합니다.');
+    this.competitionTimeValidation(competitionDto);
+
+    const competitionProblems: CompetitionProblem[] = [];
+    competitionDto.problemIds.forEach(async (element: number) => {
+      const problem: Problem = await this.assertProblemExistsInDb(element);
+      const competitionProblem: CompetitionProblem = new CompetitionProblem();
+      competitionProblem.competitionId = competition.id;
+      competitionProblem.problem = problem;
+      competitionProblems.push(competitionProblem);
+    });
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      await queryRunner.manager.delete(CompetitionProblem, { competitionId: competition.id });
+      await queryRunner.manager.update(Competition, competition.id, competitionDto.toEntity(user));
+      await queryRunner.manager.save(competitionProblems);
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw error;
+    }
   }
 
   async findOneProblem(id: number) {
@@ -208,28 +235,20 @@ export class CompetitionService {
       );
   }
 
-  private async assertProblemExistsInDb(
-    problemId: number,
-    createCompetitionDto: CreateCompetitionDto,
-  ) {
+  private async assertProblemExistsInDb(problemId: number) {
     const problem = await this.problemRepository.findOneBy({ id: problemId });
     if (!problem) {
-      throw new NotFoundException(
-        `대회를 생성할 때 주어진 문제 리스트 ${JSON.stringify(
-          createCompetitionDto.problemIds,
-        )}에 존재하지 않는 문제가 있습니다 (id: ${problemId})`,
-      );
+      throw new NotFoundException(`존재하지 않는 문제가 있습니다 (problemId: ${problemId})`);
     }
     return problem;
   }
 
-  private competitionTimeValidation(createCompetitionDto: CreateCompetitionDto) {
-    const FIVE_MINUTES = 5 * 60 * 1000;
+  private competitionTimeValidation(createCompetitionDto: CompetitionDto) {
     const startsAt = new Date(createCompetitionDto.endsAt);
     const endsAt = new Date(createCompetitionDto.startsAt);
-    if (startsAt.getTime() - endsAt.getTime() < FIVE_MINUTES)
+    if (startsAt.getTime() - endsAt.getTime() < this.FIVE_MINUTES)
       throw new BadRequestException('대회 시간은 최소 5분 이상이어야 합니다.');
-    if (startsAt.getTime() - new Date().getTime() < FIVE_MINUTES)
+    if (startsAt.getTime() - new Date().getTime() < this.FIVE_MINUTES)
       throw new BadRequestException(
         '대회 시작 시간은 현재 시간으로부터 최소 5분 이후이어야 합니다.',
       );
