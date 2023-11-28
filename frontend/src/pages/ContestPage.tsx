@@ -1,21 +1,23 @@
 import { css } from '@style/css';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
 import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
+import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import { SubmissionResult } from '@/components/Submission';
+import Timer from '@/components/Timer';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
-import { useSimulations } from '@/hooks/simulation';
+import { SimulationInput, useSimulation } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
@@ -25,17 +27,11 @@ export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const modal = useContext(ModalContext);
 
-  const {
-    simulationInputs,
-    simulationResults,
-    isSimulating,
-    runSimulation,
-    changeInput,
-    cancelSimulation,
-  } = useSimulations();
+  const simulation = useSimulation();
 
-  const { socket, competition, submitSolution } = useCompetition(competitionId);
+  const { socket, competition, submitSolution, isConnected } = useCompetition(competitionId);
   const { problemList } = useCompetitionProblemList(competitionId);
 
   const currentProblem = useMemo(() => {
@@ -60,15 +56,15 @@ export default function ContestPage() {
   };
 
   const handleSimulate = () => {
-    runSimulation(code);
+    simulation.run(code);
   };
 
   const handleSimulationCancel = () => {
-    cancelSimulation();
+    simulation.cancel();
   };
 
-  const handleChangeInput = (id: number, newParam: string) => {
-    changeInput(id, newParam);
+  const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
+    simulation.changeInputs(simulationInputs);
   };
 
   function handleSubmitSolution() {
@@ -86,13 +82,22 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
+
+  const { endsAt } = competition;
+
+  function handleOpenModal() {
+    modal.open();
+  }
+  
   const problems = problemList.map((problem) => problem.id);
+  
 
   return (
     <main className={style}>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
       <section>
         <span className={problemTitleStyle}>{problem.title}</span>
+        <Timer socket={socket.current} isConnected={isConnected} endsAt={new Date(endsAt)} />
       </section>
       <section className={rowListStyle}>
         <ContestProblemSelector
@@ -102,12 +107,8 @@ export default function ContestPage() {
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-          <SimulationInputList
-            inputList={simulationInputs}
-            onChangeInput={handleChangeInput}
-          ></SimulationInputList>
-          <SimulationResultList resultList={simulationResults}></SimulationResultList>
-          {isSimulating ? (
+          <SimulationResultList resultList={simulation.results}></SimulationResultList>
+          {simulation.isRunning ? (
             <button className={execButtonStyle} onClick={handleSimulationCancel}>
               {CANCEL_SIMULATION}
             </button>
@@ -119,9 +120,18 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult socket={socket.current}></SubmissionResult>
-        <button onClick={handleSubmitSolution}>제출하기</button>
+        <SubmissionResult isConnected={isConnected} socket={socket.current}></SubmissionResult>
+        <button className={execButtonStyle} onClick={handleSubmitSolution}>
+          제출하기
+        </button>
+        <button className={execButtonStyle} onClick={handleOpenModal}>
+          테스트 케이스 추가하기
+        </button>
       </section>
+      <SimulationInputModal
+        simulationInputs={simulation.inputs}
+        onSave={handleSaveSimulationInputs}
+      ></SimulationInputModal>
     </main>
   );
 }
@@ -149,4 +159,9 @@ const problemTitleStyle = css({
 
 const execButtonStyle = css({
   color: 'black',
+});
+
+const rowStyle = css({
+  display: 'flex',
+  justifyContent: 'space-between',
 });
