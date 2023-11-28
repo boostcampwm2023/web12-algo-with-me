@@ -4,7 +4,6 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
-import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
 import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
 import Editor from '@/components/Editor/Editor';
@@ -85,7 +84,7 @@ export default function ContestPage() {
   function handleOpenModal() {
     modal.open();
   }
-  
+
   const problems = problemList.map((problem) => problem.id);
 
   return (
