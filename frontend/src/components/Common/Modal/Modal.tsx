@@ -7,9 +7,11 @@ import ReactDOM from 'react-dom';
 import { ModalContext } from './ModalContext';
 import { ModalProvider } from './ModalProvider';
 
-export interface Props extends HTMLAttributes<HTMLDialogElement> {}
+export interface Props extends HTMLAttributes<HTMLDialogElement> {
+  onBackdropPressed?: () => void;
+}
 
-export function Modal({ children, ...props }: Props) {
+export function Modal({ onBackdropPressed, children, ...props }: Props) {
   const modal = useContext(ModalContext);
   const $dialog = useRef<HTMLDialogElement>(null);
 
@@ -18,7 +20,9 @@ export function Modal({ children, ...props }: Props) {
 
     if ($target.nodeName !== 'DIALOG') return;
 
-    modal.close();
+    if (onBackdropPressed instanceof Function) {
+      onBackdropPressed();
+    }
   };
 
   useEffect(() => {
