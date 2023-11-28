@@ -1,9 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
+import { Competition } from '../entities/competition.entity';
+
 export class CompetitionResponseDto {
   constructor(
     id: number,
+    host: string,
+    participants: string[],
     name: string,
     detail: string,
     maxParticipants: number,
@@ -13,6 +17,8 @@ export class CompetitionResponseDto {
     updatedAt: string,
   ) {
     this.id = id;
+    this.host = host;
+    this.participants = participants;
     this.name = name;
     this.detail = detail;
     this.maxParticipants = maxParticipants;
@@ -25,6 +31,13 @@ export class CompetitionResponseDto {
   @ApiProperty({ description: '대회 id' })
   @IsNotEmpty()
   id: number;
+
+  @ApiProperty({ description: '주최자 이메일' })
+  @IsNotEmpty()
+  host: string;
+
+  @ApiProperty({ description: '참가자 이메일' })
+  participants: string[];
 
   @ApiProperty({ description: '대회 이름' })
   @IsNotEmpty()
@@ -58,25 +71,18 @@ export class CompetitionResponseDto {
   @IsNotEmpty()
   updatedAt: string;
 
-  static from(args: {
-    id: number;
-    name: string;
-    detail: string;
-    maxParticipants: number;
-    startsAt: Date;
-    endsAt: Date;
-    createdAt: Date;
-    updatedAt: Date;
-  }) {
+  static from(competition: Competition, host: string, competitionParticipants: string[]) {
     return new CompetitionResponseDto(
-      args.id,
-      args.name,
-      args.detail,
-      args.maxParticipants,
-      args.startsAt.toISOString(),
-      args.endsAt.toISOString(),
-      args.createdAt.toISOString(),
-      args.updatedAt.toISOString(),
+      competition.id,
+      host,
+      competitionParticipants,
+      competition.name,
+      competition.detail,
+      competition.maxParticipants,
+      competition.startsAt.toISOString(),
+      competition.endsAt.toISOString(),
+      competition.createdAt.toISOString(),
+      competition.updatedAt.toISOString(),
     );
   }
 }
