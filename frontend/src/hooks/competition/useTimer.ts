@@ -35,7 +35,7 @@ export default function useConnectHeader({ socket, endsAt }: UseConnectHeader) {
   // 웹 소켓 대신 사용.
   // 웹 소켓 연결 후 삭제 예정
   const mockWebSocket = useCallback(() => {
-    const delayFactor = 2;
+    const delayFactor = 2000;
     setInterval(() => {
       console.log('ping 5초( + 네트워크 지연) 마다 실행');
       const serverTime = new Date();

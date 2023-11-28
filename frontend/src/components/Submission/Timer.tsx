@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import Loading from '@/components/Common/Loading';
-import useConnectHeader from '@/hooks/competition/useConnectHeader';
+import useTimer from '@/hooks/competition/useTimer';
 import { formatTimeFromMiliSeconds } from '@/utils/date';
 import type { Socket } from '@/utils/socket';
 
@@ -15,7 +15,7 @@ export default function Time(props: Props) {
   let { isConnected, socket, endsAt } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
   endsAt = '2023-11-28T12:10:10.000Z';
-  const { remainTime } = useConnectHeader({ socket, endsAt });
+  const { remainTime } = useTimer({ socket, endsAt });
 
   return (
     <section className={wrapperStyle}>
