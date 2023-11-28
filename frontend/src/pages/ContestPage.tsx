@@ -82,15 +82,13 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
-
   const { endsAt } = competition;
 
   function handleOpenModal() {
     modal.open();
   }
-  
+
   const problems = problemList.map((problem) => problem.id);
-  
 
   return (
     <main className={style}>
@@ -159,9 +157,4 @@ const problemTitleStyle = css({
 
 const execButtonStyle = css({
   color: 'black',
-});
-
-const rowStyle = css({
-  display: 'flex',
-  justifyContent: 'space-between',
 });
