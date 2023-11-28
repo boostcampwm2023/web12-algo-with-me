@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import { ModalContext } from './ModalContext';
+import { ModalProvider } from './ModalProvider';
 
 interface Props extends HTMLAttributes<HTMLDialogElement> {}
 
@@ -42,6 +43,9 @@ export function Modal({ children, ...props }: Props) {
     document.body,
   );
 }
+
+Modal.Context = ModalContext;
+Modal.Provider = ModalProvider;
 
 const style = css({
   borderRadius: '0.5rem',

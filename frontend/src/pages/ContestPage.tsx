@@ -3,10 +3,10 @@ import { css } from '@style/css';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import Modal from '@/components/Common/Modal';
+import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
-import Modal from '@/components/Modal';
-import { ModalContext } from '@/components/Modal/ModalContext';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';

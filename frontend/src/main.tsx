@@ -5,15 +5,15 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
 import AuthProvider from './components/Auth/AuthProvider';
-import { ModalProvider } from './components/Modal/ModalProvider';
+import { Modal } from './components/Common';
 import router from './router';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <ModalProvider>
+      <Modal.Provider>
         <RouterProvider router={router}></RouterProvider>
-      </ModalProvider>
+      </Modal.Provider>
     </AuthProvider>
   </React.StrictMode>,
 );
