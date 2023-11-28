@@ -24,8 +24,6 @@ export async function joinCompetition(data: CompetitionApiData) {
 
     return '대회에 성공적으로 참여했습니다.';
   } catch (error: unknown) {
-    let errorMessage = 'Unexpected error occurred.';
-
     if (!axios.isAxiosError(error)) {
       return 'Unexpected error occurred';
     }
@@ -36,16 +34,11 @@ export async function joinCompetition(data: CompetitionApiData) {
 
     switch (error.response.status) {
       case STATUS.Forbidden:
-        errorMessage = '대회 참여에 실패했습니다. 서버에서 거절되었습니다.';
-        break;
+        return '대회 참여에 실패했습니다. 서버에서 거절되었습니다.';
       case STATUS.BadRequest:
-        errorMessage = '이미 참여한 대회입니다.';
-        break;
+        return '이미 참여한 대회입니다.';
       default:
-        errorMessage = `HTTP Error ${error.response.status}`;
-        break;
+        return `HTTP Error ${error.response.status}`;
     }
-
-    return errorMessage;
   }
 }
