@@ -11,6 +11,7 @@ import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import { SubmissionResult } from '@/components/Submission';
+import Timer from '@/components/Timer';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
@@ -30,7 +31,7 @@ export default function ContestPage() {
 
   const simulation = useSimulation();
 
-  const { socket, competition, submitSolution } = useCompetition(competitionId);
+  const { socket, competition, submitSolution, isConnected } = useCompetition(competitionId);
   const { problemList } = useCompetitionProblemList(competitionId);
 
   const currentProblem = useMemo(() => {
@@ -81,17 +82,22 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
+
+  const { endsAt } = competition;
+
   function handleOpenModal() {
     modal.open();
   }
-
+  
   const problems = problemList.map((problem) => problem.id);
+  
 
   return (
     <main className={style}>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
       <section>
         <span className={problemTitleStyle}>{problem.title}</span>
+        <Timer socket={socket.current} isConnected={isConnected} endsAt={new Date(endsAt)} />
       </section>
       <section className={rowListStyle}>
         <ContestProblemSelector
@@ -114,7 +120,7 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult socket={socket.current}></SubmissionResult>
+        <SubmissionResult isConnected={isConnected} socket={socket.current}></SubmissionResult>
         <button className={execButtonStyle} onClick={handleSubmitSolution}>
           제출하기
         </button>
@@ -153,4 +159,9 @@ const problemTitleStyle = css({
 
 const execButtonStyle = css({
   color: 'black',
+});
+
+const rowStyle = css({
+  display: 'flex',
+  justifyContent: 'space-between',
 });
