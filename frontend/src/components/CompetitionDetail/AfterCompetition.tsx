@@ -13,7 +13,7 @@ interface Props {
 
 const AFTER_COMPETITION_TEXT = ' 종료';
 
-export default function AfterCompetitionEnd({
+export default function AfterCompetition({
   competitionId,
   competition,
   competitionSchedule,
