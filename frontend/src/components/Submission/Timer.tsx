@@ -11,17 +11,17 @@ interface Props {
   endsAt: string;
 }
 
-export default function ConnectHeader(props: Props) {
+export default function Time(props: Props) {
   let { isConnected, socket, endsAt } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
   endsAt = '2023-11-28T12:10:10.000Z';
   const { remainTime } = useConnectHeader({ socket, endsAt });
 
   return (
-    <section className={headerStyle}>
+    <section className={wrapperStyle}>
       <div className={positionRightStyle}>
         {isConnected && remainTime !== -1 ? (
-          <span className={timeStyle}>{formatTimeFromMiliSeconds(remainTime)}</span>
+          <span className={timeTextStyle}>{formatTimeFromMiliSeconds(remainTime)}</span>
         ) : (
           <section className={loadingBoxStyle}>
             <span className={disConnectedStyle}>연결 중...</span>
@@ -33,7 +33,7 @@ export default function ConnectHeader(props: Props) {
   );
 }
 
-const headerStyle = css({
+const wrapperStyle = css({
   position: 'relative;',
 });
 
@@ -52,7 +52,7 @@ const positionRightStyle = css({
   right: '0px',
 });
 
-const timeStyle = css({
+const timeTextStyle = css({
   color: 'lightgray',
   fontWeight: 'bold',
 });

@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { range } from '@/utils/array';
 import type { Socket } from '@/utils/socket';
 
-import ConnectHeader from './ConnectHeader';
 import Score from './Score';
+import Timer from './Timer';
 import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
 
 interface Props {
@@ -73,7 +73,7 @@ export function SubmissionResult({ socket, endsAt }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
-        <ConnectHeader socket={socket} isConnected={true} endsAt={endsAt} />
+        <Timer socket={socket} isConnected={true} endsAt={endsAt} />
         <p>{submissionMessage}</p>
         {scoreResults.map(({ score, submitState, testcaseId }) => (
           <Score key={testcaseId} score={score} submitState={submitState} />
