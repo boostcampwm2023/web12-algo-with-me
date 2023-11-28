@@ -107,10 +107,6 @@ export default function ContestPage() {
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-          <SimulationInputList
-            inputList={simulationInputs}
-            onChangeInput={handleChangeInput}
-          ></SimulationInputList>
           <SimulationResultList resultList={simulationResults}></SimulationResultList>
           {isSimulating ? (
             <button className={execButtonStyle} onClick={handleSimulationCancel}>
@@ -132,7 +128,12 @@ export default function ContestPage() {
           테스트 케이스 추가하기
         </button>
       </section>
-      <Modal>Hello World</Modal>
+      <Modal>
+        <SimulationInputList
+          inputList={simulationInputs}
+          onChangeInput={handleChangeInput}
+        ></SimulationInputList>
+      </Modal>
     </main>
   );
 }
