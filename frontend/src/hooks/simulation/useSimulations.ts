@@ -70,7 +70,6 @@ export const useSimulations = () => {
   }
 
   function changeInputs(simulationInputs: SimulationInput[]) {
-    console.log(simulationInputs);
     setSimulationInputs([...simulationInputs]);
   }
 
