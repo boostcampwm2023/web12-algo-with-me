@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Socket } from 'socket.io-client';
 
-interface UseConnectHeader {
+interface UseTimer {
   socket: Socket;
-  endsAt: string;
+  endsAt: Date;
 }
 
-let timerIntervalId: NodeJS.Timeout;
-
-export default function useConnectHeader({ socket, endsAt }: UseConnectHeader) {
-  const endTime = useMemo(() => new Date(endsAt).getTime(), [endsAt]);
+export default function useTimer({ socket, endsAt }: UseTimer) {
+  const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
+  const endTime = useMemo(() => endsAt.getTime(), [endsAt]);
   const [remainTime, setRemainTime] = useState<number>(-1);
   useEffect(() => {
     console.log('타이머 실행');
@@ -22,11 +21,12 @@ export default function useConnectHeader({ socket, endsAt }: UseConnectHeader) {
   }, [socket]);
 
   const handlePingMessage = useCallback((time: Date | string) => {
-    clearInterval(timerIntervalId);
+    if (timerIntervalId.current) clearInterval(timerIntervalId.current);
+
     time = typeof time === 'string' ? new Date(time) : time;
     const remainSec = endTime - time.getTime();
     setRemainTime(remainSec);
-    timerIntervalId = setInterval(() => {
+    timerIntervalId.current = setInterval(() => {
       console.log('1초마다 실행');
       setRemainTime((prev) => prev - 1000);
     }, 1000);
