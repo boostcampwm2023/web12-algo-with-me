@@ -3,36 +3,38 @@ import { css } from '@style/css';
 import { CompetitionInfo } from '@/apis/competitions';
 
 import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
+import CompetitionDetailInfo from './CompetitionDetailInfo';
 
 interface Props {
   competitionId: number;
   competition: CompetitionInfo;
   startsAt: Date;
+  competitionSchedule: string;
 }
 
-export default function DuringCompetition({ competitionId, competition, startsAt }: Props) {
+const DURING_COMPETITION_TEXT = ' 진행중';
+
+export default function DuringCompetition({
+  competitionId,
+  competition,
+  startsAt,
+  competitionSchedule,
+}: Props) {
   return (
     <div className={containerStyle}>
-      <span className={competitionNameStyle}>{competition.name}</span>
-      <span className={statusTextStyle}> 진행중</span>
+      <CompetitionDetailInfo
+        competition={competition}
+        text={DURING_COMPETITION_TEXT}
+        competitionSchedule={competitionSchedule}
+      />
       <EnterCompetitionButton id={competitionId} startsAt={startsAt} />
     </div>
   );
 }
 
 const containerStyle = css({
-  display: 'flex',
+  justifyContent: 'space-between',
   alignItems: 'center',
-});
-
-const competitionNameStyle = css({
-  fontSize: '18px',
-  fontWeight: 'bold',
-  color: 'black',
-  marginRight: '8px',
-});
-
-const statusTextStyle = css({
-  fontSize: '12px',
-  color: 'gray',
+  padding: '16px',
+  border: '1px solid #ccc',
 });

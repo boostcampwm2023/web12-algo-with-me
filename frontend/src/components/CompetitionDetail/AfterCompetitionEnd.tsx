@@ -2,35 +2,37 @@ import { css } from '@style/css';
 
 import { CompetitionInfo } from '@/apis/competitions';
 
+import CompetitionDetailInfo from './CompetitionDetailInfo';
 import ProblemList from './ProblemList';
 
 interface Props {
   competitionId: number;
   competition: CompetitionInfo;
+  competitionSchedule: string;
 }
 
-export default function AfterCompetitionEnd({ competitionId, competition }: Props) {
+const AFTER_COMPETITION_TEXT = ' 종료';
+
+export default function AfterCompetitionEnd({
+  competitionId,
+  competition,
+  competitionSchedule,
+}: Props) {
   return (
     <div className={containerStyle}>
-      <span className={competitionNameStyle}>{competition.name}</span>
-      <span className={statusTextStyle}> 종료</span>
+      <CompetitionDetailInfo
+        competition={competition}
+        text={AFTER_COMPETITION_TEXT}
+        competitionSchedule={competitionSchedule}
+      />
       <ProblemList competitionId={competitionId} />
     </div>
   );
 }
 
 const containerStyle = css({
+  justifyContent: 'space-between',
   alignItems: 'center',
-});
-
-const competitionNameStyle = css({
-  fontSize: '18px',
-  fontWeight: 'bold',
-  color: 'black',
-  marginRight: '8px',
-});
-
-const statusTextStyle = css({
-  fontSize: '12px',
-  color: 'gray',
+  padding: '16px',
+  border: '1px solid #ccc',
 });
