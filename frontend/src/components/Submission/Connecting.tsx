@@ -9,7 +9,7 @@ interface Props {
 export default function Connecting(props: Props) {
   return (
     <>
-      {props.isConnected && (
+      {!props.isConnected && (
         <div className={rowStyle}>
           <span>연결 중...</span>
           <Loading color="darkorange" size="24px" />
