@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import Loading from '@/components/Common/Loading';
-import useTimer from '@/hooks/competition/useTimer';
+import useTimer from '@/hooks/timer/useTimer';
 import { formatMilliSecond } from '@/utils/date';
 import type { Socket } from '@/utils/socket';
 

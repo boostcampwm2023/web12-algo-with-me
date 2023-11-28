@@ -3,13 +3,13 @@ import { css } from '@style/css';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Timer from '@/components/Common/Timer';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import { SubmissionResult } from '@/components/Submission';
+import Timer from '@/components/Timer';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
