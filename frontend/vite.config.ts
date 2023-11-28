@@ -4,7 +4,7 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default () => {
   const env = loadEnv('', process.cwd(), 'APP');
-  console.log(env, env.APP_API_URL);
+  console.log(env, process.env, env.APP_API_URL);
   return defineConfig({
     resolve: {
       alias: [
