@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import { useEffect, useState } from 'react';
 
-import Connection from '@/components/Submission/Connection';
+import Disconnection from '@/components/Submission/Disconnection';
 import { range } from '@/utils/array';
 import type { Socket } from '@/utils/socket';
 
@@ -73,7 +73,7 @@ export function SubmissionResult({ socket, isConnected }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
-        {!isConnected && <Connection />}
+        {!isConnected && <Disconnection />}
         <p>{submissionMessage}</p>
         {scoreResults.map(({ score, submitState, testcaseId }) => (
           <Score key={testcaseId} score={score} submitState={submitState} />
