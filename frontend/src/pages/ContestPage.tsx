@@ -1,10 +1,12 @@
 import { css } from '@style/css';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
+import Modal from '@/components/Modal';
+import { ModalContext } from '@/components/Modal/ModalContext';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
@@ -24,6 +26,7 @@ export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const modal = useContext(ModalContext);
 
   const {
     simulationInputs,
@@ -89,6 +92,10 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
+  function handleOpenModal() {
+    modal.open();
+  }
+
   return (
     <main className={style}>
       <button onClick={handleNextProblem}>다음 문제</button>
@@ -118,8 +125,14 @@ export default function ContestPage() {
       </section>
       <section>
         <SubmissionResult socket={socket.current}></SubmissionResult>
-        <button onClick={handleSubmitSolution}>제출하기</button>
+        <button className={execButtonStyle} onClick={handleSubmitSolution}>
+          제출하기
+        </button>
+        <button className={execButtonStyle} onClick={handleOpenModal}>
+          테스트 케이스 추가하기
+        </button>
       </section>
+      <Modal>Hello World</Modal>
     </main>
   );
 }

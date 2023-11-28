@@ -16,6 +16,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
