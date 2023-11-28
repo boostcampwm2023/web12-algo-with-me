@@ -14,10 +14,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
-import { CreateCompetitionDto } from '../dto/create-competition.dto';
+import { CompetitionDto } from '../dto/create-competition.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
-import { UpdateCompetitionDto } from '../dto/update-competition.dto';
 import { CompetitionService } from '../services/competition.service';
 
 import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
@@ -58,8 +57,8 @@ export class CompetitionController {
   @ApiBearerAuth()
   @UsePipes(new ValidationPipe({ transform: true }))
   @UseGuards(AuthGuard('jwt'))
-  create(@Body() createCompetitionDto: CreateCompetitionDto, @AuthUser() user: User) {
-    return this.competitionService.create(createCompetitionDto, user);
+  create(@Body() competitionDto: CompetitionDto, @AuthUser() user: User) {
+    return this.competitionService.create(competitionDto, user);
   }
 
   @Put('/:competitionId')
@@ -67,16 +66,15 @@ export class CompetitionController {
     summary: '대회 정보 수정',
     description: `URL의 파라미터(\`/:id\`)로 주어진 대회 id에 해당하는 대회 정보를 수정한다. request JSON 중 **수정하기를 원하는 것만** key: value 형식으로 요청한다.`,
   })
-  @ApiResponse({ type: Boolean })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ transform: true }))
   update(
     @Param('competitionId') competitionId: number,
-    @Body() updateCompetitionDto: UpdateCompetitionDto,
+    @Body() competitionDto: CompetitionDto,
     @AuthUser() user: User,
   ) {
-    return this.competitionService.update(competitionId, updateCompetitionDto, user);
+    this.competitionService.update(competitionId, competitionDto, user);
   }
 
   @Get('/:competitionId/problems')
