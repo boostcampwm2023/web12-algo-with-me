@@ -2,16 +2,16 @@ import { css } from '@style/css';
 
 import { useEffect, useState } from 'react';
 
+import Connection from '@/components/Submission/Connection';
 import { range } from '@/utils/array';
 import type { Socket } from '@/utils/socket';
 
 import Score from './Score';
-import Timer from './Timer';
 import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
 
 interface Props {
   socket: Socket;
-  endsAt: string;
+  isConnected: boolean;
 }
 
 type SubmitResult = {
@@ -20,7 +20,7 @@ type SubmitResult = {
   score?: ScoreResult;
 };
 
-export function SubmissionResult({ socket, endsAt }: Props) {
+export function SubmissionResult({ socket, isConnected }: Props) {
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
@@ -73,7 +73,7 @@ export function SubmissionResult({ socket, endsAt }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
-        <Timer socket={socket} isConnected={true} endsAt={endsAt} />
+        {!isConnected && <Connection />}
         <p>{submissionMessage}</p>
         {scoreResults.map(({ score, submitState, testcaseId }) => (
           <Score key={testcaseId} score={score} submitState={submitState} />

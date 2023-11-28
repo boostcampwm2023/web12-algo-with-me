@@ -25,6 +25,7 @@ const notFoundCompetition: CompetitionInfo = {
 
 export const useCompetition = (competitionId: number) => {
   const [competition, setCompetition] = useState<CompetitionInfo>(notFoundCompetition);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const socket = useRef(
     createSocketInstance('/competitions', {
@@ -38,10 +39,12 @@ export const useCompetition = (competitionId: number) => {
 
   const handleConnect = () => {
     console.log('connected!');
+    setIsConnected(true);
   };
 
   const handleDisconnect = () => {
     console.log('disconnected!');
+    setIsConnected(false);
   };
 
   useEffect(() => {
@@ -77,5 +80,6 @@ export const useCompetition = (competitionId: number) => {
     socket,
     competition,
     submitSolution,
+    isConnected,
   };
 };

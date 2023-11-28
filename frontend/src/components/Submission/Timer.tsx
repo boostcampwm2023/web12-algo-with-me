@@ -7,19 +7,19 @@ import type { Socket } from '@/utils/socket';
 
 interface Props {
   socket: Socket;
-  isConnected: boolean;
-  endsAt: string;
+  endsAt: Date;
+  isConnected?: boolean;
 }
 
-export default function Time(props: Props) {
-  let { isConnected, socket, endsAt } = props;
+export default function Timer(props: Props) {
+  let { socket, endsAt, isConnected } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
-  endsAt = '2023-11-28T12:10:10.000Z';
+  endsAt = new Date('2023-11-28T13:10:10.000Z');
   const { remainTime } = useTimer({ socket, endsAt });
 
   return (
     <section className={wrapperStyle}>
-      <div className={positionRightStyle}>
+      <div>
         {isConnected && remainTime !== -1 ? (
           <span className={timeTextStyle}>{formatTimeFromMiliSeconds(remainTime)}</span>
         ) : (
@@ -34,7 +34,8 @@ export default function Time(props: Props) {
 }
 
 const wrapperStyle = css({
-  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
 });
 
 const disConnectedStyle = css({
@@ -44,12 +45,6 @@ const disConnectedStyle = css({
 const loadingBoxStyle = css({
   display: 'flex',
   gap: '1rem',
-});
-
-const positionRightStyle = css({
-  display: 'flex',
-  position: 'absolute',
-  right: '0px',
 });
 
 const timeTextStyle = css({
