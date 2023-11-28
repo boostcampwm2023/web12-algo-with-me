@@ -53,9 +53,41 @@ export class CompetitionService {
   }
 
   async findOne(competitionId: number) {
-    const competition = await this.competitionRepository.findOneBy({ id: competitionId });
-    this.assertCompetitionExists(competition);
-    return CompetitionResponseDto.from(competition);
+    const competitions = await this.competitionRepository.find({
+      select: {
+        user: {
+          email: true,
+        },
+      },
+      where: { id: competitionId },
+      relations: {
+        user: true,
+      },
+    });
+    if (competitions.length !== 1)
+      throw new NotFoundException(
+        `대회 id ${competitionId}에 해당하는 대회 정보를 찾을 수 없습니다`,
+      );
+    const competition = competitions.shift();
+    const competitionParticipants: CompetitionParticipant[] =
+      await this.competitionParticipantRepository.find({
+        select: {
+          user: {
+            email: true,
+          },
+        },
+        where: {
+          competitionId: competitionId,
+        },
+        relations: {
+          user: true,
+        },
+      });
+    return CompetitionResponseDto.from(
+      competition,
+      competition.user.email,
+      competitionParticipants.map((element: CompetitionParticipant) => element.user.email),
+    );
   }
 
   async create(competitionDto: CompetitionDto, user: User) {
