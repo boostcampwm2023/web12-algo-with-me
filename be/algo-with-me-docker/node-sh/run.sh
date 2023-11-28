@@ -11,7 +11,7 @@
 mkdir -p "/algo-with-me/submissions/$1/$2/" || exit 1
 
 SUBMISSION_JS_FILE="/algo-with-me/submissions/$1/$2/$3.js"
-DETAIL_FILE="/algo-with-me/submissions/$1/$2/$3.$4.detail"
+MEMORY_FILE="/algo-with-me/submissions/$1/$2/$3.$4.memory"
 
 # 제출된 js 파일이 있으면 node로 js 파일 실행
 # 주의: judge.sh와 run.sh는 execute 권한이 부여되어야 함
@@ -22,8 +22,7 @@ if [ -f "$SUBMISSION_JS_FILE" ]; then
   #   U      Total number of CPU-seconds that the process used directly (in user mode), in seconds.
   #   e      Elapsed real (wall clock) time used by the process, in seconds.
   #   M      Maximum resident set size of the process during its lifetime, in Kilobytes.
-  #  /usr/bin/time -o "$DETAIL_FILE" -f "%e %M" /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3" "$4"
-  /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3" "$4" || exit 2
+  /algo-with-me/node-sh/time -o "$MEMORY_FILE" -f "%M" /algo-with-me/node-sh/runJs.sh "$1" "$2" "$3" "$4" || exit 2
   echo "[algo-with-me] run.sh: successfully ran $SUBMISSION_JS_FILE. COMPETITION_ID=$1, USER_ID=$2, PROBLEM_ID=$3, TESTCASE_ID=$4"
 else
   echo "[algo-with-me] run.sh: cannot find submitted js file $SUBMISSION_JS_FILE"
