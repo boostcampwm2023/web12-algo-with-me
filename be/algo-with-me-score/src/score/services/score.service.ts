@@ -158,7 +158,7 @@ export class ScoreService {
       throw new InternalServerErrorException();
     }
 
-    return fs.readFileSync(filepath).toString();
+    return fs.readFileSync(filepath).toString().trim();
   }
 
   private judge(
@@ -166,6 +166,11 @@ export class ScoreService {
     codeRunOutput: string,
     testcaseAnswer: string,
   ): '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과' {
+    new Logger().debug(
+      `실행 결과: ${
+        codeRunResponse.result
+      }, 제출한 답안: ${codeRunOutput}(${typeof codeRunOutput}), 정답: ${testcaseAnswer}(${typeof testcaseAnswer})`,
+    );
     if (codeRunResponse.result === 'TIMEOUT') {
       return '시간초과';
     } else if (codeRunResponse.result !== 'SUCCESS') {
