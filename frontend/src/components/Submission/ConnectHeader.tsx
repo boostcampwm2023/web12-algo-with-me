@@ -1,0 +1,58 @@
+import { css } from '@style/css';
+
+import Loading from '@/components/Common/Loading';
+import useConnectHeader from '@/hooks/competition/useConnectHeader';
+import { formatTimeFromMiliSeconds } from '@/utils/date';
+import type { Socket } from '@/utils/socket';
+
+interface Props {
+  socket: Socket;
+  isConnected: boolean;
+  endsAt: string;
+}
+
+export default function ConnectHeader(props: Props) {
+  let { isConnected, socket, endsAt } = props;
+  // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
+  endsAt = '2023-11-28T12:10:10.000Z';
+  const { remainTime } = useConnectHeader({ socket, endsAt });
+
+  return (
+    <section className={headerStyle}>
+      <div className={positionRightStyle}>
+        {isConnected && remainTime !== -1 ? (
+          <span className={timeStyle}>{formatTimeFromMiliSeconds(remainTime)}</span>
+        ) : (
+          <section className={loadingBoxStyle}>
+            <span className={disConnectedStyle}>연결 중...</span>
+            <Loading color="darkred" size="24px" />
+          </section>
+        )}
+      </div>
+    </section>
+  );
+}
+
+const headerStyle = css({
+  position: 'relative;',
+});
+
+const disConnectedStyle = css({
+  color: 'darkred',
+});
+
+const loadingBoxStyle = css({
+  display: 'flex',
+  gap: '1rem',
+});
+
+const positionRightStyle = css({
+  display: 'flex',
+  position: 'absolute;',
+  right: '0px',
+});
+
+const timeStyle = css({
+  color: 'lightgray',
+  fontWeight: 'bold',
+});
