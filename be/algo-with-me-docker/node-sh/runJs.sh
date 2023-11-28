@@ -15,9 +15,8 @@ STDOUT_FILE="/algo-with-me/submissions/$1/$2/$3.$4.stdout"
 STDERR_FILE="/algo-with-me/submissions/$1/$2/$3.$4.stderr"
 RESULT_FILE="/algo-with-me/submissions/$1/$2/$3.$4.result"
 TIME_FILE="/algo-with-me/submissions/$1/$2/$3.$4.time"
-MEMORY_FILE="/algo-with-me/submissions/$1/$2/$3.$4.memory"
 TESTCASE_INPUTFILE="/algo-with-me/testcases/$3/secrets/$4.in"
 
-node "$SUBMISSION_JS_FILE" "$TESTCASE_INPUTFILE" "$RESULT_FILE" "$TIME_FILE" "$MEMORY_FILE" 1> "$STDOUT_FILE" 2> "$STDERR_FILE"
+node "$SUBMISSION_JS_FILE" "$TESTCASE_INPUTFILE" "$RESULT_FILE" "$TIME_FILE" 1> "$STDOUT_FILE" 2> "$STDERR_FILE"
 
 exit 0
