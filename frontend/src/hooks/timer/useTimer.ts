@@ -45,8 +45,8 @@ export default function useTimer({ socket, endsAt, onTimeoutHandler }: UseTimer)
   }, []);
 
   useEffect(() => {
-    // TODO time 0이면 대시보드로 이동하는 로직
-    // 해당 PR에서 해결할 문제는 아니라 PASS
+    // 초기 값인 -1 => 서버에서 시간이 오지 않았다.
+    if (remainMiliSeconds === -1) return;
     if (Math.floor(remainMiliSeconds / 1000) <= 0) {
       if (typeof onTimeoutHandler === 'function') onTimeoutHandler();
       // 나가는 로직

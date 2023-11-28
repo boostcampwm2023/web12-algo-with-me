@@ -82,22 +82,25 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
-
   const { endsAt } = competition;
 
   function handleOpenModal() {
     modal.open();
   }
-  
+
   const problems = problemList.map((problem) => problem.id);
-  
 
   return (
     <main className={style}>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
-      <section>
+      <section className={rowStyle}>
         <span className={problemTitleStyle}>{problem.title}</span>
-        <Timer socket={socket.current} isConnected={isConnected} endsAt={new Date(endsAt)} />
+        <Timer
+          socket={socket.current}
+          isConnected={isConnected}
+          endsAt={new Date(endsAt)}
+          competitionId={competitionId}
+        />
       </section>
       <section className={rowListStyle}>
         <ContestProblemSelector
