@@ -44,6 +44,8 @@ export class ScoreService {
       result: codeRunOutput,
       stdout,
       stderr,
+      timeUsage,
+      memoryUsage,
     } = this.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
     const testcaseAnswer = this.getTestcaseAnswer(problemId, testcaseId);
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
@@ -55,8 +57,8 @@ export class ScoreService {
       judgeResult,
       stdout,
       stderr,
-      0,
-      0,
+      timeUsage,
+      memoryUsage,
     );
     await this.sendScoreResult(scoreResult);
     const logger = new Logger();
@@ -123,18 +125,23 @@ export class ScoreService {
     userId: number,
     problemId: number,
     testcaseId: number,
-  ): { result: string; stdout: string; stderr: string } {
+  ): { result: string; stdout: string; stderr: string; timeUsage: number; memoryUsage: number } {
     const submissionPath = process.env.SUBMISSION_PATH;
     const submissionBaseFilename = `${submissionPath}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
-    const [resultFilepath, stdoutFilepath, stderrFilepath] = [
-      `${submissionBaseFilename}.result`,
-      `${submissionBaseFilename}.stdout`,
-      `${submissionBaseFilename}.stderr`,
-    ];
+    const [resultFilepath, stdoutFilepath, stderrFilepath, timeUsageFilepath, memoryUsageFilepath] =
+      [
+        `${submissionBaseFilename}.result`,
+        `${submissionBaseFilename}.stdout`,
+        `${submissionBaseFilename}.stderr`,
+        `${submissionBaseFilename}.time`,
+        `${submissionBaseFilename}.memory`,
+      ];
     if (
       !fs.existsSync(resultFilepath) ||
       !fs.existsSync(stdoutFilepath) ||
-      !fs.existsSync(stderrFilepath)
+      !fs.existsSync(stderrFilepath) ||
+      !fs.existsSync(timeUsageFilepath) ||
+      !fs.existsSync(memoryUsageFilepath)
     ) {
       new Logger().error(
         `${submissionBaseFilename}에 코드 실행 결과 파일들이 정상적으로 생성되지 않았습니다`,
@@ -142,12 +149,14 @@ export class ScoreService {
       throw new InternalServerErrorException();
     }
 
-    const [result, stdout, stderr] = [
+    const [result, stdout, stderr, timeUsage, memoryUsage] = [
       fs.readFileSync(resultFilepath).toString(),
       fs.readFileSync(stdoutFilepath).toString(),
       fs.readFileSync(stderrFilepath).toString(),
+      parseInt(fs.readFileSync(timeUsageFilepath).toString()),
+      parseInt(fs.readFileSync(memoryUsageFilepath).toString()),
     ];
-    return { result, stdout, stderr };
+    return { result, stdout, stderr, timeUsage, memoryUsage };
   }
 
   private getTestcaseAnswer(problemId: number, testcaseId: number) {
