@@ -34,7 +34,7 @@ export default function Time(props: Props) {
 }
 
 const wrapperStyle = css({
-  position: 'relative;',
+  position: 'relative',
 });
 
 const disConnectedStyle = css({
@@ -48,7 +48,7 @@ const loadingBoxStyle = css({
 
 const positionRightStyle = css({
   display: 'flex',
-  position: 'absolute;',
+  position: 'absolute',
   right: '0px',
 });
 
