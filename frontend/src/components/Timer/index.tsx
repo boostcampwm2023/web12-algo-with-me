@@ -17,17 +17,24 @@ export default function Timer(props: Props) {
   endsAt = new Date('2023-11-29T13:10:10.000Z');
   const { remainMiliSeconds } = useTimer({ socket, endsAt });
 
+  if (isConnected && remainMiliSeconds !== -1) {
+    // 연결도 되어있고, 서버 시간도 도착해서 count down을 시작할 수 있을 때
+    return (
+      <section className={wrapperStyle}>
+        <div>
+          <span className={timeTextStyle}>{formatMilliSecond(remainMiliSeconds, 'hh:mm:ss')}</span>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={wrapperStyle}>
       <div>
-        {isConnected && remainMiliSeconds !== -1 ? (
-          <span className={timeTextStyle}>{formatMilliSecond(remainMiliSeconds, 'hh:mm:ss')}</span>
-        ) : (
-          <section className={loadingBoxStyle}>
-            <span className={disConnectedStyle}>연결 중...</span>
-            <Loading color="darkred" size="24px" />
-          </section>
-        )}
+        <section className={loadingBoxStyle}>
+          <span className={disconnectedStyle}>연결 중...</span>
+          <Loading color="darkred" size="24px" />
+        </section>
       </div>
     </section>
   );
@@ -38,7 +45,7 @@ const wrapperStyle = css({
   alignItems: 'center',
 });
 
-const disConnectedStyle = css({
+const disconnectedStyle = css({
   color: 'darkred',
 });
 
