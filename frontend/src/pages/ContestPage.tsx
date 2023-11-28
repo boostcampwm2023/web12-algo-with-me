@@ -89,6 +89,8 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
+  const { endsAt } = competition;
+
   return (
     <main className={style}>
       <button onClick={handleNextProblem}>다음 문제</button>
@@ -117,7 +119,7 @@ export default function ContestPage() {
         </div>
       </section>
       <section>
-        <SubmissionResult socket={socket.current}></SubmissionResult>
+        <SubmissionResult socket={socket.current} endsAt={endsAt}></SubmissionResult>
         <button onClick={handleSubmitSolution}>제출하기</button>
       </section>
     </main>

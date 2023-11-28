@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react';
 import { range } from '@/utils/array';
 import type { Socket } from '@/utils/socket';
 
+import ConnectHeader from './ConnectHeader';
 import Score from './Score';
 import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
 
 interface Props {
   socket: Socket;
+  endsAt: string;
 }
 
 type SubmitResult = {
@@ -18,7 +20,7 @@ type SubmitResult = {
   score?: ScoreResult;
 };
 
-export function SubmissionResult({ socket }: Props) {
+export function SubmissionResult({ socket, endsAt }: Props) {
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
@@ -71,6 +73,7 @@ export function SubmissionResult({ socket }: Props) {
   return (
     <>
       <section className={resultWrapperStyle}>
+        <ConnectHeader socket={socket} isConnected={true} endsAt={endsAt} />
         <p>{submissionMessage}</p>
         {scoreResults.map(({ score, submitState, testcaseId }) => (
           <Score key={testcaseId} score={score} submitState={submitState} />
