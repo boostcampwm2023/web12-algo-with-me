@@ -9,10 +9,10 @@ interface Props {
 
 export default function CompetitionHeader(props: Props) {
   return (
-    <header className={headerStyle}>
+    <div className={headerStyle}>
       <ContestBreadCrumb crumbs={props.crumbs} />
       <ViewDashboardButton id={props.id} />
-    </header>
+    </div>
   );
 }
 
