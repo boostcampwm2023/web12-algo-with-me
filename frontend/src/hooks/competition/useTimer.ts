@@ -5,9 +5,10 @@ import { Socket } from '@/utils/socket';
 interface UseTimer {
   socket: Socket;
   endsAt: Date;
+  onTimeoutHandler?: () => void;
 }
 
-export default function useTimer({ socket, endsAt }: UseTimer) {
+export default function useTimer({ socket, endsAt, onTimeoutHandler }: UseTimer) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const endTime = useMemo(() => endsAt.getTime(), [endsAt]);
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
@@ -47,6 +48,7 @@ export default function useTimer({ socket, endsAt }: UseTimer) {
     // TODO time 0이면 대시보드로 이동하는 로직
     // 해당 PR에서 해결할 문제는 아니라 PASS
     if (Math.floor(remainMiliSeconds / 1000) <= 0) {
+      if (typeof onTimeoutHandler === 'function') onTimeoutHandler();
       // 나가는 로직
     }
   }, [remainMiliSeconds]);
