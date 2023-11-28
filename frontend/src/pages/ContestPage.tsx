@@ -15,7 +15,7 @@ import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
-import { useSimulations } from '@/hooks/simulation';
+import { SimulationInput, useSimulations } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
@@ -32,7 +32,7 @@ export default function ContestPage() {
     simulationResults,
     isSimulating,
     runSimulation,
-    changeInput,
+    changeInputs,
     cancelSimulation,
   } = useSimulations();
 
@@ -68,8 +68,8 @@ export default function ContestPage() {
     cancelSimulation();
   };
 
-  const handleChangeInput = (id: number, newParam: string) => {
-    changeInput(id, newParam);
+  const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
+    changeInputs(simulationInputs);
   };
 
   const handleNextProblem = () => {
@@ -129,7 +129,7 @@ export default function ContestPage() {
       </section>
       <SimulationInputModal
         simulationInputs={simulationInputs}
-        onChangeInput={handleChangeInput}
+        onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
     </main>
   );

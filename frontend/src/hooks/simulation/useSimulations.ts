@@ -69,11 +69,8 @@ export const useSimulations = () => {
     });
   }
 
-  function changeInput(targetId: number, newParam: string) {
-    const changedSimulation = simulationInputs.find(({ id }) => id === targetId);
-    if (changedSimulation) {
-      changedSimulation.input = newParam;
-    }
+  function changeInputs(simulationInputs: SimulationInput[]) {
+    console.log(simulationInputs);
     setSimulationInputs([...simulationInputs]);
   }
 
@@ -87,7 +84,7 @@ export const useSimulations = () => {
     isSimulating,
     runSimulation,
     cancelSimulation,
-    changeInput,
+    changeInputs,
   };
 };
 
