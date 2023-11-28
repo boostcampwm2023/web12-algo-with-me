@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { fetchCompetitionList } from '@/apis/competitionList';
 import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
 import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
 import secToTime from '@/utils/secToTime';
-
-import axios from 'axios';
 
 interface Competition {
   id: number;
@@ -14,8 +13,6 @@ interface Competition {
   endsAt: string;
   maxParticipants: number;
 }
-
-const apiUrl = import.meta.env.VITE_API_URL;
 
 const getCompetitionDetailURL = (competitionId: number) => `/contest/detail/${competitionId}`;
 
@@ -39,17 +36,17 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 export default function CompetitionList() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
-  const fetchCompetitionList = async () => {
+  const fetchCompetitions = async () => {
     try {
-      const response = await axios.get<Competition[]>(`${apiUrl}competitions`);
-      setCompetitions(response.data);
+      const competitionData = await fetchCompetitionList();
+      setCompetitions(competitionData);
     } catch (error) {
       console.error('Error fetching competitions:', (error as Error).message);
     }
   };
 
   useEffect(() => {
-    fetchCompetitionList();
+    fetchCompetitions();
   }, []);
 
   return (
