@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Socket } from 'socket.io-client';
+import { Socket } from '@/utils/socket';
 
 interface UseTimer {
   socket: Socket;
