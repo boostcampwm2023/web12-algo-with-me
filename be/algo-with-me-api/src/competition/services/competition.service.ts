@@ -53,7 +53,7 @@ export class CompetitionService {
   }
 
   async findOne(competitionId: number) {
-    const competitions = await this.competitionRepository.find({
+    const competitions: Competition[] = await this.competitionRepository.find({
       select: {
         user: {
           email: true,
@@ -68,7 +68,7 @@ export class CompetitionService {
       throw new NotFoundException(
         `대회 id ${competitionId}에 해당하는 대회 정보를 찾을 수 없습니다`,
       );
-    const competition = competitions.shift();
+    const competition: Competition = competitions.shift();
     const competitionParticipants: CompetitionParticipant[] =
       await this.competitionParticipantRepository.find({
         select: {
