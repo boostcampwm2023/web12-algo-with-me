@@ -15,7 +15,7 @@ import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
-import { SimulationInput, useSimulations } from '@/hooks/simulation';
+import { SimulationInput, useSimulation } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
@@ -27,14 +27,7 @@ export default function ContestPage() {
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const modal = useContext(ModalContext);
 
-  const {
-    simulationInputs,
-    simulationResults,
-    isSimulating,
-    runSimulation,
-    changeInputs,
-    cancelSimulation,
-  } = useSimulations();
+  const simulation = useSimulation();
 
   const { socket, competition, submitSolution } = useCompetition(competitionId);
   const { problemList } = useCompetitionProblemList(competitionId);
@@ -61,15 +54,15 @@ export default function ContestPage() {
   };
 
   const handleSimulate = () => {
-    runSimulation(code);
+    simulation.run(code);
   };
 
   const handleSimulationCancel = () => {
-    cancelSimulation();
+    simulation.cancel();
   };
 
   const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
-    changeInputs(simulationInputs);
+    simulation.changeInputs(simulationInputs);
   };
 
   const handleNextProblem = () => {
@@ -106,8 +99,8 @@ export default function ContestPage() {
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-          <SimulationResultList resultList={simulationResults}></SimulationResultList>
-          {isSimulating ? (
+          <SimulationResultList resultList={simulation.results}></SimulationResultList>
+          {simulation.isRunning ? (
             <button className={execButtonStyle} onClick={handleSimulationCancel}>
               {CANCEL_SIMULATION}
             </button>
@@ -128,7 +121,7 @@ export default function ContestPage() {
         </button>
       </section>
       <SimulationInputModal
-        simulationInputs={simulationInputs}
+        simulationInputs={simulation.inputs}
         onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
     </main>

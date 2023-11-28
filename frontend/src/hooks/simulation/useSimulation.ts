@@ -4,54 +4,52 @@ import evaluator from '@/modules/evaluator';
 
 import type { SimulationInput, SimulationResult } from './types';
 
-export const useSimulations = () => {
-  const [simulationInputs, setSimulationInputs] = useState<SimulationInput[]>([
+export const useSimulation = () => {
+  const [inputs, setInputs] = useState<SimulationInput[]>([
     { id: 1, input: '' },
     { id: 2, input: '' },
     { id: 3, input: '' },
     { id: 4, input: '' },
     { id: 5, input: '' },
   ]);
-  const [simulationResults, setSimulationResults] = useState<SimulationResult[]>([
+  const [results, setResults] = useState<SimulationResult[]>([
     { id: 1, isDone: true, input: '', output: '' },
     { id: 2, isDone: true, input: '', output: '' },
     { id: 3, isDone: true, input: '', output: '' },
     { id: 4, isDone: true, input: '', output: '' },
     { id: 5, isDone: true, input: '', output: '' },
   ]);
-  const isSimulating = useMemo(() => {
-    return simulationResults.some((result) => !result.isDone);
-  }, [simulationResults]);
+  const isRunning = useMemo(() => {
+    return results.some((result) => !result.isDone);
+  }, [results]);
 
   useEffect(() => {
-    return evaluator.subscribe(({ result, error, task }) => {
+    return evaluator.subscribe(({ result: output, error, task }) => {
       if (!task) return;
 
-      setSimulationResults((simulations) => {
-        return simulations.map((simul) => {
-          if (simul.id !== task.clientId) return simul;
+      setResults((results) => {
+        return results.map((result) => {
+          if (result.id !== task.clientId) return result;
 
           if (error) {
             return {
-              ...simul,
+              ...result,
               isDone: true,
               output: `${error.name}: ${error.message} \n${error.stack}`,
             };
           }
           return {
-            ...simul,
+            ...result,
             isDone: true,
-            output: result,
+            output,
           };
         });
       });
     });
   }, []);
 
-  function runSimulation(code: string) {
-    const tasks = simulationInputs.map(({ id, input }) =>
-      evaluator.createEvalMessage(id, code, input),
-    );
+  function run(code: string) {
+    const tasks = inputs.map(({ id, input }) => evaluator.createEvalMessage(id, code, input));
 
     const isRequestSuccess = evaluator.evaluate(tasks);
 
@@ -59,30 +57,30 @@ export const useSimulations = () => {
       return;
     }
 
-    setSimulationResults((simulResults) => {
-      return simulResults
-        .map((simul, index) => ({
-          ...simul,
-          input: simulationInputs[index].input,
+    setResults((results) => {
+      return results
+        .map((result, index) => ({
+          ...result,
+          input: inputs[index].input,
         }))
         .map(toEvaluatingState);
     });
   }
 
-  function changeInputs(simulationInputs: SimulationInput[]) {
-    setSimulationInputs([...simulationInputs]);
+  function changeInputs(inputs: SimulationInput[]) {
+    setInputs([...inputs]);
   }
 
-  function cancelSimulation() {
+  function cancel() {
     evaluator.cancelEvaluation();
   }
 
   return {
-    simulationInputs,
-    simulationResults,
-    isSimulating,
-    runSimulation,
-    cancelSimulation,
+    inputs,
+    results,
+    isRunning,
+    run,
+    cancel,
     changeInputs,
   };
 };

@@ -1,2 +1,2 @@
-export * from './useSimulations';
+export * from './useSimulation';
 export * from './types';
