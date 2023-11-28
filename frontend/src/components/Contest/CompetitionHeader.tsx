@@ -2,6 +2,7 @@ import { css } from '@style/css';
 
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import ContestBreadCrumb from './ContestBreadCrumb';
+
 interface Props {
   crumbs: string[];
   id: number;
