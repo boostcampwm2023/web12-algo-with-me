@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
+import CompetitionHeader from '@/components/Contest/CompetitionHeader';
+import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
@@ -65,10 +67,6 @@ export default function ContestPage() {
     simulation.changeInputs(simulationInputs);
   };
 
-  const handleNextProblem = () => {
-    setCurrentProblemIndex(currentProblemIndex + 1);
-  };
-
   function handleSubmitSolution() {
     if (isNil(currentProblem)) {
       console.error('존재하지 않는 문제입니다.');
@@ -87,15 +85,20 @@ export default function ContestPage() {
   function handleOpenModal() {
     modal.open();
   }
+  
+  const problems = problemList.map((problem) => problem.id);
 
   return (
     <main className={style}>
-      <button onClick={handleNextProblem}>다음 문제</button>
-      <ContestBreadCrumb crumbs={crumbs} />
+      <CompetitionHeader crumbs={crumbs} id={competitionId} />
       <section>
         <span className={problemTitleStyle}>{problem.title}</span>
       </section>
       <section className={rowListStyle}>
+        <ContestProblemSelector
+          problemIds={problems}
+          onChangeProblemIndex={setCurrentProblemIndex}
+        />
         <ProblemViewer content={problem.content}></ProblemViewer>
         <div className={colListStyle}>
           <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
