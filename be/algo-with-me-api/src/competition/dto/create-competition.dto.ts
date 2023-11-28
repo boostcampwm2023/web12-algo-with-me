@@ -1,5 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  ArrayUnique,
+  IsArray,
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  Max,
+  Min,
+} from 'class-validator';
 
 import { Competition } from '../entities/competition.entity';
 
@@ -31,19 +41,25 @@ export class CreateCompetitionDto {
   detail: string;
 
   @ApiProperty({ description: '대회에 참여 가능한 최대 인원' })
-  @IsNotEmpty()
+  @IsInt()
+  @Min(1)
+  @Max(200)
   maxParticipants: number;
 
   @ApiProperty({ description: '대회 시작 일시 (ISO string)' })
-  @IsNotEmpty()
+  @IsDateString()
   startsAt: Date;
 
   @ApiProperty({ description: '대회 종료 일시 (ISO string)' })
-  @IsNotEmpty()
+  @IsDateString()
   endsAt: Date;
 
   @ApiProperty({ description: '대회에 사용되는 문제 id 리스트' })
-  @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
+  @ArrayUnique()
+  @IsInt({ each: true })
   problemIds: number[];
 
   toEntity(user: User): Competition {

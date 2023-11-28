@@ -59,7 +59,7 @@ export class CompetitionService {
   }
 
   async create(createCompetitionDto: CreateCompetitionDto, user: User) {
-    this.assertProblemIdsArrayLengthNotExceeds30(createCompetitionDto);
+    this.competitionTimeValidation(createCompetitionDto);
 
     const competitionProblems: CompetitionProblem[] = [];
     for (const problemId of createCompetitionDto.problemIds) {
@@ -223,11 +223,15 @@ export class CompetitionService {
     return problem;
   }
 
-  private assertProblemIdsArrayLengthNotExceeds30(createCompetitionDto: CreateCompetitionDto) {
-    if (createCompetitionDto.problemIds.length > 30) {
+  private competitionTimeValidation(createCompetitionDto: CreateCompetitionDto) {
+    const FIVE_MINUTES = 5 * 60 * 1000;
+    const startsAt = new Date(createCompetitionDto.endsAt);
+    const endsAt = new Date(createCompetitionDto.startsAt);
+    if (startsAt.getTime() - endsAt.getTime() < FIVE_MINUTES)
+      throw new BadRequestException('대회 시간은 최소 5분 이상이어야 합니다.');
+    if (startsAt.getTime() - new Date().getTime() < FIVE_MINUTES)
       throw new BadRequestException(
-        `정책 상 하나의 대회에서는 30개가 넘는 문제를 출제할 수 없습니다. (${createCompetitionDto.problemIds.length}개를 출제함)`,
+        '대회 시작 시간은 현재 시간으로부터 최소 5분 이후이어야 합니다.',
       );
-    }
   }
 }
