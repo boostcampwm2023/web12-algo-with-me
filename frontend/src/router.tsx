@@ -7,6 +7,7 @@ import MainPage from '@/pages/MainPage';
 import ProblemPage from '@/pages/ProblemPage';
 
 import App from './App';
+import CompetitionDetailPage from './pages/CompetitionDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         element: <CreateCompetitionPage />,
       },
       { path: '/login', element: <LoginPage /> },
+      {
+        path: '/contest/detail/:id',
+        element: <CompetitionDetailPage />,
+      },
     ],
   },
 ]);
