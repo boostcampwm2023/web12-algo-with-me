@@ -7,14 +7,15 @@ import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 interface Props {
   competitionId: number;
   competition: CompetitionInfo;
+  startsAt: Date;
 }
 
-export default function DuringCompetition({ competitionId, competition }: Props) {
+export default function DuringCompetition({ competitionId, competition, startsAt }: Props) {
   return (
     <div className={containerStyle}>
       <span className={competitionNameStyle}>{competition.name}</span>
       <span className={statusTextStyle}> 진행중</span>
-      <EnterCompetitionButton id={competitionId} />
+      <EnterCompetitionButton id={competitionId} startsAt={startsAt} />
     </div>
   );
 }

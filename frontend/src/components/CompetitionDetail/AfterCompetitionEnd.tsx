@@ -9,7 +9,7 @@ interface Props {
   competition: CompetitionInfo;
 }
 
-export default function AfterCompetition({ competitionId, competition }: Props) {
+export default function AfterCompetitionEnd({ competitionId, competition }: Props) {
   return (
     <div className={containerStyle}>
       <span className={competitionNameStyle}>{competition.name}</span>

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
+import AfterCompetitionEnd from '@/components/CompetitionDetail/AfterCompetitionEnd';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
 import DuringCompetition from '@/components/CompetitionDetail/DuringCompetition';
 import Header from '@/components/Header';
@@ -18,15 +18,32 @@ export default function CompetitionDetailPage() {
   let content;
 
   if (currentDate < startsAt) {
-    content = <BeforeCompetition />;
-  } else if (currentDate >= startsAt && currentDate <= endsAt) {
-    content = <DuringCompetition competitionId={competitionId} competition={competition} />;
+    content = (
+      <BeforeCompetition
+        competitionId={competitionId}
+        competition={competition}
+        startsAt={startsAt}
+      />
+    );
+  } else if (currentDate < endsAt) {
+    content = (
+      <DuringCompetition
+        competitionId={competitionId}
+        competition={competition}
+        startsAt={startsAt}
+      />
+    );
   } else {
-    content = <AfterCompetition competitionId={competitionId} competition={competition} />;
+    content = <AfterCompetitionEnd competitionId={competitionId} competition={competition} />;
   }
 
-  // content = <DuringCompetition competitionId={competitionId} competition={competition} />;
-
+  content = (
+    <BeforeCompetition
+      competitionId={competitionId}
+      competition={competition}
+      startsAt={startsAt}
+    />
+  );
   return (
     <div>
       <Header />
