@@ -7,15 +7,13 @@ interface Props {
 }
 
 export default function Connecting(props: Props) {
+  if (!props.isConnected) return null;
+
   return (
-    <>
-      {!props.isConnected && (
-        <div className={rowStyle}>
-          <span>연결 중...</span>
-          <Loading color="darkorange" size="24px" />
-        </div>
-      )}
-    </>
+    <div className={rowStyle}>
+      <span>연결 중...</span>
+      <Loading color="darkorange" size="24px" />
+    </div>
   );
 }
 const rowStyle = css({
