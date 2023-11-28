@@ -1,37 +1,34 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { fetchCompetitionProblemList, ProblemInfo } from '@/apis/problems';
+import { useCompetitionProblemList } from '@/hooks/problem';
 
 interface Props {
   competitionId: number;
 }
 
-export default function ProblemList(props: Props) {
-  const [problems, setProblems] = useState<ProblemInfo[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetchCompetitionProblemList(props.competitionId);
-        setProblems(result);
-      } catch (error) {
-        console.error('Error fetching competition problems:', error);
-      }
-    };
-
-    fetchData();
-  }, [props.competitionId]);
+export default function ProblemList({ competitionId }: Props) {
+  const { problemList } = useCompetitionProblemList(competitionId);
 
   return (
     <div>
-      <ul>
-        {problems.map((problem) => (
-          <li key={problem.id}>
-            <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>문제 제목</th>
+          </tr>
+        </thead>
+        <tbody>
+          {problemList.map((problem) => (
+            <tr key={problem.id}>
+              <td>{problem.id}</td>
+              <td>
+                <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
