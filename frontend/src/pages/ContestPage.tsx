@@ -3,12 +3,11 @@ import { css } from '@style/css';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Modal from '@/components/Common/Modal';
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import ContestBreadCrumb from '@/components/Contest/ContestBreadCrumb';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import { SimulationInputList } from '@/components/Simulation/SimulationInputList';
+import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import { SubmissionResult } from '@/components/Submission';
 import { SITE } from '@/constants';
@@ -128,12 +127,10 @@ export default function ContestPage() {
           테스트 케이스 추가하기
         </button>
       </section>
-      <Modal>
-        <SimulationInputList
-          inputList={simulationInputs}
-          onChangeInput={handleChangeInput}
-        ></SimulationInputList>
-      </Modal>
+      <SimulationInputModal
+        simulationInputs={simulationInputs}
+        onChangeInput={handleChangeInput}
+      ></SimulationInputModal>
     </main>
   );
 }

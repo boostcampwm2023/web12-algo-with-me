@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import { ModalContext } from './ModalContext';
 import { ModalProvider } from './ModalProvider';
 
-interface Props extends HTMLAttributes<HTMLDialogElement> {}
+export interface Props extends HTMLAttributes<HTMLDialogElement> {}
 
 export function Modal({ children, ...props }: Props) {
   const modal = useContext(ModalContext);
