@@ -9,6 +9,7 @@ interface Props {
   competitionId: number;
   competition: CompetitionInfo;
   startsAt: Date;
+  endsAt: Date;
   competitionSchedule: string;
 }
 
@@ -18,6 +19,7 @@ export default function DuringCompetition({
   competitionId,
   competition,
   startsAt,
+  endsAt,
   competitionSchedule,
 }: Props) {
   return (
@@ -27,7 +29,7 @@ export default function DuringCompetition({
         text={DURING_COMPETITION_TEXT}
         competitionSchedule={competitionSchedule}
       />
-      <EnterCompetitionButton id={competitionId} startsAt={startsAt} />
+      <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
     </div>
   );
 }

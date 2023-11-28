@@ -1,6 +1,6 @@
 // CompetitionDetailContent.js
 import { CompetitionInfo } from '@/apis/competitions';
-import AfterCompetitionEnd from '@/components/CompetitionDetail/AfterCompetitionEnd';
+import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
 import DuringCompetition from '@/components/CompetitionDetail/DuringCompetition';
 
@@ -22,10 +22,18 @@ export function CompetitionDetailContent({
   const currentDate = new Date();
 
   if (currentDate < startsAt) {
-    return <BeforeCompetition {...{ competitionId, competition, startsAt, competitionSchedule }} />;
+    return (
+      <BeforeCompetition
+        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+      />
+    );
   } else if (currentDate < endsAt) {
-    return <DuringCompetition {...{ competitionId, competition, startsAt, competitionSchedule }} />;
+    return (
+      <DuringCompetition
+        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+      />
+    );
   } else {
-    return <AfterCompetitionEnd {...{ competitionId, competition, competitionSchedule }} />;
+    return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
   }
 }

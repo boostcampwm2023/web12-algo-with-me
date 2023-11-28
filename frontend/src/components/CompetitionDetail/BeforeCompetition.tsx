@@ -10,6 +10,7 @@ interface Props {
   competitionId: number;
   competition: CompetitionInfo;
   startsAt: Date;
+  endsAt: Date;
   competitionSchedule: string;
 }
 
@@ -17,6 +18,7 @@ export default function BeforeCompetition({
   competitionId,
   competition,
   startsAt,
+  endsAt,
   competitionSchedule,
 }: Props) {
   const BEFORE_COMPETITION_TEXT = ` 시작 전`;
@@ -30,7 +32,7 @@ export default function BeforeCompetition({
       />
       <div className={buttonContainerStyle}>
         <JoinCompetitionButton id={competitionId} />
-        <EnterCompetitionButton id={competitionId} startsAt={startsAt} />
+        <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
       </div>
     </div>
   );
