@@ -15,13 +15,13 @@ export default function Timer(props: Props) {
   let { socket, endsAt, isConnected } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
   endsAt = new Date('2023-11-28T13:10:10.000Z');
-  const { remainTime } = useTimer({ socket, endsAt });
+  const { remainMiliSeconds } = useTimer({ socket, endsAt });
 
   return (
     <section className={wrapperStyle}>
       <div>
-        {isConnected && remainTime !== -1 ? (
-          <span className={timeTextStyle}>{formatTimeFromMiliSeconds(remainTime)}</span>
+        {isConnected && remainMiliSeconds !== -1 ? (
+          <span className={timeTextStyle}>{formatTimeFromMiliSeconds(remainMiliSeconds)}</span>
         ) : (
           <section className={loadingBoxStyle}>
             <span className={disConnectedStyle}>연결 중...</span>

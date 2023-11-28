@@ -10,7 +10,7 @@ interface UseTimer {
 export default function useTimer({ socket, endsAt }: UseTimer) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const endTime = useMemo(() => endsAt.getTime(), [endsAt]);
-  const [remainTime, setRemainTime] = useState<number>(-1);
+  const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
   useEffect(() => {
     console.log('타이머 실행');
     // 웹 소켓 대신 사용.
@@ -24,11 +24,11 @@ export default function useTimer({ socket, endsAt }: UseTimer) {
     if (timerIntervalId.current) clearInterval(timerIntervalId.current);
 
     time = typeof time === 'string' ? new Date(time) : time;
-    const remainSec = endTime - time.getTime();
-    setRemainTime(remainSec);
+    const remainMiliSec = endTime - time.getTime();
+    setRemainMiliSeconds(remainMiliSec);
     timerIntervalId.current = setInterval(() => {
       console.log('1초마다 실행');
-      setRemainTime((prev) => prev - 1000);
+      setRemainMiliSeconds((prev) => prev - 1000);
     }, 1000);
   }, []);
 
@@ -46,9 +46,9 @@ export default function useTimer({ socket, endsAt }: UseTimer) {
   useEffect(() => {
     // TODO time 0이면 대시보드로 이동하는 로직
     // 해당 PR에서 해결할 문제는 아니라 PASS
-    if (remainTime === 0) {
+    if (Math.floor(remainMiliSeconds / 1000) <= 0) {
       // 나가는 로직
     }
-  }, [remainTime]);
-  return { remainTime };
+  }, [remainMiliSeconds]);
+  return { remainMiliSeconds };
 }
