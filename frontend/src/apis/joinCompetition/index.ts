@@ -3,6 +3,10 @@ import api from '@/utils/api';
 import type { CompetitionApiData } from './types';
 import axios from 'axios';
 
+const STATUS = {
+  Forbidden: 403,
+} as const;
+
 export async function joinCompetition(data: CompetitionApiData) {
   const { id, token } = data;
 
@@ -17,14 +21,14 @@ export async function joinCompetition(data: CompetitionApiData) {
       },
     );
 
-    alert('대회에 성공적으로 참여했습니다.');
+    return '대회에 성공적으로 참여했습니다.';
   } catch (error: unknown) {
     let errorMessage = 'Unexpected error occurred.';
 
     if (axios.isAxiosError(error)) {
       if (error.response) {
         switch (error.response.status) {
-          case 403:
+          case STATUS.Forbidden:
             errorMessage = '대회 참여에 실패했습니다. 서버에서 거절되었습니다.';
             break;
           case 400:
@@ -39,6 +43,6 @@ export async function joinCompetition(data: CompetitionApiData) {
       }
     }
 
-    alert(errorMessage);
+    return errorMessage;
   }
 }
