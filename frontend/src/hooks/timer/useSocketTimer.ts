@@ -6,47 +6,42 @@ interface Props {
   socket: Socket;
   endsAt: Date;
   socketEvent: string;
+  pingTime: number;
 }
 
-export default function useSocketTimer({ socket, endsAt, socketEvent }: Props) {
+export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }: Props) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
+  const pingIntervalId = useRef<NodeJS.Timeout | null>(null);
+
   const endTime = useMemo(() => endsAt.getTime(), [endsAt]);
   const [isTimeout, setIsTimeout] = useState(false);
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
 
   useEffect(() => {
-    console.log('타이머 실행');
-    // 웹 소켓 대신 사용.
-    mockWebSocket();
     socket.emit(socketEvent);
-    if (socket.hasListeners(socketEvent)) {
-      socket.on(socketEvent, handlePingMessage);
-    }
+    socket.on(socketEvent, handlePingMessage);
+
+    pingIntervalId.current = setInterval(() => {
+      socket.emit(socketEvent);
+    }, pingTime);
   }, [socket]);
 
-  const handlePingMessage = useCallback((time: Date | string) => {
-    console.log(time);
-    if (timerIntervalId.current) clearInterval(timerIntervalId.current);
+  const handlePingMessage = useCallback(
+    (time: Date) => {
+      console.log('서버에서 온 시간 websocket 연결 확인 용', time);
+      if (timerIntervalId.current) clearInterval(timerIntervalId.current);
 
-    time = typeof time === 'string' ? new Date(time) : time;
-    const remainMiliSec = endTime - time.getTime();
-    setRemainMiliSeconds(remainMiliSec);
-    timerIntervalId.current = setInterval(() => {
-      setRemainMiliSeconds((prev) => prev - 1000);
-    }, 1000);
-  }, []);
+      time = typeof time === 'string' ? new Date(time) : time;
 
-  // 웹 소켓 대신 사용.
-  // 웹 소켓 연결 후 삭제 예정
-  const mockWebSocket = useCallback(() => {
-    const delayFactor = 2000;
-    const serverTime = new Date();
-    handlePingMessage(serverTime);
-    setInterval(() => {
-      const serverTime = new Date();
-      handlePingMessage(serverTime);
-    }, 5000 + Math.random() * delayFactor);
-  }, []);
+      const remainMiliSec = endTime - time.getTime();
+      setRemainMiliSeconds(remainMiliSec);
+
+      timerIntervalId.current = setInterval(() => {
+        setRemainMiliSeconds((prev) => prev - 1000);
+      }, 1000);
+    },
+    [endTime],
+  );
 
   useEffect(() => {
     // 초기 값인 -1 => 서버에서 시간이 오지 않았다.
