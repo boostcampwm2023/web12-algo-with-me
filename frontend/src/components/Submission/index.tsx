@@ -1,1 +1,1 @@
-export { SubmissionResult } from './SubmissionResult';
+export { Submission } from './Submission';

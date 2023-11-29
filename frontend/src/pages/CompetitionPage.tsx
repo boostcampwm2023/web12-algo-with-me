@@ -7,13 +7,12 @@ import { HStack, VStack } from '@/components/Common';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
-import { CompetitionSubmitButton } from '@/components/Competition/CompetitionSubmitButton';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { Simulator } from '@/components/Simulation';
-import { SubmissionResult } from '@/components/Submission';
+import { Submission } from '@/components/Submission/Submission';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 
@@ -65,11 +64,7 @@ export default function CompetitionPage() {
                 <Simulator code={code}></Simulator>
               </section>
               <section>
-                <SubmissionResult></SubmissionResult>
-                <CompetitionSubmitButton
-                  code={code}
-                  problemId={currentProblem?.id}
-                ></CompetitionSubmitButton>
+                <Submission code={code} problemId={currentProblem?.id}></Submission>
               </section>
             </HStack>
           </VStack>

@@ -1,22 +1,21 @@
-import { css } from '@style/css';
+import { css, cx } from '@style/css';
 
-import type { HTMLAttributes } from 'react';
-import { useContext } from 'react';
+import { HTMLAttributes, useContext } from 'react';
 
 import type { ProblemId } from '@/apis/problems';
 import type { SubmissionForm } from '@/hooks/competition';
 import { isNil } from '@/utils/type';
 
-import { CompetitionContext } from './CompetitionContext';
+import { CompetitionContext } from '../Competition/CompetitionContext';
+import { SubmissionResult } from './SubmissionResult';
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {
-  problemId?: ProblemId;
+interface Props extends HTMLAttributes<HTMLDivElement> {
   code: string;
+  problemId?: ProblemId;
 }
 
-export function CompetitionSubmitButton({ problemId, code }: Props) {
+export function Submission({ code, problemId, className, ...props }: Props) {
   const { competition, submitSolution } = useContext(CompetitionContext);
-
   function handleSubmitSolution() {
     if (isNil(problemId)) {
       console.error('존재하지 않는 문제입니다.');
@@ -28,14 +27,17 @@ export function CompetitionSubmitButton({ problemId, code }: Props) {
       code,
       competitionId: competition.id,
     } satisfies SubmissionForm;
-    console.log(form);
+
     submitSolution(form);
   }
 
   return (
-    <button className={execButtonStyle} onClick={handleSubmitSolution}>
-      제출하기
-    </button>
+    <div className={cx(className)} {...props}>
+      <SubmissionResult></SubmissionResult>
+      <button className={execButtonStyle} onClick={handleSubmitSolution}>
+        제출하기
+      </button>
+    </div>
   );
 }
 
