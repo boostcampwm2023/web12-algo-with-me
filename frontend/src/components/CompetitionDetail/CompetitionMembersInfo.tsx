@@ -9,17 +9,17 @@ export default function CompetitionMembersInfo({ host, members }: Props) {
   const formattedMembers = members.join(', ');
 
   return (
-    <div>
+    <section>
       <div className={containerStyle}>
-        <div className={headerStyle}>대회 생성자</div>
-        <div className={contentStyle}>{host}</div>
+        <header className={headerStyle}>대회 생성자</header>
+        <p className={contentStyle}>{host}</p>
       </div>
 
       <div className={containerStyle}>
-        <div className={headerStyle}>대회 참여자</div>
-        <div className={contentStyle}>{formattedMembers}</div>
+        <header className={headerStyle}>대회 참여자</header>
+        <p className={contentStyle}>{formattedMembers}</p>
       </div>
-    </div>
+    </section>
   );
 }
 
