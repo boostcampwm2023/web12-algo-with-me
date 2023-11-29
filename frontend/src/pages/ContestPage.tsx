@@ -173,7 +173,7 @@ const problemTitleStyle = css({
 });
 
 const execButtonStyle = css({
-  color: 'black',
+  color: '#F5F5F5',
 });
 
 const rowStyle = css({
