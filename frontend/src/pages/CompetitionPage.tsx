@@ -74,7 +74,7 @@ export default function CompetitionPage() {
       <CompetitionProvider competitionId={competitionId}>
         <CompetitionHeader className={padVerticalStyle} />
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
-        <VStack as="section" className={competitionStyle}>
+        <div className={competitionStyle}>
           <aside className={asideStyle}>
             <CompetitionProblemSelector
               problemIds={problemIds}
@@ -82,8 +82,8 @@ export default function CompetitionPage() {
             />
           </aside>
           <VStack>
-            <ProblemViewer content={problem.content}></ProblemViewer>
-            <HStack>
+            <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
+            <HStack className={solutionStyle}>
               <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
               <SimulationResultList resultList={simulation.results}></SimulationResultList>
               {simulation.isRunning ? (
@@ -111,21 +111,31 @@ export default function CompetitionPage() {
               ></SimulationInputModal>
             </HStack>
           </VStack>
-        </VStack>
+        </div>
       </CompetitionProvider>
     </PageLayout>
   );
 }
 
 const style = css({
-  // overflow: 'hidden',
   width: '100vw',
   height: '100vh',
   display: 'flex',
   flexDirection: 'column',
 });
 
-const competitionStyle = css({ flexGrow: '1', overflow: 'hidden' });
+const competitionStyle = css({
+  flexGrow: '1',
+  overflow: 'hidden',
+});
+const problemStyle = css({
+  width: '50%',
+  height: '100%',
+});
+const solutionStyle = css({
+  width: '50%',
+});
+
 const padVerticalStyle = css({
   paddingX: '1rem',
 });
@@ -135,8 +145,10 @@ const execButtonStyle = css({
 });
 
 const asideStyle = css({
+  float: 'left',
   flexShrink: 0,
   borderRight: '1px solid',
   borderColor: 'border',
   padding: '0.5rem',
+  height: '100%',
 });
