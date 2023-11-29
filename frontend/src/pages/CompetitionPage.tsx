@@ -70,11 +70,11 @@ export default function CompetitionPage() {
   const problemIds = problemList.map((problem) => problem.id);
 
   return (
-    <PageLayout>
+    <PageLayout className={style}>
       <CompetitionProvider competitionId={competitionId}>
         <CompetitionHeader className={padVerticalStyle} />
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
-        <VStack as="section">
+        <VStack as="section" className={competitionStyle}>
           <aside className={asideStyle}>
             <CompetitionProblemSelector
               problemIds={problemIds}
@@ -117,6 +117,15 @@ export default function CompetitionPage() {
   );
 }
 
+const style = css({
+  // overflow: 'hidden',
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const competitionStyle = css({ flexGrow: '1', overflow: 'hidden' });
 const padVerticalStyle = css({
   paddingX: '1rem',
 });
