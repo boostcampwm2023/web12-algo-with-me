@@ -1,9 +1,8 @@
-import { css } from '@style/css';
-
 import { CompetitionInfo } from '@/apis/competitions';
 
 import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
+import CompetitionMembersInfo from './CompetitionMembersInfo';
 
 interface Props {
   competitionId: number;
@@ -23,20 +22,16 @@ export default function DuringCompetition({
   competitionSchedule,
 }: Props) {
   return (
-    <div className={containerStyle}>
+    <div>
       <CompetitionDetailInfo
         competition={competition}
         text={DURING_COMPETITION_TEXT}
         competitionSchedule={competitionSchedule}
       />
+
       <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
+
+      <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }
-
-const containerStyle = css({
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '16px',
-  border: '1px solid #ccc',
-});
