@@ -81,7 +81,7 @@ export default function CompetitionPage() {
               onChangeProblemIndex={setCurrentProblemIndex}
             />
           </aside>
-          <VStack>
+          <VStack className={hfullStyle}>
             <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
             <HStack className={solutionStyle}>
               <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
@@ -127,6 +127,9 @@ const style = css({
 const competitionStyle = css({
   flexGrow: '1',
   overflow: 'hidden',
+});
+const hfullStyle = css({
+  height: '100%',
 });
 const problemStyle = css({
   width: '50%',
