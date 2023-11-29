@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ModalContext } from '@/components/Common/Modal/ModalContext';
+import { HStack, Modal, VStack } from '@/components/Common';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
@@ -26,7 +26,7 @@ export default function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-  const modal = useContext(ModalContext);
+  const modal = useContext(Modal.Context);
 
   const simulation = useSimulation();
 
@@ -74,14 +74,14 @@ export default function CompetitionPage() {
       <CompetitionProvider competitionId={competitionId}>
         <CompetitionHeader className={padVerticalStyle} />
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
-        <section className={rowListStyle}>
+        <VStack as="section">
           <CompetitionProblemSelector
             problemIds={problemIds}
             onChangeProblemIndex={setCurrentProblemIndex}
           />
-          <div className={rowListStyle}>
+          <VStack>
             <ProblemViewer content={problem.content}></ProblemViewer>
-            <div className={colListStyle}>
+            <HStack>
               <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
               <SimulationResultList resultList={simulation.results}></SimulationResultList>
               {simulation.isRunning ? (
@@ -107,9 +107,9 @@ export default function CompetitionPage() {
                 simulationInputs={simulation.inputs}
                 onSave={handleSaveSimulationInputs}
               ></SimulationInputModal>
-            </div>
-          </div>
-        </section>
+            </HStack>
+          </VStack>
+        </VStack>
       </CompetitionProvider>
     </PageLayout>
   );
@@ -117,14 +117,6 @@ export default function CompetitionPage() {
 
 const padVerticalStyle = css({
   paddingX: '1rem',
-});
-const rowListStyle = css({
-  display: 'flex',
-});
-
-const colListStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
 });
 
 const execButtonStyle = css({
