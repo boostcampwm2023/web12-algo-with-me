@@ -18,10 +18,9 @@ export default function CompetitionHeader(props: Props) {
 }
 
 const headerStyle = css({
-  backgroundColor: 'gray',
-  color: 'black',
-  width: '850px',
-  height: '50px',
+  height: '3.125rem',
   display: 'flex',
   justifyContent: 'space-between',
+  borderBottom: '1px solid',
+  borderColor: 'border',
 });

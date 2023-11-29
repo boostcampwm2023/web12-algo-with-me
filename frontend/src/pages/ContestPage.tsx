@@ -8,6 +8,7 @@ import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
 import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
 import Editor from '@/components/Editor/Editor';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
@@ -101,7 +102,7 @@ export default function ContestPage() {
   const problems = problemList.map((problem) => problem.id);
 
   return (
-    <main className={style}>
+    <PageLayout>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
       <section className={rowStyle}>
         <span className={problemTitleStyle}>{problem.title}</span>
@@ -147,14 +148,9 @@ export default function ContestPage() {
         simulationInputs={simulation.inputs}
         onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
-    </main>
+    </PageLayout>
   );
 }
-
-const style = css({
-  width: '100%',
-  height: '100%',
-});
 
 const rowListStyle = css({
   display: 'flex',
