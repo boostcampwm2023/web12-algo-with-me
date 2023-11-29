@@ -62,6 +62,11 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     client.emit('ping', new Date());
   }
 
+  @SubscribeMessage('dashboard')
+  async handleDashboard(@ConnectedSocket() client: Socket) {
+    client.emit('dashboard', 'return');
+  }
+
   public async handleConnection(client: Socket, ...args: any[]) {
     try {
       const { competitionId } = client.handshake.query;

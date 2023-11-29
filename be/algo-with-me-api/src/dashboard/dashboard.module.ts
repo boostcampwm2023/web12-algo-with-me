@@ -1,0 +1,12 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { DashboardGateway } from './dashboard.gateway';
+import { DashboardService } from './dashboard.service';
+import { Dashboard } from './entities/dashboard.entity';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Dashboard])],
+  providers: [DashboardGateway, DashboardService],
+})
+export class DashboardModule {}

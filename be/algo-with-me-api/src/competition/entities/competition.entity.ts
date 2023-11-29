@@ -12,6 +12,7 @@ import { CompetitionParticipant } from './competition.participant.entity';
 import { CompetitionProblem } from './competition.problem.entity';
 import { Submission } from './submission.entity';
 
+import { Dashboard } from '@src/dashboard/entities/dashboard.entity';
 import { User } from '@src/user/entities/user.entity';
 
 @Entity()
@@ -51,6 +52,9 @@ export class Competition {
 
   @ManyToOne(() => User, (user) => user.competitions, { nullable: false })
   user: User;
+
+  @OneToMany(() => Dashboard, (dashboard) => dashboard.competition)
+  dashboards: Dashboard[];
 
   @CreateDateColumn()
   createdAt: Date;

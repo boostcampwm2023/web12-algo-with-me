@@ -10,6 +10,7 @@ import { CompetitionParticipant } from './competition/entities/competition.parti
 import { CompetitionProblem } from './competition/entities/competition.problem.entity';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
+import { Dashboard } from './dashboard/entities/dashboard.entity';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 
@@ -38,6 +39,7 @@ config();
         User,
         CompetitionProblem,
         CompetitionParticipant,
+        Dashboard,
       ],
       logging: true,
     }),
