@@ -76,20 +76,21 @@ export function SubmissionResult() {
   }, [socket]);
 
   return (
-    <>
-      <section className={resultWrapperStyle}>
-        <Connecting isConnected={isConnected} />
-        <p>{submissionMessage}</p>
-        {scoreResults.map(({ score, submitState, testcaseId }) => (
-          <Score key={testcaseId} score={score} submitState={submitState} />
-        ))}
-      </section>
-    </>
+    <section className={resultWrapperStyle}>
+      <h3>
+        제출 결과 <Connecting isConnected={isConnected} />
+      </h3>
+      <p>{submissionMessage}</p>
+      {scoreResults.map(({ score, submitState, testcaseId }) => (
+        <Score key={testcaseId} score={score} submitState={submitState} />
+      ))}
+    </section>
   );
 }
 
 const resultWrapperStyle = css({
   padding: '24px',
-  backgroundColor: 'darkgray',
+  height: '300px',
+  overflow: 'auto',
   margin: '0 auto',
 });
