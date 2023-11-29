@@ -1,4 +1,4 @@
-import { css } from '@style/css';
+import { css, cx } from '@style/css';
 
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -28,7 +28,7 @@ const DASHBOARD_URL = '/contest/dashboard';
 const COMPEITION_PING_TIME = 5 * 1000;
 const COMPEITION_SOCKET_EVENT = 'ping';
 
-export default function ContestPage() {
+export default function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
@@ -103,8 +103,12 @@ export default function ContestPage() {
 
   return (
     <PageLayout>
-      <CompetitionHeader crumbs={crumbs} id={competitionId} />
-      <section className={rowStyle}>
+      <CompetitionHeader
+        className={paddingVerticalStyle}
+        crumbs={crumbs}
+        competitionId={competitionId}
+      />
+      <section className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle)}>
         <span className={problemTitleStyle}>{problem.title}</span>
         <SocketTimer
           socket={socket.current}
@@ -152,8 +156,15 @@ export default function ContestPage() {
   );
 }
 
+const paddingVerticalStyle = css({
+  paddingX: '1rem',
+});
 const rowListStyle = css({
   display: 'flex',
+});
+
+const spaceBetweenStyle = css({
+  justifyContent: 'space-between',
 });
 
 const colListStyle = css({
@@ -163,16 +174,11 @@ const colListStyle = css({
 
 const problemTitleStyle = css({
   display: 'inline-block',
-  height: '50px',
   padding: '10px',
-  borderBottom: '2px solid white',
+  borderBottom: '2px solid',
+  borderColor: 'brand',
 });
 
 const execButtonStyle = css({
   color: 'black',
-});
-
-const rowStyle = css({
-  display: 'flex',
-  justifyContent: 'space-between',
 });

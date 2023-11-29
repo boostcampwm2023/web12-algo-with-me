@@ -11,7 +11,7 @@ export default function ContestProblemSelector(props: AsideProps) {
   }
 
   return (
-    <aside>
+    <aside className={style}>
       <span>문제 목록</span>
       <ul>
         {props.problemIds.map((id: number, index: number) => (
@@ -26,6 +26,10 @@ export default function ContestProblemSelector(props: AsideProps) {
   );
 }
 
+const style = css({
+  borderRight: '1px solid',
+  borderColor: 'border',
+});
 const selectProblemStyle = css({
   color: 'black',
 });
