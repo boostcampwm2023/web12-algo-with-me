@@ -11,26 +11,17 @@ export default function CompetitionProblemSelector(props: AsideProps) {
   }
 
   return (
-    <aside className={style}>
-      <ul className={listStyle}>
-        {props.problemIds.map((id: number, index: number) => (
-          <li key={id}>
-            <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
-              문제{index + 1}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </aside>
+    <ul className={listStyle}>
+      {props.problemIds.map((id: number, index: number) => (
+        <li key={id}>
+          <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
+            문제{index + 1}
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }
-
-const style = css({
-  flexShrink: 0,
-  borderRight: '1px solid',
-  borderColor: 'border',
-  padding: '0.5rem',
-});
 
 const listStyle = css({
   display: 'flex',

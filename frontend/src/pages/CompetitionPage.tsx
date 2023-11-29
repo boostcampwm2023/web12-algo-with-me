@@ -75,10 +75,12 @@ export default function CompetitionPage() {
         <CompetitionHeader className={padVerticalStyle} />
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
         <VStack as="section">
-          <CompetitionProblemSelector
-            problemIds={problemIds}
-            onChangeProblemIndex={setCurrentProblemIndex}
-          />
+          <aside className={asideStyle}>
+            <CompetitionProblemSelector
+              problemIds={problemIds}
+              onChangeProblemIndex={setCurrentProblemIndex}
+            />
+          </aside>
           <VStack>
             <ProblemViewer content={problem.content}></ProblemViewer>
             <HStack>
@@ -121,4 +123,11 @@ const padVerticalStyle = css({
 
 const execButtonStyle = css({
   color: 'black',
+});
+
+const asideStyle = css({
+  flexShrink: 0,
+  borderRight: '1px solid',
+  borderColor: 'border',
+  padding: '0.5rem',
 });
