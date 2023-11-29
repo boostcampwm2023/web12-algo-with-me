@@ -16,6 +16,7 @@ export default defineConfig({
         },
         text: {
           DEFAULT: { value: '{colors.gray.800}' },
+          week: { value: '{colors.gray.400}' },
         },
         border: {
           DEFAULT: { value: '{colors.gray.200}' },

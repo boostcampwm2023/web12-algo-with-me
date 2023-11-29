@@ -19,6 +19,8 @@ export default function ContestBreadCrumb(props: Props) {
 }
 
 const crumbStyle = css({
+  fontWeight: 'bold',
+  color: 'text.week',
   marginRight: '1rem',
   _after: {
     content: '">"',
