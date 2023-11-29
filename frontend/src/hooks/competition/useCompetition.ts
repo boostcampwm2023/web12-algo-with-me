@@ -14,8 +14,8 @@ export type SubmissionForm = {
 
 const notFoundCompetition: CompetitionInfo = {
   id: 0,
-  host: 'None',
-  participants: ['None'],
+  host: null,
+  participants: [],
   name: 'Competition Not Found',
   detail: 'Competition Not Found',
   maxParticipants: 0,

@@ -26,7 +26,7 @@ export default function AfterCompetition({
       />
 
       <ProblemList competitionId={competitionId} />
-      <CompetitionMembersInfo host={competition.host} members={competition.participants} />
+      <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }

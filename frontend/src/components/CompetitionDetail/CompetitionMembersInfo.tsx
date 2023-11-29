@@ -1,12 +1,14 @@
 import { css } from '@style/css';
 
+import { CompetitionInfo } from '@/apis/competitions';
+
 interface Props {
-  host: string;
-  members: string[];
+  competition: CompetitionInfo;
 }
 
-export default function CompetitionMembersInfo({ host, members }: Props) {
-  const formattedMembers = members.join(', ');
+export default function CompetitionMembersInfo({ competition }: Props) {
+  const formattedMembers = competition.participants.join(', ');
+  const host = competition.host || 'None';
 
   return (
     <section>

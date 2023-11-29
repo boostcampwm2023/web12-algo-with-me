@@ -13,7 +13,7 @@ export type CompetitionForm = {
 
 export type CompetitionInfo = {
   id: CompetitionId;
-  host: string;
+  host: string | null;
   participants: string[];
   name: string;
   detail: string;

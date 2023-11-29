@@ -37,7 +37,7 @@ export default function BeforeCompetition({
         <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
       </div>
 
-      <CompetitionMembersInfo host={competition.host} members={competition.participants} />
+      <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }

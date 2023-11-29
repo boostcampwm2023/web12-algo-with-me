@@ -31,7 +31,7 @@ export default function DuringCompetition({
 
       <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
 
-      <CompetitionMembersInfo host={competition.host} members={competition.participants} />
+      <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }
