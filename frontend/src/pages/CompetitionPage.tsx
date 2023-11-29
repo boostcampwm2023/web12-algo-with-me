@@ -2,7 +2,6 @@ import { css, cx } from '@style/css';
 
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
@@ -14,7 +13,6 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
-import SocketTimer from '@/components/SocketTimer';
 import { SubmissionResult } from '@/components/Submission';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
@@ -22,17 +20,12 @@ import { SimulationInput, useSimulation } from '@/hooks/simulation';
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
-const DASHBOARD_URL = '/contest/dashboard';
-const COMPEITION_PING_TIME = 5 * 1000;
-const COMPEITION_SOCKET_EVENT = 'ping';
 
 export default function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const modal = useContext(ModalContext);
-
-  const navigate = useNavigate();
 
   const simulation = useSimulation();
 
@@ -73,10 +66,6 @@ export default function CompetitionPage() {
     modal.open();
   }
 
-  function handleTimeout() {
-    navigate(`${DASHBOARD_URL}/${competitionId}`);
-  }
-
   const problemIds = problemList.map((problem) => problem.id);
 
   return (
@@ -87,11 +76,6 @@ export default function CompetitionPage() {
           className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle, underlineStyle)}
         >
           <span className={problemTitleStyle}>{problem.title}</span>
-          <SocketTimer
-            pingTime={COMPEITION_PING_TIME}
-            socketEvent={COMPEITION_SOCKET_EVENT}
-            onTimeout={handleTimeout}
-          />
         </section>
         <section className={rowListStyle}>
           <CompetitionProblemSelector
