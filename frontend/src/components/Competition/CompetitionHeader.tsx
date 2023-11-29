@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'react';
 import { CompetitionId } from '@/apis/competitions';
 
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
-import ContestBreadCrumb from './ContestBreadCrumb';
+import CompetitionBreadCrumb from './CompetitionBreadCrumb';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   crumbs: string[];
@@ -15,7 +15,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export default function CompetitionHeader({ crumbs, competitionId, className, ...props }: Props) {
   return (
     <div className={cx(className, headerStyle)} {...props}>
-      <ContestBreadCrumb crumbs={crumbs} />
+      <CompetitionBreadCrumb crumbs={crumbs} />
       <ViewDashboardButton competitionId={competitionId} />
     </div>
   );

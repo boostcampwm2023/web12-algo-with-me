@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
-import CompetitionHeader from '@/components/Contest/CompetitionHeader';
-import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
+import CompetitionHeader from '@/components/Competition/CompetitionHeader';
+import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
@@ -120,7 +120,7 @@ export default function CompetitionPage() {
         />
       </section>
       <section className={rowListStyle}>
-        <ContestProblemSelector
+        <CompetitionProblemSelector
           problemIds={problems}
           onChangeProblemIndex={setCurrentProblemIndex}
         />

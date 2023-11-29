@@ -5,7 +5,7 @@ interface AsideProps {
   onChangeProblemIndex: (index: number) => void;
 }
 
-export default function ContestProblemSelector(props: AsideProps) {
+export default function CompetitionProblemSelector(props: AsideProps) {
   function handleChangeProblemIndex(index: number) {
     props.onChangeProblemIndex(index);
   }

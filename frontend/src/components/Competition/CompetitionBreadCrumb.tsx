@@ -4,7 +4,7 @@ interface Props {
   crumbs: string[];
 }
 
-export default function ContestBreadCrumb({ crumbs }: Props) {
+export default function CompetitionBreadCrumb({ crumbs }: Props) {
   return (
     <div className={titleContainerStyle}>
       {crumbs.map((crumb, index) => (
