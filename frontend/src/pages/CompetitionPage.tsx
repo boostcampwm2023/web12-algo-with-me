@@ -108,7 +108,9 @@ export default function CompetitionPage() {
         crumbs={crumbs}
         competitionId={competitionId}
       />
-      <section className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle)}>
+      <section
+        className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle, underlineStyle)}
+      >
         <span className={problemTitleStyle}>{problem.title}</span>
         <SocketTimer
           socket={socket.current}
@@ -161,6 +163,10 @@ const paddingVerticalStyle = css({
 });
 const rowListStyle = css({
   display: 'flex',
+});
+const underlineStyle = css({
+  borderBottom: '1px solid',
+  borderColor: 'border',
 });
 
 const spaceBetweenStyle = css({
