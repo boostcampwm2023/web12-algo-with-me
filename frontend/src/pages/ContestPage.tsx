@@ -152,8 +152,8 @@ export default function ContestPage() {
 }
 
 const style = css({
-  backgroundColor: '#1e1e1e',
-  color: '#ffffff',
+  width: '100%',
+  height: '100%',
 });
 
 const rowListStyle = css({
