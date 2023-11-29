@@ -8,6 +8,8 @@ services:
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
     network_mode: host
+    env_file:
+      ./algo-with-me-api/.env
     restart: always
   algo-with-me-score:
     image: yechan/algo-with-me-score
@@ -18,6 +20,8 @@ services:
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
     network_mode: host
+    env_file:
+      - ./algo-with-me-score/.env
     restart: always
   algo-with-me-docker:
     image: yechan/algo-with-me-docker
