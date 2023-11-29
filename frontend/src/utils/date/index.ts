@@ -16,6 +16,17 @@ export const formatDate = (date: Date, form: string) => {
     return date.toISOString().slice(0, 'YYYY-MM-DDThh:mm'.length);
   }
 
+  if (form === 'YYYY. MM. DD. hh:mm') {
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+    });
+  }
+
   return '';
 };
 
