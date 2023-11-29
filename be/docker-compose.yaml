@@ -1,0 +1,31 @@
+services:
+  algo-with-me-api:
+    image: yechan/algo-with-me-api
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    restart: always
+  algo-with-me-score:
+    image: yechan/algo-with-me-score
+    ports:
+      - 4000:4000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    restart: always
+  algo-with-me-docker:
+    image: yechan/algo-with-me-docker
+    ports:
+      - 5000:5000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    user: 1001:1001
