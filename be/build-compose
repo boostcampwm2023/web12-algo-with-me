@@ -1,0 +1,21 @@
+sudo docker compose down
+sudo docker image rm yechan/algo-with-me-api 2>/dev/null
+sudo docker image rm yechan/algo-with-me-score 2>/dev/null
+sudo docker image rm yechan/algo-with-me-docker 2>/dev/null
+
+cd algo-with-me-api/
+sudo docker build -t yechan/algo-with-me-api .
+cd ..
+
+cd algo-with-me-score/
+sudo docker build -t yechan/algo-with-me-score .
+cd ..
+
+cd algo-with-me-docker/
+sudo docker build -t yechan/algo-with-me-docker .
+cd ..
+
+sudo docker login
+sudo docker push yechan/algo-with-me-api
+sudo docker push yechan/algo-with-me-score
+sudo docker push yechan/algo-with-me-docker
