@@ -60,7 +60,7 @@ const dialogStyle = css({
   left: '50%',
   top: '50%',
   transform: 'translate(-50%,-50%)',
-  width: '500px',
+  width: '600px',
   height: '400px',
   _backdrop: {
     background: 'rgba(00,00,00,0.5)',

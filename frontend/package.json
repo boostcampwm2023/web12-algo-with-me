@@ -10,9 +10,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest",
-    "predeploy": "pnpm run build",
-    "deploy": "gh-pages -d dist"
+    "test": "vitest"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.0",
@@ -47,7 +45,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "gh-pages": "^6.0.0",
     "msw": "^2.0.6",
     "typescript": "^5.0.2",
     "vite": "^4.5.0",
