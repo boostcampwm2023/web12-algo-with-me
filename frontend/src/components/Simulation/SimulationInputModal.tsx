@@ -14,9 +14,9 @@ interface Props extends ModalProps {
 }
 
 interface InputChangeProps {
-  dataType: string;
+  testcaseType: string;
   newInput: string;
-  dataIndex: number;
+  testcaseId: number;
 }
 
 const MAX_INPUT_COUNT = 10;
@@ -84,17 +84,17 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
     ]);
   };
 
-  const handleChangeInput = ({ newInput, dataIndex, dataType }: InputChangeProps) => {
-    const changedInput = inputs.find(({ id }) => id === dataIndex);
+  const handleChangeInput = ({ newInput, testcaseId, testcaseType }: InputChangeProps) => {
+    const changedInput = inputs.find(({ id }) => id === testcaseId);
     if (!changedInput) return;
     const originInputs = deepCopy(inputs);
-    if (dataType === 'input') {
+    if (testcaseType === 'input') {
       changedInput.input = newInput;
     }
-    if (dataType === 'expected') {
+    if (testcaseType === 'expected') {
       changedInput.expected = newInput;
     }
-    originInputs[dataIndex - 1] = changedInput;
+    originInputs[testcaseId - 1] = changedInput;
     setInputs([...originInputs]);
   };
 
