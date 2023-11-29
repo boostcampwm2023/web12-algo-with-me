@@ -81,7 +81,11 @@ export default function CompetitionPage() {
             <VStack className={hfullStyle}>
               <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
               <HStack className={solutionStyle}>
-                <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+                <Editor
+                  height="500px"
+                  code={problem.solutionCode}
+                  onChangeCode={handleChangeCode}
+                ></Editor>
                 <section>
                   <SimulationResultList resultList={simulation.results}></SimulationResultList>
                   <SubmissionResult></SubmissionResult>
