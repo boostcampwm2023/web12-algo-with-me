@@ -2,6 +2,7 @@ import { css } from '@style/css';
 
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
@@ -10,8 +11,8 @@ import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import SocketTimer from '@/components/SocketTimer';
 import { SubmissionResult } from '@/components/Submission';
-import Timer from '@/components/Timer';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
@@ -22,12 +23,15 @@ import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
+const DASHBOARD_URL = '/contest/dashboard';
 
 export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const modal = useContext(ModalContext);
+
+  const navigate = useNavigate();
 
   const simulation = useSimulation();
 
@@ -82,22 +86,29 @@ export default function ContestPage() {
     submitSolution(form);
   }
 
-
   const { endsAt } = competition;
 
   function handleOpenModal() {
     modal.open();
   }
-  
+
+  function handleTimeout() {
+    navigate(`${DASHBOARD_URL}/${competitionId}`);
+  }
+
   const problems = problemList.map((problem) => problem.id);
-  
 
   return (
     <main className={style}>
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
-      <section>
+      <section className={rowStyle}>
         <span className={problemTitleStyle}>{problem.title}</span>
-        <Timer socket={socket.current} isConnected={isConnected} endsAt={new Date(endsAt)} />
+        <SocketTimer
+          socket={socket.current}
+          isConnected={isConnected}
+          endsAt={new Date(endsAt)}
+          onTimeout={handleTimeout}
+        />
       </section>
       <section className={rowListStyle}>
         <ContestProblemSelector

@@ -1,21 +1,35 @@
 import { css } from '@style/css';
 
+import { useEffect } from 'react';
+
 import Loading from '@/components/Common/Loading';
-import useTimer from '@/hooks/timer/useTimer';
+import useSocketTimer from '@/hooks/timer/useSocketTimer';
 import { formatMilliSecond } from '@/utils/date';
 import type { Socket } from '@/utils/socket';
 
 interface Props {
   socket: Socket;
+  isConnected: boolean;
   endsAt: Date;
-  isConnected?: boolean;
+  onTimeout?: () => void;
 }
 
-export default function Timer(props: Props) {
-  let { socket, endsAt, isConnected } = props;
+export default function SocketTimer(props: Props) {
+  let { socket, endsAt, isConnected, onTimeout } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
-  endsAt = new Date('2023-11-29T13:10:10.000Z');
-  const { remainMiliSeconds } = useTimer({ socket, endsAt });
+  // min 1 => 60초 동안 돌아갑니다. 변경해서 쓰세요 일단은..
+  const min = 120;
+  endsAt = new Date(new Date().getTime() + min * 60 * 1000);
+
+  const { remainMiliSeconds, isTimeout } = useSocketTimer({
+    socket,
+    endsAt,
+    socketEvent: 'ping',
+  });
+
+  useEffect(() => {
+    if (isTimeout && typeof onTimeout === 'function') onTimeout();
+  }, [isTimeout]);
 
   if (isConnected && remainMiliSeconds !== -1) {
     // 연결도 되어있고, 서버 시간도 도착해서 count down을 시작할 수 있을 때
