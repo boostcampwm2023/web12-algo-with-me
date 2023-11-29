@@ -22,21 +22,45 @@ export default function DuringCompetition({
   endsAt,
   competitionSchedule,
 }: Props) {
+  const formattedParticipants = competition.participants.join(', ');
+
   return (
-    <div className={containerStyle}>
+    <div>
       <CompetitionDetailInfo
         competition={competition}
         text={DURING_COMPETITION_TEXT}
         competitionSchedule={competitionSchedule}
       />
+
       <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
+
+      <div className={containerStyle}>
+        <div className={headerStyle}>대회 생성자</div>
+        <div className={contentStyle}>{competition.host}</div>
+      </div>
+
+      <div className={containerStyle}>
+        <div className={headerStyle}>대회 참여자</div>
+        <div className={contentStyle}>{formattedParticipants}</div>
+      </div>
     </div>
   );
 }
 
 const containerStyle = css({
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: '16px',
   padding: '16px',
   border: '1px solid #ccc',
+});
+
+const headerStyle = css({
+  fontSize: '18px',
+  fontWeight: 'bold',
+  marginBottom: '8px',
+});
+
+const contentStyle = css({
+  fontSize: '16px',
 });

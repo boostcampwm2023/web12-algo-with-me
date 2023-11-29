@@ -22,27 +22,50 @@ export default function BeforeCompetition({
   competitionSchedule,
 }: Props) {
   const BEFORE_COMPETITION_TEXT = ` 시작 전`;
+  const formattedParticipants = competition.participants.join(', ');
 
   return (
-    <div className={containerStyle}>
+    <div>
       <CompetitionDetailInfo
         competition={competition}
         text={BEFORE_COMPETITION_TEXT}
         competitionSchedule={competitionSchedule}
       />
+
       <div className={buttonContainerStyle}>
         <JoinCompetitionButton id={competitionId} />
         <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
+      </div>
+
+      <div className={containerStyle}>
+        <div className={headerStyle}>대회 생성자</div>
+        <div className={contentStyle}>{competition.host}</div>
+      </div>
+
+      <div className={containerStyle}>
+        <div className={headerStyle}>대회 참여자</div>
+        <div className={contentStyle}>{formattedParticipants}</div>
       </div>
     </div>
   );
 }
 
 const containerStyle = css({
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: '16px',
   padding: '16px',
   border: '1px solid #ccc',
+});
+
+const headerStyle = css({
+  fontSize: '18px',
+  fontWeight: 'bold',
+  marginBottom: '8px',
+});
+
+const contentStyle = css({
+  fontSize: '16px',
 });
 
 const buttonContainerStyle = css({
