@@ -1,6 +1,6 @@
 services:
   algo-with-me-api:
-    image: yechan/algo-with-me-api
+    image: algo-with-me-api
     ports:
       - 3000:3000
     volumes:
@@ -12,7 +12,7 @@ services:
       ./algo-with-me-api/.env
     restart: always
   algo-with-me-score:
-    image: yechan/algo-with-me-score
+    image: algo-with-me-score
     ports:
       - 4000:4000
     volumes:
@@ -24,7 +24,7 @@ services:
       - ./algo-with-me-score/.env
     restart: always
   algo-with-me-docker:
-    image: yechan/algo-with-me-docker
+    image: algo-with-me-docker
     ports:
       - 5000:5000
     volumes:
