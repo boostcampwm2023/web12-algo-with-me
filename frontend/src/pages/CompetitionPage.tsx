@@ -79,35 +79,37 @@ export default function CompetitionPage() {
             problemIds={problemIds}
             onChangeProblemIndex={setCurrentProblemIndex}
           />
-          <ProblemViewer content={problem.content}></ProblemViewer>
-          <div className={colListStyle}>
-            <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-            <SimulationResultList resultList={simulation.results}></SimulationResultList>
-            {simulation.isRunning ? (
-              <button className={execButtonStyle} onClick={handleSimulationCancel}>
-                {CANCEL_SIMULATION}
-              </button>
-            ) : (
-              <button className={execButtonStyle} onClick={handleSimulate}>
-                {RUN_SIMULATION}
-              </button>
-            )}
+          <div className={rowListStyle}>
+            <ProblemViewer content={problem.content}></ProblemViewer>
+            <div className={colListStyle}>
+              <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+              <SimulationResultList resultList={simulation.results}></SimulationResultList>
+              {simulation.isRunning ? (
+                <button className={execButtonStyle} onClick={handleSimulationCancel}>
+                  {CANCEL_SIMULATION}
+                </button>
+              ) : (
+                <button className={execButtonStyle} onClick={handleSimulate}>
+                  {RUN_SIMULATION}
+                </button>
+              )}
+              <section>
+                <SubmissionResult></SubmissionResult>
+                <CompetitionSubmitButton
+                  code={code}
+                  problemId={currentProblem?.id}
+                ></CompetitionSubmitButton>
+                <button className={execButtonStyle} onClick={handleOpenModal}>
+                  테스트 케이스 추가하기
+                </button>
+              </section>
+              <SimulationInputModal
+                simulationInputs={simulation.inputs}
+                onSave={handleSaveSimulationInputs}
+              ></SimulationInputModal>
+            </div>
           </div>
         </section>
-        <section>
-          <SubmissionResult></SubmissionResult>
-          <CompetitionSubmitButton
-            code={code}
-            problemId={currentProblem?.id}
-          ></CompetitionSubmitButton>
-          <button className={execButtonStyle} onClick={handleOpenModal}>
-            테스트 케이스 추가하기
-          </button>
-        </section>
-        <SimulationInputModal
-          simulationInputs={simulation.inputs}
-          onSave={handleSaveSimulationInputs}
-        ></SimulationInputModal>
       </CompetitionProvider>
     </PageLayout>
   );

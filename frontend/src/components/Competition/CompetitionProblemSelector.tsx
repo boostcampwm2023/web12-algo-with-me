@@ -26,6 +26,7 @@ export default function CompetitionProblemSelector(props: AsideProps) {
 }
 
 const style = css({
+  flexShrink: 0,
   borderRight: '1px solid',
   borderColor: 'border',
   padding: '0.5rem',

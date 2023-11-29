@@ -85,7 +85,6 @@ export function SubmissionResult() {
 const resultWrapperStyle = css({
   padding: '24px',
   minHeight: '40vh',
-  width: '80vw',
   backgroundColor: 'darkgray',
   margin: '0 auto',
 });

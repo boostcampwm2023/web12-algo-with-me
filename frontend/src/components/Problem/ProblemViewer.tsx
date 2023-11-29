@@ -17,11 +17,11 @@ export default function ProblemViewer(props: Props) {
 }
 
 const style = css({
-  backgroundColor: '#1e1e1e',
-  color: '#ffffff',
-  padding: '10px',
+  backgroundColor: 'surface',
+  color: 'text',
+  padding: '1rem',
   overflowY: 'auto',
   whiteSpace: 'pre-wrap',
-  width: '450px',
-  height: '500px',
+  width: '50%',
+  height: '100%',
 });

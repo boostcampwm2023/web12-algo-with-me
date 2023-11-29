@@ -3,8 +3,8 @@ import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import CodeMirror from '@uiw/react-codemirror';
 
 const style = {
-  height: '200px',
-  width: '400px',
+  height: '800px',
+  width: '100%',
   theme: vscodeDark,
 };
 
