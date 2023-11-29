@@ -77,7 +77,7 @@ export default function CompetitionPage() {
     navigate(`${DASHBOARD_URL}/${competitionId}`);
   }
 
-  const problems = problemList.map((problem) => problem.id);
+  const problemIds = problemList.map((problem) => problem.id);
 
   return (
     <PageLayout>
@@ -95,7 +95,7 @@ export default function CompetitionPage() {
         </section>
         <section className={rowListStyle}>
           <CompetitionProblemSelector
-            problemIds={problems}
+            problemIds={problemIds}
             onChangeProblemIndex={setCurrentProblemIndex}
           />
           <ProblemViewer content={problem.content}></ProblemViewer>
