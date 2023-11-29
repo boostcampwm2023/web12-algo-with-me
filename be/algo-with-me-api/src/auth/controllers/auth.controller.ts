@@ -29,7 +29,7 @@ export class AuthController {
       nickname: req.user.nickname,
     };
     return {
-      url: `https://boostcampwm2023.github.io/web12-algo-with-me?accessToken=${this.jwtService.sign(
+      url: `https://www.algo-with-me.site?accessToken=${this.jwtService.sign(
         content,
       )}`,
     };
