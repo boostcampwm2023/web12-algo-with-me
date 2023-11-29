@@ -4,5 +4,6 @@ sudo docker run -d -p 4000:4000 \
 -v /home/be/algo-with-me/problems/:/algo-with-me/problems/ \
 -v /home/be/algo-with-me/submissions/:/algo-with-me/submissions/ \
 -v /home/be/algo-with-me/testcases/:/algo-with-me/testcases/ \
+--env-file ./algo-with-me-score/.env \
 --name algo-with-me-score \
 algo-with-me-score

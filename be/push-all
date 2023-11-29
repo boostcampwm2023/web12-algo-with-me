@@ -1,0 +1,4 @@
+sudo docker login
+sudo docker push yechan/algo-with-me-api
+sudo docker push yechan/algo-with-me-score
+sudo docker push yechan/algo-with-me-docker

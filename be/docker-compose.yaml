@@ -1,0 +1,35 @@
+services:
+  algo-with-me-api:
+    image: algo-with-me-api
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    env_file:
+      ./algo-with-me-api/.env
+    restart: always
+  algo-with-me-score:
+    image: algo-with-me-score
+    ports:
+      - 4000:4000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    env_file:
+      - ./algo-with-me-score/.env
+    restart: always
+  algo-with-me-docker:
+    image: algo-with-me-docker
+    ports:
+      - 5000:5000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: host
+    user: 1001:1001
