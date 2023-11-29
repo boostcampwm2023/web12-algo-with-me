@@ -1,22 +1,24 @@
 import { css, cx } from '@style/css';
 
-import type { HTMLAttributes } from 'react';
+import { type HTMLAttributes, useContext } from 'react';
 
-import { CompetitionId } from '@/apis/competitions';
+import { SITE } from '@/constants';
 
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import CompetitionBreadCrumb from './CompetitionBreadCrumb';
+import { CompetitionContext } from './CompetitionContext';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  crumbs: string[];
-  competitionId: CompetitionId;
-}
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
-export default function CompetitionHeader({ crumbs, competitionId, className, ...props }: Props) {
+export default function CompetitionHeader({ className, ...props }: Props) {
+  const { competition } = useContext(CompetitionContext);
+
+  const crumbs = [SITE.NAME, competition.name];
+
   return (
     <div className={cx(className, headerStyle)} {...props}>
       <CompetitionBreadCrumb crumbs={crumbs} />
-      <ViewDashboardButton competitionId={competitionId} />
+      <ViewDashboardButton competitionId={competition.id} />
     </div>
   );
 }

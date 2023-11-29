@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
+import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
+import { CompetitionSubmitButton } from '@/components/Competition/CompetitionSubmitButton';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
@@ -14,13 +16,9 @@ import { SimulationInputModal } from '@/components/Simulation/SimulationInputMod
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import SocketTimer from '@/components/SocketTimer';
 import { SubmissionResult } from '@/components/Submission';
-import { SITE } from '@/constants';
-import type { SubmissionForm } from '@/hooks/competition';
-import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
-import { isNil } from '@/utils/type';
 
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
@@ -38,7 +36,6 @@ export default function CompetitionPage() {
 
   const simulation = useSimulation();
 
-  const { socket, competition, submitSolution, isConnected } = useCompetition(competitionId);
   const { problemList } = useCompetitionProblemList(competitionId);
 
   const currentProblem = useMemo(() => {
@@ -56,8 +53,6 @@ export default function CompetitionPage() {
     setCode(problem.solutionCode);
   }, [problem.solutionCode]);
 
-  const crumbs = [SITE.NAME, competition.name, problem.title];
-
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
   };
@@ -74,23 +69,6 @@ export default function CompetitionPage() {
     simulation.changeInputs(simulationInputs);
   };
 
-  function handleSubmitSolution() {
-    if (isNil(currentProblem)) {
-      console.error('존재하지 않는 문제입니다.');
-      return;
-    }
-
-    const form = {
-      problemId: currentProblem.id,
-      code,
-      competitionId,
-    } satisfies SubmissionForm;
-
-    submitSolution(form);
-  }
-
-  const { endsAt } = competition;
-
   function handleOpenModal() {
     modal.open();
   }
@@ -103,57 +81,53 @@ export default function CompetitionPage() {
 
   return (
     <PageLayout>
-      <CompetitionHeader
-        className={paddingVerticalStyle}
-        crumbs={crumbs}
-        competitionId={competitionId}
-      />
-      <section
-        className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle, underlineStyle)}
-      >
-        <span className={problemTitleStyle}>{problem.title}</span>
-        <SocketTimer
-          socket={socket.current}
-          isConnected={isConnected}
-          endsAt={new Date(endsAt)}
-          pingTime={COMPEITION_PING_TIME}
-          socketEvent={COMPEITION_SOCKET_EVENT}
-          onTimeout={handleTimeout}
-        />
-      </section>
-      <section className={rowListStyle}>
-        <CompetitionProblemSelector
-          problemIds={problems}
-          onChangeProblemIndex={setCurrentProblemIndex}
-        />
-        <ProblemViewer content={problem.content}></ProblemViewer>
-        <div className={colListStyle}>
-          <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-          <SimulationResultList resultList={simulation.results}></SimulationResultList>
-          {simulation.isRunning ? (
-            <button className={execButtonStyle} onClick={handleSimulationCancel}>
-              {CANCEL_SIMULATION}
-            </button>
-          ) : (
-            <button className={execButtonStyle} onClick={handleSimulate}>
-              {RUN_SIMULATION}
-            </button>
-          )}
-        </div>
-      </section>
-      <section>
-        <SubmissionResult isConnected={isConnected} socket={socket.current}></SubmissionResult>
-        <button className={execButtonStyle} onClick={handleSubmitSolution}>
-          제출하기
-        </button>
-        <button className={execButtonStyle} onClick={handleOpenModal}>
-          테스트 케이스 추가하기
-        </button>
-      </section>
-      <SimulationInputModal
-        simulationInputs={simulation.inputs}
-        onSave={handleSaveSimulationInputs}
-      ></SimulationInputModal>
+      <CompetitionProvider competitionId={competitionId}>
+        <CompetitionHeader className={paddingVerticalStyle} />
+        <section
+          className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle, underlineStyle)}
+        >
+          <span className={problemTitleStyle}>{problem.title}</span>
+          <SocketTimer
+            pingTime={COMPEITION_PING_TIME}
+            socketEvent={COMPEITION_SOCKET_EVENT}
+            onTimeout={handleTimeout}
+          />
+        </section>
+        <section className={rowListStyle}>
+          <CompetitionProblemSelector
+            problemIds={problems}
+            onChangeProblemIndex={setCurrentProblemIndex}
+          />
+          <ProblemViewer content={problem.content}></ProblemViewer>
+          <div className={colListStyle}>
+            <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+            <SimulationResultList resultList={simulation.results}></SimulationResultList>
+            {simulation.isRunning ? (
+              <button className={execButtonStyle} onClick={handleSimulationCancel}>
+                {CANCEL_SIMULATION}
+              </button>
+            ) : (
+              <button className={execButtonStyle} onClick={handleSimulate}>
+                {RUN_SIMULATION}
+              </button>
+            )}
+          </div>
+        </section>
+        <section>
+          <SubmissionResult></SubmissionResult>
+          <CompetitionSubmitButton
+            code={code}
+            problemId={currentProblem?.id}
+          ></CompetitionSubmitButton>
+          <button className={execButtonStyle} onClick={handleOpenModal}>
+            테스트 케이스 추가하기
+          </button>
+        </section>
+        <SimulationInputModal
+          simulationInputs={simulation.inputs}
+          onSave={handleSaveSimulationInputs}
+        ></SimulationInputModal>
+      </CompetitionProvider>
     </PageLayout>
   );
 }

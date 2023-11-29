@@ -1,18 +1,14 @@
 import { css } from '@style/css';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Connecting from '@/components/Submission/Connecting';
 import { range } from '@/utils/array';
-import type { Socket } from '@/utils/socket';
+import { isNil } from '@/utils/type';
 
+import { CompetitionContext } from '../Competition/CompetitionContext';
 import Score from './Score';
 import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
-
-interface Props {
-  socket: Socket;
-  isConnected: boolean;
-}
 
 type SubmitResult = {
   testcaseId: number;
@@ -20,7 +16,8 @@ type SubmitResult = {
   score?: ScoreResult;
 };
 
-export function SubmissionResult({ socket, isConnected }: Props) {
+export function SubmissionResult() {
+  const { socket, isConnected } = useContext(CompetitionContext);
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
@@ -62,6 +59,8 @@ export function SubmissionResult({ socket, isConnected }: Props) {
   };
 
   useEffect(() => {
+    if (isNil(socket)) return;
+
     if (!socket.hasListeners('message')) {
       socket.on('message', handleMessage);
     }
