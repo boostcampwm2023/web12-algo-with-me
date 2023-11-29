@@ -11,11 +11,13 @@ interface Props {
   socket: Socket;
   isConnected: boolean;
   endsAt: Date;
+  pingTime: number;
+  socketEvent: string;
   onTimeout?: () => void;
 }
 
 export default function SocketTimer(props: Props) {
-  let { socket, endsAt, isConnected, onTimeout } = props;
+  let { socket, endsAt, isConnected, onTimeout, pingTime, socketEvent } = props;
   // 대회 시간 검증이 안 되어 있어서, 끝나는 시간이 현재 시간보다 모두 전입니다. 그래서 지금 시간 기준으로 120분 더하고 마지막 시간이다라고 가정합니다.
   const min = 120;
   endsAt = new Date(new Date().getTime() + min * 60 * 1000);
@@ -23,8 +25,8 @@ export default function SocketTimer(props: Props) {
   const { remainMiliSeconds, isTimeout } = useSocketTimer({
     socket,
     endsAt,
-    socketEvent: 'ping',
-    pingTime: 5000,
+    socketEvent,
+    pingTime,
   });
 
   useEffect(() => {

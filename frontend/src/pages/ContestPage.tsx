@@ -24,6 +24,8 @@ import { isNil } from '@/utils/type';
 const RUN_SIMULATION = '테스트 실행';
 const CANCEL_SIMULATION = '실행 취소';
 const DASHBOARD_URL = '/contest/dashboard';
+const COMPEITION_PING_TIME = 5 * 1000;
+const COMPEITION_SOCKET_EVENT = 'ping';
 
 export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
@@ -107,6 +109,8 @@ export default function ContestPage() {
           socket={socket.current}
           isConnected={isConnected}
           endsAt={new Date(endsAt)}
+          pingTime={COMPEITION_PING_TIME}
+          socketEvent={COMPEITION_SOCKET_EVENT}
           onTimeout={handleTimeout}
         />
       </section>
