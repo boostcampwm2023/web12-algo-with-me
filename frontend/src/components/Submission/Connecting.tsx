@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function Connecting(props: Props) {
-  if (!props.isConnected) return null;
+  if (props.isConnected) return null;
 
   return (
     <div className={rowStyle}>
@@ -16,6 +16,7 @@ export default function Connecting(props: Props) {
     </div>
   );
 }
+
 const rowStyle = css({
   display: 'flex',
   gap: '0.5rem',
