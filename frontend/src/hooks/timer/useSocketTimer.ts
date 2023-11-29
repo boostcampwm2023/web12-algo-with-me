@@ -18,6 +18,8 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
 
   useEffect(() => {
+    if (pingIntervalId.current) clearInterval(pingIntervalId.current);
+
     socket.emit(socketEvent);
     socket.on(socketEvent, handlePingMessage);
 
@@ -50,5 +52,6 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
       setIsTimeout(true);
     }
   }, [remainMiliSeconds]);
+
   return { remainMiliSeconds, isTimeout };
 }
