@@ -20,6 +20,8 @@ const notFoundCompetition: CompetitionInfo = {
   endsAt: 'Competition Not Found',
   createdAt: 'Competition Not Found',
   updatedAt: 'Competition Not Found',
+  host: null,
+  participants: [],
 };
 
 export const CompetitionContext = createContext<CompetitionContextProps>({
