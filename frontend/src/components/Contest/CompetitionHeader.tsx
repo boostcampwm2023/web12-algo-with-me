@@ -1,18 +1,18 @@
 import { css } from '@style/css';
 
-import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import ContestBreadCrumb from './ContestBreadCrumb';
 
 interface Props {
   crumbs: string[];
   id: number;
+  onOpenDashboardModal: () => void;
 }
 
 export default function CompetitionHeader(props: Props) {
   return (
     <div className={headerStyle}>
       <ContestBreadCrumb crumbs={props.crumbs} />
-      <ViewDashboardButton id={props.id} />
+      <button onClick={props.onOpenDashboardModal}>대시보드 보기</button>
     </div>
   );
 }
