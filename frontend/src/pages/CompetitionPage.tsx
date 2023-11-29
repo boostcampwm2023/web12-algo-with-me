@@ -1,4 +1,4 @@
-import { css, cx } from '@style/css';
+import { css } from '@style/css';
 
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { CompetitionProvider } from '@/components/Competition/CompetitionProvide
 import { CompetitionSubmitButton } from '@/components/Competition/CompetitionSubmitButton';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
+import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
@@ -71,12 +72,8 @@ export default function CompetitionPage() {
   return (
     <PageLayout>
       <CompetitionProvider competitionId={competitionId}>
-        <CompetitionHeader className={paddingVerticalStyle} />
-        <section
-          className={cx(rowListStyle, spaceBetweenStyle, paddingVerticalStyle, underlineStyle)}
-        >
-          <span className={problemTitleStyle}>{problem.title}</span>
-        </section>
+        <CompetitionHeader className={padVerticalStyle} />
+        <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
         <section className={rowListStyle}>
           <CompetitionProblemSelector
             problemIds={problemIds}
@@ -116,31 +113,16 @@ export default function CompetitionPage() {
   );
 }
 
-const paddingVerticalStyle = css({
+const padVerticalStyle = css({
   paddingX: '1rem',
 });
 const rowListStyle = css({
   display: 'flex',
 });
-const underlineStyle = css({
-  borderBottom: '1px solid',
-  borderColor: 'border',
-});
-
-const spaceBetweenStyle = css({
-  justifyContent: 'space-between',
-});
 
 const colListStyle = css({
   display: 'flex',
   flexDirection: 'column',
-});
-
-const problemTitleStyle = css({
-  display: 'inline-block',
-  padding: '10px',
-  borderBottom: '2px solid',
-  borderColor: 'brand',
 });
 
 const execButtonStyle = css({
