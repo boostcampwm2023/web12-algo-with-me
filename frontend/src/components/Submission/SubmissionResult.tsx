@@ -18,13 +18,20 @@ type SubmitResult = {
 
 export function SubmissionResult() {
   const { socket, isConnected } = useContext(CompetitionContext);
-  const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
+  const [scoreResults, setScoreResults] = useState<SubmitResult[]>(
+    range(0, 10).map((_, index) => ({
+      testcaseId: index + 1,
+      submitState: SUBMIT_STATE.loading,
+    })),
+  );
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
-  const handleScoreResult = (rawData: string) => {
-    const { problemId, result, stdOut, testcaseId } = JSON.parse(rawData) as ScoreResult & {
+  const handleScoreResult = (
+    data: ScoreResult & {
       testcaseId: number;
-    };
+    },
+  ) => {
+    const { problemId, result, stdOut, testcaseId } = data;
 
     const newResult = {
       testcaseId,
@@ -46,9 +53,8 @@ export function SubmissionResult() {
     });
   };
 
-  const handleMessage = (rawData: string) => {
-    const { message, testcaseNum } = JSON.parse(rawData) as Message;
-
+  const handleMessage = (rawData: Message) => {
+    const { message, testcaseNum } = rawData;
     setSubmissionMessage(message);
     setScoreResults(
       range(0, testcaseNum).map((_, index) => ({
@@ -84,7 +90,6 @@ export function SubmissionResult() {
 
 const resultWrapperStyle = css({
   padding: '24px',
-  minHeight: '40vh',
   backgroundColor: 'darkgray',
   margin: '0 auto',
 });

@@ -8,15 +8,15 @@ import { isNil } from '@/utils/type';
 
 import { Button } from '../Common';
 import { CompetitionContext } from '../Competition/CompetitionContext';
-import { SubmissionResult } from './SubmissionResult';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props extends HTMLAttributes<HTMLButtonElement> {
   code: string;
   problemId?: ProblemId;
 }
 
-export function Submission({ code, problemId, className, ...props }: Props) {
+export function SubmissionButton({ code, problemId, className, ...props }: Props) {
   const { competition, submitSolution } = useContext(CompetitionContext);
+
   function handleSubmitSolution() {
     if (isNil(problemId)) {
       console.error('존재하지 않는 문제입니다.');
@@ -33,9 +33,8 @@ export function Submission({ code, problemId, className, ...props }: Props) {
   }
 
   return (
-    <div className={cx(className)} {...props}>
-      <SubmissionResult></SubmissionResult>
-      <Button onClick={handleSubmitSolution}>제출하기</Button>
-    </div>
+    <Button className={cx(className)} onClick={handleSubmitSolution} {...props}>
+      제출하기
+    </Button>
   );
 }
