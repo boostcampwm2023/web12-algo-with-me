@@ -12,7 +12,9 @@ interface Props {
 }
 
 export default function DashboardList({ userList }: Props) {
-  const problemIds = Object.keys(userList[Object.keys(userList)[0]].Problems);
+  const userId = Object.keys(userList)[0];
+  const problemObj = userList[userId].Problems;
+  const problemIds = Object.keys(problemObj);
 
   return (
     <table className={tableStyle}>
