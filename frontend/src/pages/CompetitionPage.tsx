@@ -1,9 +1,9 @@
 import { css } from '@style/css';
 
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { HStack, Modal, VStack } from '@/components/Common';
+import { HStack, VStack } from '@/components/Common';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
@@ -12,23 +12,15 @@ import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
-import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import { Simulator } from '@/components/Simulation';
 import { SubmissionResult } from '@/components/Submission';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
-import { SimulationInput, useSimulation } from '@/hooks/simulation';
-
-const RUN_SIMULATION = '테스트 실행';
-const CANCEL_SIMULATION = '실행 취소';
 
 export default function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-  const modal = useContext(Modal.Context);
-
-  const simulation = useSimulation();
 
   const { problemList } = useCompetitionProblemList(competitionId);
 
@@ -51,22 +43,6 @@ export default function CompetitionPage() {
     setCode(newCode);
   };
 
-  const handleSimulate = () => {
-    simulation.run(code);
-  };
-
-  const handleSimulationCancel = () => {
-    simulation.cancel();
-  };
-
-  const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
-    simulation.changeInputs(simulationInputs);
-  };
-
-  function handleOpenModal() {
-    modal.open();
-  }
-
   const problemIds = problemList.map((problem) => problem.id);
 
   return (
@@ -85,30 +61,16 @@ export default function CompetitionPage() {
             <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
             <HStack className={solutionStyle}>
               <Editor code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-              <SimulationResultList resultList={simulation.results}></SimulationResultList>
-              {simulation.isRunning ? (
-                <button className={execButtonStyle} onClick={handleSimulationCancel}>
-                  {CANCEL_SIMULATION}
-                </button>
-              ) : (
-                <button className={execButtonStyle} onClick={handleSimulate}>
-                  {RUN_SIMULATION}
-                </button>
-              )}
+              <section>
+                <Simulator code={code}></Simulator>
+              </section>
               <section>
                 <SubmissionResult></SubmissionResult>
                 <CompetitionSubmitButton
                   code={code}
                   problemId={currentProblem?.id}
                 ></CompetitionSubmitButton>
-                <button className={execButtonStyle} onClick={handleOpenModal}>
-                  테스트 케이스 추가하기
-                </button>
               </section>
-              <SimulationInputModal
-                simulationInputs={simulation.inputs}
-                onSave={handleSaveSimulationInputs}
-              ></SimulationInputModal>
             </HStack>
           </VStack>
         </div>
@@ -137,14 +99,11 @@ const problemStyle = css({
 });
 const solutionStyle = css({
   width: '50%',
+  overflow: 'auto',
 });
 
 const padVerticalStyle = css({
   paddingX: '1rem',
-});
-
-const execButtonStyle = css({
-  color: 'black',
 });
 
 const asideStyle = css({
