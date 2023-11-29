@@ -11,8 +11,8 @@ import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import SocketTimer from '@/components/SocketTimer';
 import { SubmissionResult } from '@/components/Submission';
-import Timer from '@/components/Timer';
 import { SITE } from '@/constants';
 import type { SubmissionForm } from '@/hooks/competition';
 import { useCompetition } from '@/hooks/competition';
@@ -103,7 +103,7 @@ export default function ContestPage() {
       <CompetitionHeader crumbs={crumbs} id={competitionId} />
       <section className={rowStyle}>
         <span className={problemTitleStyle}>{problem.title}</span>
-        <Timer
+        <SocketTimer
           socket={socket.current}
           isConnected={isConnected}
           endsAt={new Date(endsAt)}

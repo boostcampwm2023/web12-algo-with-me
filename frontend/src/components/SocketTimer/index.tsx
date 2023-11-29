@@ -14,7 +14,7 @@ interface Props {
   onTimeout?: () => void;
 }
 
-export default function Timer(props: Props) {
+export default function SocketTimer(props: Props) {
   let { socket, endsAt, isConnected, onTimeout } = props;
   // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
   // min 1 => 60초 동안 돌아갑니다. 변경해서 쓰세요 일단은..
