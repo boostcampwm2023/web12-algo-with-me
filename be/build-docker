@@ -1,0 +1,5 @@
+sudo docker container stop algo-with-me-docker 2>/dev/null
+sudo docker container rm algo-with-me-docker 2>/dev/null
+sudo docker image rm algo-with-me-docker 2>/dev/null
+cd algo-with-me-docker/
+sudo docker build -t algo-with-me-docker .
