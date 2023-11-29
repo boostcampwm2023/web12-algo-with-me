@@ -16,6 +16,17 @@ export const formatDate = (date: Date, form: string) => {
     return date.toISOString().slice(0, 'YYYY-MM-DDThh:mm'.length);
   }
 
+  if (form === 'YYYY. MM. DD. hh:mm') {
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+    });
+  }
+
   return '';
 };
 
@@ -32,18 +43,13 @@ export const formatMilliSecond = (ms: number, form: string) => {
   return '';
 };
 
-export const formatKoreanDateTime = (dateString: string | number | Date) => {
-  const date = new Date(dateString);
-  if (isNaN(date.getTime())) {
-    // Invalid date, handle error or return default value
-    return 'Invalid Date';
-  }
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${year}. ${month}. ${day}. ${hours}:${minutes}`;
+export const formatKoreanDateTime = (date: Date) => {
+  return date.toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  });
 };
