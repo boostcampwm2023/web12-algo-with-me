@@ -1,1 +1,7 @@
+sudo docker container stop algo-with-me-api 2>/dev/null
+sudo docker container rm algo-with-me-api 2>/dev/null
+sudo docker container stop algo-with-me-score 2>/dev/null
+sudo docker container rm algo-with-me-score 2>/dev/null
+sudo docker container stop algo-with-me-docker 2>/dev/null
+sudo docker container rm algo-with-me-docker 2>/dev/null
 sudo docker compose up
