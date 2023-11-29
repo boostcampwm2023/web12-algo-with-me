@@ -28,7 +28,7 @@ export class Submission {
   })
   result: string;
 
-  @Column('json', { nullable: true, default: [] })
+  @Column('jsonb', { nullable: true, default: [] })
   detail: object[];
 
   @Column()
