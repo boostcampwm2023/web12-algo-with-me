@@ -64,14 +64,14 @@ const ExecButton = ({ isRunning, onExec, onCancel }: ExecButtonProps) => {
 
   if (isRunning) {
     return (
-      <button className={execButtonStyle} onClick={onExec}>
-        {RUN_SIMULATION}
+      <button className={execButtonStyle} onClick={onCancel}>
+        {CANCEL_SIMULATION}
       </button>
     );
   } else {
     return (
-      <button className={execButtonStyle} onClick={onCancel}>
-        {CANCEL_SIMULATION}
+      <button className={execButtonStyle} onClick={onExec}>
+        {RUN_SIMULATION}
       </button>
     );
   }
