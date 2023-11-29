@@ -1,0 +1,8 @@
+sudo docker container stop algo-with-me-api 2>/dev/null
+sudo docker container rm algo-with-me-api 2>/dev/null
+sudo docker run -d -p 3000:3000 \
+-v /home/be/algo-with-me/problems/:/algo-with-me/problems/ \
+-v /home/be/algo-with-me/submissions/:/algo-with-me/submissions/ \
+-v /home/be/algo-with-me/testcases/:/algo-with-me/testcases/ \
+--name algo-with-me-api \
+algo-with-me-api

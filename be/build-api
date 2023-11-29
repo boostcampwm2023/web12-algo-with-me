@@ -1,0 +1,5 @@
+sudo docker container stop algo-with-me-api 2>/dev/null
+sudo docker container rm algo-with-me-api 2>/dev/null
+sudo docker image rm algo-with-me-api 2>/dev/null
+cd algo-with-me-api/
+sudo docker build -t algo-with-me-api .
