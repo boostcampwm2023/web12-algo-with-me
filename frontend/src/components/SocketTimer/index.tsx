@@ -16,8 +16,7 @@ interface Props {
 
 export default function SocketTimer(props: Props) {
   let { socket, endsAt, isConnected, onTimeout } = props;
-  // api 연결이 X endsAt 대신 임시로 만들어놓은 것.
-  // min 1 => 60초 동안 돌아갑니다. 변경해서 쓰세요 일단은..
+  // 대회 시간 검증이 안 되어 있어서, 끝나는 시간이 현재 시간보다 모두 전입니다. 그래서 지금 시간 기준으로 120분 더하고 마지막 시간이다라고 가정합니다.
   const min = 120;
   endsAt = new Date(new Date().getTime() + min * 60 * 1000);
 
@@ -25,6 +24,7 @@ export default function SocketTimer(props: Props) {
     socket,
     endsAt,
     socketEvent: 'ping',
+    pingTime: 5000,
   });
 
   useEffect(() => {
