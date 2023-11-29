@@ -42,14 +42,3 @@ export const formatMilliSecond = (ms: number, form: string) => {
   }
   return '';
 };
-
-export const formatKoreanDateTime = (date: Date) => {
-  return date.toLocaleString('ko-KR', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
-  });
-};
