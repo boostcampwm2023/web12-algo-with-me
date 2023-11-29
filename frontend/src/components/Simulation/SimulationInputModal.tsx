@@ -85,7 +85,6 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
   };
 
   const handleChangeInput = ({ newInput, dataIndex, dataType }: InputChangeProps) => {
-    console.log(newInput, dataIndex, dataType);
     const changedInput = inputs.find(({ id }) => id === dataIndex);
     if (!changedInput) return;
     const originInputs = deepCopy(inputs);
@@ -117,7 +116,7 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
         <section>
           <div className={rowStyle}>
             <div>Parameters</div>
-            <button onClick={handleClickAddButton}>+추가</button>
+            <button onClick={handleClickAddButton}>+ 추가</button>
           </div>
           <SimulationInputList
             inputList={inputs}
