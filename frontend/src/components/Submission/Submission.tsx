@@ -1,4 +1,4 @@
-import { css, cx } from '@style/css';
+import { cx } from '@style/css';
 
 import { HTMLAttributes, useContext } from 'react';
 
@@ -6,6 +6,7 @@ import type { ProblemId } from '@/apis/problems';
 import type { SubmissionForm } from '@/hooks/competition';
 import { isNil } from '@/utils/type';
 
+import { Button } from '../Common';
 import { CompetitionContext } from '../Competition/CompetitionContext';
 import { SubmissionResult } from './SubmissionResult';
 
@@ -34,13 +35,7 @@ export function Submission({ code, problemId, className, ...props }: Props) {
   return (
     <div className={cx(className)} {...props}>
       <SubmissionResult></SubmissionResult>
-      <button className={execButtonStyle} onClick={handleSubmitSolution}>
-        제출하기
-      </button>
+      <Button onClick={handleSubmitSolution}>제출하기</Button>
     </div>
   );
 }
-
-const execButtonStyle = css({
-  color: 'black',
-});

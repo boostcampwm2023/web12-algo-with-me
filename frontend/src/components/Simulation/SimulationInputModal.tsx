@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import type { SimulationInput } from '@/hooks/simulation';
 import { deepCopy } from '@/utils/copy';
 
-import { Modal, type ModalProps } from '../Common';
+import { Button, Modal, type ModalProps } from '../Common';
 import { SimulationInputList } from './SimulationInputList';
 
 interface Props extends ModalProps {
@@ -39,8 +39,8 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
         inputList={inputs}
         onChangeInput={handleChangeInput}
       ></SimulationInputList>
-      <button onClick={handleCloseModal}>닫기</button>
-      <button onClick={handleSave}>저장</button>
+      <Button onClick={handleCloseModal}>닫기</Button>
+      <Button onClick={handleSave}>저장</Button>
     </Modal>
   );
 }

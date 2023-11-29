@@ -1,5 +1,7 @@
 import { css } from '@style/css';
 
+import { Button } from '../Common';
+
 interface AsideProps {
   problemIds: number[];
   onChangeProblemIndex: (index: number) => void;
@@ -14,9 +16,9 @@ export default function CompetitionProblemSelector(props: AsideProps) {
     <ul className={listStyle}>
       {props.problemIds.map((id: number, index: number) => (
         <li key={id}>
-          <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
+          <Button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
             문제{index + 1}
-          </button>
+          </Button>
         </li>
       ))}
     </ul>

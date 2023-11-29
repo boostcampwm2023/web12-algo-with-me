@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import type { CompetitionId } from '@/apis/competitions';
+import { Button } from '@/components/Common';
 
 interface Props {
   competitionId: CompetitionId;
@@ -11,7 +12,7 @@ export default function ViewDashboardButton({ competitionId }: Props) {
 
   return (
     <Link to={dashboardLink}>
-      <button>대시보드 보기</button>
+      <Button>대시보드 보기</Button>
     </Link>
   );
 }

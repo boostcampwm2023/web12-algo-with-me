@@ -13,6 +13,10 @@ export default defineConfig({
         },
         surface: {
           DEFAULT: { value: '{colors.gray.50}' },
+          brand: {
+            DEFAULT: { value: '{colors.cyan.300}' },
+            alt: { value: '{colors.cyan.200}' },
+          },
         },
         text: {
           DEFAULT: { value: '{colors.gray.800}' },

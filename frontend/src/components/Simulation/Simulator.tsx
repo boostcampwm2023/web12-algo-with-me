@@ -1,10 +1,10 @@
-import { css, cx } from '@style/css';
+import { cx } from '@style/css';
 
 import { HTMLAttributes, useContext } from 'react';
 
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
 
-import { Modal } from '../Common';
+import { Button, Modal } from '../Common';
 import { SimulationInputModal } from './SimulationInputModal';
 import { SimulationResultList } from './SimulationResultList';
 
@@ -36,9 +36,7 @@ export function Simulator({ className, code, ...props }: Props) {
   return (
     <div className={cx(className)} {...props}>
       <SimulationResultList resultList={simulation.results}></SimulationResultList>
-      <button className={execButtonStyle} onClick={handleOpenModal}>
-        {ADD_SIMULATION}
-      </button>
+      <Button onClick={handleOpenModal}>{ADD_SIMULATION}</Button>
       <ExecButton
         isRunning={simulation.isRunning}
         onExec={handleSimulate}
@@ -63,20 +61,8 @@ const ExecButton = ({ isRunning, onExec, onCancel }: ExecButtonProps) => {
   const CANCEL_SIMULATION = '실행 취소';
 
   if (isRunning) {
-    return (
-      <button className={execButtonStyle} onClick={onCancel}>
-        {CANCEL_SIMULATION}
-      </button>
-    );
+    return <Button onClick={onCancel}>{CANCEL_SIMULATION}</Button>;
   } else {
-    return (
-      <button className={execButtonStyle} onClick={onExec}>
-        {RUN_SIMULATION}
-      </button>
-    );
+    return <Button onClick={onExec}>{RUN_SIMULATION}</Button>;
   }
 };
-
-const execButtonStyle = css({
-  color: 'black',
-});
