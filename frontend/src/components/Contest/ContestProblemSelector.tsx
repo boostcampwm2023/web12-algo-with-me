@@ -12,12 +12,11 @@ export default function ContestProblemSelector(props: AsideProps) {
 
   return (
     <aside className={style}>
-      <span>문제 목록</span>
-      <ul>
+      <ul className={listStyle}>
         {props.problemIds.map((id: number, index: number) => (
           <li key={id}>
             <button className={selectProblemStyle} onClick={() => handleChangeProblemIndex(index)}>
-              문제 {index + 1}
+              문제{index + 1}
             </button>
           </li>
         ))}
@@ -29,7 +28,15 @@ export default function ContestProblemSelector(props: AsideProps) {
 const style = css({
   borderRight: '1px solid',
   borderColor: 'border',
+  padding: '0.5rem',
 });
+
+const listStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+});
+
 const selectProblemStyle = css({
   color: 'black',
 });
