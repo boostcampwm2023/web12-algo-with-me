@@ -7,6 +7,7 @@ import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
+import DashboardModal from '@/components/Dashboard/DashboardModal';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
@@ -25,6 +26,15 @@ export default function CompetitionPage() {
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const { problemList } = useCompetitionProblemList(competitionId);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const currentProblem = useMemo(() => {
     if (problemList.length > 0) {
@@ -68,7 +78,7 @@ export default function CompetitionPage() {
   return (
     <PageLayout className={style}>
       <CompetitionProvider competitionId={competitionId}>
-        <CompetitionHeader className={padVerticalStyle} />
+        <CompetitionHeader className={padVerticalStyle} onClick={openModal} />
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
         <div className={competitionStyle}>
           <aside className={asideStyle}>
@@ -108,6 +118,7 @@ export default function CompetitionPage() {
           simulationInputs={simulation.inputs}
           onSave={handleSaveSimulationInputs}
         ></SimulationInputModal>
+        <DashboardModal isOpen={isModalOpen} onClose={closeModal} />
       </CompetitionProvider>
     </PageLayout>
   );

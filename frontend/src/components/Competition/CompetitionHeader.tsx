@@ -7,11 +7,13 @@ import { Space } from '@/components/Common';
 import SocketTimer from '@/components/SocketTimer';
 import { ROUTE, SITE } from '@/constants';
 
-import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
+import OpenDashboardModalButton from '../Dashboard/Buttons/OpenDashboardModalButton';
 import CompetitionBreadCrumb from './CompetitionBreadCrumb';
 import { CompetitionContext } from './CompetitionContext';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  onClick?: () => void;
+}
 
 export default function CompetitionHeader({ className, ...props }: Props) {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function CompetitionHeader({ className, ...props }: Props) {
     <div className={cx(className, headerStyle)} {...props}>
       <CompetitionBreadCrumb crumbs={crumbs} />
       <Space></Space>
-      <ViewDashboardButton competitionId={competition.id} />
+      <OpenDashboardModalButton onClick={props.onClick} />
       <SocketTimer onTimeout={handleTimeout} />
     </div>
   );

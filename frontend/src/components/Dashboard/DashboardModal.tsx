@@ -1,5 +1,6 @@
 import { css } from '@style/css';
 
+import { Button } from '../Common';
 import DashboardList from './DashboardList';
 import { mockCompetitionData } from './mockCompetitionData';
 
@@ -17,9 +18,7 @@ export default function DashboardModal({ isOpen, onClose }: Props) {
     <div className={modalOverlayStyle} onClick={onClose}>
       <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
         <DashboardList userList={mockCompetitionData} />
-        <button className={closeButtonStyle} onClick={onClose}>
-          닫기
-        </button>
+        <Button onClick={onClose}>닫기</Button>
       </div>
     </div>
   );
@@ -44,15 +43,4 @@ const modalContentStyle = css({
   borderRadius: '8px',
   width: '100%',
   position: 'relative',
-});
-
-const closeButtonStyle = css({
-  position: 'absolute',
-  bottom: '10px',
-  right: '10px',
-  cursor: 'pointer',
-  border: 'none',
-  background: 'transparent',
-  fontSize: '14px',
-  color: '#333',
 });
