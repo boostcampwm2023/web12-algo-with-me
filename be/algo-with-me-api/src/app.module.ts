@@ -1,11 +1,9 @@
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bull';
-import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { redisStore } from 'cache-manager-redis-yet';
 import { config } from 'dotenv';
-import { RedisClientOptions } from 'redis';
 
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
@@ -54,12 +52,11 @@ config();
         password: process.env.REDIS_PASSWORD,
       },
     }),
-    CacheModule.register<RedisClientOptions>({
-      isGlobal: true,
-      store: redisStore,
-      socket: {
+    RedisModule.forRoot({
+      config: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
       },
     }),
     CompetitionModule,

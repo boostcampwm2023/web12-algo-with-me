@@ -1,22 +1,23 @@
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Controller, Get, Inject } from '@nestjs/common';
+import { InjectRedis } from '@liaoliaots/nestjs-redis';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RedisCache } from 'cache-manager-redis-yet';
+import { Redis } from 'ioredis';
 
 @ApiTags('대시보드(dashboards)')
 @Controller('dashboards')
 export class DashboardController {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: RedisCache) {}
+  constructor(@InjectRedis() private readonly redis: Redis) {}
 
   @Get('set')
   async setCache() {
-    this.cacheManager.store
-    this.cacheManager.set('key', 'value', 5000);
+    this.redis.zadd('rank', 10, 'kim');
+    this.redis.zadd('rank', 20, 'kim');
+    this.redis.zadd('rank', 50, 'park');
   }
 
   @Get('get')
   async getCache() {
-    const a = await this.cacheManager.get('key');
+    const a = await this.redis.zrange('rank', 0, 100, 'WITHSCORES');
     console.log(a);
     return a;
   }
