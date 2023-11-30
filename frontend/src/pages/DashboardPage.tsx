@@ -5,16 +5,17 @@ import { useParams } from 'react-router-dom';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import EnterCompetitionButton from '@/components/CompetitionDetail/Buttons/EnterCompetitionButton';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
-import { mockCompetitionData } from '@/components/Dashboard/mockCompetitionData';
 import Header from '@/components/Header';
 import SocketTimer from '@/components/SocketTimer';
 import { useCompetition } from '@/hooks/competition';
+import { useParticipantDashboard } from '@/hooks/dashboard/useParticipantDashboard';
 import { formatDate } from '@/utils/date';
 
 export default function DashboardPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const { competition } = useCompetition(competitionId);
+  const { ranks, myRanks } = useParticipantDashboard();
 
   const { startsAt, endsAt } = competition;
   const formattedStartsAt = new Date(startsAt || '');
@@ -46,7 +47,7 @@ export default function DashboardPage() {
             />
           </div>
         </section>
-        <DashboardTable userList={mockCompetitionData} />
+        <DashboardTable userList={ranks} />
       </SocketProvider>
     </main>
   );

@@ -1,20 +1,14 @@
 import { css } from '@style/css';
 
+import type { Rank } from '@/hooks/dashboard';
+
 interface Props {
-  userList: Record<
-    string,
-    {
-      'Solved Problems': number;
-      'Total Time Spent': number;
-      Problems: Record<string, number | null>;
-    }
-  >;
+  ranks: Rank[];
+  totalProblemCount: number;
 }
 
-export default function DashboardTable({ userList }: Props) {
-  const userId = Object.keys(userList)[0];
-  const problemObj = userList[userId].Problems;
-  const problemIds = Object.keys(problemObj);
+export default function DashboardTable({ ranks, totalProblemCount }: Props) {
+  const problemCount = Array.from({ length: totalProblemCount }, (_, index) => index + 1);
 
   return (
     <table className={tableStyle}>
@@ -24,7 +18,7 @@ export default function DashboardTable({ userList }: Props) {
           <th className={thTdCommonStyle}>Id</th>
           <th className={thTdCommonStyle}>Solved Problems</th>
           <th className={thTdCommonStyle}>Total Time Spent</th>
-          {problemIds.map((problemId) => (
+          {problemCount.map((problemId) => (
             <th key={problemId} className={thTdCommonStyle}>
               problem{problemId}
             </th>
@@ -32,19 +26,17 @@ export default function DashboardTable({ userList }: Props) {
         </tr>
       </thead>
       <tbody>
-        {Object.keys(userList).map((email, index) => {
-          const userData = userList[email];
+        {ranks.map((rank, index) => {
           return (
-            <tr key={email}>
+            <tr key={rank.user}>
               <td className={thTdCommonStyle}>{index + 1}</td>
-              <td className={thTdCommonStyle}>{email}</td>
-              <td className={thTdCommonStyle}>{userData['Solved Problems']}</td>
-              <td className={thTdCommonStyle}>{userData['Total Time Spent']} mins</td>
-              {problemIds.map((problemId) => {
-                const timeSpent = userData.Problems[problemId];
+              <td className={thTdCommonStyle}>{rank.user}</td>
+              <td className={thTdCommonStyle}>{rank.solved}</td>
+              <td className={thTdCommonStyle}>{rank.score}</td>
+              {problemCount.map((problemId) => {
                 return (
                   <td key={problemId} className={thTdCommonStyle}>
-                    {timeSpent !== null ? `${timeSpent} mins` : 'Not attempted'}
+                    {rank.problemSet[problemId] ?? '-'}
                   </td>
                 );
               })}
