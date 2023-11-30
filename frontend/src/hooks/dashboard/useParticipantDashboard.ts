@@ -1,38 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
 
-import type { CompetitionId } from '@/apis/competitions';
-import { CompetitionContext } from '@/components/Competition/CompetitionContext';
+import { SocketContext } from '@/components/Common/Socket/SocketContext';
 import { isNil } from '@/utils/type';
 
-type Rank = {
-  user: string;
-  solved: number;
-  score: number;
-  problemSet: {
-    [key: number]: number | null;
-  };
-};
-
-type Dashboard = {
-  competitionId: CompetitionId;
-  totalProblemCount: number;
-  ranking: Rank[];
-  myRanking: Rank;
-};
+import type { Dashboard, Rank } from './types';
 
 export function useParticipantDashboard() {
-  const { socket } = useContext(CompetitionContext);
+  const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
   const [myRank, setMyRank] = useState<Rank>({
-    user: '',
-    solved: 0,
+    email: '',
     score: 0,
-    problemSet: {},
+    problemDict: {},
   });
+  const [totalProblemCount, setTotalProblemCount] = useState(-1);
 
   function handleDashboard(newDashboard: Dashboard) {
-    setRanks(newDashboard.ranking);
+    setRanks(newDashboard.rankings);
     setMyRank(newDashboard.myRanking);
+    setTotalProblemCount(newDashboard.totalProblemCount);
   }
 
   useEffect(() => {
@@ -46,5 +32,6 @@ export function useParticipantDashboard() {
   return {
     ranks,
     myRank,
+    totalProblemCount,
   };
 }

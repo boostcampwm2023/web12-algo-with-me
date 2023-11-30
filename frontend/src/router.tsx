@@ -8,6 +8,7 @@ import ProblemPage from '@/pages/ProblemPage';
 
 import App from './App';
 import CompetitionDetailPage from './pages/CompetitionDetailPage';
+import DashboardPage from './pages/DashboardPage';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/contest/detail/:id',
         element: <CompetitionDetailPage />,
+      },
+      {
+        path: '/contest/dashboard/:id',
+        element: <DashboardPage />,
       },
     ],
   },

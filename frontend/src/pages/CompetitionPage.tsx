@@ -1,12 +1,14 @@
 import { css } from '@style/css';
 
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
+import BreadCrumb from '@/components/Common/BreadCrumb';
+import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
-import { CompetitionProvider } from '@/components/Competition/CompetitionProvider';
+import DashboardModal from '@/components/Dashboard/DashboardModal';
 import Editor from '@/components/Editor/Editor';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
@@ -14,17 +16,30 @@ import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationExecButton } from '@/components/Simulation/SimulationExecButton';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import SocketTimer from '@/components/SocketTimer';
 import { SubmissionButton } from '@/components/Submission/SubmissionButton';
 import { SubmissionResult } from '@/components/Submission/SubmissionResult';
+import { ROUTE, SITE } from '@/constants';
+import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
 
 export default function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const { problemList } = useCompetitionProblemList(competitionId);
+  const [isDashboardModalOpen, setDashboardModalOpen] = useState(false);
+
+  const openDashboardModal = () => {
+    setDashboardModalOpen(true);
+  };
+
+  const closeDashboardModal = () => {
+    setDashboardModalOpen(false);
+  };
 
   const currentProblem = useMemo(() => {
     if (problemList.length > 0) {
@@ -65,10 +80,28 @@ export default function CompetitionPage() {
     modal.open();
   }
 
+  function handleTimeout() {
+    navigate(`${ROUTE.DASHBOARD}/${competitionId}`);
+  }
+
+  const { competition } = useCompetition(competitionId);
+
+  const crumbs = [SITE.NAME, competition.name ?? ''];
+
   return (
     <PageLayout className={style}>
-      <CompetitionProvider competitionId={competitionId}>
-        <CompetitionHeader className={padVerticalStyle} />
+      <SocketProvider
+        transports={['websocket']}
+        query={{ competitionId: String(competitionId) }}
+        token={localStorage.getItem('accessToken') ?? ''}
+        namespace={'competitions'}
+      >
+        <CompetitionHeader className={padVerticalStyle}>
+          <BreadCrumb crumbs={crumbs}></BreadCrumb>
+          <Space></Space>
+          <Button onClick={openDashboardModal}>대시보드 보기</Button>
+          <SocketTimer onTimeout={handleTimeout} />
+        </CompetitionHeader>
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
         <div className={competitionStyle}>
           <aside className={asideStyle}>
@@ -100,15 +133,20 @@ export default function CompetitionPage() {
                 onExec={handleSimulate}
                 onCancel={handleSimulationCancel}
               />
-              <SubmissionButton code={code} problemId={currentProblem?.id}></SubmissionButton>
+              <SubmissionButton
+                code={code}
+                problemId={currentProblem?.id}
+                competitionId={competitionId}
+              ></SubmissionButton>
             </VStack>
           </HStack>
         </div>
-        <SimulationInputModal
-          simulationInputs={simulation.inputs}
-          onSave={handleSaveSimulationInputs}
-        ></SimulationInputModal>
-      </CompetitionProvider>
+      </SocketProvider>
+      <SimulationInputModal
+        simulationInputs={simulation.inputs}
+        onSave={handleSaveSimulationInputs}
+      ></SimulationInputModal>
+      <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
     </PageLayout>
   );
 }

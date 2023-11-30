@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function GoToCreateCompetitionLink() {
@@ -15,5 +16,5 @@ export default function GoToCreateCompetitionLink() {
     }
   };
 
-  return <button onClick={handleNavigate}>대회 생성</button>;
+  return <Button onClick={handleNavigate}>대회 생성</Button>;
 }

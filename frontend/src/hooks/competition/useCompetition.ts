@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { CompetitionInfo } from '@/apis/competitions';
 import { fetchCompetition } from '@/apis/competitions';
 import type { ProblemId } from '@/apis/problems';
-import { createSocketInstance } from '@/utils/socket';
 import { isNil } from '@/utils/type';
 
 export type SubmissionForm = {
@@ -27,42 +26,6 @@ const notFoundCompetition: CompetitionInfo = {
 
 export const useCompetition = (competitionId: number) => {
   const [competition, setCompetition] = useState<CompetitionInfo>(notFoundCompetition);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-
-  const socket = useRef(
-    createSocketInstance('/competitions', {
-      transports: ['websocket'],
-      query: { competitionId },
-      auth: {
-        token: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    }),
-  );
-
-  const handleConnect = () => {
-    console.log('connected!');
-    setIsConnected(true);
-  };
-
-  const handleDisconnect = () => {
-    console.log('disconnected!');
-    setIsConnected(false);
-  };
-
-  useEffect(() => {
-    if (!socket.current.hasListeners('connect')) {
-      socket.current.on('connect', handleConnect);
-    }
-    if (!socket.current.hasListeners('disconnect')) {
-      socket.current.on('disconnect', handleDisconnect);
-    }
-  }, []);
-
-  function submitSolution(form: SubmissionForm) {
-    socket.current.emit('submissions', {
-      ...form,
-    });
-  }
 
   async function updateCompetition(competitionId: number) {
     const competition = await fetchCompetition(competitionId);
@@ -79,9 +42,6 @@ export const useCompetition = (competitionId: number) => {
   }, [competitionId]);
 
   return {
-    socket,
     competition,
-    submitSolution,
-    isConnected,
   };
 };

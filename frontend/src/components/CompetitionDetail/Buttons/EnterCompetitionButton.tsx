@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 interface Props {
@@ -30,5 +31,5 @@ export default function EnterCompetitionButton({ id, startsAt, endsAt }: Props) 
     }
   };
 
-  return <button onClick={handleNavigate}>대회 입장</button>;
+  return <Button onClick={handleNavigate}>대회 입장</Button>;
 }
