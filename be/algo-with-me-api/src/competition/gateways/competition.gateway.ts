@@ -7,7 +7,6 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
@@ -36,13 +35,13 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     this.competitionService.server = server;
   }
 
-  @SubscribeMessage('submissions')
+  @SubscribeMessage('submission')
   // TODO: 검증 실패시 에러 터져버리고, websocket으로 internal server error 가는거 수정해야됨.
   @UsePipes(new ValidationPipe({ transform: true }))
   async handleSubmission(
     @MessageBody() createSubmissionDto: CreateSubmissionDto,
     @ConnectedSocket() client: Socket,
-  ): Promise<WsResponse<unknown>> {
+  ) {
     const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
       client.handshake.auth.token,
     );
@@ -51,10 +50,8 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       createSubmissionDto.problemId,
     );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
-    const event = 'messages';
-    const data = { message: '채점을 시작합니다.', testcaseNum: testcaseNum };
     console.log(createSubmissionDto);
-    return { event, data };
+    client.emit('scoreResult', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
   }
 
   @SubscribeMessage('ping')
@@ -80,7 +77,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       console.log(client.id, client.handshake.auth);
       console.log(competitionId, args);
     } catch (error) {
-      client.emit('messages', { message: `${error.message}` });
+      client.emit('errorMessage', { message: `${error.message}` });
       client.disconnect();
     }
   }
