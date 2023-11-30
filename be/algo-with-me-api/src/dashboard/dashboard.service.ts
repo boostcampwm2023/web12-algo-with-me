@@ -5,7 +5,6 @@ import { Redis } from 'ioredis';
 import { Repository } from 'typeorm';
 
 import { RESULT } from '@src/competition/competition.enums';
-import { Competition } from '@src/competition/entities/competition.entity';
 import { CompetitionProblem } from '@src/competition/entities/competition.problem.entity';
 
 // TODO: 서버가 여러개가 될 경우 트랜잭션 관련 문제 발생할 수 있음
@@ -74,7 +73,7 @@ export class DashboardService {
       .exec();
   }
 
-  async getTop100Dashboard(competitionId: number, email?: string) {
+  async getTop100Dashboard(competitionId: number, email?: string): Promise<object> {
     const scoreKey: string = `${this.COMPETITION}:${competitionId}`;
     const recordKey: string = `${this.COMPETITION}:${competitionId}:${email}`;
     const ret = { competitionId };
@@ -93,7 +92,7 @@ export class DashboardService {
       myranking['email'] = email;
       myranking['score'] = score[1];
       myranking['rank'] = rank[1];
-      myranking['problemDict'] = problemDict[1];
+      myranking['problemDict'] = JSON.parse(problemDict[1] as string);
     } else myranking = null;
 
     for (let i = 0; i < scores.length; i += 2) {
@@ -112,6 +111,7 @@ export class DashboardService {
     if (rankings.length === 0) ret['totalProblemCount'] = 0;
     else ret['totalProblemCount'] = Object.keys(rankings[0]['problemDict']).length;
     console.log(ret);
+    return ret;
   }
 
   isCorrected(value: object, problemId: number) {
