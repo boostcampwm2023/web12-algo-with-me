@@ -10,6 +10,7 @@ services:
     network_mode: host
     env_file:
       ./algo-with-me-api/.env
+    user: 1001:1001
     restart: always
   algo-with-me-score:
     image: algo-with-me-score
@@ -22,6 +23,7 @@ services:
     network_mode: host
     env_file:
       - ./algo-with-me-score/.env
+    user: 1001:1001
     restart: always
   algo-with-me-docker:
     image: algo-with-me-docker
