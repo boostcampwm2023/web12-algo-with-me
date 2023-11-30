@@ -40,6 +40,7 @@ export class SubmissionConsumer {
 
     logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
 
+    this.filesystemService.removeCodeRunOutputs(competitionId, userId);
     await this.filesystemService.writeSubmittedCode(
       submission.code,
       competitionId,
@@ -56,8 +57,6 @@ export class SubmissionConsumer {
       problemId,
       socketId,
     );
-
-    this.filesystemService.removeCodeRunOutputs(competitionId, userId);
   }
 
   @OnQueueCompleted()
