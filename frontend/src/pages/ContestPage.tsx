@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
 import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
+import DashboardModal from '@/components/Dashboard/DashboardModal';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
@@ -31,6 +32,15 @@ export default function ContestPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const modal = useContext(ModalContext);
 
@@ -103,7 +113,7 @@ export default function ContestPage() {
 
   return (
     <main className={style}>
-      <CompetitionHeader crumbs={crumbs} id={competitionId} />
+      <CompetitionHeader crumbs={crumbs} id={competitionId} onClick={openModal} />
       <section className={rowStyle}>
         <span className={problemTitleStyle}>{problem.title}</span>
         <SocketTimer
@@ -148,6 +158,7 @@ export default function ContestPage() {
         simulationInputs={simulation.inputs}
         onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
+      <DashboardModal isOpen={isModalOpen} onClose={closeModal} />
     </main>
   );
 }

@@ -5,13 +5,14 @@ import ContestBreadCrumb from './ContestBreadCrumb';
 interface Props {
   crumbs: string[];
   id: number;
+  onClick: () => void;
 }
 
 export default function CompetitionHeader(props: Props) {
   return (
     <div className={headerStyle}>
       <ContestBreadCrumb crumbs={props.crumbs} />
-      <button>대시보드 보기</button>
+      <button onClick={props.onClick}>대시보드 보기</button>
     </div>
   );
 }
