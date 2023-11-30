@@ -4,27 +4,42 @@ import type { ChangeEvent, HTMLAttributes } from 'react';
 
 import type { SimulationInput } from '@/hooks/simulation';
 
+import type { InputChangeProps } from './SimulationInputModal';
+
 interface Props extends HTMLAttributes<HTMLUListElement> {
   inputList: SimulationInput[];
-  onChangeInput: (index: number, newInput: string) => void;
+  onChangeInput: ({ testcaseId, newInput, testcaseType }: InputChangeProps) => void;
+  onDeleteInput: (index: number) => void;
 }
 
 export function SimulationInputList(props: Props) {
-  const { inputList, onChangeInput, ...rest } = props;
+  const { inputList, onChangeInput, onDeleteInput, ...rest } = props;
 
-  const handleInputChange = (index: number, newInput: string) => {
-    onChangeInput(index, newInput);
+  const handleChange = ({ testcaseId, newInput, testcaseType }: InputChangeProps) => {
+    onChangeInput({ testcaseId, newInput, testcaseType });
   };
 
   return (
     <ul {...rest}>
-      {inputList.map(({ input, id }, index) => (
+      {inputList.map(({ input, expected, id, changable }, index) => (
         <li key={id} className={listStyle}>
-          케이스 {index}:
-          <SimulationInput
+          인풋{index}:
+          <Input
+            testcaseId={index + 1}
+            testcaseType="input"
             value={input}
-            onChange={(newInput) => handleInputChange(id, newInput)}
-          ></SimulationInput>
+            onChange={handleChange}
+            changable={changable as boolean}
+          ></Input>
+          예상{index}:
+          <Input
+            testcaseId={index + 1}
+            testcaseType="expected"
+            value={expected as string}
+            onChange={handleChange}
+            changable={changable as boolean}
+          ></Input>
+          {changable && <button onClick={() => onDeleteInput(id)}>-</button>}
         </li>
       ))}
     </ul>
@@ -33,24 +48,31 @@ export function SimulationInputList(props: Props) {
 
 interface SimulationInputProps {
   value: string;
-  onChange: (newInput: string) => void;
+  testcaseId: number;
+  testcaseType: string;
+  changable: boolean;
+  onChange: ({ testcaseId, newInput, testcaseType }: InputChangeProps) => void;
 }
 
-const SimulationInput = (props: SimulationInputProps) => {
-  const { value, onChange } = props;
+const Input = (props: SimulationInputProps) => {
+  const { value, onChange, testcaseId, testcaseType, changable } = props;
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const newInput = e.target.value;
     if (onChange) {
-      onChange(newInput);
+      onChange({ newInput, testcaseId, testcaseType });
     }
   };
-
+  if (!changable) {
+    return <input value={value} className={inputStyle} onChange={handleInput} disabled></input>;
+  }
   return <input value={value} className={inputStyle} onChange={handleInput}></input>;
 };
 
 const listStyle = css({
   marginBottom: '0.25rem',
+  display: 'flex',
+  gap: '0.5rem',
 });
 
 const inputStyle = css({

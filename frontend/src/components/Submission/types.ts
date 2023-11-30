@@ -17,7 +17,7 @@ export interface SubmitResult {
   memoryUsage: number;
 }
 
-export type Message = {
+export type ScoreStart = {
   message: string;
   testcaseNum: number;
 };

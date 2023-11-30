@@ -4,24 +4,18 @@ import evaluator from '@/modules/evaluator';
 
 import type { SimulationInput, SimulationResult } from './types';
 
-export const useSimulation = () => {
-  const [inputs, setInputs] = useState<SimulationInput[]>([
-    { id: 1, input: '' },
-    { id: 2, input: '' },
-    { id: 3, input: '' },
-    { id: 4, input: '' },
-    { id: 5, input: '' },
-  ]);
-  const [results, setResults] = useState<SimulationResult[]>([
-    { id: 1, isDone: true, input: '', output: '' },
-    { id: 2, isDone: true, input: '', output: '' },
-    { id: 3, isDone: true, input: '', output: '' },
-    { id: 4, isDone: true, input: '', output: '' },
-    { id: 5, isDone: true, input: '', output: '' },
-  ]);
+export const useSimulation = (testcases: SimulationInput[]) => {
+  const [inputs, setInputs] = useState<SimulationInput[]>([]);
+  const [results, setResults] = useState<SimulationResult[]>([]);
+
   const isRunning = useMemo(() => {
     return results.some((result) => !result.isDone);
   }, [results]);
+
+  useEffect(() => {
+    setInputs(testcases);
+    setResults(testcases.map(createResult));
+  }, [testcases]);
 
   useEffect(() => {
     return evaluator.subscribe(({ result: output, error, task }) => {
@@ -68,7 +62,8 @@ export const useSimulation = () => {
   }
 
   function changeInputs(inputs: SimulationInput[]) {
-    setInputs([...inputs]);
+    setInputs(inputs);
+    setResults(inputs.map(createResult));
   }
 
   function cancel() {
@@ -91,4 +86,8 @@ const toEvaluatingState = (simulation: SimulationResult) => {
     output: '계산중...',
     isDone: false,
   };
+};
+
+const createResult = (input: SimulationInput) => {
+  return { ...input, isDone: true, output: '' };
 };

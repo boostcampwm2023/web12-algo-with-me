@@ -4,9 +4,7 @@ interface Props {
   crumbs: string[];
 }
 
-export default function ContestBreadCrumb(props: Props) {
-  const { crumbs } = props;
-
+export default function CompetitionBreadCrumb({ crumbs }: Props) {
   return (
     <div className={titleContainerStyle}>
       {crumbs.map((crumb, index) => (
@@ -19,6 +17,8 @@ export default function ContestBreadCrumb(props: Props) {
 }
 
 const crumbStyle = css({
+  fontWeight: 'bold',
+  color: 'text.week',
   marginRight: '1rem',
   _after: {
     content: '">"',
