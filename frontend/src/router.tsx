@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import ContestPage from '@/pages/ContestPage';
+import CompetitionPage from '@/pages/CompetitionPage';
 import CreateCompetitionPage from '@/pages/CreateCompetitionPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/contest/:id',
-        element: <ContestPage />,
+        element: <CompetitionPage />,
       },
       {
         path: '/problem/:id',

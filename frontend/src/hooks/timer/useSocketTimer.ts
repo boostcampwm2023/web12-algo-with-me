@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Socket } from '@/utils/socket';
+import { isNil } from '@/utils/type';
 
 interface Props {
-  socket: Socket;
+  socket: Socket | null;
   endsAt: Date;
   socketEvent: string;
   pingTime: number;
@@ -19,6 +20,7 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
 
   useEffect(() => {
     if (pingIntervalId.current) clearInterval(pingIntervalId.current);
+    if (isNil(socket)) return;
 
     socket.emit(socketEvent);
     socket.on(socketEvent, handlePingMessage);

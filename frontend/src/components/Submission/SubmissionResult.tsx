@@ -1,18 +1,14 @@
 import { css } from '@style/css';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Connecting from '@/components/Submission/Connecting';
 import { range } from '@/utils/array';
-import type { Socket } from '@/utils/socket';
+import { isNil } from '@/utils/type';
 
+import { CompetitionContext } from '../Competition/CompetitionContext';
 import Score from './Score';
-import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
-
-interface Props {
-  socket: Socket;
-  isConnected: boolean;
-}
+import { type ScoreResult, type ScoreStart, SUBMIT_STATE, type SubmitState } from './types';
 
 type SubmitResult = {
   testcaseId: number;
@@ -20,14 +16,17 @@ type SubmitResult = {
   score?: ScoreResult;
 };
 
-export function SubmissionResult({ socket, isConnected }: Props) {
+export function SubmissionResult() {
+  const { socket, isConnected } = useContext(CompetitionContext);
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
-  const handleScoreResult = (rawData: string) => {
-    const { problemId, result, stdOut, testcaseId } = JSON.parse(rawData) as ScoreResult & {
+  const handleScoreResult = (
+    data: ScoreResult & {
       testcaseId: number;
-    };
+    },
+  ) => {
+    const { problemId, result, stdOut, testcaseId } = data;
 
     const newResult = {
       testcaseId,
@@ -49,9 +48,8 @@ export function SubmissionResult({ socket, isConnected }: Props) {
     });
   };
 
-  const handleMessage = (rawData: string) => {
-    const { message, testcaseNum } = JSON.parse(rawData) as Message;
-
+  const handleScoreStart = (rawData: ScoreStart) => {
+    const { message, testcaseNum } = rawData;
     setSubmissionMessage(message);
     setScoreResults(
       range(0, testcaseNum).map((_, index) => ({
@@ -62,8 +60,10 @@ export function SubmissionResult({ socket, isConnected }: Props) {
   };
 
   useEffect(() => {
-    if (!socket.hasListeners('message')) {
-      socket.on('message', handleMessage);
+    if (isNil(socket)) return;
+
+    if (!socket.hasListeners('scoreStart')) {
+      socket.on('scoreStart', handleScoreStart);
     }
     if (!socket.hasListeners('scoreResult')) {
       socket.on('scoreResult', handleScoreResult);
@@ -71,22 +71,21 @@ export function SubmissionResult({ socket, isConnected }: Props) {
   }, [socket]);
 
   return (
-    <>
-      <section className={resultWrapperStyle}>
-        <Connecting isConnected={isConnected} />
-        <p>{submissionMessage}</p>
-        {scoreResults.map(({ score, submitState, testcaseId }) => (
-          <Score key={testcaseId} score={score} submitState={submitState} />
-        ))}
-      </section>
-    </>
+    <section className={resultWrapperStyle}>
+      <h3>
+        제출 결과 <Connecting isConnected={isConnected} />
+      </h3>
+      <p>{submissionMessage}</p>
+      {scoreResults.map(({ score, submitState, testcaseId }) => (
+        <Score key={testcaseId} score={score} submitState={submitState} />
+      ))}
+    </section>
   );
 }
 
 const resultWrapperStyle = css({
   padding: '24px',
-  minHeight: '40vh',
-  width: '80vw',
-  backgroundColor: 'darkgray',
+  height: '300px',
+  overflow: 'auto',
   margin: '0 auto',
 });

@@ -5,7 +5,7 @@ import { useContext, useMemo, useState } from 'react';
 import type { SimulationInput } from '@/hooks/simulation';
 import { deepCopy } from '@/utils/copy';
 
-import { Modal, type ModalProps } from '../Common';
+import { Button, Modal, type ModalProps } from '../Common';
 import { SimulationInputList } from './SimulationInputList';
 
 interface Props extends ModalProps {
@@ -110,13 +110,13 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
     <Modal {...props}>
       <div className={cx(rowStyle, paddingStyle)}>
         <header>테스트 케이스 추가</header>
-        <button onClick={handleCloseModal}>x</button>
+        <Button onClick={handleCloseModal}>x</Button>
       </div>
       <div className={cx(ListWrapperStyle, rowStyle)}>
         <section>
           <div className={rowStyle}>
             <div>Parameters</div>
-            <button onClick={handleClickAddButton}>+ 추가</button>
+            <Button onClick={handleClickAddButton}>+ 추가</Button>
           </div>
           <SimulationInputList
             inputList={inputs}
@@ -126,7 +126,7 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
         </section>
       </div>
       <div className={positionEndStyle}>
-        <button onClick={handleSave}>확인</button>
+        <Button onClick={handleSave}>확인</Button>
       </div>
     </Modal>
   );

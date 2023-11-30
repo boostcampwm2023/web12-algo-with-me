@@ -1,37 +1,37 @@
 import { css } from '@style/css';
 
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import Loading from '@/components/Common/Loading';
 import useSocketTimer from '@/hooks/timer/useSocketTimer';
 import { formatMilliSecond } from '@/utils/date';
-import type { Socket } from '@/utils/socket';
+
+import { CompetitionContext } from '../Competition/CompetitionContext';
 
 interface Props {
-  socket: Socket;
-  isConnected: boolean;
-  endsAt: Date;
-  pingTime: number;
-  socketEvent: string;
   onTimeout?: () => void;
 }
 
+const COMPEITION_PING_TIME = 5 * 1000;
+const COMPEITION_SOCKET_EVENT = 'ping';
+
 export default function SocketTimer(props: Props) {
-  let { socket, endsAt, isConnected, onTimeout, pingTime, socketEvent } = props;
+  const { socket, isConnected } = useContext(CompetitionContext);
+  const { onTimeout } = props;
   // 대회 시간 검증이 안 되어 있어서, 끝나는 시간이 현재 시간보다 모두 전입니다. 그래서 지금 시간 기준으로 120분 더하고 마지막 시간이다라고 가정합니다.
   const min = 120;
-  endsAt = new Date(new Date().getTime() + min * 60 * 1000);
+  const endsAt = new Date(new Date().getTime() + min * 60 * 1000);
 
   const { remainMiliSeconds, isTimeout } = useSocketTimer({
     socket,
     endsAt,
-    socketEvent,
-    pingTime,
+    socketEvent: COMPEITION_SOCKET_EVENT,
+    pingTime: COMPEITION_PING_TIME,
   });
 
   useEffect(() => {
     if (isTimeout && typeof onTimeout === 'function') onTimeout();
-  }, [isTimeout]);
+  }, [isTimeout, onTimeout]);
 
   if (isConnected && remainMiliSeconds !== -1) {
     // 연결도 되어있고, 서버 시간도 도착해서 count down을 시작할 수 있을 때
