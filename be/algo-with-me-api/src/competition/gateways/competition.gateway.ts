@@ -63,7 +63,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
 
   @SubscribeMessage('dashboard')
   async handleDashboard(@ConnectedSocket() client: Socket) {
-    const dashboard = await this.dashboardService.getTop100Dashboard(
+    const dashboard = await this.dashboardService.getTop100DashboardRedis(
       client.data['competitionId'],
       client.data['email'],
     );

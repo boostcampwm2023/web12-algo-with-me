@@ -14,5 +14,5 @@ export class Dashboard {
   competition: Competition;
 
   @Column('jsonb')
-  result: object[];
+  result: object;
 }

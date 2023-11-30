@@ -19,7 +19,9 @@ export class DashboardGateway implements OnGatewayConnection {
 
   @SubscribeMessage('dashboard')
   async handleDashboard(@ConnectedSocket() client: Socket) {
-    const dashboard = await this.dashboardService.getTop100Dashboard(client.data['competitionId']);
+    const dashboard = await this.dashboardService.getTop100DashboardRedis(
+      client.data['competitionId'],
+    );
     client.emit('dashboard', dashboard);
   }
 
