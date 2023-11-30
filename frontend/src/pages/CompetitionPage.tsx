@@ -25,7 +25,6 @@ export default function CompetitionPage() {
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const { problemList } = useCompetitionProblemList(competitionId);
-  const simulation = useSimulation();
 
   const currentProblem = useMemo(() => {
     if (problemList.length > 0) {
@@ -35,6 +34,7 @@ export default function CompetitionPage() {
   }, [problemList, currentProblemIndex]);
 
   const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
+  const simulation = useSimulation(problem.testcases);
 
   const [code, setCode] = useState<string>(problem.solutionCode);
 

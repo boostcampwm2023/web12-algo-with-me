@@ -1,6 +1,6 @@
 import { css, cx } from '@style/css';
 
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import type { SimulationInput } from '@/hooks/simulation';
 import { deepCopy } from '@/utils/copy';
@@ -24,25 +24,14 @@ const MAX_INPUT_COUNT = 10;
 export function SimulationInputModal({ simulationInputs, onSave, ...props }: Props) {
   const modal = useContext(Modal.Context);
 
-  // 현재 simulationInputs는 {id:1,input:''}[] 형태임
-  // 프로그래머스에서 parameters와 return으로 나누고 있으나
-  // algoWithMe는 parameters => input return => expected로 바꿔서 생각함.
-  // 서버에서 보내주는 테스트 케이스를 받자마자 changable : false라고 해놓고 사용자가 추가한 테스트 케이스는 true라고 해서 삭제 검증할 때 사용하면 편함.
-  // Contest page에서 testcase를 fetch해서 changable : false 까지 추가해서 보내준 상황으로 생각하고 구현함.
-
-  simulationInputs = [
-    { id: 1, input: '11', expected: '111', changable: false },
-    { id: 2, input: '22', expected: '222', changable: false },
-  ];
   const [inputs, setInputs] = useState<SimulationInput[]>(deepCopy(simulationInputs));
 
-  const copyInputs = useMemo(() => {
-    return deepCopy(simulationInputs);
-  }, []);
+  useEffect(() => {
+    setInputs(deepCopy(simulationInputs));
+  }, [simulationInputs]);
 
   const handleCloseModal = () => {
-    // simulationInputsr가 처음들어올 떄의 값을 저장하고 닫기를 누르면 그 값으로 돌아가게 함.
-    setInputs(deepCopy(copyInputs));
+    setInputs(deepCopy(simulationInputs));
     modal.close();
   };
 
@@ -72,6 +61,7 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
   const handleSave = () => {
     if (!validateInput()) return;
     onSave(deepCopy(inputs));
+
     console.log('저장된 testcase 정보는 :', inputs);
     modal.close();
   };

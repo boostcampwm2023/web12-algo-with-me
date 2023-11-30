@@ -11,7 +11,7 @@ const notFoundProblem: CompetitionProblem = {
   memoryLimit: 0,
   content: 'The requested problem could not be found.',
   solutionCode: '',
-  testcases: [''],
+  testcases: [],
   createdAt: new Date().toISOString(),
 };
 
@@ -28,7 +28,13 @@ export const useCompetitionProblem = (problemId: ProblemId) => {
       return;
     }
 
-    setProblem(problem);
+    /**
+     * 서버에서 실제 테스트케이스를 받기 전 임시로 저장한 입력
+     */
+    setProblem({
+      ...problem,
+      testcases: [{ id: 1, input: '1,2', expected: '3', changable: false }],
+    });
   }
 
   useEffect(() => {

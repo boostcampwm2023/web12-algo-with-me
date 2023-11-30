@@ -1,3 +1,5 @@
+import type { SimulationInput } from '@/hooks/simulation';
+
 export type ProblemId = number;
 
 export type ProblemInfo = {
@@ -12,7 +14,7 @@ export type CompetitionProblem = {
   memoryLimit: number;
   content: string;
   solutionCode: string;
-  testcases: string[];
+  testcases: SimulationInput[];
   createdAt: string;
 };
 
