@@ -13,6 +13,8 @@ import { DataSource, Repository } from 'typeorm';
 import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
 
+import { ProblemService } from './problem.service';
+import { RESULT } from '../competition.enums';
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
@@ -26,6 +28,7 @@ import { CompetitionDto } from '@src/competition/dto/competition.dto';
 import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
 import { CompetitionSimpleResponseDto } from '@src/competition/dto/competition.simple-response.dto';
 import { Competition } from '@src/competition/entities/competition.entity';
+import { DashboardService } from '@src/dashboard/dashboard.service';
 import { User } from '@src/user/entities/user.entity';
 
 @Injectable()
@@ -43,6 +46,8 @@ export class CompetitionService {
     private readonly competitionParticipantRepository: Repository<CompetitionParticipant>,
     @InjectQueue('submission') private submissionQueue: Queue,
     private dataSource: DataSource,
+    private readonly problemService: ProblemService,
+    private readonly dashboardService: DashboardService,
   ) {}
 
   async findAll() {
@@ -217,8 +222,6 @@ export class CompetitionService {
     return savedSubmission;
   }
 
-  // TODO: 유저, 대회 도메인 구현 이후 수정 필요
-
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
     const submission = await this.submissionRepository.findOneBy({
       id: scoreResultDto.submissionId,
@@ -233,6 +236,32 @@ export class CompetitionService {
     submission.detail.push(result);
     this.submissionRepository.save(submission);
 
+    // 모두 제출했는지 확인
+    const testcaseNum: number = await this.problemService.getProblenTestcaseNum(
+      submission.problemId,
+    );
+    let totalResult: keyof typeof RESULT = 'CORRECT';
+    if (testcaseNum === submission.detail.length) {
+      const user: User = await this.userRepository.findOneBy({ id: submission.userId });
+      const competition: Competition = await this.competitionRepository.findOneBy({
+        id: submission.competitionId,
+      });
+      for (const detail of submission.detail) {
+        if (detail['result'] !== RESULT.CORRECT) {
+          totalResult = 'WRONG';
+          break;
+        }
+      }
+
+      // 모든 테스트케이스가 채점 완료되면 redis 수정
+      await this.dashboardService.updateUserSubmission(
+        submission.competitionId,
+        submission.problemId,
+        user.email,
+        RESULT[totalResult],
+        competition,
+      );
+    }
     result['problemId'] = submission.problemId;
     result['stdout'] = scoreResultDto.stdout;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
