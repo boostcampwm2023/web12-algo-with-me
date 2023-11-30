@@ -1,9 +1,10 @@
-sudo docker container stop algo-with-me-score 2>/dev/null
-sudo docker container rm algo-with-me-score 2>/dev/null
-sudo docker run -d -p 4000:4000 \
+docker container stop algo-with-me-score 2>/dev/null
+docker container rm algo-with-me-score 2>/dev/null
+docker run -d -p 4000:4000 \
 -v /home/be/algo-with-me/problems/:/algo-with-me/problems/ \
 -v /home/be/algo-with-me/submissions/:/algo-with-me/submissions/ \
 -v /home/be/algo-with-me/testcases/:/algo-with-me/testcases/ \
 --env-file ./algo-with-me-score/.env \
+--user 1001:1001 \
 --name algo-with-me-score \
 algo-with-me-score

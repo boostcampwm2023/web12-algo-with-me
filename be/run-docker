@@ -1,6 +1,6 @@
-sudo docker container stop algo-with-me-docker 2>/dev/null
-sudo docker container rm algo-with-me-docker 2>/dev/null
-sudo docker run -d \
+docker container stop algo-with-me-docker 2>/dev/null
+docker container rm algo-with-me-docker 2>/dev/null
+docker run -d \
 -p 5000:5000 \
 -e COMPETITION_ID=$1 \
 -e USER_ID=$2 \
@@ -9,6 +9,6 @@ sudo docker run -d \
 -v /home/be/algo-with-me/problems:/algo-with-me/problems \
 -v /home/be/algo-with-me/testcases:/algo-with-me/testcases \
 -v /home/be/algo-with-me/submissions:/algo-with-me/submissions \
---user "$(id -u)":"$(id -g)" \
+--user 1001:1001 \
 --name algo-with-me-docker \
 algo-with-me-docker
