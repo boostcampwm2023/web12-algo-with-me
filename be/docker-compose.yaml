@@ -30,7 +30,7 @@ services:
   algo-with-me-docker:
     image: algo-with-me-docker
     ports:
-      - 5000-5002:5000
+      - 5000-${DOCKER_PORT_RANGE_END}:5000
     volumes:
       - /home/be/algo-with-me/problems/:/algo-with-me/problems/
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
