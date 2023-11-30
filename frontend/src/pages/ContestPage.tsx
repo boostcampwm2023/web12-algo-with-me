@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '@/components/Common/Modal/ModalContext';
 import CompetitionHeader from '@/components/Contest/CompetitionHeader';
 import ContestProblemSelector from '@/components/Contest/ContestProblemSelector';
-import DashboardListModal from '@/components/Dashboard/DashboardListModal';
+import DashboardModal from '@/components/Dashboard/DashboardModal';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
@@ -157,7 +157,7 @@ export default function ContestPage() {
         simulationInputs={simulation.inputs}
         onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
-      {dashboardModal.isOpen && <DashboardListModal onClose={dashboardModal.close} />}
+      {dashboardModal.isOpen && <DashboardModal />}
     </main>
   );
 }

@@ -2,21 +2,14 @@ import { css } from '@style/css';
 
 import { useContext } from 'react';
 
-import { mockCompetitionData } from '@/components/Dashboard/mockCompetitionData';
-
 import { Modal } from '../Common';
-import { ModalContext } from '../Common/Modal/ModalContext';
 import DashboardList from './DashboardList';
+import { mockCompetitionData } from './mockCompetitionData';
 
-interface ModalComponentProps {
-  onClose: () => void;
-}
-
-export default function DashboardModal({ onClose }: ModalComponentProps) {
-  const modal = useContext(ModalContext);
+export default function DashboardModal() {
+  const modal = useContext(Modal.Context);
 
   const handleCloseModal = () => {
-    onClose();
     modal.close();
   };
 

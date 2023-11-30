@@ -1,4 +1,4 @@
-export type Props = {
+export type mockCompetitionDataProps = {
   userList: Record<
     string,
     {
@@ -9,7 +9,7 @@ export type Props = {
   >;
 };
 
-export const mockCompetitionData: Props['userList'] = {
+export const mockCompetitionData: mockCompetitionDataProps['userList'] = {
   'tmp@gmail.com': {
     'Solved Problems': 2,
     'Total Time Spent': 19,
