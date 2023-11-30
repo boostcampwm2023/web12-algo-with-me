@@ -7,6 +7,7 @@ import { CompetitionProblem } from './entities/competition.problem.entity';
 import { Problem } from './entities/problem.entity';
 import { Submission } from './entities/submission.entity';
 import { User } from './entities/user.entity';
+import { FetchService } from './services/fetch.service';
 import { FilesystemService } from './services/filesystem.service';
 import { SubmissionConsumer } from './services/score.consumer';
 import { ScoreService } from './services/score.service';
@@ -23,6 +24,6 @@ import { ScoreService } from './services/score.service';
     ]),
   ],
   controllers: [],
-  providers: [SubmissionConsumer, FilesystemService, ScoreService],
+  providers: [SubmissionConsumer, FilesystemService, ScoreService, FetchService],
 })
 export class ScoreModule {}

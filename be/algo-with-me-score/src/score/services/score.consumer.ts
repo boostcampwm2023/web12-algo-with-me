@@ -1,5 +1,5 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
-import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { MessageQueueItemDto } from '../dtos/message-queue-item.dto';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
+@Injectable()
 // @Processor(process.env.REDIS_MESSAGE_QUEUE_NAME)
 @Processor('submission')
 export class SubmissionConsumer {
@@ -55,6 +56,8 @@ export class SubmissionConsumer {
       problemId,
       socketId,
     );
+
+    this.filesystemService.removeCodeRunOutputs(competitionId, userId);
   }
 
   @OnQueueCompleted()

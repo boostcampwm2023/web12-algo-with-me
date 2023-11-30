@@ -1,5 +1,4 @@
-import { InternalServerErrorException, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,6 +7,7 @@ import * as path from 'node:path';
 
 import { Problem } from '../entities/problem.entity';
 
+@Injectable()
 export class FilesystemService {
   constructor(@InjectRepository(Problem) private readonly problemRepository: Repository<Problem>) {}
 
@@ -16,11 +16,22 @@ export class FilesystemService {
     const mergedCode = this.getMergedCode(code, problem.frameCode);
 
     const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
-    if (!fs.existsSync(baseDirectory)) {
-      fs.mkdirSync(baseDirectory, { recursive: true });
+    try {
+      if (!fs.existsSync(baseDirectory)) {
+        fs.mkdirSync(baseDirectory, { recursive: true });
+      }
+    } catch (error) {
+      new Logger().error(error);
+      throw new InternalServerErrorException();
     }
 
-    fs.writeFileSync(path.join(baseDirectory, `${problemId}.js`), mergedCode);
+    const codeFilepath = path.join(baseDirectory, `${problemId}.js`);
+    try {
+      fs.writeFileSync(codeFilepath, mergedCode);
+    } catch (error) {
+      new Logger().error(`실행 가능한 코드 파일(${codeFilepath})이 쓰이지 않았습니다`);
+      throw new InternalServerErrorException();
+    }
   }
 
   private getMergedCode(code: string, frameCode: string) {
@@ -37,11 +48,11 @@ export class FilesystemService {
     const filename = `${problemId}.${testcaseId}`;
     const [resultFilepath, stdoutFilepath, stderrFilepath, timeUsageFilepath, memoryUsageFilepath] =
       [
-        `${baseDirectory}/${filename}.result`,
-        `${baseDirectory}/${filename}.stdout`,
-        `${baseDirectory}/${filename}.stderr`,
-        `${baseDirectory}/${filename}.time`,
-        `${baseDirectory}/${filename}.memory`,
+        path.join(baseDirectory, `${filename}.result`),
+        path.join(baseDirectory, `${filename}.stdout`),
+        path.join(baseDirectory, `${filename}.stderr`),
+        path.join(baseDirectory, `${filename}.time`),
+        path.join(baseDirectory, `${filename}.memory`),
       ];
 
     return {
@@ -54,7 +65,7 @@ export class FilesystemService {
   }
 
   private getCodeRunOutput(filepath: string, defaultOutput?: string) {
-    let result;
+    let result: string;
     if (!fs.existsSync(filepath)) {
       new Logger().error(`코드 실행 파일(${filepath})이 정상적으로 생성되지 않았습니다`);
       result = defaultOutput;
@@ -76,7 +87,11 @@ export class FilesystemService {
 
   removeCodeRunOutputs(competitionId: number, userId: number) {
     const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
-    fs.rmSync(baseDirectory, { recursive: true, force: true });
+    try {
+      fs.rmSync(baseDirectory, { recursive: true });
+    } catch (e) {
+      new Logger().warn(`코드 실행 후 ${baseDirectory}를 삭제하는 데 실패했습니다`);
+    }
   }
 
   private getSubmissionBaseDirectoryPath(competitionId: number, userId: number) {

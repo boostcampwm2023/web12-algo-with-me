@@ -1,11 +1,11 @@
-import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 
-import { FilesystemService } from './filesystem.service';
 import { ScoreResultDto } from '../dtos/score-result.dto';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
+@Injectable()
 export class FetchService {
-  constructor(private readonly filesystemService: FilesystemService) {}
+  constructor() {}
 
   async sendScoreResultToApiServer(scoreResult: ScoreResultDto) {
     const [apiServerHost, apiServerPort] = [
