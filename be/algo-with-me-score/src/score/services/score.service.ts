@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { FetchService } from './fetch.service';
 import { FilesystemService } from './filesystem.service';
+import PromisePool from './promise-pool.service';
 import { ScoreResultDto } from '../dtos/score-result.dto';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
@@ -20,31 +21,42 @@ export class ScoreService {
     problemId: number,
     socketId: string,
   ) {
+    const promisePool = new PromisePool(parseInt(process.env.DOCKER_CONTAINER_COUNT));
     for (let testcaseId = 1; testcaseId <= testcaseNum; testcaseId++) {
-      await this.scoreOneTestcaseAndSendResult(
+      await promisePool.add(this.scoreOneTestcaseAndSendResult.bind(this), {
         submissionId,
         competitionId,
         userId,
         problemId,
         testcaseId,
         socketId,
-      );
+      });
+      // await this.scoreOneTestcaseAndSendResult(
+      //   submissionId,
+      //   competitionId,
+      //   userId,
+      //   problemId,
+      //   testcaseId,
+      //   socketId,
+      // );
     }
   }
 
-  private async scoreOneTestcaseAndSendResult(
-    submissionId: number,
-    competitionId: number,
-    userId: number,
-    problemId: number,
-    testcaseId: number,
-    socketId: string,
-  ) {
+  private async scoreOneTestcaseAndSendResult(args: {
+    submissionId: number;
+    competitionId: number;
+    userId: number;
+    problemId: number;
+    testcaseId: number;
+    containerId: number;
+    socketId: string;
+  }) {
     const codeRunResponse = await this.fetchService.requestDockerServerToRunCode(
-      competitionId,
-      userId,
-      problemId,
-      testcaseId,
+      args.competitionId,
+      args.userId,
+      args.problemId,
+      args.testcaseId,
+      args.containerId,
     );
 
     const {
@@ -53,14 +65,22 @@ export class ScoreService {
       stderr,
       timeUsage,
       memoryUsage,
-    } = this.filesystemService.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
-    const testcaseAnswer = this.filesystemService.getTestcaseAnswer(problemId, testcaseId);
-    const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
+    } = this.filesystemService.getCodeRunOutputs(
+      args.competitionId,
+      args.userId,
+      args.problemId,
+      args.testcaseId,
+    );
+    const testcaseAnswer = this.filesystemService.getTestcaseAnswer(
+      args.problemId,
+      args.testcaseId,
+    );
+    const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer, args);
 
     const scoreResult = new ScoreResultDto(
-      submissionId,
-      testcaseId,
-      socketId,
+      args.submissionId,
+      args.testcaseId,
+      args.socketId,
       judgeResult,
       stdout,
       stderr,
@@ -68,28 +88,18 @@ export class ScoreService {
       memoryUsage,
     );
     await this.fetchService.sendScoreResultToApiServer(scoreResult);
-    const logger = new Logger();
-    logger.debug(
-      `채점 완료: ${JSON.stringify({
-        submissionId: scoreResult.submissionId,
-        competitionId,
-        userId,
-        problemId,
-        testcaseId,
-        judgeResult,
-      })}`,
-    );
   }
 
   private judge(
     codeRunResponse: ICoderunResponse,
     codeRunOutput: string,
     testcaseAnswer: string,
+    args?: { [keys: number | string]: any },
   ): '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과' {
     new Logger().debug(
       `실행 결과: ${
         codeRunResponse.result
-      }, 제출한 답안: ${codeRunOutput}(${typeof codeRunOutput}), 정답: ${testcaseAnswer}(${typeof testcaseAnswer})`,
+      }, 제출한 답안: ${codeRunOutput}, 정답: ${testcaseAnswer}, ${JSON.stringify(args)}`,
     );
     if (codeRunResponse.result === 'TIMEOUT') {
       return '시간초과';
