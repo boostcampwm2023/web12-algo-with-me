@@ -9,18 +9,13 @@ import * as path from 'node:path';
 import { Problem } from '../entities/problem.entity';
 
 export class FilesystemService {
-  constructor(
-    @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(@InjectRepository(Problem) private readonly problemRepository: Repository<Problem>) {}
 
   async writeSubmittedCode(code: string, competitionId: number, userId: number, problemId: number) {
     const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     const mergedCode = this.getMergedCode(code, problem.frameCode);
 
-    const submissionPath = this.configService.get<string>('SUBMISSION_PATH');
-    const baseDirectory = `${submissionPath}/${competitionId}/${userId}/`;
-
+    const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
     if (!fs.existsSync(baseDirectory)) {
       fs.mkdirSync(baseDirectory, { recursive: true });
     }
@@ -38,47 +33,56 @@ export class FilesystemService {
     problemId: number,
     testcaseId: number,
   ): { result: string; stdout: string; stderr: string; timeUsage: number; memoryUsage: number } {
-    const submissionPath = process.env.SUBMISSION_PATH;
-    const submissionBaseFilename = `${submissionPath}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
+    const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
+    const filename = `${problemId}.${testcaseId}`;
     const [resultFilepath, stdoutFilepath, stderrFilepath, timeUsageFilepath, memoryUsageFilepath] =
       [
-        `${submissionBaseFilename}.result`,
-        `${submissionBaseFilename}.stdout`,
-        `${submissionBaseFilename}.stderr`,
-        `${submissionBaseFilename}.time`,
-        `${submissionBaseFilename}.memory`,
+        `${baseDirectory}/${filename}.result`,
+        `${baseDirectory}/${filename}.stdout`,
+        `${baseDirectory}/${filename}.stderr`,
+        `${baseDirectory}/${filename}.time`,
+        `${baseDirectory}/${filename}.memory`,
       ];
-    if (
-      !fs.existsSync(resultFilepath) ||
-      !fs.existsSync(stdoutFilepath) ||
-      !fs.existsSync(stderrFilepath) ||
-      !fs.existsSync(timeUsageFilepath) ||
-      !fs.existsSync(memoryUsageFilepath)
-    ) {
-      new Logger().error(
-        `${submissionBaseFilename}에 코드 실행 결과 파일들이 정상적으로 생성되지 않았습니다`,
-      );
-      throw new InternalServerErrorException();
-    }
 
-    const [result, stdout, stderr, timeUsage, memoryUsage] = [
-      fs.readFileSync(resultFilepath).toString(),
-      fs.readFileSync(stdoutFilepath).toString(),
-      fs.readFileSync(stderrFilepath).toString(),
-      parseInt(fs.readFileSync(timeUsageFilepath).toString()),
-      parseInt(fs.readFileSync(memoryUsageFilepath).toString()),
-    ];
-    return { result, stdout, stderr, timeUsage, memoryUsage };
+    return {
+      result: this.getCodeRunOutputFile(resultFilepath, 'Internal Server Error'),
+      stdout: this.getCodeRunOutputFile(stdoutFilepath, 'Internal Server Error'),
+      stderr: this.getCodeRunOutputFile(stderrFilepath, 'Internal Server Error'),
+      timeUsage: parseInt(this.getCodeRunOutputFile(timeUsageFilepath, '0')),
+      memoryUsage: parseInt(this.getCodeRunOutputFile(memoryUsageFilepath, '0')),
+    };
+  }
+
+  private getCodeRunOutputFile(filepath: string, defaultOutput?: string) {
+    let result;
+    if (!fs.existsSync(filepath)) {
+      new Logger().error(`코드 실행 파일(${filepath})이 정상적으로 생성되지 않았습니다`);
+      result = defaultOutput;
+    } else {
+      result = fs.readFileSync(filepath).toString();
+    }
+    return result;
   }
 
   getTestcaseAnswer(problemId: number, testcaseId: number) {
-    const testcasePath = process.env.TESTCASE_PATH;
-    const filepath = `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
+    const filepath = this.getTestcaseFilepath(problemId, testcaseId);
     if (!fs.existsSync(filepath)) {
       new Logger().error(`경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`);
       throw new InternalServerErrorException();
     }
 
     return fs.readFileSync(filepath).toString().trim();
+  }
+
+  removeCodeRunResultFiles(competitionId: number, userId: number, problemId: number) {}
+
+  private getSubmissionBaseDirectoryPath(competitionId: number, userId: number) {
+    const submissionPath = process.env.SUBMISSION_PATH;
+    return `${submissionPath}/${competitionId}/${userId}/`;
+  }
+
+  private getTestcaseFilepath(problemId: number, testcaseId: number) {
+    const testcasePath = process.env.TESTCASE_PATH;
+    return `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
   }
 }
