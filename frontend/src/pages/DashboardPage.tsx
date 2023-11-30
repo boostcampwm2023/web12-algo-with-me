@@ -2,11 +2,12 @@ import { css } from '@style/css';
 
 import { useParams } from 'react-router-dom';
 
+import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import EnterCompetitionButton from '@/components/CompetitionDetail/Buttons/EnterCompetitionButton';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
 import { mockCompetitionData } from '@/components/Dashboard/mockCompetitionData';
 import Header from '@/components/Header';
-// import SocketTimer from '@/components/SocketTimer';
+import SocketTimer from '@/components/SocketTimer';
 import { useCompetition } from '@/hooks/competition';
 import { formatDate } from '@/utils/date';
 
@@ -25,22 +26,28 @@ export default function DashboardPage() {
   return (
     <main>
       <Header />
-      <section className={flexRowStyle}>
-        <span className={competitionTitleStyle}>{competition.name}</span>
-        <div>
-          <span>{competitionSchedule}</span>
-          <div className={timerContainerStyle}>
-            <span>남은 시간:</span>
-            {/* <SocketTimer /> */}
+      <SocketProvider
+        transports={['websocket']}
+        query={{ competitionId: String(competitionId) }}
+        namespace={'dashboard'}
+      >
+        <section className={flexRowStyle}>
+          <span className={competitionTitleStyle}>{competition.name}</span>
+          <div>
+            <span>{competitionSchedule}</span>
+            <div className={timerContainerStyle}>
+              <span>남은 시간:</span>
+              <SocketTimer />
+            </div>
+            <EnterCompetitionButton
+              id={competitionId}
+              startsAt={formattedStartsAt}
+              endsAt={formattedEndsAt}
+            />
           </div>
-          <EnterCompetitionButton
-            id={competitionId}
-            startsAt={formattedStartsAt}
-            endsAt={formattedEndsAt}
-          />
-        </div>
-      </section>
-      <DashboardTable userList={mockCompetitionData} />
+        </section>
+        <DashboardTable userList={mockCompetitionData} />
+      </SocketProvider>
     </main>
   );
 }
