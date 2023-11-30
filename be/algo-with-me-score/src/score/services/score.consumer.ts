@@ -48,7 +48,6 @@ export class SubmissionConsumer {
 
     const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     await this.scoreService.scoreAllAndSendResult(
-      submission,
       problem.testcaseNum,
       submissionId,
       competitionId,

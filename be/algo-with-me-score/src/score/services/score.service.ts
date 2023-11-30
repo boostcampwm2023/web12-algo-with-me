@@ -1,16 +1,18 @@
-import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
-import * as fs from 'node:fs';
-
+import { FetchService } from './fetch.service';
+import { FilesystemService } from './filesystem.service';
 import { ScoreResultDto } from '../dtos/score-result.dto';
 import { Submission } from '../entities/submission.entity';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
 export class ScoreService {
-  constructor() {}
+  constructor(
+    private readonly filesystemService: FilesystemService,
+    private readonly fetchService: FetchService,
+  ) {}
 
   public async scoreAllAndSendResult(
-    submission: Submission,
     testcaseNum: number,
     submissionId: number,
     competitionId: number,
@@ -38,7 +40,12 @@ export class ScoreService {
     testcaseId: number,
     socketId: string,
   ) {
-    const codeRunResponse = await this.runCode(competitionId, userId, problemId, testcaseId);
+    const codeRunResponse = await this.fetchService.requestDockerServerToRunCode(
+      competitionId,
+      userId,
+      problemId,
+      testcaseId,
+    );
 
     const {
       result: codeRunOutput,
@@ -46,8 +53,8 @@ export class ScoreService {
       stderr,
       timeUsage,
       memoryUsage,
-    } = this.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
-    const testcaseAnswer = this.getTestcaseAnswer(problemId, testcaseId);
+    } = this.filesystemService.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
+    const testcaseAnswer = this.filesystemService.getTestcaseAnswer(problemId, testcaseId);
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
 
     const scoreResult = new ScoreResultDto(
@@ -60,7 +67,7 @@ export class ScoreService {
       timeUsage,
       memoryUsage,
     );
-    await this.sendScoreResult(scoreResult);
+    await this.fetchService.sendScoreResultToApiServer(scoreResult);
     const logger = new Logger();
     logger.debug(
       `채점 완료: ${JSON.stringify({
@@ -72,102 +79,6 @@ export class ScoreService {
         judgeResult,
       })}`,
     );
-  }
-
-  private async sendScoreResult(scoreResult: ScoreResultDto) {
-    const [apiServerHost, apiServerPort] = [
-      process.env.API_SERVER_HOST,
-      process.env.API_SERVER_PORT,
-    ];
-    const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
-    console.log(JSON.stringify(scoreResult));
-    try {
-      const result = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(scoreResult),
-      });
-      console.log(result.status);
-    } catch (error) {
-      new Logger().error(
-        `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
-      );
-      throw new InternalServerErrorException();
-    }
-  }
-
-  private async runCode(
-    competitionId: number,
-    userId: number,
-    problemId: number,
-    testcaseId: number,
-  ): Promise<ICoderunResponse> {
-    const [dockerServerHost, dockerServerPort] = [
-      process.env.DOCKER_SERVER_HOST,
-      process.env.DOCKER_SERVER_PORT,
-    ];
-    const url = `http://${dockerServerHost}:${dockerServerPort}/${competitionId}/${userId}/${problemId}/${testcaseId}`;
-    try {
-      const response = await fetch(url, { method: 'POST' });
-      return (await response.json()) as ICoderunResponse;
-    } catch (error) {
-      new Logger().error(
-        `도커 서버로 채점 요청을 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
-      );
-      throw new InternalServerErrorException();
-    }
-  }
-
-  private getCodeRunOutputs(
-    competitionId: number,
-    userId: number,
-    problemId: number,
-    testcaseId: number,
-  ): { result: string; stdout: string; stderr: string; timeUsage: number; memoryUsage: number } {
-    const submissionPath = process.env.SUBMISSION_PATH;
-    const submissionBaseFilename = `${submissionPath}/${competitionId}/${userId}/${problemId}.${testcaseId}`;
-    const [resultFilepath, stdoutFilepath, stderrFilepath, timeUsageFilepath, memoryUsageFilepath] =
-      [
-        `${submissionBaseFilename}.result`,
-        `${submissionBaseFilename}.stdout`,
-        `${submissionBaseFilename}.stderr`,
-        `${submissionBaseFilename}.time`,
-        `${submissionBaseFilename}.memory`,
-      ];
-    if (
-      !fs.existsSync(resultFilepath) ||
-      !fs.existsSync(stdoutFilepath) ||
-      !fs.existsSync(stderrFilepath) ||
-      !fs.existsSync(timeUsageFilepath) ||
-      !fs.existsSync(memoryUsageFilepath)
-    ) {
-      new Logger().error(
-        `${submissionBaseFilename}에 코드 실행 결과 파일들이 정상적으로 생성되지 않았습니다`,
-      );
-      throw new InternalServerErrorException();
-    }
-
-    const [result, stdout, stderr, timeUsage, memoryUsage] = [
-      fs.readFileSync(resultFilepath).toString(),
-      fs.readFileSync(stdoutFilepath).toString(),
-      fs.readFileSync(stderrFilepath).toString(),
-      parseInt(fs.readFileSync(timeUsageFilepath).toString()),
-      parseInt(fs.readFileSync(memoryUsageFilepath).toString()),
-    ];
-    return { result, stdout, stderr, timeUsage, memoryUsage };
-  }
-
-  private getTestcaseAnswer(problemId: number, testcaseId: number) {
-    const testcasePath = process.env.TESTCASE_PATH;
-    const filepath = `${testcasePath}/${problemId}/secrets/${testcaseId}.ans`;
-    if (!fs.existsSync(filepath)) {
-      new Logger().error(`경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`);
-      throw new InternalServerErrorException();
-    }
-
-    return fs.readFileSync(filepath).toString().trim();
   }
 
   private judge(
