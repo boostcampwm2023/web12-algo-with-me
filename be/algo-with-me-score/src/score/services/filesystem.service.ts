@@ -45,15 +45,15 @@ export class FilesystemService {
       ];
 
     return {
-      result: this.getCodeRunOutputFile(resultFilepath, 'Internal Server Error'),
-      stdout: this.getCodeRunOutputFile(stdoutFilepath, 'Internal Server Error'),
-      stderr: this.getCodeRunOutputFile(stderrFilepath, 'Internal Server Error'),
-      timeUsage: parseInt(this.getCodeRunOutputFile(timeUsageFilepath, '0')),
-      memoryUsage: parseInt(this.getCodeRunOutputFile(memoryUsageFilepath, '0')),
+      result: this.getCodeRunOutput(resultFilepath, 'Internal Server Error'),
+      stdout: this.getCodeRunOutput(stdoutFilepath, 'Internal Server Error'),
+      stderr: this.getCodeRunOutput(stderrFilepath, 'Internal Server Error'),
+      timeUsage: parseInt(this.getCodeRunOutput(timeUsageFilepath, '0')),
+      memoryUsage: parseInt(this.getCodeRunOutput(memoryUsageFilepath, '0')),
     };
   }
 
-  private getCodeRunOutputFile(filepath: string, defaultOutput?: string) {
+  private getCodeRunOutput(filepath: string, defaultOutput?: string) {
     let result;
     if (!fs.existsSync(filepath)) {
       new Logger().error(`코드 실행 파일(${filepath})이 정상적으로 생성되지 않았습니다`);
@@ -74,7 +74,10 @@ export class FilesystemService {
     return fs.readFileSync(filepath).toString().trim();
   }
 
-  removeCodeRunResultFiles(competitionId: number, userId: number, problemId: number) {}
+  removeCodeRunOutputs(competitionId: number, userId: number) {
+    const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
+    fs.rmSync(baseDirectory, { recursive: true, force: true });
+  }
 
   private getSubmissionBaseDirectoryPath(competitionId: number, userId: number) {
     const submissionPath = process.env.SUBMISSION_PATH;
