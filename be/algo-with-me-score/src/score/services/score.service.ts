@@ -1,11 +1,11 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import { FetchService } from './fetch.service';
 import { FilesystemService } from './filesystem.service';
 import { ScoreResultDto } from '../dtos/score-result.dto';
-import { Submission } from '../entities/submission.entity';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
+@Injectable()
 export class ScoreService {
   constructor(
     private readonly filesystemService: FilesystemService,
@@ -54,7 +54,6 @@ export class ScoreService {
       timeUsage,
       memoryUsage,
     } = this.filesystemService.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
-    this.filesystemService.removeCodeRunOutputs(competitionId, userId);
     const testcaseAnswer = this.filesystemService.getTestcaseAnswer(problemId, testcaseId);
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
 
