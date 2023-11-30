@@ -1,7 +1,9 @@
 import { BullModule } from '@nestjs/bull';
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { redisStore } from 'cache-manager-redis-store';
 import { config } from 'dotenv';
 
 import { AuthModule } from './auth/auth.module';
@@ -49,6 +51,9 @@ config();
         port: parseInt(process.env.REDIS_PORT),
         password: process.env.REDIS_PASSWORD,
       },
+    }),
+    CacheModule.register({
+      isGlobal: true,
     }),
     CompetitionModule,
     AuthModule,
