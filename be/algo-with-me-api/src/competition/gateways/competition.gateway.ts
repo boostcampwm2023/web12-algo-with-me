@@ -16,6 +16,7 @@ import { ProblemService } from '../services/problem.service';
 
 import { AuthTokenPayloadDto } from '@src/auth/dto/auth.token.payload.dto';
 import { AuthService } from '@src/auth/services/auth.service';
+import { DashboardService } from '@src/dashboard/dashboard.service';
 import { User } from '@src/user/entities/user.entity';
 import { UserService } from '@src/user/services/user.service';
 
@@ -29,6 +30,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
+    private readonly dashboardService: DashboardService,
   ) {}
 
   afterInit(server: Server) {
@@ -68,12 +70,13 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     try {
       const { competitionId } = client.handshake.query;
       // 검증 로직 주석처리
-      // const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
-      //   client.handshake.headers.authorization,
-      // );
+      const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
+        client.handshake.auth.token,
+      );
       // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
       // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
+      this.dashboardService.register(Number(competitionId), authTokenPayloadDto.sub);
       console.log(client.id, client.handshake.auth);
       console.log(competitionId, args);
     } catch (error) {
