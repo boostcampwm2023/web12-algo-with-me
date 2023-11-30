@@ -40,12 +40,12 @@ export class DashboardController {
   }
 
   @ApiOperation({ summary: '[백엔드 테스트용] redis 대회 참가, 수정, 대시보드 조회 테스트' })
-  @Get('all')
-  async getDashboardTest() {
-    await this.dashboardService.registerUserAtCompetition(5, 'dhdgn@naver.com');
-    await this.dashboardService.registerUserAtCompetition(5, 'qwer@naver.com');
+  @Get('all/:competitionId')
+  async getDashboardTest(@Param("competitionId") competitionId: number=5) {
+    await this.dashboardService.registerUserAtCompetition(competitionId, 'dhdgn@naver.com');
+    await this.dashboardService.registerUserAtCompetition(competitionId, 'qwer@naver.com');
     await this.dashboardService.updateUserSubmission(
-      5,
+      competitionId,
       1,
       'qwer@naver.com',
       RESULT.CORRECT,

@@ -12,11 +12,6 @@ import { DashboardService } from './dashboard.service';
 export class DashboardGateway implements OnGatewayConnection {
   constructor(private readonly dashboardService: DashboardService) {}
 
-  // @SubscribeMessage('createDashboard')
-  // create(@MessageBody() createDashboardDto: CreateDashboardDto) {
-  //   return this.dashboardService.create(createDashboardDto);
-  // }
-
   @SubscribeMessage('dashboard')
   async handleDashboard(@ConnectedSocket() client: Socket) {
     const dashboard = await this.dashboardService.getTop100DashboardRedis(
