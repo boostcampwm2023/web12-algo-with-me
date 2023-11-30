@@ -1,8 +1,9 @@
-import { WebSocketGateway } from '@nestjs/websockets';
+import { ConnectedSocket, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { Socket } from 'socket.io';
 
 import { DashboardService } from './dashboard.service';
 
-@WebSocketGateway()
+@WebSocketGateway({ namespace: 'dashboards' })
 export class DashboardGateway {
   constructor(private readonly dashboardService: DashboardService) {}
 
@@ -11,10 +12,10 @@ export class DashboardGateway {
   //   return this.dashboardService.create(createDashboardDto);
   // }
 
-  // @SubscribeMessage('findAllDashboard')
-  // findAll() {
-  //   return this.dashboardService.findAll();
-  // }
+  @SubscribeMessage('dashboard')
+  handleDashboard(@ConnectedSocket() client: Socket) {
+    client.emit('dashboard', 'return');
+  }
 
   // @SubscribeMessage('findOneDashboard')
   // findOne(@MessageBody() id: number) {
