@@ -1,10 +1,9 @@
 import { CompetitionId } from '@/apis/competitions';
 
 export type Rank = {
-  user: string;
-  solved: number;
+  email: string;
   score: number;
-  problemSet: {
+  problemDict: {
     [key: number]: number | null;
   };
 };
@@ -12,6 +11,6 @@ export type Rank = {
 export type Dashboard = {
   competitionId: CompetitionId;
   totalProblemCount: number;
-  ranking: Rank[];
+  rankings: Rank[];
   myRanking: Rank;
 };

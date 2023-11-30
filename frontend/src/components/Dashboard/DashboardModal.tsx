@@ -1,8 +1,8 @@
 import { css } from '@style/css';
 
 import { Button } from '../Common';
-import DashboardTable from './DashboardTable';
-import { mockCompetitionData } from './mockCompetitionData';
+// import DashboardTable from './DashboardTable';
+import TempDashboardTable from './TempDashboardTable';
 
 interface Props {
   isOpen: boolean;
@@ -17,7 +17,8 @@ export default function DashboardModal({ isOpen, onClose }: Props) {
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
       <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <DashboardTable userList={mockCompetitionData} />
+        {/* <DashboardTable userList={mockCompetitionData} /> */}
+        <TempDashboardTable />
         <Button onClick={onClose}>닫기</Button>
       </div>
     </div>

@@ -9,15 +9,13 @@ interface Props {
 
 export default function DashboardTable({ ranks, totalProblemCount }: Props) {
   const problemCount = Array.from({ length: totalProblemCount }, (_, index) => index + 1);
-
   return (
     <table className={tableStyle}>
       <thead>
         <tr>
           <th className={thTdCommonStyle}>Rank</th>
-          <th className={thTdCommonStyle}>Id</th>
-          <th className={thTdCommonStyle}>Solved Problems</th>
-          <th className={thTdCommonStyle}>Total Time Spent</th>
+          <th className={thTdCommonStyle}>User Id</th>
+          <th className={thTdCommonStyle}>Score</th>
           {problemCount.map((problemId) => (
             <th key={problemId} className={thTdCommonStyle}>
               problem{problemId}
@@ -27,16 +25,16 @@ export default function DashboardTable({ ranks, totalProblemCount }: Props) {
       </thead>
       <tbody>
         {ranks.map((rank, index) => {
+          const problemIds = Object.keys(rank.problemDict);
           return (
-            <tr key={rank.user}>
+            <tr key={rank.email}>
               <td className={thTdCommonStyle}>{index + 1}</td>
-              <td className={thTdCommonStyle}>{rank.user}</td>
-              <td className={thTdCommonStyle}>{rank.solved}</td>
+              <td className={thTdCommonStyle}>{rank.email}</td>
               <td className={thTdCommonStyle}>{rank.score}</td>
-              {problemCount.map((problemId) => {
+              {problemIds.map((problemId) => {
                 return (
                   <td key={problemId} className={thTdCommonStyle}>
-                    {rank.problemSet[problemId] ?? '-'}
+                    {rank.problemDict[Number(problemId)] ?? '-'}
                   </td>
                 );
               })}

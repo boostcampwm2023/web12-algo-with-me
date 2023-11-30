@@ -27,7 +27,6 @@ export function SubmissionResult() {
     },
   ) => {
     const { problemId, result, stdOut, testcaseId } = data;
-
     const newResult = {
       testcaseId,
       submitState: SUBMIT_STATE.submitted,

@@ -9,15 +9,16 @@ export function useParticipantDashboard() {
   const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
   const [myRank, setMyRank] = useState<Rank>({
-    user: '',
-    solved: 0,
+    email: '',
     score: 0,
-    problemSet: {},
+    problemDict: {},
   });
+  const [totalProblemCount, setTotalProblemCount] = useState(-1);
 
   function handleDashboard(newDashboard: Dashboard) {
-    setRanks(newDashboard.ranking);
+    setRanks(newDashboard.rankings);
     setMyRank(newDashboard.myRanking);
+    setTotalProblemCount(newDashboard.totalProblemCount);
   }
 
   useEffect(() => {
@@ -31,5 +32,6 @@ export function useParticipantDashboard() {
   return {
     ranks,
     myRank,
+    totalProblemCount,
   };
 }

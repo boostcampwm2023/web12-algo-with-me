@@ -2,20 +2,22 @@ import { cx } from '@style/css';
 
 import { HTMLAttributes, useContext } from 'react';
 
+import { CompetitionId } from '@/apis/competitions';
 import type { ProblemId } from '@/apis/problems';
 import type { SubmissionForm } from '@/hooks/competition';
 import { isNil } from '@/utils/type';
 
 import { Button } from '../Common';
-import { CompetitionContext } from '../Competition/CompetitionContext';
+import { SocketContext } from '../Common/Socket/SocketContext';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   code: string;
   problemId?: ProblemId;
+  competitionId: CompetitionId;
 }
 
-export function SubmissionButton({ code, problemId, className, ...props }: Props) {
-  const { competition, submitSolution } = useContext(CompetitionContext);
+export function SubmissionButton({ code, problemId, competitionId, className, ...props }: Props) {
+  const { socket, isConnected } = useContext(SocketContext);
 
   function handleSubmitSolution() {
     if (isNil(problemId)) {
@@ -26,10 +28,15 @@ export function SubmissionButton({ code, problemId, className, ...props }: Props
     const form = {
       problemId,
       code,
-      competitionId: competition.id,
+      competitionId,
     } satisfies SubmissionForm;
 
-    submitSolution(form);
+    if (isNil(socket) || !isConnected) {
+      alert('연결에 실패했습니다.');
+      return;
+    }
+
+    socket.emit('submission', form);
   }
 
   return (

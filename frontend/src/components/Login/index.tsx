@@ -1,5 +1,7 @@
 import { css } from '@style/css';
 
+import { Button } from '@/components/Common';
+
 interface Props {
   onClickLogin: () => void;
 }
@@ -8,7 +10,7 @@ export default function Login({ onClickLogin }: Props) {
   return (
     <section className={loginWrapperStyle}>
       <header className={loginHeaderStyle}>Algo With Me</header>
-      <button onClick={onClickLogin}>Github으로 로그인</button>
+      <Button onClick={onClickLogin}>Github으로 로그인</Button>
     </section>
   );
 }

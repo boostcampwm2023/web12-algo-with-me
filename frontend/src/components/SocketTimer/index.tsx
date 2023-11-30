@@ -8,8 +8,6 @@ import { formatMilliSecond } from '@/utils/date';
 
 import { SocketContext } from '../Common/Socket/SocketContext';
 
-// import { CompetitionContext } from '../Competition/CompetitionContext';
-
 interface Props {
   onTimeout?: () => void;
 }

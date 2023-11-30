@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { joinCompetition } from '@/apis/joinCompetition';
 import type { CompetitionApiData } from '@/apis/joinCompetition/types';
+import { Button } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 const TOKEN_KEY = 'accessToken';
@@ -29,5 +30,5 @@ export default function JoinCompetitionButton(props: { id: number }) {
     token: token,
   };
 
-  return <button onClick={handleJoinClick}>참여하기</button>;
+  return <Button onClick={handleJoinClick}>참여하기</Button>;
 }
