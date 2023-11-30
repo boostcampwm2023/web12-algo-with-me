@@ -1,5 +1,5 @@
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Redis } from 'ioredis';
 
@@ -40,17 +40,23 @@ export class DashboardController {
   }
 
   @ApiOperation({ summary: '[백엔드 테스트용] redis 대회 참가, 수정, 대시보드 조회 테스트' })
-  @Get('')
-  async getDashboard() {
-    await this.dashboardService.registerUserAtCompetition(2, 'dhdgn@naver.com');
-    await this.dashboardService.registerUserAtCompetition(2, 'qwer@naver.com');
+  @Get('all')
+  async getDashboardTest() {
+    await this.dashboardService.registerUserAtCompetition(5, 'dhdgn@naver.com');
+    await this.dashboardService.registerUserAtCompetition(5, 'qwer@naver.com');
     await this.dashboardService.updateUserSubmission(
-      2,
+      5,
       1,
       'qwer@naver.com',
       RESULT.CORRECT,
       new Date(),
     );
-    await this.dashboardService.getTop100Dashboard(2, 'dhdgn@naver.com');
+    await this.dashboardService.getTop100DashboardRedis(5, 'dhdgn@naver.com');
+  }
+
+  @ApiOperation({ summary: '대회 종료 이후 대시보드 조회' })
+  @Get('/:competitionId')
+  async getDashBoard(@Param('competitionId') competitionId: number, @Query('email') email: string) {
+    return await this.dashboardService.getTop100Dashboard(competitionId, email);
   }
 }
