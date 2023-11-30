@@ -23,6 +23,8 @@ services:
     network_mode: host
     env_file:
       - ./algo-with-me-score/.env
+    environment:
+      DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
     user: be:be
     restart: always
   algo-with-me-docker:
@@ -38,4 +40,4 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: ${DOCKER_CONTAINER_COUNT}
