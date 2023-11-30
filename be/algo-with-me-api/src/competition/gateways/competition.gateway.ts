@@ -76,7 +76,10 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
       // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
-      this.dashboardService.register(Number(competitionId), authTokenPayloadDto.sub);
+      this.dashboardService.registerUserAtCompetition(
+        Number(competitionId),
+        authTokenPayloadDto.sub,
+      );
       console.log(client.id, client.handshake.auth);
       console.log(competitionId, args);
     } catch (error) {
