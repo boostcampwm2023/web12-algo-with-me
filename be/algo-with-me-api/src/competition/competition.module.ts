@@ -14,6 +14,7 @@ import { ProblemService } from './services/problem.service';
 
 import { AuthModule } from '@src/auth/auth.module';
 import { Competition } from '@src/competition/entities/competition.entity';
+import { DashboardModule } from '@src/dashboard/dashboard.module';
 import { User } from '@src/user/entities/user.entity';
 import { UserModule } from '@src/user/user.module';
 
@@ -32,6 +33,7 @@ import { UserModule } from '@src/user/user.module';
     }),
     AuthModule,
     UserModule,
+    DashboardModule,
   ],
   controllers: [ProblemController, CompetitionController],
   providers: [ProblemService, CompetitionService, CompetitionGateWay],
