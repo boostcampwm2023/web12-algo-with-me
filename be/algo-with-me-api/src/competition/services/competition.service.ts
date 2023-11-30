@@ -259,7 +259,7 @@ export class CompetitionService {
         submission.problemId,
         user.email,
         RESULT[totalResult],
-        competition,
+        competition.startsAt,
       );
     }
     result['problemId'] = submission.problemId;
