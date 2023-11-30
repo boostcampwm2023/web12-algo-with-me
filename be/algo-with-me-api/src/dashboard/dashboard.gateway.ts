@@ -1,10 +1,15 @@
-import { ConnectedSocket, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  OnGatewayConnection,
+  SubscribeMessage,
+  WebSocketGateway,
+} from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 
 import { DashboardService } from './dashboard.service';
 
 @WebSocketGateway({ namespace: 'dashboards' })
-export class DashboardGateway {
+export class DashboardGateway implements OnGatewayConnection {
   constructor(private readonly dashboardService: DashboardService) {}
 
   // @SubscribeMessage('createDashboard')
@@ -13,22 +18,15 @@ export class DashboardGateway {
   // }
 
   @SubscribeMessage('dashboard')
-  handleDashboard(@ConnectedSocket() client: Socket) {
-    client.emit('dashboard', 'return');
+  async handleDashboard(@ConnectedSocket() client: Socket) {
+    const dashboard = await this.dashboardService.getTop100Dashboard(client.data['competitionId']);
+    client.emit('dashboard', dashboard);
   }
 
-  // @SubscribeMessage('findOneDashboard')
-  // findOne(@MessageBody() id: number) {
-  //   return this.dashboardService.findOne(id);
-  // }
-
-  // @SubscribeMessage('updateDashboard')
-  // update(@MessageBody() updateDashboardDto: UpdateDashboardDto) {
-  //   return this.dashboardService.update(updateDashboardDto.id, updateDashboardDto);
-  // }
-
-  // @SubscribeMessage('removeDashboard')
-  // remove(@MessageBody() id: number) {
-  //   return this.dashboardService.remove(id);
-  // }
+  public handleConnection(client: Socket, ...args: any[]) {
+    const { competitionId } = client.handshake.query;
+    client.data['competitionId'] = competitionId;
+    client.join(competitionId);
+    console.log(args);
+  }
 }

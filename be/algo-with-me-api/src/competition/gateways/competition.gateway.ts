@@ -63,7 +63,11 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
 
   @SubscribeMessage('dashboard')
   async handleDashboard(@ConnectedSocket() client: Socket) {
-    client.emit('dashboard', 'return');
+    const dashboard = await this.dashboardService.getTop100Dashboard(
+      client.data['competitionId'],
+      client.data['email'],
+    );
+    client.emit('dashboard', dashboard);
   }
 
   public async handleConnection(client: Socket, ...args: any[]) {
@@ -73,6 +77,8 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
         client.handshake.auth.token,
       );
+      client.data['competitionId'] = Number(competitionId);
+      client.data['email'] = authTokenPayloadDto.sub;
       // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
       // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
       client.join(competitionId);
