@@ -11,7 +11,7 @@ interface Props {
   >;
 }
 
-export default function DashboardList({ userList }: Props) {
+export default function DashboardTable({ userList }: Props) {
   const userId = Object.keys(userList)[0];
   const problemObj = userList[userId].Problems;
   const problemIds = Object.keys(problemObj);

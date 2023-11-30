@@ -3,25 +3,23 @@ import { css } from '@style/css';
 import { useParams } from 'react-router-dom';
 
 import EnterCompetitionButton from '@/components/CompetitionDetail/Buttons/EnterCompetitionButton';
-import DashboardList from '@/components/Dashboard/DashboardList';
+import DashboardTable from '@/components/Dashboard/DashboardTable';
 import { mockCompetitionData } from '@/components/Dashboard/mockCompetitionData';
 import Header from '@/components/Header';
-import SocketTimer from '@/components/SocketTimer';
+// import SocketTimer from '@/components/SocketTimer';
 import { useCompetition } from '@/hooks/competition';
 import { formatDate } from '@/utils/date';
 
 export default function DashboardPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
-  const { socket, competition, isConnected } = useCompetition(competitionId);
+  const { competition } = useCompetition(competitionId);
 
   const { startsAt, endsAt } = competition;
   const formattedStartsAt = new Date(startsAt || '');
   const formattedEndsAt = new Date(endsAt || '');
   const formattedStartsAtDate = formatDate(new Date(startsAt || ''), 'hh:mm');
   const formattedEndsAtDate = formatDate(new Date(endsAt || ''), 'hh:mm');
-  const DASHBOARD_PING_TIME = 5 * 1000;
-  const DASHBOARD_SOCKET_EVENT = 'ping';
   const competitionSchedule = `시작: ${formattedStartsAtDate} 종료: ${formattedEndsAtDate}`;
 
   return (
@@ -33,13 +31,7 @@ export default function DashboardPage() {
           <span>{competitionSchedule}</span>
           <div className={timerContainerStyle}>
             <span>남은 시간:</span>
-            <SocketTimer
-              socket={socket.current}
-              isConnected={isConnected}
-              endsAt={new Date(endsAt)}
-              pingTime={DASHBOARD_PING_TIME}
-              socketEvent={DASHBOARD_SOCKET_EVENT}
-            />
+            {/* <SocketTimer /> */}
           </div>
           <EnterCompetitionButton
             id={competitionId}
@@ -48,7 +40,7 @@ export default function DashboardPage() {
           />
         </div>
       </section>
-      <DashboardList userList={mockCompetitionData} />
+      <DashboardTable userList={mockCompetitionData} />
     </main>
   );
 }

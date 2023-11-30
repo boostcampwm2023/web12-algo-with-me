@@ -4,7 +4,7 @@ import type { CompetitionInfo } from '@/apis/competitions';
 import { SubmissionForm } from '@/hooks/competition';
 import type { Socket } from '@/utils/socket';
 
-interface CompetitionContextProps {
+export interface CompetitionContextProps {
   socket: Socket | null;
   competition: CompetitionInfo;
   isConnected: boolean;

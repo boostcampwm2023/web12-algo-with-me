@@ -1,2 +1,2 @@
-export * from './useCompetition';
 export * from './useCompetitionForm';
+export * from './useCompetition';
