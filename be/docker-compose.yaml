@@ -10,7 +10,7 @@ services:
     network_mode: host
     env_file:
       ./algo-with-me-api/.env
-    user: 1001:1001
+    user: be:be
     restart: always
   algo-with-me-score:
     image: algo-with-me-score
@@ -23,7 +23,7 @@ services:
     network_mode: host
     env_file:
       - ./algo-with-me-score/.env
-    user: 1001:1001
+    user: be:be
     restart: always
   algo-with-me-docker:
     image: algo-with-me-docker
@@ -34,4 +34,4 @@ services:
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
     network_mode: host
-    user: 1001:1001
+    user: be:be
