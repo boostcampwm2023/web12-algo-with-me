@@ -8,7 +8,7 @@ import { isNil } from '@/utils/type';
 
 import { CompetitionContext } from '../Competition/CompetitionContext';
 import Score from './Score';
-import { type Message, type ScoreResult, SUBMIT_STATE, type SubmitState } from './types';
+import { type ScoreResult, type ScoreStart, SUBMIT_STATE, type SubmitState } from './types';
 
 type SubmitResult = {
   testcaseId: number;
@@ -18,12 +18,7 @@ type SubmitResult = {
 
 export function SubmissionResult() {
   const { socket, isConnected } = useContext(CompetitionContext);
-  const [scoreResults, setScoreResults] = useState<SubmitResult[]>(
-    range(0, 10).map((_, index) => ({
-      testcaseId: index + 1,
-      submitState: SUBMIT_STATE.loading,
-    })),
-  );
+  const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
   const handleScoreResult = (
@@ -53,7 +48,7 @@ export function SubmissionResult() {
     });
   };
 
-  const handleMessage = (rawData: Message) => {
+  const handleScoreStart = (rawData: ScoreStart) => {
     const { message, testcaseNum } = rawData;
     setSubmissionMessage(message);
     setScoreResults(
@@ -67,8 +62,8 @@ export function SubmissionResult() {
   useEffect(() => {
     if (isNil(socket)) return;
 
-    if (!socket.hasListeners('message')) {
-      socket.on('message', handleMessage);
+    if (!socket.hasListeners('scoreStart')) {
+      socket.on('scoreStart', handleScoreStart);
     }
     if (!socket.hasListeners('scoreResult')) {
       socket.on('scoreResult', handleScoreResult);
