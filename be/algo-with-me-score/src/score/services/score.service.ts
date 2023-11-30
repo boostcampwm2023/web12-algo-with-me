@@ -54,6 +54,7 @@ export class ScoreService {
       timeUsage,
       memoryUsage,
     } = this.filesystemService.getCodeRunOutputs(competitionId, userId, problemId, testcaseId);
+    this.filesystemService.removeCodeRunOutputs(competitionId, userId);
     const testcaseAnswer = this.filesystemService.getTestcaseAnswer(problemId, testcaseId);
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer);
 
