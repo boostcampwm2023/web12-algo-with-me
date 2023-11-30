@@ -36,11 +36,13 @@ export class FetchService {
     userId: number,
     problemId: number,
     testcaseId: number,
+    containerId: number,
   ): Promise<ICoderunResponse> {
-    const [dockerServerHost, dockerServerPort] = [
+    const [dockerServerHost, dockerServerBasePort] = [
       process.env.DOCKER_SERVER_HOST,
       process.env.DOCKER_SERVER_PORT,
     ];
+    const dockerServerPort = (parseInt(dockerServerBasePort) + containerId).toString();
     const url = `http://${dockerServerHost}:${dockerServerPort}/${competitionId}/${userId}/${problemId}/${testcaseId}`;
     try {
       const response = await fetch(url, { method: 'POST' });
