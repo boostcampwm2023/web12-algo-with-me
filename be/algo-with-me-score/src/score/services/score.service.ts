@@ -31,14 +31,6 @@ export class ScoreService {
         testcaseId,
         socketId,
       });
-      // await this.scoreOneTestcaseAndSendResult(
-      //   submissionId,
-      //   competitionId,
-      //   userId,
-      //   problemId,
-      //   testcaseId,
-      //   socketId,
-      // );
     }
   }
 
