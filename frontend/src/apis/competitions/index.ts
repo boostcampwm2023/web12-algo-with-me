@@ -33,7 +33,11 @@ export async function createCompetition(
       endsAt,
       problems,
     };
-    const { data } = await api.post<CreateCompetitionResponse>('/competitions', form);
+    const { data } = await api.post<CreateCompetitionResponse>('/competitions', form, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
 
     return data;
   } catch (err) {
