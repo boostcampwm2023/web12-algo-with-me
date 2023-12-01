@@ -6,7 +6,7 @@ import Connecting from '@/components/Submission/Connecting';
 import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
 
-import { CompetitionContext } from '../Competition/CompetitionContext';
+import { SocketContext } from '../Common/Socket/SocketContext';
 import Score from './Score';
 import { type ScoreResult, type ScoreStart, SUBMIT_STATE, type SubmitState } from './types';
 
@@ -17,7 +17,7 @@ type SubmitResult = {
 };
 
 export function SubmissionResult() {
-  const { socket, isConnected } = useContext(CompetitionContext);
+  const { socket, isConnected } = useContext(SocketContext);
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
   const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
@@ -27,7 +27,6 @@ export function SubmissionResult() {
     },
   ) => {
     const { problemId, result, stdOut, testcaseId } = data;
-
     const newResult = {
       testcaseId,
       submitState: SUBMIT_STATE.submitted,

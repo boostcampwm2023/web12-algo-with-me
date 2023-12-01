@@ -1,18 +1,20 @@
-import { css } from '@style/css';
+import { css, cx } from '@style/css';
 
-interface Props {
+import { HTMLAttributes } from 'react';
+
+interface Props extends HTMLAttributes<HTMLElement> {
   crumbs: string[];
 }
 
-export default function CompetitionBreadCrumb({ crumbs }: Props) {
+export default function BreadCrumb({ crumbs, className, ...props }: Props) {
   return (
-    <div className={titleContainerStyle}>
+    <nav className={cx(className, crumbStyle)} {...props}>
       {crumbs.map((crumb, index) => (
         <span key={index} className={crumbStyle}>
           {crumb}
         </span>
       ))}
-    </div>
+    </nav>
   );
 }
 
@@ -29,8 +31,4 @@ const crumbStyle = css({
       content: '""',
     },
   },
-});
-
-const titleContainerStyle = css({
-  padding: '10px',
 });
