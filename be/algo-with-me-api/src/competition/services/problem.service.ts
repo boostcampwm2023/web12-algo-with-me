@@ -37,7 +37,7 @@ export class ProblemService {
     return ProblemResponseDto.from(problem, content);
   }
 
-  async getProblenTestcaseNum(id: number) {
+  async getProblemTestcaseNum(id: number) {
     const problem = await this.problemRepository.findOneBy({ id });
     return problem.testcaseNum;
   }
