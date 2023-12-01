@@ -53,7 +53,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
     console.log(createSubmissionDto);
-    client.emit('scoreResult', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
+    client.emit('scoreStart', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
   }
 
   @SubscribeMessage('ping')
