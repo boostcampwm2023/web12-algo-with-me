@@ -8,7 +8,7 @@ export type CompetitionForm = {
   maxParticipants: number;
   startsAt: string;
   endsAt: string;
-  problems: ProblemId[];
+  problemIds: ProblemId[];
 };
 
 export type CompetitionInfo = {

@@ -22,7 +22,7 @@ export async function fetchCompetition(competitionId: number): Promise<Competiti
 export async function createCompetition(
   competitionForm: CompetitionForm,
 ): Promise<CompetitionInfo | null> {
-  const { name, detail, maxParticipants, startsAt, endsAt, problems } = competitionForm;
+  const { name, detail, maxParticipants, startsAt, endsAt, problemIds } = competitionForm;
 
   try {
     const form = {
@@ -31,7 +31,7 @@ export async function createCompetition(
       maxParticipants,
       startsAt,
       endsAt,
-      problems,
+      problemIds,
     };
     const { data } = await api.post<CreateCompetitionResponse>('/competitions', form, {
       headers: {

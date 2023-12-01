@@ -115,10 +115,10 @@ export default function CompetitionCreatePage() {
         </Input>
         <SelectableProblemList
           problemList={problemList}
-          pickedProblemIds={form.problems}
+          pickedProblemIds={form.problemIds}
           onSelectProblem={handleSelectProblem}
         ></SelectableProblemList>
-        <div>선택된 문제: {[...form.problems].join(',')}</div>
+        <div>선택된 문제: {[...form.problemIds].join(',')}</div>
       </fieldset>
       <button onClick={handleSumbitCompetition}>대회 생성</button>
     </main>

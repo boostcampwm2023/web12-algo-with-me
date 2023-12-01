@@ -29,13 +29,13 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
 
   const [startsAt, setStartsAt] = useState<string>(initialForm.startsAt ?? currentDateStr);
   const [endsAt, setEndsAt] = useState<string>(initialForm.endsAt ?? currentDateStr);
-  const [problems, setProblems] = useState<ProblemId[]>([]);
+  const [problemIds, setProblemIds] = useState<ProblemId[]>([]);
 
   function togglePickedProblem(problemId: ProblemId) {
-    if (problems.includes(problemId)) {
-      setProblems((ids) => ids.filter((id) => id !== problemId).sort());
+    if (problemIds.includes(problemId)) {
+      setProblemIds((ids) => ids.filter((id) => id !== problemId).sort());
     } else {
-      setProblems((ids) => [...ids, problemId].sort());
+      setProblemIds((ids) => [...ids, problemId].sort());
     }
   }
 
@@ -46,7 +46,7 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
       maxParticipants,
       startsAt: new Date(startsAt).toISOString(),
       endsAt: new Date(endsAt).toISOString(),
-      problems,
+      problemIds,
     };
   }
 
@@ -55,7 +55,7 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
   }
 
   function validateForm(formData: CompetitionForm): Valid {
-    const { name, maxParticipants, startsAt, endsAt, problems } = formData;
+    const { name, maxParticipants, startsAt, endsAt, problemIds } = formData;
     if (name.length <= 0) {
       return {
         isValid: false,
@@ -83,7 +83,7 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
       };
     }
 
-    if (problems.length <= 0) {
+    if (problemIds.length <= 0) {
       return {
         isValid: false,
         message: VALIDATION_MESSAGE.needMoreProblems,
@@ -101,7 +101,7 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
     maxParticipants,
     startsAt,
     endsAt,
-    problems,
+    problemIds,
     setName,
     setDetail,
     setMaxParticipants,
