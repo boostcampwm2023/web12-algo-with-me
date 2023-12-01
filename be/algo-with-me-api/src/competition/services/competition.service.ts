@@ -237,7 +237,7 @@ export class CompetitionService {
     this.submissionRepository.save(submission);
 
     // 모두 제출했는지 확인
-    const testcaseNum: number = await this.problemService.getProblenTestcaseNum(
+    const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
       submission.problemId,
     );
     let totalResult: keyof typeof RESULT = 'CORRECT';

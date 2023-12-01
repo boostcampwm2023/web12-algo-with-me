@@ -61,7 +61,7 @@ export class DashboardService {
     const record = await JSON.parse(await this.redis.get(recordKey));
     console.log(record);
 
-    if (this.isCorrected(record, problemId)) return;
+    if (this.isAlreadyCorrect(record, problemId)) return;
 
     if (result !== RESULT.CORRECT) {
       record[problemId] = -1;
@@ -150,7 +150,7 @@ export class DashboardService {
     }
   }
 
-  isCorrected(value: object, problemId: number) {
+  isAlreadyCorrect(value: object, problemId: number) {
     if (value[problemId] === null || Number(value[problemId]) === -1) return false;
     return true;
   }

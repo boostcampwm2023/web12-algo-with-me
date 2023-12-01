@@ -48,7 +48,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       client.handshake.auth.token,
     );
     const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-    const testcaseNum: number = await this.problemService.getProblenTestcaseNum(
+    const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
       createSubmissionDto.problemId,
     );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
