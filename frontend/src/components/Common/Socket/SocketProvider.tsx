@@ -30,7 +30,7 @@ export function SocketProvider({
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const disconnectSocket = disconnect(`/${namespace}`);
+  const onUnmounted = disconnect(`/${namespace}`);
 
   const handleConnect = () => {
     console.log('connected!');
@@ -38,7 +38,6 @@ export function SocketProvider({
   };
 
   const handleDisconnect = () => {
-    console.log('disconnected!');
     setIsConnected(false);
   };
 
@@ -56,7 +55,7 @@ export function SocketProvider({
       value={{
         isConnected,
         socket: socket.current,
-        disconnect: disconnectSocket,
+        onUnmounted,
       }}
     >
       {children}

@@ -8,7 +8,7 @@ interface Props {
   endsAt: Date;
   socketEvent: string;
   pingTime: number;
-  disconnect: () => void;
+  onUnmounted: () => void;
 }
 
 export default function useSocketTimer({
@@ -16,7 +16,7 @@ export default function useSocketTimer({
   endsAt,
   socketEvent,
   pingTime,
-  disconnect,
+  onUnmounted,
 }: Props) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const pingIntervalId = useRef<NodeJS.Timeout | null>(null);
@@ -26,7 +26,6 @@ export default function useSocketTimer({
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
 
   useEffect(() => {
-    console.log(socket);
     if (pingIntervalId.current) clearInterval(pingIntervalId.current);
     if (isNil(socket)) return;
     socket.emit(socketEvent);
@@ -63,7 +62,7 @@ export default function useSocketTimer({
 
   useEffect(() => {
     return () => {
-      if (!isNil(socket)) disconnect();
+      if (!isNil(socket)) onUnmounted();
       if (pingIntervalId.current) clearInterval(pingIntervalId.current);
       if (timerIntervalId.current) clearInterval(timerIntervalId.current);
     };
