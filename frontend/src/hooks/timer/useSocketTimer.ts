@@ -8,9 +8,16 @@ interface Props {
   endsAt: Date;
   socketEvent: string;
   pingTime: number;
+  disconnect: () => void;
 }
 
-export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }: Props) {
+export default function useSocketTimer({
+  socket,
+  endsAt,
+  socketEvent,
+  pingTime,
+  disconnect,
+}: Props) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const pingIntervalId = useRef<NodeJS.Timeout | null>(null);
 
@@ -19,12 +26,13 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
 
   useEffect(() => {
+    console.log(socket);
     if (pingIntervalId.current) clearInterval(pingIntervalId.current);
     if (isNil(socket)) return;
-
     socket.emit(socketEvent);
-    socket.on(socketEvent, handlePingMessage);
-
+    if (!socket.hasListeners(socketEvent)) {
+      socket.on(socketEvent, handlePingMessage);
+    }
     pingIntervalId.current = setInterval(() => {
       socket.emit(socketEvent);
     }, pingTime);
@@ -32,14 +40,12 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
 
   const handlePingMessage = useCallback(
     (time: Date) => {
-      console.log('서버에서 온 시간 websocket 연결 확인 용', time);
       if (timerIntervalId.current) clearInterval(timerIntervalId.current);
 
       time = typeof time === 'string' ? new Date(time) : time;
 
       const remainMiliSec = endTime - time.getTime();
       setRemainMiliSeconds(remainMiliSec);
-
       timerIntervalId.current = setInterval(() => {
         setRemainMiliSeconds((prev) => prev - 1000);
       }, 1000);
@@ -54,6 +60,14 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
       setIsTimeout(true);
     }
   }, [remainMiliSeconds]);
+
+  useEffect(() => {
+    return () => {
+      if (!isNil(socket)) disconnect();
+      if (pingIntervalId.current) clearInterval(pingIntervalId.current);
+      if (timerIntervalId.current) clearInterval(timerIntervalId.current);
+    };
+  }, []);
 
   return { remainMiliSeconds, isTimeout };
 }
