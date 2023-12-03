@@ -16,7 +16,7 @@ const COMPEITION_PING_TIME = 5 * 1000;
 const COMPEITION_SOCKET_EVENT = 'ping';
 
 export default function SocketTimer(props: Props) {
-  const { socket, isConnected, disconnect } = useContext(SocketContext);
+  const { socket, isConnected, onUnmounted } = useContext(SocketContext);
   const { onTimeout } = props;
   // 대회 시간 검증이 안 되어 있어서, 끝나는 시간이 현재 시간보다 모두 전입니다. 그래서 지금 시간 기준으로 120분 더하고 마지막 시간이다라고 가정합니다.
   const min = 120;
@@ -27,7 +27,7 @@ export default function SocketTimer(props: Props) {
     endsAt,
     socketEvent: COMPEITION_SOCKET_EVENT,
     pingTime: COMPEITION_PING_TIME,
-    disconnect,
+    onUnmounted,
   });
 
   useEffect(() => {
