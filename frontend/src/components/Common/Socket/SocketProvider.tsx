@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { createSocketInstance } from '@/utils/socket';
-
+import { connect, disconnect } from './index';
 import { SocketContext } from './SocketContext';
 
 interface Props {
@@ -20,7 +19,7 @@ export function SocketProvider({
   children,
 }: Props) {
   const socket = useRef(
-    createSocketInstance(`/${namespace}`, {
+    connect(`/${namespace}`, {
       transports,
       query,
       auth: {
@@ -28,7 +27,10 @@ export function SocketProvider({
       },
     }),
   );
+
   const [isConnected, setIsConnected] = useState<boolean>(false);
+
+  const disconnectSocket = disconnect(`/${namespace}`);
 
   const handleConnect = () => {
     console.log('connected!');
@@ -54,6 +56,7 @@ export function SocketProvider({
       value={{
         isConnected,
         socket: socket.current,
+        disconnect: disconnectSocket,
       }}
     >
       {children}
