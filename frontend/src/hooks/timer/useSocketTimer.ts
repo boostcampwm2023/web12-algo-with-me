@@ -8,16 +8,9 @@ interface Props {
   endsAt: Date;
   socketEvent: string;
   pingTime: number;
-  onUnmounted: () => void;
 }
 
-export default function useSocketTimer({
-  socket,
-  endsAt,
-  socketEvent,
-  pingTime,
-  onUnmounted,
-}: Props) {
+export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }: Props) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const pingIntervalId = useRef<NodeJS.Timeout | null>(null);
 
@@ -62,7 +55,6 @@ export default function useSocketTimer({
 
   useEffect(() => {
     return () => {
-      if (!isNil(socket)) onUnmounted();
       if (pingIntervalId.current) clearInterval(pingIntervalId.current);
       if (timerIntervalId.current) clearInterval(timerIntervalId.current);
     };
