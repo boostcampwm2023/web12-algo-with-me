@@ -1,16 +1,21 @@
+import { Inject, Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Socket } from 'socket.io';
 
 import { DashboardService } from './dashboard.service';
 
 @WebSocketGateway({ namespace: 'dashboards' })
 export class DashboardGateway implements OnGatewayConnection {
-  constructor(private readonly dashboardService: DashboardService) {}
+  constructor(
+    private readonly dashboardService: DashboardService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   @SubscribeMessage('dashboard')
   async handleDashboard(@ConnectedSocket() client: Socket) {
@@ -24,6 +29,6 @@ export class DashboardGateway implements OnGatewayConnection {
     const { competitionId } = client.handshake.query;
     client.data['competitionId'] = competitionId;
     client.join(competitionId);
-    console.log(args);
+    this.logger.debug(args);
   }
 }

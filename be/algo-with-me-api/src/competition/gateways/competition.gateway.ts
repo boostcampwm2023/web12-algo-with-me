@@ -1,4 +1,4 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { Inject, Logger, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -8,6 +8,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Server, Socket } from 'socket.io';
 
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
@@ -31,6 +32,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
     private readonly dashboardService: DashboardService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   afterInit(server: Server) {
@@ -52,7 +54,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       createSubmissionDto.problemId,
     );
     this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
-    console.log(createSubmissionDto);
+    this.logger.debug(createSubmissionDto);
     client.emit('scoreStart', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
   }
 
@@ -86,8 +88,8 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
         Number(competitionId),
         authTokenPayloadDto.sub,
       );
-      console.log(client.id, client.handshake.auth);
-      console.log(competitionId, args);
+      this.logger.debug(client.id, client.handshake.auth);
+      this.logger.debug(competitionId, args);
     } catch (error) {
       client.emit('errorMessage', { message: `${error.message}` });
       client.disconnect();

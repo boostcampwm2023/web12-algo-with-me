@@ -1,7 +1,8 @@
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Redis } from 'ioredis';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Repository } from 'typeorm';
 
 import { Dashboard } from './entities/dashboard.entity';
@@ -21,13 +22,14 @@ export class DashboardService {
     private readonly competitionProblemRepository: Repository<CompetitionProblem>,
     @InjectRepository(Competition) private readonly competitionRepository: Repository<Competition>,
     @InjectRepository(Dashboard) private readonly dashboardRepository: Repository<Dashboard>,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async registerUserAtCompetition(competitionId: number, email: string) {
     const scoreKey: string = `${this.COMPETITION}:${competitionId}`;
     const recordKey: string = `${this.COMPETITION}:${competitionId}:${email}`;
     const num: number | null = await this.redis.zrank(scoreKey, email);
-    console.log('num:', num);
+    this.logger.debug('num:', num);
     if (num === null) {
       const competitionProblems: CompetitionProblem[] =
         await this.competitionProblemRepository.find({
@@ -39,7 +41,7 @@ export class DashboardService {
       competitionProblems.forEach(
         (element: CompetitionProblem) => (value[element.problemId] = null),
       );
-      console.log(value);
+      this.logger.debug(value);
       await this.redis
         .multi()
         .zadd(scoreKey, 0, email)
@@ -59,14 +61,14 @@ export class DashboardService {
     const recordKey: string = `${this.COMPETITION}:${competitionId}:${email}`;
     const million: number = 1000000;
     const record = await JSON.parse(await this.redis.get(recordKey));
-    console.log(record);
+    this.logger.debug(record);
 
     if (this.isAlreadyCorrect(record, problemId)) return;
 
     if (result !== RESULT.CORRECT) {
       record[problemId] = -1;
       await this.redis.set(recordKey, JSON.stringify(record));
-      console.log('DASHBOARD WRONG');
+      this.logger.debug('DASHBOARD WRONG');
       return;
     }
 
@@ -93,7 +95,7 @@ export class DashboardService {
     ret['myRanking'] = myRanking;
     if (rankings.length === 0) ret['totalProblemCount'] = 0;
     else ret['totalProblemCount'] = Object.keys(rankings[0]['problemDict']).length;
-    console.log(ret);
+    this.logger.debug(ret);
     return ret;
   }
 
@@ -129,7 +131,7 @@ export class DashboardService {
 
       ret['myRanking'] = myRanking;
       ret['rankings'] = ret['rankings'].slice(0, 100);
-      console.log(ret);
+      this.logger.debug(ret);
 
       await this.redis.unlink(scoreKey);
       for (const email of emails) await this.redis.unlink(email);
@@ -164,7 +166,7 @@ export class DashboardService {
       emails.push(scoreKey + ':' + scores[i]);
     }
     const problems = await this.redis.mget(emails);
-    console.log(problems);
+    this.logger.debug(problems);
     for (const [idx, ranking] of rankings.entries()) {
       ranking['problemDict'] = await JSON.parse(problems[idx]);
     }
@@ -173,7 +175,7 @@ export class DashboardService {
 
   async getMyRanking(email: string, scoreKey: string, recordKey: string) {
     let myRanking = {};
-    console.log(email, await this.redis.zrank(scoreKey, email));
+    this.logger.debug(email, await this.redis.zrank(scoreKey, email));
     if (email && (await this.redis.zrank(scoreKey, email)) !== null) {
       const [rank, score, problemDict] = await this.redis
         .multi()
