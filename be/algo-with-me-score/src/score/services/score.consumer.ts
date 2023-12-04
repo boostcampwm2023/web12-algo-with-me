@@ -30,8 +30,10 @@ export class SubmissionConsumer {
     const { socketId, submissionId } = messageQueueItem;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission) {
-      this.logger.error(`제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`);
-      throw new InternalServerErrorException();
+      this.logger.error(
+        `Redis로부터 제출 요청을 받았지만, 제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`,
+      );
+      return;
     }
 
     const problemId = submission.problemId;
@@ -41,12 +43,13 @@ export class SubmissionConsumer {
     this.logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
 
     this.filesystemService.removeCodeRunOutputs(competitionId, userId);
-    await this.filesystemService.writeSubmittedCode(
+    const writeSucceeded = await this.filesystemService.writeSubmittedCode(
       submission.code,
       competitionId,
       userId,
       problemId,
     );
+    if (!writeSucceeded) return;
 
     const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     await this.scoreService.scoreAllAndSendResult(

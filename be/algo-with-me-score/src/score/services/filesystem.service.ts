@@ -26,7 +26,7 @@ export class FilesystemService {
       }
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException();
+      return false;
     }
 
     const codeFilepath = path.join(baseDirectory, `${problemId}.js`);
@@ -34,8 +34,9 @@ export class FilesystemService {
       fs.writeFileSync(codeFilepath, mergedCode);
     } catch (error) {
       this.logger.error(`실행 가능한 코드 파일(${codeFilepath})이 쓰이지 않았습니다`);
-      throw new InternalServerErrorException();
+      return false;
     }
+    return true;
   }
 
   private getMergedCode(code: string, frameCode: string) {
@@ -83,7 +84,7 @@ export class FilesystemService {
     const filepath = this.getTestcaseFilepath(problemId, testcaseId);
     if (!fs.existsSync(filepath)) {
       this.logger.error(`경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`);
-      throw new InternalServerErrorException();
+      return undefined;
     }
 
     return fs.readFileSync(filepath).toString().trim();

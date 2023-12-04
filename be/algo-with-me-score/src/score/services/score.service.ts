@@ -45,7 +45,7 @@ export class ScoreService {
     containerId: number;
     socketId: string;
   }) {
-    const codeRunResponse = await this.fetchService.requestDockerServerToRunCode(
+    const codeRunResponse: ICoderunResponse = await this.fetchService.requestDockerServerToRunCode(
       args.competitionId,
       args.userId,
       args.problemId,
@@ -69,6 +69,7 @@ export class ScoreService {
       args.problemId,
       args.testcaseId,
     );
+    if (!testcaseAnswer) return;
     const judgeResult = this.judge(codeRunResponse, codeRunOutput, testcaseAnswer, args);
 
     const scoreResult = new ScoreResultDto(
