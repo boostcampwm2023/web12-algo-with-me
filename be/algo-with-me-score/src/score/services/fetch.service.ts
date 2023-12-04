@@ -1,11 +1,12 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 import { ScoreResultDto } from '../dtos/score-result.dto';
 import ICoderunResponse from '../interfaces/coderun-response.interface';
 
 @Injectable()
 export class FetchService {
-  constructor() {}
+  constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
   async sendScoreResultToApiServer(scoreResult: ScoreResultDto) {
     const [apiServerHost, apiServerPort] = [
@@ -13,7 +14,7 @@ export class FetchService {
       process.env.API_SERVER_PORT,
     ];
     const url = `http://${apiServerHost}:${apiServerPort}/competitions/scores`;
-    console.log(JSON.stringify(scoreResult));
+    this.logger.debug(`API 서버에게 보내는 채점 결과: ${JSON.stringify(scoreResult)}`);
     try {
       const result = await fetch(url, {
         method: 'POST',
@@ -22,7 +23,7 @@ export class FetchService {
         },
         body: JSON.stringify(scoreResult),
       });
-      console.log(result.status);
+      this.logger.debug(`API 서버 status code: ${result.status}`);
     } catch (error) {
       new Logger().error(
         `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
