@@ -29,6 +29,8 @@ export function useParticipantDashboard() {
     }
   }, [socket]);
 
+  console.log('h');
+
   return {
     ranks,
     myRank,
