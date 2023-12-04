@@ -17,7 +17,7 @@ import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { Dashboard } from './dashboard/entities/dashboard.entity';
-import { consoleConfig, errorFileConfig, fileConfig } from './log/logger.config';
+import winstonConfig from './log/logger.config';
 import { LoggerMiddleware } from './log/logger.middleware';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
@@ -63,13 +63,7 @@ config();
         password: process.env.REDIS_PASSWORD,
       },
     }),
-    WinstonModule.forRoot({
-      transports: [
-        new winston.transports.Console(consoleConfig),
-        new winstonDaily(fileConfig),
-        new winstonDaily(errorFileConfig),
-      ],
-    }),
+    WinstonModule.forRoot(winstonConfig),
     CompetitionModule,
     AuthModule,
     UserModule,
