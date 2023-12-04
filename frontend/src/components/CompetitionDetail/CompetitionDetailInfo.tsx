@@ -4,19 +4,15 @@ import { CompetitionInfo } from '@/apis/competitions';
 
 interface Props {
   competition: CompetitionInfo;
-  text: string;
-  competitionSchedule: string;
 }
 
-export default function CompetitionDetailInfo({ competition, text, competitionSchedule }: Props) {
+export default function CompetitionDetailInfo({ competition }: Props) {
   return (
     <div className={infoContainerStyle}>
       <div>
         <span className={competitionNameStyle}>{competition.name}</span>
-        <span className={statusTextStyle}>{text}</span>
       </div>
-      <span className={statusTextStyle}>{competitionSchedule}</span>
-      <div className={additionalTextStyle}>{competition.detail}</div>
+      <span className={additionalTextStyle}>{competition.detail}</span>
     </div>
   );
 }
@@ -27,20 +23,19 @@ const infoContainerStyle = css({
 });
 
 const competitionNameStyle = css({
-  fontSize: '18px',
-  fontWeight: 'bold',
-  color: 'black',
-  marginBottom: '8px',
-});
-
-const statusTextStyle = css({
-  fontSize: '12px',
-  color: 'gray',
-  marginBottom: '8px',
+  color: '#FFF',
+  fontFamily: 'Inter',
+  fontSize: '57px',
+  fontStyle: 'normal',
+  fontWeight: '400',
+  lineHeight: 'normal',
 });
 
 const additionalTextStyle = css({
+  color: '#FFF',
+  fontFamily: 'Inter',
   fontSize: '14px',
-  color: 'black',
-  marginBottom: '8px',
+  fontStyle: 'normal',
+  fontWeight: '400',
+  lineHeight: 'normal',
 });
