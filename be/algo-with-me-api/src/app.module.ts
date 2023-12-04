@@ -1,22 +1,26 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bull';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import * as winstonDaily from 'winston-daily-rotate-file';
 
 import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
+import { Competition } from './competition/entities/competition.entity';
 import { CompetitionParticipant } from './competition/entities/competition.participant.entity';
 import { CompetitionProblem } from './competition/entities/competition.problem.entity';
 import { Problem } from './competition/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { Dashboard } from './dashboard/entities/dashboard.entity';
+import { consoleConfig, errorFileConfig, fileConfig } from './log/logger.config';
+import { LoggerMiddleware } from './log/logger.middleware';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
-
-import { Competition } from '@src/competition/entities/competition.entity';
 
 config();
 
@@ -59,10 +63,21 @@ config();
         password: process.env.REDIS_PASSWORD,
       },
     }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console(consoleConfig),
+        new winstonDaily(fileConfig),
+        new winstonDaily(errorFileConfig),
+      ],
+    }),
     CompetitionModule,
     AuthModule,
     UserModule,
     DashboardModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
