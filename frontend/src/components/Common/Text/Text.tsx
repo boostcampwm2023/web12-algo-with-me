@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'react';
 type TextType = 'display' | 'title' | 'body' | 'label';
 type SizeType = 'lg' | 'md' | 'sm';
 
-interface Props extends HTMLAttributes<HTMLSpanElement> {
+export interface Props extends HTMLAttributes<HTMLSpanElement> {
   type?: TextType;
   size?: SizeType;
   bold?: boolean;
