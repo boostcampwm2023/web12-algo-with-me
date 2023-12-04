@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { connect, createDisconnectFunc } from '@/utils/socket';
+import { connect, disconnect } from '@/utils/socket';
 
 import { SocketContext } from './SocketContext';
 
@@ -31,8 +31,6 @@ export function SocketProvider({
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const onUnmounted = createDisconnectFunc(`/${namespace}`);
-
   const handleConnect = () => {
     console.log('connected!');
     setIsConnected(true);
@@ -50,7 +48,7 @@ export function SocketProvider({
       socket.current.on('disconnect', handleDisconnect);
     }
     return () => {
-      onUnmounted();
+      disconnect(`/${namespace}`);
     };
   }, []);
 

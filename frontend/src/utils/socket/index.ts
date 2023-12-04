@@ -22,12 +22,10 @@ export function connect(url: string, opts: ConnectOptions = {}) {
   return socketDict[url] as Socket;
 }
 
-export function createDisconnectFunc(url: string) {
-  return function () {
-    if (isNil(socketDict[url])) return;
-    socketDict[url]?.disconnect();
-    socketDict[url] = undefined;
-  };
+export function disconnect(url: string) {
+  if (isNil(socketDict[url])) return;
+  socketDict[url]?.disconnect();
+  socketDict[url] = undefined;
 }
 
 export type { Socket };
