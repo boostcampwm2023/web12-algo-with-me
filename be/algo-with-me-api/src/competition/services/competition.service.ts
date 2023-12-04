@@ -1,12 +1,15 @@
 import { InjectQueue } from '@nestjs/bull';
 import {
   BadRequestException,
+  Inject,
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Server } from 'socket.io';
 import { DataSource, Repository } from 'typeorm';
 
@@ -48,6 +51,7 @@ export class CompetitionService {
     private dataSource: DataSource,
     private readonly problemService: ProblemService,
     private readonly dashboardService: DashboardService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async findAll() {
@@ -131,7 +135,7 @@ export class CompetitionService {
 
     if (!competition) throw new NotFoundException('대회를 찾을 수 없습니다.');
     if (competition.userId !== user.id) throw new UnauthorizedException('대회 주최자가 아닙니다.');
-    console.log(competition.startsAt.toString(), new Date().toString());
+    this.logger.debug(competition.startsAt.toString(), new Date().toString());
     if (competition.startsAt.getTime() - new Date().getTime() < this.FIVE_MINUTES)
       throw new BadRequestException('대회 시작 5분 전 부터는 수정이 불가능합니다.');
     this.competitionTimeValidation(competitionDto);
@@ -199,7 +203,7 @@ export class CompetitionService {
   }
 
   async isUserJoinedCompetition(competitionId: number, userId: number) {
-    console.log(competitionId, userId);
+    this.logger.debug(competitionId, userId);
     const competitionParticipant: CompetitionParticipant =
       await this.competitionParticipantRepository.findOneBy({ competitionId, userId });
 

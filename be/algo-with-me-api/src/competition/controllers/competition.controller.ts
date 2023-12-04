@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
+  Logger,
   Param,
   Post,
   Put,
@@ -12,21 +14,24 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
+import { AuthUser } from '../../user/decorators/user.decorators';
+import { User } from '../../user/entities/user.entity';
 import { CompetitionDto } from '../dto/competition.dto';
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
+import { CompetitionResponseDto } from '../dto/competition.response.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { CompetitionService } from '../services/competition.service';
 
-import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
-import { AuthUser } from '@src/user/decorators/user.decorators';
-import { User } from '@src/user/entities/user.entity';
-
 @ApiTags('대회(competitions)')
 @Controller('competitions')
 export class CompetitionController {
-  constructor(private readonly competitionService: CompetitionService) {}
+  constructor(
+    private readonly competitionService: CompetitionService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   @Get('/')
   @ApiOperation({
@@ -99,7 +104,7 @@ export class CompetitionController {
   })
   @UsePipes(new ValidationPipe({ transform: true }))
   async saveScoreResult(@Body() scoreResultDto: ScoreResultDto) {
-    console.log('채점완료 api', scoreResultDto);
+    this.logger.debug('채점완료 api', scoreResultDto);
     await this.competitionService.saveScoreResult(scoreResultDto);
   }
 
