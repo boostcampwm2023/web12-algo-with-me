@@ -31,6 +31,38 @@ export function Text({
   );
 }
 
+Text.Display = function ({ children, ...props }: Omit<Props, 'type'>) {
+  return (
+    <Text type="display" {...props}>
+      {children}
+    </Text>
+  );
+};
+
+Text.Title = function ({ children, ...props }: Omit<Props, 'type'>) {
+  return (
+    <Text type="title" {...props}>
+      {children}
+    </Text>
+  );
+};
+
+Text.Body = function ({ children, ...props }: Omit<Props, 'type'>) {
+  return (
+    <Text type="body" {...props}>
+      {children}
+    </Text>
+  );
+};
+
+Text.Label = function ({ children, ...props }: Omit<Props, 'type'>) {
+  return (
+    <Text type="label" {...props}>
+      {children}
+    </Text>
+  );
+};
+
 const style = cva({
   base: {
     fontWeight: 'normal',

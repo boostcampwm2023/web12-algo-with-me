@@ -10,9 +10,9 @@ interface Props extends TextProps {
 
 export function Chip({ className, children, theme = 'info', ...props }: Props) {
   return (
-    <Text type="label" size="sm" className={cx(className, style, themeStyle({ theme }))} {...props}>
+    <Text.Label size="sm" className={cx(className, style, themeStyle({ theme }))} {...props}>
       {children}
-    </Text>
+    </Text.Label>
   );
 }
 
