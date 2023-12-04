@@ -10,26 +10,10 @@ export default defineConfig({
       colors: {
         background: { value: '#263238' },
         alert: {
-          success: {
-            DEFAULT: { value: '#82DD55' },
-            dark: { value: '#355A23' },
-            light: { value: '#82DD55B2' },
-          },
-          warning: {
-            DEFAULT: { value: '#8E6F3A' },
-            dark: { value: '#EDB95E' },
-            light: { value: '#EDB95EB2' },
-          },
-          error: {
-            DEFAULT: { value: '#E23636' },
-            dark: { value: '#751919' },
-            light: { value: '#E23636B2' },
-          },
-          info: {
-            DEFAULT: { value: '#C8CDD0' },
-            dark: { value: '#444749' },
-            light: { value: '#C8CDD0B2' },
-          },
+          success: { value: '#82DD55' },
+          warning: { value: '#8E6F3A' },
+          error: { value: '#E23636' },
+          info: { value: '#C8CDD0' },
         },
         brand: {
           DEFAULT: { value: '#FFA800' },
