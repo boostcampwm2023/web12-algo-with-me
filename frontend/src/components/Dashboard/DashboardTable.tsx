@@ -5,8 +5,6 @@ import { useParticipantDashboard } from '@/hooks/dashboard';
 export default function DashboardTable() {
   const { ranks, totalProblemCount, myRank } = useParticipantDashboard();
   const problemCount = Array.from({ length: totalProblemCount }, (_, index) => index + 1);
-  console.log(myRank);
-  console.log(ranks);
 
   return (
     <table className={tableStyle}>

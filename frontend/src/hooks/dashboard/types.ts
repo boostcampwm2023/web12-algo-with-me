@@ -1,9 +1,7 @@
-import { ReactNode } from 'react';
-
 import { CompetitionId } from '@/apis/competitions';
 
 export type Rank = {
-  rank: ReactNode;
+  rank: number;
   email: string;
   score: number;
   problemDict: {
