@@ -60,13 +60,11 @@ export default function useAuth() {
   const saveAuthInfo = (info: TokenValidResponse, token: string) => {
     const { email } = info;
 
-    localStorage.setItem(EMAIL_KEY, email);
     localStorage.setItem(TOKEN_KEY, token);
-    login();
+    login(email);
   };
 
   const removeAuthInfo = () => {
-    localStorage.removeItem(EMAIL_KEY);
     localStorage.removeItem(TOKEN_KEY);
     logout();
   };
