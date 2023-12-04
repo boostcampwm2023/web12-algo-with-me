@@ -1,5 +1,6 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Repository } from 'typeorm';
 
 import * as fs from 'node:fs';
@@ -9,7 +10,10 @@ import { Problem } from '../entities/problem.entity';
 
 @Injectable()
 export class FilesystemService {
-  constructor(@InjectRepository(Problem) private readonly problemRepository: Repository<Problem>) {}
+  constructor(
+    @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   async writeSubmittedCode(code: string, competitionId: number, userId: number, problemId: number) {
     const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
@@ -21,7 +25,7 @@ export class FilesystemService {
         fs.mkdirSync(baseDirectory, { recursive: true });
       }
     } catch (error) {
-      new Logger().error(error);
+      this.logger.error(error);
       throw new InternalServerErrorException();
     }
 
@@ -29,7 +33,7 @@ export class FilesystemService {
     try {
       fs.writeFileSync(codeFilepath, mergedCode);
     } catch (error) {
-      new Logger().error(`실행 가능한 코드 파일(${codeFilepath})이 쓰이지 않았습니다`);
+      this.logger.error(`실행 가능한 코드 파일(${codeFilepath})이 쓰이지 않았습니다`);
       throw new InternalServerErrorException();
     }
   }
@@ -67,7 +71,7 @@ export class FilesystemService {
   private getCodeRunOutput(filepath: string, defaultOutput?: string) {
     let result: string;
     if (!fs.existsSync(filepath)) {
-      new Logger().error(`코드 실행 파일(${filepath})이 정상적으로 생성되지 않았습니다`);
+      this.logger.error(`코드 실행 파일(${filepath})이 정상적으로 생성되지 않았습니다`);
       result = defaultOutput;
     } else {
       result = fs.readFileSync(filepath).toString();
@@ -78,7 +82,7 @@ export class FilesystemService {
   getTestcaseAnswer(problemId: number, testcaseId: number) {
     const filepath = this.getTestcaseFilepath(problemId, testcaseId);
     if (!fs.existsSync(filepath)) {
-      new Logger().error(`경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`);
+      this.logger.error(`경로 ${filepath}에서 테스트케이스 ans 파일을 찾을 수 없습니다`);
       throw new InternalServerErrorException();
     }
 
@@ -90,7 +94,7 @@ export class FilesystemService {
     try {
       fs.rmSync(baseDirectory, { recursive: true });
     } catch (e) {
-      new Logger().warn(`코드 실행 후 ${baseDirectory}를 삭제하는 데 실패했습니다`);
+      this.logger.warn(`코드 실행 후 ${baseDirectory}를 삭제하는 데 실패했습니다`);
     }
   }
 
