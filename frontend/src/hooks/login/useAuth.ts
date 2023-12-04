@@ -6,7 +6,6 @@ import AuthContext from '@/components/Auth/AuthContext';
 import axios, { type AxiosError } from 'axios';
 
 const TOKEN_KEY = 'accessToken';
-const EMAIL_KEY = 'email';
 const BASE_URL = import.meta.env.VITE_API_URL;
 const AUTH_TEST_PATH = '/auths/tests';
 
