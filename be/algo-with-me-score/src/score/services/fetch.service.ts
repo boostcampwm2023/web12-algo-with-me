@@ -28,7 +28,6 @@ export class FetchService {
       this.logger.error(
         `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
       );
-      throw new InternalServerErrorException();
     }
   }
 
@@ -52,7 +51,12 @@ export class FetchService {
       this.logger.error(
         `도커 서버로 채점 요청을 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
       );
-      throw new InternalServerErrorException();
+      return {
+        result: 'Internal Server Error',
+        competitionId,
+        userId,
+        problemId,
+      };
     }
   }
 }
