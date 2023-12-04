@@ -25,7 +25,7 @@ export class FetchService {
       });
       this.logger.debug(`API 서버 status code: ${result.status}`);
     } catch (error) {
-      new Logger().error(
+      this.logger.error(
         `API 서버로 채점 결과를 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
       );
       throw new InternalServerErrorException();
@@ -49,7 +49,7 @@ export class FetchService {
       const response = await fetch(url, { method: 'POST' });
       return (await response.json()) as ICoderunResponse;
     } catch (error) {
-      new Logger().error(
+      this.logger.error(
         `도커 서버로 채점 요청을 보내는 데 실패했습니다 (POST ${url}) 원인: ${error}`,
       );
       throw new InternalServerErrorException();

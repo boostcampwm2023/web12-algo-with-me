@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 import { FetchService } from './fetch.service';
 import { FilesystemService } from './filesystem.service';
@@ -11,6 +12,7 @@ export class ScoreService {
   constructor(
     private readonly filesystemService: FilesystemService,
     private readonly fetchService: FetchService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   public async scoreAllAndSendResult(
@@ -21,7 +23,7 @@ export class ScoreService {
     problemId: number,
     socketId: string,
   ) {
-    const promisePool = new PromisePool(parseInt(process.env.DOCKER_CONTAINER_COUNT));
+    const promisePool = new PromisePool(parseInt(process.env.DOCKER_CONTAINER_COUNT), this.logger);
     for (let testcaseId = 1; testcaseId <= testcaseNum; testcaseId++) {
       await promisePool.add(this.scoreOneTestcaseAndSendResult.bind(this), {
         submissionId,
@@ -88,7 +90,7 @@ export class ScoreService {
     testcaseAnswer: string,
     args?: { [keys: number | string]: any },
   ): '처리중' | '정답입니다' | '오답입니다' | '시간초과' | '메모리초과' {
-    new Logger().debug(
+    this.logger.debug(
       `실행 결과: ${
         codeRunResponse.result
       }, 제출한 답안: ${codeRunOutput}, 정답: ${testcaseAnswer}, ${JSON.stringify(args)}`,

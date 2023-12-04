@@ -1,7 +1,8 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Repository } from 'typeorm';
 
 import { FilesystemService } from './filesystem.service';
@@ -19,18 +20,17 @@ export class SubmissionConsumer {
     @InjectRepository(Problem) private readonly problemRepository: Repository<Problem>,
     private readonly filesystemService: FilesystemService,
     private readonly scoreService: ScoreService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   @Process()
   async getMessageQueue(job: Job) {
-    const logger = new Logger();
-
-    logger.debug(`Redis로부터 제출 요청 받음: ${JSON.stringify(job.data)}`);
+    this.logger.debug(`Redis로부터 제출 요청 받음: ${JSON.stringify(job.data)}`);
     const messageQueueItem = new MessageQueueItemDto(job.data.submissionId, job.data.socketId);
     const { socketId, submissionId } = messageQueueItem;
     const submission: Submission = await this.submissionRepository.findOneBy({ id: submissionId });
     if (!submission) {
-      new Logger().error(`제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`);
+      this.logger.error(`제출 id ${submissionId}에 해당하는 제출 정보를 찾을 수 없습니다`);
       throw new InternalServerErrorException();
     }
 
@@ -38,7 +38,7 @@ export class SubmissionConsumer {
     const competitionId = submission.competitionId;
     const userId = submission.userId;
 
-    logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
+    this.logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
 
     this.filesystemService.removeCodeRunOutputs(competitionId, userId);
     await this.filesystemService.writeSubmittedCode(

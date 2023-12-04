@@ -1,10 +1,14 @@
-import { Logger } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 class PromisePool {
   private promises: Promise<number>[] = [];
   private reserved: boolean[];
 
-  constructor(private readonly containerCount: number) {
+  constructor(
+    private readonly containerCount: number,
+    private readonly logger: Logger,
+  ) {
     this.reserved = new Array<boolean>(containerCount).fill(false);
   }
 
@@ -25,7 +29,7 @@ class PromisePool {
         return promise !== newlyAddedPromise;
       });
       this.reserved[containerId] = false;
-      new Logger().debug(`채점 완료: ${JSON.stringify(args)}`);
+      this.logger.debug(`채점 완료: ${JSON.stringify(args)}`);
     });
 
     this.promises.push(newlyAddedPromise);
