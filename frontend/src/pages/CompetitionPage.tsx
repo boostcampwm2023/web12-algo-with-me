@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
@@ -21,6 +21,7 @@ import { SubmissionButton } from '@/components/Submission/SubmissionButton';
 import { SubmissionResult } from '@/components/Submission/SubmissionResult';
 import { ROUTE, SITE } from '@/constants';
 import { useCompetition } from '@/hooks/competition';
+import { useCode } from '@/hooks/editor/useCode';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
@@ -51,11 +52,7 @@ export default function CompetitionPage() {
   const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
   const simulation = useSimulation(problem.testcases);
 
-  const [code, setCode] = useState<string>(problem.solutionCode);
-
-  useEffect(() => {
-    setCode(problem.solutionCode);
-  }, [problem.solutionCode]);
+  const { code, setCode } = useCode(problem.solutionCode, competitionId, currentProblemIndex);
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -114,11 +111,7 @@ export default function CompetitionPage() {
             <VStack className={hfullStyle}>
               <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
               <HStack className={solutionStyle}>
-                <Editor
-                  height="500px"
-                  code={problem.solutionCode}
-                  onChangeCode={handleChangeCode}
-                ></Editor>
+                <Editor height="500px" code={code} onChangeCode={handleChangeCode}></Editor>
                 <section>
                   <SimulationResultList resultList={simulation.results}></SimulationResultList>
                   <SubmissionResult></SubmissionResult>
@@ -134,7 +127,7 @@ export default function CompetitionPage() {
                 onCancel={handleSimulationCancel}
               />
               <SubmissionButton
-                code={code}
+                code={problem.solutionCode}
                 problemId={currentProblem?.id}
                 competitionId={competitionId}
               ></SubmissionButton>
