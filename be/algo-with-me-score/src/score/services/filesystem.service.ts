@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Repository } from 'typeorm';
@@ -95,7 +95,7 @@ export class FilesystemService {
     try {
       fs.rmSync(baseDirectory, { recursive: true });
     } catch (e) {
-      this.logger.warn(`코드 실행 후 ${baseDirectory}를 삭제하는 데 실패했습니다`);
+      this.logger.warn(`코드 실행 전 ${baseDirectory}를 삭제하는 데 실패했습니다`);
     }
   }
 
