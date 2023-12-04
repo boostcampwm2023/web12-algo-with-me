@@ -5,6 +5,8 @@ import { isNil } from '@/utils/type';
 
 import type { Dashboard, Rank } from './types';
 
+const INTERVAL_TIME = 5000;
+
 export function useParticipantDashboard() {
   const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
@@ -15,6 +17,12 @@ export function useParticipantDashboard() {
   });
   const [totalProblemCount, setTotalProblemCount] = useState(-1);
 
+  const fetchData = () => {
+    if (!isNil(socket)) {
+      socket.emit('dashboard');
+    }
+  };
+
   function handleDashboard(newDashboard: Dashboard) {
     setRanks(newDashboard.rankings);
     setMyRank(newDashboard.myRanking);
@@ -22,14 +30,28 @@ export function useParticipantDashboard() {
   }
 
   useEffect(() => {
+    fetchData();
+
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, INTERVAL_TIME);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
     if (isNil(socket)) return;
 
     if (!socket.hasListeners('dashboard')) {
       socket.on('dashboard', handleDashboard);
     }
-  }, [socket]);
 
-  console.log('h');
+    return () => {
+      if (socket.hasListeners('dashboard')) {
+        socket.off('dashboard', handleDashboard);
+      }
+    };
+  }, [socket]);
 
   return {
     ranks,

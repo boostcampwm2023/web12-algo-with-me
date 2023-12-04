@@ -1,27 +1,8 @@
 import { css } from '@style/css';
 
-import { useContext, useEffect } from 'react';
-
 import { useParticipantDashboard } from '@/hooks/dashboard';
-import { isNil } from '@/utils/type';
-
-import { SocketContext } from '../Common/Socket/SocketContext';
-
-const INTERVAL_TIME = 5000;
 
 export default function DashboardTable() {
-  const { socket } = useContext(SocketContext);
-
-  useEffect(() => {
-    if (!isNil(socket)) socket.emit('dashboard');
-
-    const intervalId = setInterval(() => {
-      if (!isNil(socket)) socket.emit('dashboard');
-    }, INTERVAL_TIME);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
   const { ranks, totalProblemCount } = useParticipantDashboard();
   const problemCount = Array.from({ length: totalProblemCount }, (_, index) => index + 1);
 
