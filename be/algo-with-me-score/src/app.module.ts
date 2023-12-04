@@ -3,11 +3,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
+import { WinstonModule } from 'nest-winston';
 
 import * as process from 'node:process';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import winstonConfig from './log/logger.config';
 import { Competition } from './score/entities/competition.entity';
 import { CompetitionParticipant } from './score/entities/competition.participant.entity';
 import { CompetitionProblem } from './score/entities/competition.problem.entity';
@@ -51,6 +53,7 @@ config();
     BullModule.registerQueue({
       name: 'submission',
     }),
+    WinstonModule.forRoot(winstonConfig),
     ScoreModule,
   ],
   controllers: [AppController],
