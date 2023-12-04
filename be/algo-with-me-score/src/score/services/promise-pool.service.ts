@@ -1,5 +1,4 @@
-import { Inject, Logger } from '@nestjs/common';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from '@nestjs/common';
 
 class PromisePool {
   private promises: Promise<number>[] = [];
