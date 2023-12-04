@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { connect, disconnect } from './index';
+import { connect, createDisconnectFunc } from '@/utils/socket';
+
 import { SocketContext } from './SocketContext';
 
 interface Props {
@@ -30,7 +31,7 @@ export function SocketProvider({
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const onUnmounted = disconnect(`/${namespace}`);
+  const onUnmounted = createDisconnectFunc(`/${namespace}`);
 
   const handleConnect = () => {
     console.log('connected!');
@@ -48,6 +49,9 @@ export function SocketProvider({
     if (!socket.current.hasListeners('disconnect')) {
       socket.current.on('disconnect', handleDisconnect);
     }
+    return () => {
+      onUnmounted();
+    };
   }, []);
 
   return (
@@ -55,7 +59,6 @@ export function SocketProvider({
       value={{
         isConnected,
         socket: socket.current,
-        onUnmounted,
       }}
     >
       {children}

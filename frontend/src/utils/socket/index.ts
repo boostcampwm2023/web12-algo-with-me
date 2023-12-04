@@ -1,7 +1,7 @@
-import type { ManagerOptions, SocketOptions } from 'socket.io-client';
-import { io } from 'socket.io-client';
+import { isNil } from '@/utils/type';
 
-export type { Socket } from 'socket.io-client';
+import type { ManagerOptions, SocketOptions } from 'socket.io-client';
+import { io, type Socket } from 'socket.io-client';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL;
 
@@ -9,5 +9,25 @@ export type ConnectOptions = Partial<ManagerOptions & SocketOptions>;
 
 export function createSocketInstance(url: string, opts: ConnectOptions = {}) {
   console.log('소켓 인스턴스 생성');
-  return io(`${SOCKET_URL}${url}`, { ...opts, reconnectionDelay: 1000 });
+  return io(`${SOCKET_URL}${url}`, opts);
 }
+
+type SocketDict = Record<string, Socket | undefined>;
+const socketDict: SocketDict = {};
+
+export function connect(url: string, opts: ConnectOptions = {}) {
+  if (!isNil(socketDict[url])) return socketDict[url] as Socket;
+  socketDict[url] = createSocketInstance(url, opts);
+
+  return socketDict[url] as Socket;
+}
+
+export function createDisconnectFunc(url: string) {
+  return function () {
+    if (isNil(socketDict[url])) return;
+    socketDict[url]?.disconnect();
+    socketDict[url] = undefined;
+  };
+}
+
+export type { Socket };
