@@ -3,8 +3,10 @@ import { css } from '@style/css';
 import { useParticipantDashboard } from '@/hooks/dashboard';
 
 export default function DashboardTable() {
-  const { ranks, totalProblemCount } = useParticipantDashboard();
+  const { ranks, totalProblemCount, myRank } = useParticipantDashboard();
   const problemCount = Array.from({ length: totalProblemCount }, (_, index) => index + 1);
+  console.log(myRank);
+  console.log(ranks);
 
   return (
     <table className={tableStyle}>
@@ -21,23 +23,30 @@ export default function DashboardTable() {
         </tr>
       </thead>
       <tbody>
-        {ranks.map((rank, index) => {
-          const problemIds = Object.keys(rank.problemDict);
-          return (
-            <tr key={rank.email}>
-              <td className={thTdCommonStyle}>{index + 1}</td>
-              <td className={thTdCommonStyle}>{rank.email}</td>
-              <td className={thTdCommonStyle}>{rank.score}</td>
-              {problemIds.map((problemId) => {
-                return (
-                  <td key={problemId} className={thTdCommonStyle}>
-                    {rank.problemDict[Number(problemId)] ?? '-'}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
+        {myRank !== null && (
+          <tr>
+            <td className={thTdCommonStyle}>{myRank.rank}</td>
+            <td className={thTdCommonStyle}>{myRank.email}</td>
+            <td className={thTdCommonStyle}>{myRank.score}</td>
+            {problemCount.map((problemId) => (
+              <td key={problemId} className={thTdCommonStyle}>
+                {myRank.problemDict[Number(problemId)] ?? '-'}
+              </td>
+            ))}
+          </tr>
+        )}
+        {ranks.map((rank, index) => (
+          <tr key={rank.email}>
+            <td className={thTdCommonStyle}>{index + 1}</td>
+            <td className={thTdCommonStyle}>{rank.email}</td>
+            <td className={thTdCommonStyle}>{rank.score}</td>
+            {problemCount.map((problemId) => (
+              <td key={problemId} className={thTdCommonStyle}>
+                {rank.problemDict[Number(problemId)] ?? '-'}
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

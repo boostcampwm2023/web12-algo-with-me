@@ -11,6 +11,7 @@ export function useParticipantDashboard() {
   const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
   const [myRank, setMyRank] = useState<Rank>({
+    rank: 0,
     email: '',
     score: 0,
     problemDict: {},
