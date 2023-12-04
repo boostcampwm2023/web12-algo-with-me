@@ -1,5 +1,6 @@
 import './index.css';
 
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
@@ -8,11 +9,12 @@ import { Modal } from './components/Common';
 import router from './router';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // <React.StrictMode>
-  <AuthProvider>
-    <Modal.Provider>
-      <RouterProvider router={router}></RouterProvider>
-    </Modal.Provider>
-  </AuthProvider>,
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <AuthProvider>
+      <Modal.Provider>
+        <RouterProvider router={router}></RouterProvider>
+      </Modal.Provider>
+    </AuthProvider>
+    ,
+  </React.StrictMode>,
 );
