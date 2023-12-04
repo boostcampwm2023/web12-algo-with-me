@@ -8,22 +8,43 @@ export default defineConfig({
   theme: {
     semanticTokens: {
       colors: {
-        brand: {
-          DEFAULT: { value: '{colors.cyan.300}' },
-        },
-        surface: {
-          DEFAULT: { value: '{colors.gray.50}' },
-          brand: {
-            DEFAULT: { value: '{colors.cyan.300}' },
-            alt: { value: '{colors.cyan.200}' },
+        background: { value: '#263238' },
+        alert: {
+          success: {
+            DEFAULT: { value: '#82DD55' },
+            dark: { value: '#355A23' },
+            light: { value: '#82DD55B2' },
+          },
+          warning: {
+            DEFAULT: { value: '#8E6F3A' },
+            dark: { value: '#EDB95E' },
+            light: { value: '#EDB95EB2' },
+          },
+          error: {
+            DEFAULT: { value: '#E23636' },
+            dark: { value: '#751919' },
+            light: { value: '#E23636B2' },
+          },
+          info: {
+            DEFAULT: { value: '#C8CDD0' },
+            dark: { value: '#444749' },
+            light: { value: '#C8CDD0B2' },
           },
         },
+        brand: {
+          DEFAULT: { value: '#FFA800' },
+          alt: { value: '#FFBB36' },
+        },
+        surface: {
+          DEFAULT: { value: '#37474F' },
+          alt: { value: '#455A64' },
+        },
         text: {
-          DEFAULT: { value: '{colors.gray.800}' },
-          week: { value: '{colors.gray.400}' },
+          DEFAULT: { value: '#F5F5F5' },
+          light: { value: '#FAFAFA' },
         },
         border: {
-          DEFAULT: { value: '{colors.gray.200}' },
+          DEFAULT: { value: '#455A64' },
         },
       },
     },
