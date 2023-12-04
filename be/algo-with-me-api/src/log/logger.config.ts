@@ -1,7 +1,9 @@
+import { WinstonModuleOptions } from 'nest-winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston/dist/winston.utilities';
 import * as winston from 'winston';
 import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import * as winstonDaily from 'winston-daily-rotate-file';
 
 const consoleFormat = winston.format.combine(
   winston.format.colorize(),
@@ -47,4 +49,19 @@ const errorFileConfig: DailyRotateFile.DailyRotateFileTransportOptions = {
   json: false,
 };
 
-export { consoleConfig, fileConfig, errorFileConfig };
+const productionWinstonConfig = {
+  transports: [
+    new winston.transports.Console(consoleConfig),
+    new winstonDaily(fileConfig),
+    new winstonDaily(errorFileConfig),
+  ],
+};
+
+const devWinstonConfig = {
+  transports: [new winston.transports.Console(consoleConfig)],
+};
+
+const winstonConfig: WinstonModuleOptions =
+  process.env.NODE_ENV === 'production' ? productionWinstonConfig : devWinstonConfig;
+
+export default winstonConfig;
