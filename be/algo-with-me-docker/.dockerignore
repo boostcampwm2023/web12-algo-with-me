@@ -1,5 +1,5 @@
 node-modules/
-src/
+dist/
 build.sh
 .eslintrc.js
 .prettierrc

@@ -21,4 +21,4 @@ SHELL ["/bin/bash", "-ec"]
 
 EXPOSE ${PORT}
 
-CMD node dist/app.js
+CMD node src/app.js
