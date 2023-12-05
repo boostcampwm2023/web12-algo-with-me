@@ -15,7 +15,7 @@ interface Props {
   endsAt: Date;
 }
 
-const DURING_COMPETITION_TEXT = ' 진행중';
+const DURING_COMPETITION_TEXT = '진행 중';
 
 export default function DuringCompetition({ competitionId, competition, startsAt, endsAt }: Props) {
   return (
