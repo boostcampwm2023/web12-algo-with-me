@@ -1,5 +1,8 @@
 import { css } from '@style/css';
 
+import { useParticipantDashboardSocket } from '@/hooks/dashboard';
+import { range } from '@/utils/array';
+
 import { Button } from '../Common';
 import DashboardTable from './DashboardTable';
 
@@ -9,6 +12,9 @@ interface Props {
 }
 
 export default function DashboardModal({ isOpen, onClose }: Props) {
+  const { ranks, totalProblemCount, myRank } = useParticipantDashboardSocket();
+  const problemCount = range(1, totalProblemCount + 1);
+
   if (!isOpen) {
     return null;
   }
@@ -16,7 +22,7 @@ export default function DashboardModal({ isOpen, onClose }: Props) {
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
       <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <DashboardTable />
+        <DashboardTable ranks={ranks} myRank={myRank} problemCount={problemCount} />
         <Button onClick={onClose}>닫기</Button>
       </div>
     </div>
