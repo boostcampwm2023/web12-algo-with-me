@@ -176,6 +176,7 @@ const problemStyle = css({
 });
 const solutionStyle = css({
   width: '50%',
+  height: '100%',
   overflow: 'auto',
 });
 
