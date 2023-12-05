@@ -39,4 +39,5 @@ const pageStyle = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  gap: '136px',
 });

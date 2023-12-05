@@ -20,6 +20,7 @@ export default function CompetitionDetailInfo({ competition }: Props) {
 const infoContainerStyle = css({
   display: 'flex',
   flexDirection: 'column',
+  gap: '16px',
 });
 
 const competitionNameStyle = css({

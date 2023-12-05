@@ -1,5 +1,3 @@
-import { css } from '@style/css';
-
 import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
@@ -24,28 +22,17 @@ export function CompetitionDetailContent({
 
   if (currentDate < startsAt) {
     return (
-      <div className={CompetitionDetailContentStyle}>
-        <BeforeCompetition
-          {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-        />
-      </div>
+      <BeforeCompetition
+        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+      />
     );
   } else if (currentDate < endsAt) {
     return (
-      <div className={CompetitionDetailContentStyle}>
-        <DuringCompetition
-          {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-        />
-      </div>
+      <DuringCompetition
+        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+      />
     );
   } else {
-    return;
-    <div className={CompetitionDetailContentStyle}>
-      <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
-    </div>;
+    return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
   }
 }
-
-const CompetitionDetailContentStyle = css({
-  paddingTop: '136px',
-});
