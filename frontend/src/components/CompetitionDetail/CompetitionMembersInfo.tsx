@@ -13,14 +13,14 @@ export default function CompetitionMembersInfo({ competition }: Props) {
   return (
     <section>
       <div className={containerStyle}>
-        <header className={headerStyle}>대회 생성자</header>
+        <header className={headerStyle}>운영진</header>
         <div className={contentContainerStyle}>
           <p className={contentStyle}>{host}</p>
         </div>
       </div>
 
       <div className={containerStyle}>
-        <header className={headerStyle}>대회 참여자</header>
+        <header className={headerStyle}>참가자</header>
         <div className={contentContainerStyle}>
           <p className={contentStyle}>{formattedMembers}</p>
         </div>

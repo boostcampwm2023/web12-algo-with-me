@@ -1,10 +1,12 @@
 import { CompetitionInfo } from '@/apis/competitions';
 
+import { Chip } from '../Common';
+import { Text } from '../Common';
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
-import { buttonContainerStyle, statusTextContainerStyle, statusTextStyle } from './styles/styles';
+import { buttonContainerStyle, statusTextStyle } from './styles/styles';
 
 interface Props {
   competitionId: number;
@@ -20,9 +22,11 @@ export default function DuringCompetition({ competitionId, competition, startsAt
   return (
     <div>
       <CompetitionDetailInfo competition={competition} />
-      <div className={statusTextContainerStyle}>
-        <span className={statusTextStyle}>{DURING_COMPETITION_TEXT}</span>
-      </div>
+      <Chip theme="success">
+        <Text type="label" size="md">
+          <span className={statusTextStyle}>{DURING_COMPETITION_TEXT}</span>
+        </Text>
+      </Chip>
       <div className={buttonContainerStyle}>
         <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
         <ViewDashboardButton competitionId={competitionId} />

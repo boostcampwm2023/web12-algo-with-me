@@ -31,5 +31,9 @@ export default function EnterCompetitionButton({ id, startsAt, endsAt }: Props) 
     }
   };
 
-  return <Button onClick={handleNavigate}>대회 입장</Button>;
+  return (
+    <Button theme={'brand'} onClick={handleNavigate}>
+      대회 입장
+    </Button>
+  );
 }
