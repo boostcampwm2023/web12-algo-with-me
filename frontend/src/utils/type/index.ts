@@ -7,11 +7,13 @@ export const isNil = (type: unknown): type is Nil => {
   return false;
 };
 
-export const isDictionary = (obj: unknown) => {
+export const isDictionary = (obj: unknown): obj is Record<string, unknown> => {
   // TODO 테스트 코드 작성하기
-  if (isNil(obj)) return false;
-  if (typeof obj !== 'object') return false;
-  if (Array.isArray(obj)) return false;
-  if (obj instanceof Function) return false;
+
+  if (obj === null || obj === undefined) return false;
+  else if (Array.isArray(obj)) return false;
+  else if (obj instanceof Function) return false;
+  else if (typeof obj !== 'object') return false;
+
   return true;
 };
