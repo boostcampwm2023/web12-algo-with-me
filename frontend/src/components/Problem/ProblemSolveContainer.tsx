@@ -129,4 +129,5 @@ const footerStyle = css({
   gap: '0.5rem',
   borderTop: '1px solid',
   borderColor: 'border',
+  placeItems: 'center',
 });

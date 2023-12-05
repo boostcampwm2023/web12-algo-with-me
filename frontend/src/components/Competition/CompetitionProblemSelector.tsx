@@ -42,6 +42,7 @@ const listStyle = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
+  placeItems: 'center',
 });
 
 const buttonStyle = css({
