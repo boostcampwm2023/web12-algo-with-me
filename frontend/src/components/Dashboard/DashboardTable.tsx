@@ -1,13 +1,15 @@
 import { css } from '@style/css';
 
-import { useParticipantDashboard } from '@/hooks/dashboard';
-import { range } from '@/utils/array';
+import type { Rank } from '@/hooks/dashboard/types';
 import { isNil } from '@/utils/type';
 
-export default function DashboardTable() {
-  const { ranks, totalProblemCount, myRank } = useParticipantDashboard();
-  const problemCount = range(1, totalProblemCount + 1);
+interface Props {
+  ranks: Rank[];
+  myRank: Rank | null;
+  problemCount: number[];
+}
 
+export default function DashboardTable({ ranks, myRank, problemCount }: Props) {
   return (
     <table className={tableStyle}>
       <thead>
