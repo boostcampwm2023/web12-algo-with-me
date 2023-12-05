@@ -1,4 +1,5 @@
-// CompetitionDetailContent.js
+import { css } from '@style/css';
+
 import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
@@ -20,23 +21,31 @@ export function CompetitionDetailContent({
   competitionSchedule,
 }: Props) {
   const currentDate = new Date();
-  return (
-    <DuringCompetition {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }} />
-  );
 
   if (currentDate < startsAt) {
     return (
-      <BeforeCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
+      <div className={CompetitionDetailContentStyle}>
+        <BeforeCompetition
+          {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+        />
+      </div>
     );
   } else if (currentDate < endsAt) {
     return (
-      <DuringCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
+      <div className={CompetitionDetailContentStyle}>
+        <DuringCompetition
+          {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
+        />
+      </div>
     );
   } else {
-    return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
+    return;
+    <div className={CompetitionDetailContentStyle}>
+      <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
+    </div>;
   }
 }
+
+const CompetitionDetailContentStyle = css({
+  paddingTop: '136px',
+});
