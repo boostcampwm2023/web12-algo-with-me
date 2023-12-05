@@ -1,6 +1,8 @@
+import { css } from '@style/css';
+
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@/components/Common';
+import { Button, Text } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function GoToCreateCompetitionLink() {
@@ -16,5 +18,20 @@ export default function GoToCreateCompetitionLink() {
     }
   };
 
-  return <Button onClick={handleNavigate}>대회 생성</Button>;
+  return (
+    <Button className={buttonStyle} theme="brand" onClick={handleNavigate}>
+      <Text type="body" size="lg">
+        대회 생성
+      </Text>
+    </Button>
+  );
 }
+
+const buttonStyle = css({
+  display: 'flex',
+  width: '120px',
+  padding: '12px 24px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '10px',
+});
