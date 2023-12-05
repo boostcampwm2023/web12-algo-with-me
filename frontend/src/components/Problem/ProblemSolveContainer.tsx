@@ -113,18 +113,19 @@ const problemSolveContainerStyle = css({
 
 const problemStyle = css({
   width: '1/2',
-  height: '100%',
+  height: 'full',
 });
+
 const solutionStyle = css({
   width: '1/2',
-  height: '100%',
+  height: 'full',
   alignItems: 'stretch',
   overflow: 'auto',
 });
 
 const footerStyle = css({
   height: '4rem',
-  width: '100%',
+  width: 'full',
   paddingX: '1rem',
   gap: '0.5rem',
   borderTop: '1px solid',
