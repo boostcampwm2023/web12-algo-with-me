@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
 import { Chip, Link, Text } from '@/components/Common';
-// import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
-// import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
 import secToTime from '@/utils/secToTime';
 
 import CheckCircle from '../Common/CheckCircle';
