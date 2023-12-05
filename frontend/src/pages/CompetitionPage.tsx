@@ -169,7 +169,7 @@ const competitionStyle = css({
   overflow: 'hidden',
 });
 const hfullStyle = css({
-  height: 'calc(100% - 50px)',
+  height: 'calc(100% - 4rem)',
 });
 const problemStyle = css({
   width: '50%',
@@ -196,8 +196,10 @@ const asideStyle = css({
 });
 
 const footerStyle = css({
-  height: '50px',
+  height: '4rem',
   width: '100%',
-  paddingX: '0.5rem',
+  paddingX: '1rem',
   gap: '0.5rem',
+  borderTop: '1px solid',
+  border: 'border',
 });

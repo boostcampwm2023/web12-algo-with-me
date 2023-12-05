@@ -1,4 +1,4 @@
-import { cx } from '@style/css';
+import { css, cx } from '@style/css';
 
 import { HTMLAttributes, useContext } from 'react';
 
@@ -40,8 +40,17 @@ export function SubmissionButton({ code, problemId, competitionId, className, ..
   }
 
   return (
-    <Button className={cx(className)} onClick={handleSubmitSolution} {...props}>
+    <Button
+      theme="brand"
+      className={cx(className, style)}
+      onClick={handleSubmitSolution}
+      {...props}
+    >
       제출하기
     </Button>
   );
 }
+
+const style = css({
+  paddingX: '2rem',
+});
