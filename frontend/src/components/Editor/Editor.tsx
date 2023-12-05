@@ -12,9 +12,9 @@ interface Props {
 const Editor = (props: Props) => {
   return (
     <CodeMirror
+      style={{ height: props.height, width: props.width }}
       value={props.code}
-      height={props.height ?? '100%'}
-      width={props.width ?? '100%'}
+      height={'100%'}
       theme={vscodeDark}
       extensions={[javascript()]}
       initialState={undefined}

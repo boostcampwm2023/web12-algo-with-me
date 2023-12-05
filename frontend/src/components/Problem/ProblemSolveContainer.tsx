@@ -72,13 +72,8 @@ export function ProblemSolveContainer({
       <VStack className={problemSolveContainerStyle}>
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
-          <Editor
-            height="500px"
-            width="100%"
-            code={problem.solutionCode}
-            onChangeCode={handleChangeCode}
-          ></Editor>
-          <section>
+          <Editor height="60%" code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+          <section className={css({ height: '40%', overflow: 'auto' })}>
             <SimulationResultList resultList={simulation.results}></SimulationResultList>
             <SubmissionResult></SubmissionResult>
           </section>
