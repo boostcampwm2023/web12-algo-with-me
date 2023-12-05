@@ -40,22 +40,25 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   }
 
   @SubscribeMessage('submission')
-  // TODO: 검증 실패시 에러 터져버리고, websocket으로 internal server error 가는거 수정해야됨.
   @UsePipes(new ValidationPipe({ transform: true }))
   async handleSubmission(
     @MessageBody() createSubmissionDto: CreateSubmissionDto,
     @ConnectedSocket() client: Socket,
   ) {
-    const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
-      client.handshake.auth.token,
-    );
-    const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-    const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
-      createSubmissionDto.problemId,
-    );
-    this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
-    this.logger.debug(createSubmissionDto);
-    client.emit('scoreStart', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
+    try {
+      await this.competitionService.isCompetitionFinished(client.data['competitionId']);
+      const user: User = await this.userService.getByEmail(client.data['email']);
+      const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
+        createSubmissionDto.problemId,
+      );
+      await this.competitionService.scoreSubmission(createSubmissionDto, client.id, user);
+      client.emit('scoreStart', { message: '채점을 시작합니다.', testcaseNum: testcaseNum });
+      this.logger.debug('제출 채점 시작');
+    } catch (error) {
+      this.logger.debug(`제출 검증 실패: ${error.message}`);
+      client.emit('message', { message: `${error.message}` });
+      client.disconnect();
+    }
   }
 
   @SubscribeMessage('ping')
