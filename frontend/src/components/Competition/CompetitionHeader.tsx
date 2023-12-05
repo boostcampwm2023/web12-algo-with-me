@@ -18,4 +18,5 @@ const headerStyle = css({
   borderBottom: '1px solid',
   borderColor: 'border',
   gap: '1rem',
+  placeItems: 'center',
 });
