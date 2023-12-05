@@ -1,4 +1,5 @@
 type Nil = undefined | null;
+type Fn = (...args: unknown[]) => unknown;
 
 export const isNil = (type: unknown): type is Nil => {
   if (Object.is(type, null)) return true;
@@ -16,4 +17,10 @@ export const isDictionary = (obj: unknown): obj is Record<string, unknown> => {
   if (typeof obj !== 'object') return false;
 
   return true;
+};
+
+export const isFunction = (type: unknown): type is Fn => {
+  if (type instanceof Function) return true;
+
+  return false;
 };

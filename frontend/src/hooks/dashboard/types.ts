@@ -1,6 +1,7 @@
 import { CompetitionId } from '@/apis/competitions';
 
 export type Rank = {
+  rank: number;
   email: string;
   score: number;
   problemDict: {
