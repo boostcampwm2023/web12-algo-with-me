@@ -1,6 +1,5 @@
-import express from 'express';
-
-import child_process from 'node:child_process';
+const express = require('express');
+const child_process = require('node:child_process');
 
 const app = express();
 const PORT = 5000;
