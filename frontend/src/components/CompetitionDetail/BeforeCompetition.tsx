@@ -5,6 +5,7 @@ import { CompetitionInfo } from '@/apis/competitions';
 import JoinCompetitionButton from '../Main/Buttons/JoinCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
+import { buttonContainerStyle, statusTextContainerStyle, statusTextStyle } from './styles/styles';
 
 interface Props {
   competitionId: number;
@@ -33,34 +34,6 @@ export default function BeforeCompetition({ competitionId, competition }: Props)
     </div>
   );
 }
-
-const statusTextContainerStyle = css({
-  display: 'inline-flex',
-  padding: '4px 16px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
-  borderRadius: '999px',
-  border: '1px solid var(--alert-info-default, #C8CDD0)',
-  background: 'var(--alert-info-dark, #444749)',
-});
-
-const statusTextStyle = css({
-  color: 'var(--surface-light, #D9D9D9)',
-  fontFamily: 'Inter',
-  fontSize: '12px',
-  fontStyle: 'normal',
-  fontWeight: '500',
-  lineHeight: 'normal',
-});
-
-const buttonContainerStyle = css({
-  display: 'flex',
-  width: '900px',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  gap: '10px',
-});
 
 const enterButtonStyle = css({
   display: 'flex',
