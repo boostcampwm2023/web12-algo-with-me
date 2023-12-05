@@ -20,7 +20,7 @@ export function save(key: string, origin: unknown) {
 }
 
 export function getTarget(keys: string[]): JSONType {
-  let savedInfo = getOrigin(keys[0]);
+  let savedInfo = JSON.parse(String(localStorage.getItem(keys[0])));
 
   if (keys.length === 1 || !savedInfo) return savedInfo;
 
@@ -29,8 +29,4 @@ export function getTarget(keys: string[]): JSONType {
     savedInfo = savedInfo[keys[i]] as Dictionary;
   }
   return savedInfo;
-}
-
-export function getOrigin(key: string) {
-  return JSON.parse(String(localStorage.getItem(key)));
 }

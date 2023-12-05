@@ -3,7 +3,6 @@ import { css } from '@style/css';
 import { useContext, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import AuthContext from '@/components/Auth/AuthContext';
 import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
 import BreadCrumb from '@/components/Common/BreadCrumb';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
@@ -63,7 +62,6 @@ export default function CompetitionPage() {
     competitionId,
     currentProblemIndex,
     save: customLocalStorage.save,
-    getOrigin: customLocalStorage.getOrigin,
     getTarget: customLocalStorage.getTarget,
   });
 

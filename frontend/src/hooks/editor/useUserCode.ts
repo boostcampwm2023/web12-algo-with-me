@@ -19,7 +19,6 @@ interface UseUserCode {
   currentProblemIndex: number;
   save: (key: string, origin: JSONType) => void;
   getTarget: (keys: string[]) => JSONType;
-  getOrigin: (key: string) => JSONType;
 }
 
 interface Origin {
@@ -33,7 +32,6 @@ export function useUserCode({
   currentProblemIndex,
   save,
   getTarget,
-  getOrigin,
 }: UseUserCode) {
   const [code, setCode] = useState<string>(problem.solutionCode);
   const [oldProblemIndex, setOldProblemIndex] = useState<number>(-1);
@@ -44,7 +42,7 @@ export function useUserCode({
   useEffect(() => {
     // 최초에 localStorage에 저장할 객체 만들기.
     if (competitionKey === '|') return;
-    if (!isNil(getOrigin(localStorageKey))) return;
+    if (!isNil(getTarget([localStorageKey]))) return;
     save(localStorageKey, { [competitionKey]: {} });
   }, [competitionKey]);
 
@@ -59,7 +57,7 @@ export function useUserCode({
   }, [problem]);
 
   useEffect(() => {
-    const origin = getOrigin(localStorageKey) as Origin;
+    const origin = getTarget([localStorageKey]) as Origin;
 
     if (oldProblemIndex !== currentProblemIndex) {
       // oldProblemIndex와 currentProblemIndex가 다르다면
