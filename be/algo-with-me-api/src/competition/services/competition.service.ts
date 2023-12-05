@@ -14,11 +14,16 @@ import { Server } from 'socket.io';
 import { DataSource, Repository } from 'typeorm';
 
 import { existsSync, readFileSync } from 'fs';
+import * as fs from 'fs';
 import * as path from 'path';
 
 import { ProblemService } from './problem.service';
 import { RESULT } from '../competition.enums';
-import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
+import {
+  CompetitionProblemResponseDto,
+  ITestcases,
+  TestcaseData,
+} from '../dto/competition.problem.response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
@@ -167,10 +172,43 @@ export class CompetitionService {
 
   async findOneProblem(id: number) {
     const problem = await this.problemRepository.findOneBy({ id });
+
     const fileName = id.toString() + '.md';
     const paths = path.join(process.env.PROBLEM_PATH, fileName);
     if (!existsSync(paths)) throw new NotFoundException('문제 파일을 찾을 수 없습니다.');
     const content = readFileSync(paths).toString();
+
+    const metadataPath = path.join(process.env.TESTCASE_PATH, problem.id.toString(), 'metadata');
+    let metadata;
+    if (!existsSync(metadataPath)) {
+      console.warn('문제에 대한 테스트케이스 메타데이터 파일을 찾을 수 없습니다.');
+      metadata = {
+        input: [],
+        output: null,
+        sampleTestcaseNum: 0,
+      };
+    } else {
+      metadata = JSON.parse(fs.readFileSync(metadataPath).toString());
+    }
+    const data: TestcaseData[] = [];
+    for (let i = 1; i <= metadata.sampleTestcaseNum; i++) {
+      const filename = path.join(
+        process.env.TESTCASE_PATH,
+        problem.id.toString(),
+        'samples',
+        i.toString(),
+      );
+      data.push({
+        input: JSON.parse(fs.readFileSync(`${filename}.in`).toString()),
+        output: JSON.parse(fs.readFileSync(`${filename}.ans`).toString()),
+      });
+    }
+    const testcases: ITestcases = {
+      input: metadata.input,
+      output: metadata.output,
+      data,
+    };
+
     return new CompetitionProblemResponseDto(
       problem.id,
       problem.title,
@@ -178,7 +216,7 @@ export class CompetitionService {
       problem.memoryLimit,
       content,
       problem.solutionCode,
-      [{ temp: '임시' }],
+      testcases,
       problem.createdAt,
     );
   }
