@@ -62,7 +62,6 @@ export default function CompetitionPage() {
     competitionId,
     currentProblemIndex,
     save: customLocalStorage.save,
-    getTarget: customLocalStorage.getTarget,
   });
 
   const handleChangeCode = (newCode: string) => {

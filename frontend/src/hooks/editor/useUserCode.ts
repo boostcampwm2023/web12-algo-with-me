@@ -1,16 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { CompetitionProblem } from '@/apis/problems';
-import { isNil } from '@/utils/type';
-
-type JSONType =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | JSONType[]
-  | { [key: string]: JSONType };
+import { Dictionary, JSONType } from '@/types';
+import { isDictionary, isNil } from '@/utils/type';
 
 interface UseUserCode {
   userId: string;
@@ -18,7 +10,6 @@ interface UseUserCode {
   competitionId: number;
   currentProblemIndex: number;
   save: (key: string, origin: JSONType) => void;
-  getTarget: (keys: string[]) => JSONType;
 }
 
 interface Origin {
@@ -31,7 +22,6 @@ export function useUserCode({
   competitionId,
   currentProblemIndex,
   save,
-  getTarget,
 }: UseUserCode) {
   const [code, setCode] = useState<string>(problem.solutionCode);
   const [oldProblemIndex, setOldProblemIndex] = useState<number>(-1);
@@ -39,25 +29,37 @@ export function useUserCode({
   const localStorageKey = 'savedCode';
   const competitionKey = useMemo(() => `${competitionId}|${userId}`, [competitionId, userId]);
 
+  const getUserCode = (keys: string[]): JSONType => {
+    let savedInfo = JSON.parse(String(localStorage.getItem(keys[0])));
+
+    if (keys.length === 1 || !savedInfo) return savedInfo;
+
+    for (let i = 1; i < keys.length; i++) {
+      if (!isDictionary(savedInfo)) return null;
+      savedInfo = savedInfo[keys[i]] as Dictionary;
+    }
+    return savedInfo;
+  };
+
   useEffect(() => {
     // 최초에 localStorage에 저장할 객체 만들기.
     if (competitionKey === '|') return;
-    if (!isNil(getTarget([localStorageKey]))) return;
+    if (!isNil(getUserCode([localStorageKey]))) return;
     save(localStorageKey, { [competitionKey]: {} });
   }, [competitionKey]);
 
   useEffect(() => {
-    const targetCode = getTarget([localStorageKey, competitionKey, String(currentProblemIndex)]);
+    const userCode = getUserCode([localStorageKey, competitionKey, String(currentProblemIndex)]);
 
-    if (typeof targetCode === 'string') {
-      setCode(targetCode);
+    if (typeof userCode === 'string') {
+      setCode(userCode);
     } else {
       setCode(problem.solutionCode);
     }
   }, [problem]);
 
   useEffect(() => {
-    const origin = getTarget([localStorageKey]) as Origin;
+    const origin = getUserCode([localStorageKey]) as Origin;
 
     if (oldProblemIndex !== currentProblemIndex) {
       setOldProblemIndex(currentProblemIndex);
