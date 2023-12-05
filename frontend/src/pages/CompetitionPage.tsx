@@ -139,12 +139,16 @@ export default function CompetitionPage() {
               <SubmissionButton
                 code={code}
                 problemId={currentProblem?.id}
-                competitionId={competitionId}
+                competitionId={competitionId ?? ''}
               ></SubmissionButton>
             </VStack>
           </HStack>
         </div>
-        <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
+        <DashboardModal
+          isOpen={isDashboardModalOpen}
+          onClose={closeDashboardModal}
+          competitionName={competition.name}
+        />
       </SocketProvider>
       <SimulationInputModal
         simulationInputs={simulation.inputs}

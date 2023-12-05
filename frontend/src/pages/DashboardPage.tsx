@@ -2,9 +2,11 @@ import { css } from '@style/css';
 
 import { useParams } from 'react-router-dom';
 
+import { HStack, Text } from '@/components/Common';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
 import Header from '@/components/Header';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
 
 export default function DashboardPage() {
@@ -21,7 +23,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main>
+    <PageLayout className={pageLayoutStyle}>
       <Header />
       <SocketProvider
         transports={['websocket']}
@@ -29,19 +31,34 @@ export default function DashboardPage() {
         token={localStorage.getItem('accessToken') ?? ''}
         namespace={'dashboards'}
       >
-        <section>
-          <span className={competitionTitleStyle}>{competition.name}</span>
-          <span>{competitionStatusText}</span>
-        </section>
+        <HStack className={textContainerStyle}>
+          <Text type="display" size="lg" className={competitionNameStyle}>
+            {competition.name}
+          </Text>
+          <Text type="title" size="lg">
+            {competitionStatusText}
+          </Text>
+        </HStack>
         <DashboardTable />
       </SocketProvider>
-    </main>
+    </PageLayout>
   );
 }
 
-const competitionTitleStyle = css({
-  display: 'inline-block',
-  height: '50px',
-  padding: '10px',
-  borderBottom: '2px solid white',
+const pageLayoutStyle = css({
+  textAlign: 'center',
+  minHeight: '100vh',
+});
+
+const textContainerStyle = css({
+  gap: '10px',
+  marginTop: '56px',
+  marginBottom: '47px',
+});
+
+const competitionNameStyle = css({
+  display: 'flex',
+  height: '116px',
+  flexDirection: 'column',
+  justifyContent: 'center',
 });

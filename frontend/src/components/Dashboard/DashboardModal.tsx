@@ -1,24 +1,36 @@
 import { css } from '@style/css';
 
-import { Button } from '../Common';
+import { Button, Text, VStack } from '../Common';
+import { buttonContainerStyle } from '../CompetitionDetail/styles/styles';
+import { PageLayout } from '../Layout/PageLayout';
 import DashboardTable from './DashboardTable';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  competitionName: string;
 }
 
-export default function DashboardModal({ isOpen, onClose }: Props) {
+export default function DashboardModal({ isOpen, onClose, competitionName }: Props) {
   if (!isOpen) {
     return null;
   }
 
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
-      <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+      <PageLayout className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+        <div className={competitionNameStyle}>
+          <Text type="display" size="lg">
+            {competitionName}
+          </Text>
+        </div>
         <DashboardTable />
-        <Button onClick={onClose}>닫기</Button>
-      </div>
+        <VStack className={buttonContainerStyle}>
+          <Button className={buttonStyle} onClick={onClose}>
+            닫기
+          </Button>
+        </VStack>
+      </PageLayout>
     </div>
   );
 }
@@ -36,10 +48,16 @@ const modalOverlayStyle = css({
 });
 
 const modalContentStyle = css({
-  background: '#fff',
-  color: 'black',
-  padding: '20px',
-  borderRadius: '8px',
-  width: '100%',
+  padding: '32px',
   position: 'relative',
+  maxWidth: '1264px',
+  maxHeight: '920px',
+});
+
+const competitionNameStyle = css({
+  marginBottom: '32px',
+});
+
+const buttonStyle = css({
+  marginTop: '6px',
 });

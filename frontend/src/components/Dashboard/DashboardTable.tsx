@@ -1,8 +1,11 @@
 import { css } from '@style/css';
+import { SystemStyleObject } from '@style/types';
 
 import { useParticipantDashboard } from '@/hooks/dashboard';
 import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
+
+import { Text } from '../Common';
 
 export default function DashboardTable() {
   const { ranks, totalProblemCount, myRank } = useParticipantDashboard();
@@ -12,39 +15,95 @@ export default function DashboardTable() {
     <table className={tableStyle}>
       <thead>
         <tr>
-          <th className={thTdCommonStyle}>Rank</th>
-          <th className={thTdCommonStyle}>User Id</th>
+          <th className={headerRankCellStyle}>
+            <Text type="title" bold>
+              Rank
+            </Text>
+          </th>
+          <th className={headerIdCellStyle}>
+            <Text type="title" bold>
+              User Id
+            </Text>
+          </th>
           {problemCount.map((problemId) => (
-            <th key={problemId} className={thTdCommonStyle}>
-              problem{problemId}
+            <th key={problemId} className={headerProblemCellStyle}>
+              <Text type="title" bold>
+                problem{problemId}
+              </Text>
             </th>
           ))}
-          <th className={thTdCommonStyle}>Score</th>
+          <th className={headerScoreCellStyle}>
+            <Text type="title" bold>
+              Score
+            </Text>
+          </th>
         </tr>
       </thead>
       <tbody>
         {!isNil(myRank) && (
           <tr>
-            <td className={thTdCommonStyle}>{myRank.rank}</td>
-            <td className={thTdCommonStyle}>{myRank.email}</td>
+            <td className={myRankCellStyle}>
+              <Text type="title" bold>
+                {myRank.rank}
+              </Text>
+            </td>
+            <td className={myRankCellStyle}>
+              <Text type="title" bold>
+                {myRank.email}
+              </Text>
+            </td>
             {problemCount.map((problemId) => (
-              <td key={problemId} className={thTdCommonStyle}>
-                {myRank.problemDict[Number(problemId)] ?? '-'}
+              <td
+                key={problemId}
+                className={
+                  isNil(myRank.problemDict[Number(problemId)])
+                    ? nullProblemCellStyle
+                    : ProblemCellStyle
+                }
+              >
+                <Text type="title" bold>
+                  {myRank.problemDict[Number(problemId)] ?? '-'}
+                </Text>
               </td>
             ))}
-            <td className={thTdCommonStyle}>{myRank.score}</td>
+            <td className={myRankCellStyle}>
+              <Text type="title" bold>
+                {myRank.score}
+              </Text>
+            </td>
           </tr>
         )}
         {ranks.map((rank, index) => (
           <tr key={rank.email}>
-            <td className={thTdCommonStyle}>{index + 1}</td>
-            <td className={thTdCommonStyle}>{rank.email}</td>
+            <td className={cellStyle}>
+              <Text type="title" bold>
+                {index + 1}
+              </Text>
+            </td>
+            <td className={cellStyle}>
+              <Text type="title" bold>
+                {rank.email}
+              </Text>
+            </td>
             {problemCount.map((problemId) => (
-              <td key={problemId} className={thTdCommonStyle}>
-                {rank.problemDict[Number(problemId)] ?? '-'}
+              <td
+                key={problemId}
+                className={
+                  isNil(rank.problemDict[Number(problemId)])
+                    ? nullProblemCellStyle
+                    : ProblemCellStyle
+                }
+              >
+                <Text type="title" bold>
+                  {rank.problemDict[Number(problemId)] ?? '-'}
+                </Text>
               </td>
             ))}
-            <td className={thTdCommonStyle}>{rank.score}</td>
+            <td className={cellStyle}>
+              <Text type="title" bold>
+                {rank.score}
+              </Text>
+            </td>
           </tr>
         ))}
       </tbody>
@@ -53,13 +112,58 @@ export default function DashboardTable() {
 }
 
 const tableStyle = css({
-  width: '100%',
-  borderCollapse: 'collapse',
-  margin: '20px 0',
+  width: '1200px',
+  margin: '0 auto',
 });
 
-const thTdCommonStyle = css({
-  border: '1px solid #ddd',
-  padding: '8px',
-  textAlign: 'center',
+const commonCellStyle: SystemStyleObject = {
+  height: '64px',
+  padding: '16px',
+  border: '1px solid',
+  borderColor: 'border',
+  background: 'surface',
+};
+
+const headerRankCellStyle = css(
+  {
+    width: '100px',
+  },
+  commonCellStyle,
+);
+
+const headerIdCellStyle = css(
+  {
+    width: '200px',
+  },
+  commonCellStyle,
+);
+
+const headerProblemCellStyle = css(
+  {
+    width: '150px',
+  },
+  commonCellStyle,
+);
+
+const headerScoreCellStyle = css(
+  {
+    width: '120px',
+  },
+  commonCellStyle,
+);
+
+const myRankCellStyle = css(commonCellStyle, {
+  background: '',
+});
+
+const cellStyle = css(commonCellStyle, {
+  background: '',
+});
+
+const nullProblemCellStyle = css(commonCellStyle, {
+  background: 'alert.danger.light',
+});
+
+const ProblemCellStyle = css(commonCellStyle, {
+  background: 'alert.success.light',
 });
