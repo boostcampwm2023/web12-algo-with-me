@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export type TestcaseParameterMetadata = { name: string; type: string };
+export type TestcaseData = { input: any[]; output: any };
+export interface ITestcases {
+  input: TestcaseParameterMetadata[];
+  output: TestcaseParameterMetadata;
+  data: TestcaseData[];
+}
+
 export class CompetitionProblemResponseDto {
   constructor(
     id: number,
@@ -8,7 +16,7 @@ export class CompetitionProblemResponseDto {
     memoryLimit: number,
     content: string,
     solutionCode: string,
-    testcases: object[],
+    testcases: ITestcases,
     createdAt: Date,
   ) {
     this.id = id;
@@ -40,7 +48,7 @@ export class CompetitionProblemResponseDto {
   solutionCode: string;
 
   @ApiProperty({ description: '공개 테스트 케이스' })
-  testcases: object[];
+  testcases: ITestcases;
 
   @ApiProperty()
   createdAt: Date;
