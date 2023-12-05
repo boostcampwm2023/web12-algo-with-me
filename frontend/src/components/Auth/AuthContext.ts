@@ -2,7 +2,9 @@ import { createContext } from 'react';
 
 const AuthContext = createContext({
   isLoggedin: false,
-  login: () => {},
+  email: '',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  login: (email: string) => {},
   logout: () => {},
 });
 
