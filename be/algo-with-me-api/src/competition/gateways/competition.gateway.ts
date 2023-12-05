@@ -46,7 +46,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
     @ConnectedSocket() client: Socket,
   ) {
     try {
-      await this.competitionService.isCompetitionFinished(client.data['competitionId']);
+      await this.competitionService.isCompetitionOngoing(client.data['competitionId']);
       const user: User = await this.userService.getByEmail(client.data['email']);
       const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
         createSubmissionDto.problemId,

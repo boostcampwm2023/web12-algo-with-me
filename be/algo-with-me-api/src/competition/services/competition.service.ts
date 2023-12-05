@@ -341,6 +341,18 @@ export class CompetitionService {
       throw new BadRequestException(`${competitionId}는 이미 종료된 대회입니다.`);
   }
 
+  async isCompetitionOngoing(competitionId: number) {
+    const competition: Competition = await this.competitionRepository.findOneBy({
+      id: competitionId,
+    });
+    this.assertCompetitionExists(competition);
+    const time: Date = new Date();
+    if (time.getTime() - competition.endsAt.getTime() > 0)
+      throw new BadRequestException(`${competitionId}는 이미 종료된 대회입니다.`);
+    if (competition.startsAt.getTime() - time.getTime() > 0)
+      throw new BadRequestException(`${competitionId}는 아직 시작하지 않은 대회입니다.`);
+  }
+
   private assertCompetitionExists(competition: Competition) {
     if (!competition)
       throw new NotFoundException(
