@@ -79,22 +79,13 @@ export default function CompetitionPage() {
             />
           </aside>
           <ProblemSolveContainer
-            competitionId={0}
-            problem={{
-              id: 0,
-              title: '',
-              timeLimit: 0,
-              memoryLimit: 0,
-              content: '',
-              solutionCode: '',
-              testcases: [],
-              createdAt: '',
-            }}
+            competitionId={competitionId}
+            problem={problem}
+            currentProblemIndex={currentProblemIndex}
           ></ProblemSolveContainer>
         </div>
         <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
       </SocketProvider>
-      <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
     </PageLayout>
   );
 }
