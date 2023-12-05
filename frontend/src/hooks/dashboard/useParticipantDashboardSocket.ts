@@ -7,7 +7,7 @@ import type { Dashboard, Rank } from './types';
 
 const INTERVAL_TIME = 5000;
 
-export function useParticipantDashboard() {
+export function useParticipantDashboardSocket() {
   const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
   const [myRank, setMyRank] = useState<Rank>({
