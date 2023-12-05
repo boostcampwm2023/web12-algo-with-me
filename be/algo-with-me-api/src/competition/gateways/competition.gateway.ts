@@ -75,15 +75,22 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   public async handleConnection(client: Socket, ...args: any[]) {
     try {
       const { competitionId } = client.handshake.query;
-      // 검증 로직 주석처리
       const authTokenPayloadDto: AuthTokenPayloadDto = this.authService.verifyToken(
         client.handshake.auth.token,
       );
+      // 유저가 대회 참여자가 맞는지 검증
+      const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
+      await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
+
       client.data['competitionId'] = Number(competitionId);
       client.data['email'] = authTokenPayloadDto.sub;
-      // const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-      // await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
+      
+      // 동일한 유저의 다른 연결 끊기
+      this.server.to(authTokenPayloadDto.sub).disconnectSockets();
+
       client.join(competitionId);
+      client.join(authTokenPayloadDto.sub);
+      
       this.dashboardService.registerUserAtCompetition(
         Number(competitionId),
         authTokenPayloadDto.sub,
