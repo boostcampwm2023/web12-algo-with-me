@@ -34,6 +34,7 @@ export default defineConfig({
         surface: {
           DEFAULT: { value: '#37474F' },
           alt: { value: '#455A64' },
+          light: { value: '#D9D9D9' },
         },
         text: {
           DEFAULT: { value: '#F5F5F5' },
