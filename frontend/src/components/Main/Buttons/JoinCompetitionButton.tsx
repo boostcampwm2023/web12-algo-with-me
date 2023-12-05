@@ -30,5 +30,9 @@ export default function JoinCompetitionButton(props: { id: number }) {
     token: token,
   };
 
-  return <Button onClick={handleJoinClick}>참여하기</Button>;
+  return (
+    <Button theme={'brand'} onClick={handleJoinClick}>
+      참여하기
+    </Button>
+  );
 }

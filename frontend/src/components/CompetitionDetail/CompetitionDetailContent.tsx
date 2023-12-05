@@ -1,4 +1,3 @@
-// CompetitionDetailContent.js
 import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
@@ -20,7 +19,7 @@ export function CompetitionDetailContent({
   competitionSchedule,
 }: Props) {
   const currentDate = new Date();
-
+  return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
   if (currentDate < startsAt) {
     return (
       <BeforeCompetition
