@@ -1,12 +1,13 @@
 import { css } from '@style/css';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem } from '@/apis/problems';
 import { useUserCode } from '@/hooks/editor/useUserCode';
 import useAuth from '@/hooks/login/useAuth';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
+import * as customLocalStorage from '@/utils/localStorage';
 
 import { Button, HStack, HStackProps, Modal, Space, VStack } from '../Common';
 import Editor from '../Editor/Editor';
@@ -18,13 +19,17 @@ import { SubmissionResult } from '../Submission/SubmissionResult';
 import ProblemViewer from './ProblemViewer';
 
 interface Props extends HStackProps {
+  currentProblemIndex: number;
   competitionId: CompetitionId;
   problem: CompetitionProblem;
 }
 
-export function ProblemSolveContainer({ competitionId, problem, ...props }: Props) {
-  const simulation = useSimulation(problem.testcases);
-
+export function ProblemSolveContainer({
+  currentProblemIndex,
+  competitionId,
+  problem,
+  ...props
+}: Props) {
   const { email } = useAuth();
   const { code, setCode } = useUserCode({
     userId: email,
@@ -34,12 +39,8 @@ export function ProblemSolveContainer({ competitionId, problem, ...props }: Prop
     save: customLocalStorage.save,
   });
 
-  const handleChangeCode = (newCode: string) => {
-    setCode(newCode);
-  };
-  useEffect(() => {
-    setCode(problem.solutionCode);
-  }, [problem.solutionCode]);
+  const simulation = useSimulation(problem.testcases);
+
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
   };
@@ -51,15 +52,20 @@ export function ProblemSolveContainer({ competitionId, problem, ...props }: Prop
   const handleSimulationCancel = () => {
     simulation.cancel();
   };
-  const modal = useContext(Modal.Context);
 
   const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
     simulation.changeInputs(simulationInputs);
   };
 
+  const modal = useContext(Modal.Context);
+
   function handleOpenModal() {
     modal.open();
   }
+
+  useEffect(() => {
+    setCode(problem.solutionCode);
+  }, [problem.solutionCode, setCode]);
 
   return (
     <HStack className={css({ height: '100%' })} {...props}>
@@ -122,5 +128,5 @@ const footerStyle = css({
   paddingX: '1rem',
   gap: '0.5rem',
   borderTop: '1px solid',
-  border: 'border',
+  borderColor: 'border',
 });
