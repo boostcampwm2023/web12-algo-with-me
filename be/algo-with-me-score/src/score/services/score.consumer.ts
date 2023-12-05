@@ -1,5 +1,5 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -43,22 +43,22 @@ export class SubmissionConsumer {
     this.logger.debug(`채점 시작: ${JSON.stringify({ competitionId, userId, problemId })}`);
 
     this.filesystemService.removeCodeRunOutputs(competitionId, userId);
+    const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     const writeSucceeded = await this.filesystemService.writeSubmittedCode(
       submission.code,
       competitionId,
       userId,
-      problemId,
+      problem,
     );
     if (!writeSucceeded) return;
 
-    const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
     await this.scoreService.scoreAllAndSendResult(
-      problem.testcaseNum,
       submissionId,
       competitionId,
       userId,
       problemId,
       socketId,
+      problem,
     );
   }
 
