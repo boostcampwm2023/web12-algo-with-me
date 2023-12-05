@@ -1,9 +1,5 @@
 import { css } from '@style/css';
 
-const statusTextStyle = css({
-  color: '#FFF',
-});
-
 const buttonContainerStyle = css({
   display: 'flex',
   width: '900px',
@@ -13,4 +9,4 @@ const buttonContainerStyle = css({
   marginTop: '19px',
 });
 
-export { statusTextStyle, buttonContainerStyle };
+export { buttonContainerStyle };

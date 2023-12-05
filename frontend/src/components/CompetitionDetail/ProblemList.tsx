@@ -17,12 +17,12 @@ export default function ProblemList({ competitionId }: Props) {
       <table className={tableStyle}>
         <thead>
           <tr>
-            <th className={headerCellStyle1}>
+            <th className={headerNumberCellStyle}>
               <Text type="title" size="lg" bold>
                 번호
               </Text>
             </th>
-            <th className={headerCellStyle2}>
+            <th className={headerTitleCellStyle}>
               <Text type="title" size="lg" bold>
                 문제 이름
               </Text>
@@ -32,8 +32,8 @@ export default function ProblemList({ competitionId }: Props) {
         <tbody>
           {problemList.map((problem) => (
             <tr key={problem.id}>
-              <td className={cellStyle}>{problem.id}</td>
-              <td className={cellStyle}>
+              <td className={numberCellStyle}>{problem.id}</td>
+              <td className={titleCellStyle}>
                 <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
               </td>
             </tr>
@@ -49,29 +49,33 @@ const containerStyle = css({});
 const tableStyle = css({
   width: '100%',
   borderCollapse: 'collapse',
-  margin: '20px 0',
+  marginTop: '60px',
 });
 
-const headerCellStyle1 = css({
-  color: '#fff',
+const headerNumberCellStyle = css({
   width: '100px',
   height: '64px',
-  borderTop: '1px solid var(--border-default, #455A64)',
-  borderBottom: '1px solid var(--border-default, #455A64)',
+  border: '1px solid var(--border-default, #455A64)',
   background: 'var(--surface-default, #37474F)',
 });
 
-const headerCellStyle2 = css({
-  color: '#fff',
+const headerTitleCellStyle = css({
   height: '64px',
-  borderTop: '1px solid var(--border-default, #455A64)',
-  borderBottom: '1px solid var(--border-default, #455A64)',
+  border: '1px solid var(--border-default, #455A64)',
   background: 'var(--surface-default, #37474F)',
+  textAlign: 'left',
+  padding: '16px',
 });
 
-const cellStyle = css({
-  color: '#fff',
+const numberCellStyle = css({
   height: '64px',
-  borderTop: '1px solid var(--border-default, #455A64)',
-  borderBottom: '1px solid var(--border-default, #455A64)',
+  padding: '16px',
+  textAlign: 'center',
+  border: '1px solid var(--border-default, #455A64)',
+});
+
+const titleCellStyle = css({
+  height: '64px',
+  padding: '16px',
+  border: '1px solid var(--border-default, #455A64)',
 });

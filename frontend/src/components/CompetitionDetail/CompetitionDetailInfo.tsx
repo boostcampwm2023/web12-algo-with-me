@@ -2,6 +2,8 @@ import { css } from '@style/css';
 
 import { CompetitionInfo } from '@/apis/competitions';
 
+import { Text } from '../Common';
+
 interface Props {
   competition: CompetitionInfo;
 }
@@ -10,9 +12,13 @@ export default function CompetitionDetailInfo({ competition }: Props) {
   return (
     <div className={infoContainerStyle}>
       <div>
-        <span className={competitionNameStyle}>{competition.name}</span>
+        <Text type="display" size="lg">
+          {competition.name}
+        </Text>
       </div>
-      <span className={additionalTextStyle}>{competition.detail}</span>
+      <Text type="body" size="md">
+        {competition.detail}
+      </Text>
     </div>
   );
 }
@@ -21,22 +27,5 @@ const infoContainerStyle = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-});
-
-const competitionNameStyle = css({
-  color: '#FFF',
-  fontFamily: 'Inter',
-  fontSize: '57px',
-  fontStyle: 'normal',
-  fontWeight: '400',
-  lineHeight: 'normal',
-});
-
-const additionalTextStyle = css({
-  color: '#FFF',
-  fontFamily: 'Inter',
-  fontSize: '14px',
-  fontStyle: 'normal',
-  fontWeight: '400',
-  lineHeight: 'normal',
+  marginBottom: '16px',
 });

@@ -6,7 +6,7 @@ import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
 import ProblemList from './ProblemList';
-import { buttonContainerStyle, statusTextStyle } from './styles/styles';
+import { buttonContainerStyle } from './styles/styles';
 
 interface Props {
   competitionId: number;
@@ -21,13 +21,12 @@ export default function AfterCompetition({ competitionId, competition }: Props) 
       <CompetitionDetailInfo competition={competition} />
       <Chip theme="danger">
         <Text type="label" size="md">
-          <span className={statusTextStyle}>{AFTER_COMPETITION_TEXT}</span>
+          {AFTER_COMPETITION_TEXT}
         </Text>
       </Chip>
       <div className={buttonContainerStyle}>
         <ViewDashboardButton competitionId={competitionId} />
       </div>
-
       <ProblemList competitionId={competitionId} />
       <CompetitionMembersInfo competition={competition} />
     </div>

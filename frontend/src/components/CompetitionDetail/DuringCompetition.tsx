@@ -6,14 +6,13 @@ import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
-import { buttonContainerStyle, statusTextStyle } from './styles/styles';
+import { buttonContainerStyle } from './styles/styles';
 
 interface Props {
   competitionId: number;
   competition: CompetitionInfo;
   startsAt: Date;
   endsAt: Date;
-  competitionSchedule: string;
 }
 
 const DURING_COMPETITION_TEXT = ' 진행중';
@@ -24,7 +23,7 @@ export default function DuringCompetition({ competitionId, competition, startsAt
       <CompetitionDetailInfo competition={competition} />
       <Chip theme="success">
         <Text type="label" size="md">
-          <span className={statusTextStyle}>{DURING_COMPETITION_TEXT}</span>
+          {DURING_COMPETITION_TEXT}
         </Text>
       </Chip>
       <div className={buttonContainerStyle}>
