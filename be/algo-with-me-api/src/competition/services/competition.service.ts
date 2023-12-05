@@ -331,6 +331,16 @@ export class CompetitionService {
       return new ProblemSimpleResponseDto(element.problem.id, element.problem.title);
     });
   }
+
+  async isCompetitionFinished(competitionId: number) {
+    const competition: Competition = await this.competitionRepository.findOneBy({
+      id: competitionId,
+    });
+    this.assertCompetitionExists(competition);
+    if (new Date().getTime() - competition.endsAt.getTime() > 0)
+      throw new BadRequestException(`${competitionId}는 이미 종료된 대회입니다.`);
+  }
+
   private assertCompetitionExists(competition: Competition) {
     if (!competition)
       throw new NotFoundException(
