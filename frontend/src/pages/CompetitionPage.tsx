@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
 import BreadCrumb from '@/components/Common/BreadCrumb';
+import Logo from '@/components/Common/Logo';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
@@ -104,6 +105,7 @@ export default function CompetitionPage() {
         namespace={'competitions'}
       >
         <CompetitionHeader className={padVerticalStyle}>
+          <Logo size={48}></Logo>
           <BreadCrumb crumbs={crumbs}></BreadCrumb>
           <Space></Space>
           <Button onClick={openDashboardModal}>대시보드 보기</Button>
