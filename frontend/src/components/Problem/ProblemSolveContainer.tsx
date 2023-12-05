@@ -63,16 +63,12 @@ export function ProblemSolveContainer({
     modal.open();
   }
 
-  useEffect(() => {
-    setCode(problem.solutionCode);
-  }, [problem.solutionCode, setCode]);
-
   return (
     <HStack className={css({ height: '100%' })} {...props}>
       <VStack className={problemSolveContainerStyle}>
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
-          <Editor height="50%" code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+          <Editor height="50%" code={code} onChangeCode={handleChangeCode}></Editor>
           <section className={resultContainerStyle}>
             <div
               className={css({
