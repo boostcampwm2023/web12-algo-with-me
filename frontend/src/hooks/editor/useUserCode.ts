@@ -49,16 +49,13 @@ export function useUserCode({
   }, [competitionKey]);
 
   useEffect(() => {
-    const targetCode = getTarget([
-      localStorageKey,
-      competitionKey,
-      String(currentProblemIndex),
-    ]) as string;
+    const targetCode = getTarget([localStorageKey, competitionKey, String(currentProblemIndex)]);
 
-    setCode(() => {
-      if (!targetCode) return problem.solutionCode;
-      else return targetCode;
-    });
+    if (typeof targetCode === 'string') {
+      setCode(targetCode);
+    } else {
+      setCode(problem.solutionCode);
+    }
   }, [problem]);
 
   useEffect(() => {
