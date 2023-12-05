@@ -4,7 +4,7 @@ interface Props {
   size: number | `${string}px`;
 }
 
-export default function Logo({ size }: Props) {
+export function Logo({ size }: Props) {
   const logoSize = isNumber(size) ? `${size}px` : size;
 
   return <img src="/algo.png" alt="logo" width={logoSize} height={logoSize} />;

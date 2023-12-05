@@ -3,9 +3,7 @@ import { css } from '@style/css';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Space } from '@/components/Common';
-import BreadCrumb from '@/components/Common/BreadCrumb';
-import Logo from '@/components/Common/Logo';
+import { BreadCrumb, Button, Logo, Space } from '@/components/Common';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
