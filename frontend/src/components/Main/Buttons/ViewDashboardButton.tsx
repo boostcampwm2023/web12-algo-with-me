@@ -12,7 +12,7 @@ export default function ViewDashboardButton({ competitionId }: Props) {
 
   return (
     <Link to={dashboardLink}>
-      <Button>대시보드 보기</Button>
+      <Button>대시보드 확인</Button>
     </Link>
   );
 }
