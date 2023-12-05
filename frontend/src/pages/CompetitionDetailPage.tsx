@@ -34,7 +34,7 @@ export default function CompetitionDetailPage() {
 }
 
 const pageStyle = css({
-  background: 'var(--Background, #263238)',
+  background: 'background',
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',

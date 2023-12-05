@@ -1,7 +1,6 @@
 import { CompetitionInfo } from '@/apis/competitions';
 
-import { Chip } from '../Common';
-import { Text } from '../Common';
+import { Chip, Text, VStack } from '../Common';
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
@@ -26,10 +25,10 @@ export default function DuringCompetition({ competitionId, competition, startsAt
           {DURING_COMPETITION_TEXT}
         </Text>
       </Chip>
-      <div className={buttonContainerStyle}>
+      <VStack className={buttonContainerStyle}>
         <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
         <ViewDashboardButton competitionId={competitionId} />
-      </div>
+      </VStack>
       <CompetitionMembersInfo competition={competition} />
     </div>
   );

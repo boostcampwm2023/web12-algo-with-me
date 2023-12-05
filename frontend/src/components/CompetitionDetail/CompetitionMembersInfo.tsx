@@ -15,7 +15,7 @@ export default function CompetitionMembersInfo({ competition }: Props) {
   return (
     <section>
       <div className={containerStyle}>
-        <Text type="title" size="lg" className={headerTextstyle}>
+        <Text type="title" size="lg">
           운영진
         </Text>
         <div className={contentContainerStyle}>
@@ -26,7 +26,7 @@ export default function CompetitionMembersInfo({ competition }: Props) {
       </div>
 
       <div className={containerStyle}>
-        <Text type="title" size="lg" className={headerTextstyle}>
+        <Text type="title" size="lg">
           참가자
         </Text>
         <div className={contentContainerStyle}>
@@ -51,13 +51,9 @@ const containerStyle = css({
 
 const contentContainerStyle = css({
   display: 'flex',
-  width: '900px',
+  width: '100%',
   padding: '32px 16px',
   alignItems: 'flex-start',
   borderRadius: '8px',
-  background: 'var(--border-default, #455A64)',
-});
-
-const headerTextstyle = css({
-  fontSize: '22px',
+  background: 'surface.alt',
 });

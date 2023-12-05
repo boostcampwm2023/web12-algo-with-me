@@ -1,7 +1,6 @@
 import { CompetitionInfo } from '@/apis/competitions';
 
-import { Chip } from '../Common';
-import { Text } from '../Common';
+import { Chip, Text, VStack } from '../Common';
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
@@ -24,9 +23,9 @@ export default function AfterCompetition({ competitionId, competition }: Props) 
           {AFTER_COMPETITION_TEXT}
         </Text>
       </Chip>
-      <div className={buttonContainerStyle}>
+      <VStack className={buttonContainerStyle}>
         <ViewDashboardButton competitionId={competitionId} />
-      </div>
+      </VStack>
       <ProblemList competitionId={competitionId} />
       <CompetitionMembersInfo competition={competition} />
     </div>

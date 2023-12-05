@@ -2,8 +2,7 @@ import { css } from '@style/css';
 
 import { useCompetitionProblemList } from '@/hooks/problem';
 
-import { Link } from '../Common';
-import { Text } from '../Common';
+import { Link, Text } from '../Common';
 
 interface Props {
   competitionId: number;
@@ -13,7 +12,7 @@ export default function ProblemList({ competitionId }: Props) {
   const { problemList } = useCompetitionProblemList(competitionId);
 
   return (
-    <div className={containerStyle}>
+    <div>
       <table className={tableStyle}>
         <thead>
           <tr>
@@ -44,8 +43,6 @@ export default function ProblemList({ competitionId }: Props) {
   );
 }
 
-const containerStyle = css({});
-
 const tableStyle = css({
   width: '100%',
   borderCollapse: 'collapse',
@@ -55,14 +52,16 @@ const tableStyle = css({
 const headerNumberCellStyle = css({
   width: '100px',
   height: '64px',
-  border: '1px solid var(--border-default, #455A64)',
-  background: 'var(--surface-default, #37474F)',
+  border: '1px solid',
+  borderColor: 'border',
+  background: 'surface',
 });
 
 const headerTitleCellStyle = css({
   height: '64px',
-  border: '1px solid var(--border-default, #455A64)',
-  background: 'var(--surface-default, #37474F)',
+  border: '1px solid',
+  borderColor: 'border',
+  background: 'surface',
   textAlign: 'left',
   padding: '16px',
 });
@@ -71,11 +70,13 @@ const numberCellStyle = css({
   height: '64px',
   padding: '16px',
   textAlign: 'center',
-  border: '1px solid var(--border-default, #455A64)',
+  border: '1px solid',
+  borderColor: 'border',
 });
 
 const titleCellStyle = css({
   height: '64px',
   padding: '16px',
-  border: '1px solid var(--border-default, #455A64)',
+  border: '1px solid',
+  borderColor: 'border',
 });

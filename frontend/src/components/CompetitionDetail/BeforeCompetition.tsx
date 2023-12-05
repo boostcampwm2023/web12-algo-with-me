@@ -2,9 +2,7 @@ import { css } from '@style/css';
 
 import { CompetitionInfo } from '@/apis/competitions';
 
-import { Chip } from '../Common';
-import { Text } from '../Common';
-import { Button } from '../Common';
+import { Button, Chip, Text, VStack } from '../Common';
 import JoinCompetitionButton from '../Main/Buttons/JoinCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
@@ -26,15 +24,15 @@ export default function BeforeCompetition({ competitionId, competition }: Props)
           {BEFORE_COMPETITION_TEXT}
         </Text>
       </Chip>
-      <div className={buttonContainerStyle}>
+      <VStack className={buttonContainerStyle}>
         <Button disabled>대회 입장</Button>
         <JoinCompetitionButton id={competitionId} />
-      </div>
+      </VStack>
       <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }
 
 const statusTextStyle = css({
-  color: 'var(--surface-light, #D9D9D9)',
+  color: 'surface.light',
 });
