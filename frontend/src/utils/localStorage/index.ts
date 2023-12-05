@@ -31,7 +31,6 @@ export function getTarget(keys: string[]): JSONType {
   return savedInfo;
 }
 
-// null => object임
 export function getOrigin(key: string) {
   return JSON.parse(String(localStorage.getItem(key)));
 }
