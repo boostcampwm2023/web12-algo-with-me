@@ -1,6 +1,6 @@
 import Login from '@/components/Login';
 
-const GITHUB_AUTH_URL = 'http://101.101.208.240:3000/auths/github';
+const GITHUB_AUTH_URL = import.meta.env.VITE_GITHUB_AUTH_URL;
 
 export default function LoginPage() {
   // 넘겨주는 함수는 handle, 함수를 넘길 때의 프로펄티 네임은 on
