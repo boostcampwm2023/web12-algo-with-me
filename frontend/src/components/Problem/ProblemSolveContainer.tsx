@@ -73,9 +73,18 @@ export function ProblemSolveContainer({
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
           <Editor height="60%" code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
-          <section className={css({ height: '40%', overflow: 'auto' })}>
-            <SimulationResultList resultList={simulation.results}></SimulationResultList>
-            <SubmissionResult></SubmissionResult>
+          <section className={resultContainerStyle}>
+            <div
+              className={css({
+                borderRadius: '0.5rem',
+                bg: 'surface',
+                maxHeight: '100%',
+                overflow: 'auto',
+              })}
+            >
+              <SimulationResultList resultList={simulation.results}></SimulationResultList>
+              <SubmissionResult></SubmissionResult>
+            </div>
           </section>
         </HStack>
       </VStack>
@@ -126,4 +135,10 @@ const footerStyle = css({
   borderTop: '1px solid',
   borderColor: 'border',
   placeItems: 'center',
+});
+
+const resultContainerStyle = css({
+  height: '40%',
+  overflow: 'auto',
+  padding: '1rem',
 });
