@@ -72,7 +72,7 @@ export function ProblemSolveContainer({
       <VStack className={problemSolveContainerStyle}>
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
-          <Editor height="60%" code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
+          <Editor height="50%" code={problem.solutionCode} onChangeCode={handleChangeCode}></Editor>
           <section className={resultContainerStyle}>
             <div
               className={css({
@@ -109,7 +109,9 @@ export function ProblemSolveContainer({
     </HStack>
   );
 }
-
+/**
+ * TODO: 탭스크린 만들기
+ */
 const problemSolveContainerStyle = css({
   height: 'calc(100% - 4rem)',
   width: 'full',
@@ -138,7 +140,7 @@ const footerStyle = css({
 });
 
 const resultContainerStyle = css({
-  height: '40%',
+  height: '50%',
   overflow: 'auto',
   padding: '1rem',
 });
