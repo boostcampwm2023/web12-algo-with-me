@@ -23,6 +23,7 @@ import { SubmissionResult } from '@/components/Submission/SubmissionResult';
 import { ROUTE, SITE } from '@/constants';
 import { useCompetition } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
+import useAuth from '@/hooks/login/useAuth';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
@@ -54,7 +55,7 @@ export default function CompetitionPage() {
   const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
   const simulation = useSimulation(problem.testcases);
 
-  const { email } = useContext(AuthContext);
+  const { email } = useAuth();
 
   const { code, setCode } = useUserCode({
     userId: email,

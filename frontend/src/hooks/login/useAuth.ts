@@ -7,7 +7,7 @@ import AuthContext from '@/components/Auth/AuthContext';
 const TOKEN_KEY = 'accessToken';
 
 export default function useAuth() {
-  const { isLoggedin, login, logout } = useContext(AuthContext);
+  const { isLoggedin, login, logout, email } = useContext(AuthContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -50,5 +50,5 @@ export default function useAuth() {
   const changeLogoutInfo = () => {
     removeAuthInfo();
   };
-  return { changeLoginInfo, changeLogoutInfo, isLoggedin };
+  return { changeLoginInfo, changeLogoutInfo, isLoggedin, email };
 }
