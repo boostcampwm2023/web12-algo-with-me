@@ -139,7 +139,7 @@ export default function CompetitionPage() {
                 onCancel={handleSimulationCancel}
               />
               <SubmissionButton
-                code={problem.solutionCode}
+                code={code}
                 problemId={currentProblem?.id}
                 competitionId={competitionId}
               ></SubmissionButton>
