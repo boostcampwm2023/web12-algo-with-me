@@ -116,6 +116,7 @@ export default function CompetitionPage() {
           <aside className={asideStyle}>
             <CompetitionProblemSelector
               problemIds={problemIds}
+              currentIndex={currentProblemIndex}
               onChangeProblemIndex={setCurrentProblemIndex}
             />
           </aside>
@@ -190,6 +191,7 @@ const asideStyle = css({
   borderRight: '1px solid',
   borderColor: 'border',
   padding: '0.5rem',
+  width: '5rem',
   height: '100%',
 });
 
