@@ -60,18 +60,11 @@ export function useUserCode({
     const origin = getTarget([localStorageKey]) as Origin;
 
     if (oldProblemIndex !== currentProblemIndex) {
-      // oldProblemIndex와 currentProblemIndex가 다르다면
-      // 문제를 클릭만 한 경우기 때문에 localStorage에 저장하게 되면
-      // 예전 번호가 현재 번호를 덮어쓰게 됨.
       setOldProblemIndex(currentProblemIndex);
       return;
     }
 
     if (code === problem.solutionCode) return;
-
-    // oldProblemIndex는와 currentProblemIndex가 같다면
-    // 해당 페이지 내에서 특정한 코드 변경이 있었다는 것을 의미하니,
-    // 변경 사항을 저장할 필요가 있다.
     origin[competitionKey][currentProblemIndex] = code;
     save(localStorageKey, origin);
   }, [code, currentProblemIndex]);
