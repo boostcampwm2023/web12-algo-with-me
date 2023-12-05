@@ -1,10 +1,14 @@
+import { css } from '@style/css';
+
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
-import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
-import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
+import { Chip, Link, Text } from '@/components/Common';
+// import JoinCompetitionButton from '@/components/Main/Buttons/JoinCompetitionButton';
+// import ViewDashboardButton from '@/components/Main/Buttons/ViewDashboardButton';
 import secToTime from '@/utils/secToTime';
+
+import CheckCircle from '../Common/CheckCircle';
 
 interface Competition {
   id: number;
@@ -50,42 +54,182 @@ export default function CompetitionList() {
   }, []);
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>대회 이름</th>
-            <th>시작 시간</th>
-            <th>종료 시간</th>
-            <th>상태</th>
-            <th>참여</th>
-            <th>대시보드</th>
-          </tr>
-        </thead>
-        <tbody>
-          {competitions.map((competition) => (
-            <tr key={competition.id}>
-              <td>
-                <Link to={getCompetitionDetailURL(competition.id)}>{competition.name}</Link>
-              </td>
-              <td>{new Date(competition.startsAt).toLocaleString()}</td>
-              <td>{new Date(competition.endsAt).toLocaleString()}</td>
-              <td>{formatTimeRemaining(competition.startsAt, competition.endsAt)}</td>
-              <td>
-                {competition.startsAt > new Date().toISOString() && (
-                  <JoinCompetitionButton id={competition.id} />
+    <table className={tableStyle}>
+      <thead className={tableHeaderStyle}>
+        <tr className={tableRowStyle}>
+          <th className={nameColumnStyle}>
+            <Text type="title" bold={true} size="lg">
+              대회 이름
+            </Text>
+          </th>
+          <th className={startColumnStyle}>
+            <Text type="title" bold={true} size="lg">
+              시작 시간
+            </Text>
+          </th>
+          <th className={endColumnStyle}>
+            <Text type="title" size="lg" bold={true}>
+              종료 시간
+            </Text>
+          </th>
+          <th className={stateColumnStyle}>
+            <Text type="title" size="lg" bold={true}>
+              상태
+            </Text>
+          </th>
+          <th className={registrationColumnStyle}>
+            <Text type="title" size="lg" bold={true}>
+              참여 신청 여부
+            </Text>
+          </th>
+          <th className={dashboardColumnStyle}>
+            <Text type="title" size="lg" bold={true}>
+              대시보드 보기
+            </Text>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {competitions.map((competition) => (
+          <tr className={tableRowStyle} key={competition.id}>
+            <td className={nameTdStyle}>
+              <Link className={nameTdTextStyle} to={getCompetitionDetailURL(competition.id)}>
+                {competition.name}
+              </Link>
+            </td>
+            <td>
+              <div className={startTdStyle}>
+                <Text type="body" size="md">
+                  {new Date(competition.startsAt).toLocaleString()}
+                </Text>
+              </div>
+            </td>
+            <td>
+              <div className={endTdStyle}>
+                <Text type="body" size="md">
+                  {new Date(competition.endsAt).toLocaleString()}
+                </Text>
+              </div>
+            </td>
+            <td>
+              <div className={stateTdStyle}>
+                {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
+                  <Chip theme="danger">종료</Chip>
+                ) : (
+                  <Chip className={wideStyle} theme="success">
+                    진행 중
+                  </Chip>
                 )}
-              </td>
-              <td>
-                <ViewDashboardButton competitionId={competition.id} />
-              </td>
-              <td>
-                <Link to={`/contest/${competition.id}`}>대회 참여</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+              </div>
+            </td>
+            <td>
+              <div className={registrationTdStyle}>
+                <CheckCircle />
+              </div>
+            </td>
+            <td className={dashboardTdStyle}>
+              <Link to={`/contest/${competition.id}`}>Link</Link>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
+
+const tableStyle = css({
+  background: 'surface',
+  display: 'flex',
+  padding: '16px 24px',
+  flexDirection: 'column',
+  color: 'text',
+});
+
+const tableHeaderStyle = css({
+  display: 'flex',
+  height: '64px',
+  gap: '10px',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  alignSelf: 'stretch',
+});
+
+const tableRowStyle = css({
+  padding: '24px 16px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  alignSelf: 'stretch',
+  justifyContent: 'center',
+});
+
+const nameColumnStyle = css({
+  flex: '1 0 0',
+  textAlign: 'start',
+});
+const startColumnStyle = css({
+  width: '240px',
+  textAlign: 'start',
+});
+const endColumnStyle = css({
+  width: '240px',
+  textAlign: 'start',
+});
+const stateColumnStyle = css({
+  width: '80px',
+  textAlign: 'center',
+});
+const registrationColumnStyle = css({
+  width: '120px',
+  textAlign: 'center',
+});
+const dashboardColumnStyle = css({
+  width: '120px',
+  textAlign: 'center',
+});
+
+const nameTdStyle = css({
+  display: 'flex',
+  height: '17px',
+  paddingRight: '108px',
+  alignItems: 'center',
+  flex: '1 0 0',
+});
+const startTdStyle = css({
+  width: '240px',
+});
+const endTdStyle = css({
+  width: '240px',
+});
+const stateTdStyle = css({
+  display: 'flex',
+  width: '80px',
+  padding: '4px 12px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '10px',
+});
+const registrationTdStyle = css({
+  width: '120px',
+  height: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+});
+const dashboardTdStyle = css({
+  display: 'flex',
+  width: '120px',
+  height: '17px',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+const nameTdTextStyle = css({
+  width: '152px',
+  height: '17px',
+});
+
+const wideStyle = css({
+  width: '69px',
+});
