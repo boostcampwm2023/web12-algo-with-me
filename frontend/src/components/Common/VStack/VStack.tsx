@@ -18,4 +18,5 @@ export function VStack({ children, className, as = 'div', ...props }: Props) {
 
 const rowListStyle = css({
   display: 'flex',
+  placeItems: 'center',
 });
