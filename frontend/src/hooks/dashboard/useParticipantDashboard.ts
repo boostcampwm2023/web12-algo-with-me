@@ -19,9 +19,8 @@ export function useParticipantDashboard() {
   const [totalProblemCount, setTotalProblemCount] = useState(-1);
 
   const fetchData = () => {
-    if (!isNil(socket)) {
-      socket.emit('dashboard');
-    }
+    if (isNil(socket)) return;
+    socket.emit('dashboard');
   };
 
   function handleDashboard(newDashboard: Dashboard) {
