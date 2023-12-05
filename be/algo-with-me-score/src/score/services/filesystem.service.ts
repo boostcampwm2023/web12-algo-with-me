@@ -15,8 +15,7 @@ export class FilesystemService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
-  async writeSubmittedCode(code: string, competitionId: number, userId: number, problemId: number) {
-    const problem: Problem = await this.problemRepository.findOneBy({ id: problemId });
+  async writeSubmittedCode(code: string, competitionId: number, userId: number, problem: Problem) {
     const mergedCode = this.getMergedCode(code, problem.frameCode);
 
     const baseDirectory = this.getSubmissionBaseDirectoryPath(competitionId, userId);
@@ -29,7 +28,7 @@ export class FilesystemService {
       return false;
     }
 
-    const codeFilepath = path.join(baseDirectory, `${problemId}.js`);
+    const codeFilepath = path.join(baseDirectory, `${problem.id}.js`);
     try {
       fs.writeFileSync(codeFilepath, mergedCode);
     } catch (error) {
