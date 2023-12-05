@@ -36,6 +36,7 @@ const containerStyle = css({
   justifyContent: 'center',
   alignItems: 'flex-start',
   gap: '16px',
+  marginTop: '60px',
 });
 
 const headerStyle = css({
