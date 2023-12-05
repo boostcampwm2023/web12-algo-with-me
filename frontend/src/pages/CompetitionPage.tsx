@@ -121,7 +121,7 @@ export default function CompetitionPage() {
             />
           </aside>
           <HStack className={css({ height: '100%' })}>
-            <VStack className={hfullStyle}>
+            <VStack className={problemSolveContainerStyle}>
               <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
               <HStack className={solutionStyle}>
                 <Editor height="500px" code={code} onChangeCode={handleChangeCode}></Editor>
@@ -168,16 +168,18 @@ const competitionStyle = css({
   flexGrow: '1',
   overflow: 'hidden',
 });
-const hfullStyle = css({
+const problemSolveContainerStyle = css({
   height: 'calc(100% - 4rem)',
+  width: 'full',
 });
 const problemStyle = css({
-  width: '50%',
+  width: '1/2',
   height: '100%',
 });
 const solutionStyle = css({
-  width: '50%',
+  width: '1/2',
   height: '100%',
+  alignItems: 'stretch',
   overflow: 'auto',
 });
 
