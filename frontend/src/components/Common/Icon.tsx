@@ -10,14 +10,25 @@ type IconName = 'chevron-right' | 'check-round' | 'cancel-round' | 'spinner' | '
 interface Props extends HTMLAttributes<HTMLSpanElement> {
   size?: number;
   color?: Theme;
+  spin?: boolean;
   name: IconName;
 }
 
-export function Icon({ className, size = 24, name = 'cancel', color = 'info', ...props }: Props) {
+export function Icon({
+  className,
+  size = 24,
+  name = 'cancel',
+  color = 'info',
+  spin = false,
+  ...props
+}: Props) {
   const iconPath = `${icons}#${name}`;
 
   return (
-    <span className={cx(className, style, themeStyle({ color }))} {...props}>
+    <span
+      className={cx(className, style, themeStyle({ color }), animationStyle({ spin }))}
+      {...props}
+    >
       <svg width={size} height={size} fill={color}>
         <use href={iconPath}></use>
       </svg>
@@ -55,6 +66,17 @@ const themeStyle = cva({
       },
       info: {
         fill: 'alert.info',
+      },
+    },
+  },
+});
+
+const animationStyle = cva({
+  variants: {
+    spin: {
+      true: {
+        transformOrigin: 'center',
+        animation: 'spin',
       },
     },
   },

@@ -25,7 +25,7 @@ function SimulationResult({ result }: { result: SimulationResult }) {
   return (
     <>
       <VStack className={resultContainerStyle}>
-        {result.isDone ? <Icon.CheckRound color="success" /> : <Icon.Spinner />}
+        {result.isDone ? <Icon.CheckRound color="success" /> : <Icon.Spinner spin />}
         <HStack className={resultDescriptionStyle}>
           <p>입력: {result.input}</p>
           <p>출력: {String(result.output)}</p>
@@ -44,6 +44,7 @@ const listStyle = css({
 });
 
 const resultContainerStyle = css({
+  alignItems: 'flex-start',
   padding: '1rem',
   gap: '0.625rem',
 });
