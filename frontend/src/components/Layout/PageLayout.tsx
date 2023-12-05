@@ -15,5 +15,5 @@ export function PageLayout({ children, className, ...props }: Props) {
 const style = css({
   width: '100%',
   color: 'text',
-  background: 'surface',
+  background: 'background',
 });
