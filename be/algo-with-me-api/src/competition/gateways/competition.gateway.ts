@@ -101,10 +101,10 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
         authTokenPayloadDto.sub,
       );
       this.logger.debug(
-        `웹소켓 연결 성공, competition id: ${competitionId}, client id: ${client.id}, email: ${authTokenPayloadDto.sub}, args: ${args}`,
+        `competition 웹소켓 연결 성공, competition id: ${competitionId}, client id: ${client.id}, email: ${authTokenPayloadDto.sub}, args: ${args}`,
       );
     } catch (error) {
-      this.logger.debug(`웹소켓 연결 실패: ${error.message}`);
+      this.logger.debug(`competition 웹소켓 연결 실패: ${error.message}`);
       client.emit('message', { message: `${error.message}` });
       client.disconnect();
     }
