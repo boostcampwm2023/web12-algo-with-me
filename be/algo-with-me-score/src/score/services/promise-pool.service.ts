@@ -28,7 +28,9 @@ class PromisePool {
         return promise !== newlyAddedPromise;
       });
       this.reserved[containerId] = false;
-      this.logger.debug(`채점 완료: ${JSON.stringify(args)}`);
+      this.logger.debug(
+        `채점 완료: submissionId=${args.submissionId}, competitionId=${args.competitionId}, userId=${args.userId}, problemId=${args.problemId}, testcaseId=${args.testcaseId}, socketId=${args.socketId}}`,
+      );
     });
 
     this.promises.push(newlyAddedPromise);
