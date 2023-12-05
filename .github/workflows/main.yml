@@ -1,0 +1,24 @@
+name: be-deploy
+
+on:
+  push:
+    branches:
+      - be-dev
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: SSH-be-deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.NCP_HOST }}
+        username: ${{ secrets.NCP_USERNAME }}
+        password: ${{ secrets.NCP_PASSWORD }}
+        port: ${{ secrets.NCP_PORT }}
+        script: |
+          cd /home/be/web12-algo-with-me/
+          git pull
+          cd be
+          ./build-all
+          ./run-all-background
