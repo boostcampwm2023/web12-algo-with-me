@@ -2,7 +2,7 @@ import { css, cx } from '@style/css';
 
 import { HTMLAttributes } from 'react';
 
-interface Props extends HTMLAttributes<HTMLElement> {
+export interface Props extends HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
 }
 
