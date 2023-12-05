@@ -82,23 +82,27 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
       await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
 
-      client.data['competitionId'] = Number(competitionId);
-      client.data['email'] = authTokenPayloadDto.sub;
-      
       // 동일한 유저의 다른 연결 끊기
       this.server.to(authTokenPayloadDto.sub).disconnectSockets();
 
+      // 만약 종료된 대회에 연결하려고 하면 끊기
+      await this.competitionService.isCompetitionFinished(Number(competitionId));
+
+      client.data['competitionId'] = Number(competitionId);
+      client.data['email'] = authTokenPayloadDto.sub;
       client.join(competitionId);
       client.join(authTokenPayloadDto.sub);
-      
-      this.dashboardService.registerUserAtCompetition(
+
+      await this.dashboardService.registerUserAtCompetition(
         Number(competitionId),
         authTokenPayloadDto.sub,
       );
-      this.logger.debug(client.id, client.handshake.auth);
-      this.logger.debug(competitionId, args);
+      this.logger.debug(
+        `웹소켓 연결 성공, competition id: ${competitionId}, client id: ${client.id}, email: ${authTokenPayloadDto.sub}, args: ${args}`,
+      );
     } catch (error) {
-      client.emit('errorMessage', { message: `${error.message}` });
+      this.logger.debug(`웹소켓 연결 실패: ${error.message}`);
+      client.emit('message', { message: `${error.message}` });
       client.disconnect();
     }
   }
