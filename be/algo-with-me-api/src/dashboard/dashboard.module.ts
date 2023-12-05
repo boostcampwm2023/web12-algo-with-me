@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { DashboardController } from './dashboard.controller';
@@ -13,7 +13,7 @@ import { CompetitionProblem } from '@src/competition/entities/competition.proble
 @Module({
   imports: [
     TypeOrmModule.forFeature([Dashboard, CompetitionProblem, Competition]),
-    CompetitionModule,
+    forwardRef(() => CompetitionModule),
   ],
   providers: [DashboardGateway, DashboardService],
   controllers: [DashboardController],

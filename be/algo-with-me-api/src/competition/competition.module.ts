@@ -1,5 +1,5 @@
 import { BullModule } from '@nestjs/bull';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CompetitionController } from './controllers/competition.controller';
@@ -33,9 +33,10 @@ import { UserModule } from '@src/user/user.module';
     }),
     AuthModule,
     UserModule,
-    DashboardModule,
+    forwardRef(() => DashboardModule),
   ],
   controllers: [ProblemController, CompetitionController],
   providers: [ProblemService, CompetitionService, CompetitionGateWay],
+  exports: [CompetitionService],
 })
 export class CompetitionModule {}
