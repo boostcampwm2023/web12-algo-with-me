@@ -1,7 +1,10 @@
+import { css } from '@style/css';
+
 import { useParams } from 'react-router-dom';
 
 import { CompetitionDetailContent } from '@/components/CompetitionDetail/CompetitionDetailContent';
 import Header from '@/components/Header';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
 import { formatDate } from '@/utils/date';
 
@@ -18,7 +21,7 @@ export default function CompetitionDetailPage() {
   const competitionSchedule = `시작: ${formattedStartsAt} 종료: ${formattedEndsAt}`;
 
   return (
-    <div>
+    <PageLayout className={pageStyle}>
       <Header />
       <CompetitionDetailContent
         competitionId={competitionId}
@@ -27,6 +30,13 @@ export default function CompetitionDetailPage() {
         endsAt={endsAt}
         competitionSchedule={competitionSchedule}
       />
-    </div>
+    </PageLayout>
   );
 }
+
+const pageStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '136px',
+});

@@ -2,47 +2,37 @@ import { css } from '@style/css';
 
 import { CompetitionInfo } from '@/apis/competitions';
 
+import { Button, Chip, Text, VStack } from '../Common';
 import JoinCompetitionButton from '../Main/Buttons/JoinCompetitionButton';
-import EnterCompetitionButton from './Buttons/EnterCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
+import { buttonContainerStyle } from './styles/styles';
 
 interface Props {
   competitionId: number;
   competition: CompetitionInfo;
-  startsAt: Date;
-  endsAt: Date;
-  competitionSchedule: string;
 }
 
-export default function BeforeCompetition({
-  competitionId,
-  competition,
-  startsAt,
-  endsAt,
-  competitionSchedule,
-}: Props) {
-  const BEFORE_COMPETITION_TEXT = ` 시작 전`;
+const BEFORE_COMPETITION_TEXT = `시작 전`;
 
+export default function BeforeCompetition({ competitionId, competition }: Props) {
   return (
     <div>
-      <CompetitionDetailInfo
-        competition={competition}
-        text={BEFORE_COMPETITION_TEXT}
-        competitionSchedule={competitionSchedule}
-      />
-
-      <div className={buttonContainerStyle}>
+      <CompetitionDetailInfo competition={competition} />
+      <Chip theme="info">
+        <Text type="label" size="md" className={statusTextStyle}>
+          {BEFORE_COMPETITION_TEXT}
+        </Text>
+      </Chip>
+      <VStack className={buttonContainerStyle}>
+        <Button disabled>대회 입장</Button>
         <JoinCompetitionButton id={competitionId} />
-        <EnterCompetitionButton id={competitionId} startsAt={startsAt} endsAt={endsAt} />
-      </div>
-
+      </VStack>
       <CompetitionMembersInfo competition={competition} />
     </div>
   );
 }
 
-const buttonContainerStyle = css({
-  display: 'flex',
-  gap: '16px',
+const statusTextStyle = css({
+  color: 'surface.light',
 });
