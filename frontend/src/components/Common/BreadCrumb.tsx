@@ -12,19 +12,26 @@ export default function BreadCrumb({ crumbs, className, ...props }: Props) {
   const lastIndex = crumbs.length - 1;
 
   return (
-    <VStack as="nav" className={cx(className, style)} {...props}>
-      {crumbs.map((crumb, index) => (
-        <>
-          <Text.Body key={index} bold>
-            {crumb}
-          </Text.Body>
-          {index !== lastIndex ? <Icon.ChevronRight size={24}></Icon.ChevronRight> : null}
-        </>
-      ))}
-    </VStack>
+    <nav>
+      <VStack className={cx(className, style)} {...props}>
+        {crumbs.map((crumb, index) => (
+          <div className={crumbStyle} key={index}>
+            <Text.Body bold>{crumb}</Text.Body>
+            {index !== lastIndex ? <Icon.ChevronRight size={24} /> : null}
+          </div>
+        ))}
+      </VStack>
+    </nav>
   );
 }
 
 const style = css({
   gap: '0.25rem',
+});
+
+const crumbStyle = css({
+  display: 'flex',
+  placeItems: 'center',
+  marginY: 'auto',
+  marginX: '0',
 });
