@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
   crumbs: string[];
 }
 
-export default function BreadCrumb({ crumbs, className, ...props }: Props) {
+export function BreadCrumb({ crumbs, className, ...props }: Props) {
   const lastIndex = crumbs.length - 1;
 
   return (
