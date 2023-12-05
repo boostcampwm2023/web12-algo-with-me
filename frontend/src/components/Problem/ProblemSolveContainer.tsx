@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem } from '@/apis/problems';
