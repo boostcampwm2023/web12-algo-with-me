@@ -2,33 +2,29 @@ import { css, cx } from '@style/css';
 
 import { HTMLAttributes } from 'react';
 
+import { Icon, Text, VStack } from '.';
+
 interface Props extends HTMLAttributes<HTMLElement> {
   crumbs: string[];
 }
 
 export default function BreadCrumb({ crumbs, className, ...props }: Props) {
+  const lastIndex = crumbs.length - 1;
+
   return (
-    <nav className={cx(className, crumbStyle)} {...props}>
+    <VStack as="nav" className={cx(className, style)} {...props}>
       {crumbs.map((crumb, index) => (
-        <span key={index} className={crumbStyle}>
-          {crumb}
-        </span>
+        <>
+          <Text.Body key={index} bold>
+            {crumb}
+          </Text.Body>
+          {index !== lastIndex ? <Icon.ChevronRight size={24}></Icon.ChevronRight> : null}
+        </>
       ))}
-    </nav>
+    </VStack>
   );
 }
 
-const crumbStyle = css({
-  fontWeight: 'bold',
-  color: 'text.week',
-  marginRight: '1rem',
-  _after: {
-    content: '">"',
-    marginLeft: '1rem',
-  },
-  _last: {
-    _after: {
-      content: '""',
-    },
-  },
+const style = css({
+  gap: '0.25rem',
 });
