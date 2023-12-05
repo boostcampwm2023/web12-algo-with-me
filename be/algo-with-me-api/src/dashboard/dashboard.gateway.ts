@@ -10,10 +10,13 @@ import { Socket } from 'socket.io';
 
 import { DashboardService } from './dashboard.service';
 
+import { CompetitionService } from '@src/competition/services/competition.service';
+
 @WebSocketGateway({ namespace: 'dashboards' })
 export class DashboardGateway implements OnGatewayConnection {
   constructor(
     private readonly dashboardService: DashboardService,
+    private readonly competitionService: CompetitionService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -26,9 +29,18 @@ export class DashboardGateway implements OnGatewayConnection {
   }
 
   public handleConnection(client: Socket, ...args: any[]) {
-    const { competitionId } = client.handshake.query;
-    client.data['competitionId'] = competitionId;
-    client.join(competitionId);
-    this.logger.debug(args);
+    try {
+      const { competitionId } = client.handshake.query;
+      client.data['competitionId'] = competitionId;
+      this.competitionService.isCompetitionFinished(Number(competitionId));
+      client.join(competitionId);
+      this.logger.debug(
+        `dashboard 웹소켓 연결 성공, competition id: ${competitionId}, client id: ${client.id}, args: ${args}`,
+      );
+    } catch (error) {
+      this.logger.debug(`dashboard 웹소켓 연결 실패: ${error.message}`);
+      client.emit('message', { message: `${error.message}` });
+      client.disconnect();
+    }
   }
 }
