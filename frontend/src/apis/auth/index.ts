@@ -1,4 +1,4 @@
-import api, { type Error } from '@/utils/api';
+import api, { type NetworkError } from '@/utils/api';
 
 import { type TokenValidResponse } from './types';
 
@@ -11,7 +11,7 @@ export const fetchTokenValid = async (token: string): Promise<TokenValidResponse
     });
     return await response.data;
   } catch (e) {
-    const error = e as Error;
+    const error = e as NetworkError;
     console.error('토큰 유효성 확인 실패:', error.message);
     throw error;
   }

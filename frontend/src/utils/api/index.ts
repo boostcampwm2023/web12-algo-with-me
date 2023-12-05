@@ -5,4 +5,4 @@ const api = axios.create({
 });
 
 export default api;
-export { AxiosError as Error };
+export { AxiosError as NetworkError };
