@@ -1,5 +1,7 @@
 import { css } from '@style/css';
 
+import { Link } from 'react-router-dom';
+
 import { Button, Space, Text, VStack } from '@/components/Common';
 import { Logo } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
@@ -18,10 +20,14 @@ export default function Header() {
   return (
     <header className={headerWrapperStyle}>
       <VStack className={headerStyle}>
-        <Logo size="48px" />
-        <Text.Title bold size="lg" className={textStyle}>
-          Algo With Me
-        </Text.Title>
+        <Link to="/">
+          <Logo size="48px" />
+        </Link>
+        <Link to="/">
+          <Text.Title bold size="lg" className={textStyle}>
+            Algo With Me
+          </Text.Title>
+        </Link>
         <Space />
         {isLoggedin ? (
           <Button className={buttonStyle} theme="brand" onClick={handleLogout}>
