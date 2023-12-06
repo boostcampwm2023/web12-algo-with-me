@@ -1,8 +1,10 @@
 import { css } from '@style/css';
 
+import { HStack, Text, VStack } from '@/components/Common';
+import Logo from '@/components/Common/Logo';
 import Header from '@/components/Header';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
-import CompetitionList from '@/components/Main/CompetitionList';
+import CompetitionTable from '@/components/Main/CompetitionTable';
 import { SITE } from '@/constants';
 
 function MainPage() {
@@ -10,10 +12,21 @@ function MainPage() {
     <>
       <Header />
       <main className={style}>
-        <span className={ProjectNameStyle}>{SITE.NAME} </span>
-        <span>{SITE.PAGE_DESCRIPTION} </span>
-        <GoToCreateCompetitionLink />
-        <CompetitionList />
+        <HStack className={logoAndTitleContainerStyle}>
+          <Logo size="220px" />
+          <Text type="display" size="lg" className={displayTextStyle}>
+            {SITE.NAME}
+          </Text>
+          <Text type="title" size="lg">
+            {SITE.PAGE_DESCRIPTION}
+          </Text>
+        </HStack>
+        <VStack className={linkWrapperStyle}>
+          <GoToCreateCompetitionLink />
+        </VStack>
+        <section className={competitionTableWrapperStyle}>
+          <CompetitionTable />
+        </section>
       </main>
     </>
   );
@@ -21,12 +34,35 @@ function MainPage() {
 
 export default MainPage;
 
-const ProjectNameStyle = css({
-  fontSize: '70px',
+const logoAndTitleContainerStyle = css({
+  alignItems: 'center',
+  gap: '16px',
+  color: '#fff',
+  paddingTop: '120px',
+});
+
+const displayTextStyle = css({
+  height: '100px',
+  width: '100%',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 const style = css({
-  display: 'grid',
-  placeItems: 'center',
-  height: '500px',
+  background: 'background',
+});
+
+const linkWrapperStyle = css({
+  width: '100%',
+  maxWidth: '1200px',
+  justifyContent: 'flex-end',
+  padding: '1rem 0',
+  margin: '0 auto',
+});
+
+const competitionTableWrapperStyle = css({
+  width: '100%',
+  maxWidth: '1200px',
+  margin: '0 auto',
 });
