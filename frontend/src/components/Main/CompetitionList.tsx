@@ -3,10 +3,8 @@ import { css } from '@style/css';
 import { useEffect, useState } from 'react';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
-import { Chip, Link, Text } from '@/components/Common';
+import { Chip, Icon, Link, Text } from '@/components/Common';
 import secToTime from '@/utils/secToTime';
-
-import CheckCircle from '../Common/CheckCircle';
 
 interface Competition {
   id: number;
@@ -122,7 +120,7 @@ export default function CompetitionList() {
             </td>
             <td>
               <div className={registrationTdStyle}>
-                <CheckCircle />
+                <Icon.CheckRound color="success" />
               </div>
             </td>
             <td className={dashboardTdStyle}>
