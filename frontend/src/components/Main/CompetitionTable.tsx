@@ -131,6 +131,7 @@ const tableStyle = css({
   padding: '16px 24px',
   flexDirection: 'column',
   color: 'text',
+  borderRadius: '8px',
 });
 
 const tableHeaderStyle = css({
