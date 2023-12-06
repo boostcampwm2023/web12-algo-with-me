@@ -73,7 +73,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                     ? cellStyle
                     : myRank.problemDict[Number(problemId)] === -1
                     ? wrongProblemCellStyle
-                    : ProblemCellStyle
+                    : correctProblemCellStyle
                 }
               >
                 <Text type="title" bold>
@@ -111,7 +111,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                     ? cellStyle
                     : rank.problemDict[Number(problemId)] === -1
                     ? wrongProblemCellStyle
-                    : ProblemCellStyle
+                    : correctProblemCellStyle
                 }
               >
                 <Text type="title" bold>
@@ -188,6 +188,6 @@ const wrongProblemCellStyle = css(defaultCellStyle, {
   background: 'rgba(226, 54, 54, 0.70)',
 });
 
-const ProblemCellStyle = css(defaultCellStyle, {
+const correctProblemCellStyle = css(defaultCellStyle, {
   background: 'rgba(130, 221, 85, 0.70)',
 });
