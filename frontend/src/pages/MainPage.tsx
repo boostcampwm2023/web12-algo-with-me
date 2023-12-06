@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { HStack, Text } from '@/components/Common';
+import { HStack, Text, VStack } from '@/components/Common';
 import Logo from '@/components/Common/Logo';
 import Header from '@/components/Header';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
@@ -21,12 +21,12 @@ function MainPage() {
             {SITE.PAGE_DESCRIPTION}
           </Text>
         </HStack>
-        <div className={linkWrapperStyle}>
+        <VStack className={linkWrapperStyle}>
           <GoToCreateCompetitionLink />
-        </div>
-        <div className={competitionListWrapperStyle}>
+        </VStack>
+        <VStack className={competitionListWrapperStyle}>
           <CompetitionList />
-        </div>
+        </VStack>
       </main>
     </>
   );
@@ -55,7 +55,6 @@ const style = css({
 const linkWrapperStyle = css({
   width: '100%',
   maxWidth: '1200px',
-  display: 'flex',
   justifyContent: 'flex-end',
   padding: '1rem 0',
   margin: '0 auto',

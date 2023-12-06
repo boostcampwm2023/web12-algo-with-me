@@ -58,12 +58,12 @@ export default function CompetitionList() {
               대회 이름
             </Text>
           </th>
-          <th className={startColumnStyle}>
+          <th className={timeColumnStyle}>
             <Text type="title" bold={true} size="lg">
               시작 시간
             </Text>
           </th>
-          <th className={endColumnStyle}>
+          <th className={timeColumnStyle}>
             <Text type="title" size="lg" bold={true}>
               종료 시간
             </Text>
@@ -94,34 +94,26 @@ export default function CompetitionList() {
               </Link>
             </td>
             <td>
-              <div className={startTdStyle}>
-                <Text type="body" size="md">
-                  {new Date(competition.startsAt).toLocaleString()}
-                </Text>
-              </div>
+              <Text className={timeTextStyle} type="body" size="md">
+                {new Date(competition.startsAt).toLocaleString()}
+              </Text>
             </td>
             <td>
-              <div className={endTdStyle}>
-                <Text type="body" size="md">
-                  {new Date(competition.endsAt).toLocaleString()}
-                </Text>
-              </div>
+              <Text className={timeTextStyle} type="body" size="md">
+                {new Date(competition.endsAt).toLocaleString()}
+              </Text>
             </td>
-            <td>
-              <div className={stateTdStyle}>
-                {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
-                  <Chip theme="danger">종료</Chip>
-                ) : (
-                  <Chip className={wideStyle} theme="success">
-                    진행 중
-                  </Chip>
-                )}
-              </div>
+            <td className={stateTdStyle}>
+              {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
+                <Chip theme="danger">종료</Chip>
+              ) : (
+                <Chip className={wideStyle} theme="success">
+                  진행 중
+                </Chip>
+              )}
             </td>
-            <td>
-              <div className={registrationTdStyle}>
-                <Icon.CheckRound color="success" />
-              </div>
+            <td className={registrationTdStyle}>
+              <Icon.CheckRound size={32} color="success" />
             </td>
             <td className={dashboardTdStyle}>
               <Link to={`/contest/${competition.id}`}>Link</Link>
@@ -164,11 +156,7 @@ const nameColumnStyle = css({
   flex: '1 0 0',
   textAlign: 'start',
 });
-const startColumnStyle = css({
-  width: '240px',
-  textAlign: 'start',
-});
-const endColumnStyle = css({
+const timeColumnStyle = css({
   width: '240px',
   textAlign: 'start',
 });
@@ -189,13 +177,12 @@ const nameTdStyle = css({
   display: 'flex',
   height: '17px',
   paddingRight: '108px',
+  justifyContent: 'center',
   alignItems: 'center',
   flex: '1 0 0',
 });
-const startTdStyle = css({
-  width: '240px',
-});
-const endTdStyle = css({
+const timeTextStyle = css({
+  display: 'block',
   width: '240px',
 });
 const stateTdStyle = css({
@@ -212,6 +199,7 @@ const registrationTdStyle = css({
   height: '20px',
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
 });
 const dashboardTdStyle = css({
   display: 'flex',
@@ -224,6 +212,7 @@ const dashboardTdStyle = css({
 const nameTdTextStyle = css({
   width: '152px',
   height: '17px',
+  display: 'flex',
 });
 
 const wideStyle = css({
