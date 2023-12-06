@@ -82,7 +82,11 @@ export default function CompetitionPage() {
             currentProblemIndex={currentProblemIndex}
           ></ProblemSolveContainer>
         </div>
-        <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
+        <DashboardModal
+          isOpen={isDashboardModalOpen}
+          onClose={closeDashboardModal}
+          competitionId={competitionId}
+        />
       </SocketProvider>
     </PageLayout>
   );
