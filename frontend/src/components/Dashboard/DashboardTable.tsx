@@ -139,7 +139,7 @@ const defaultCellStyle: SystemStyleObject = {
 
 const headerRankCellStyle = css(
   {
-    maxWidth: '10px',
+    minWidth: '40px',
   },
   defaultCellStyle,
 );
@@ -160,7 +160,7 @@ const headerProblemCellStyle = css(
 
 const headerScoreCellStyle = css(
   {
-    maxWidth: '10px',
+    minWidth: '40px',
   },
   defaultCellStyle,
 );
