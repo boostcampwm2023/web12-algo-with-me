@@ -1,7 +1,8 @@
 import { css } from '@style/css';
 
+
 import { Button, Space, Text, VStack } from '@/components/Common';
-import Logo from '@/components/Common/Logo';
+import { Logo } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function Header() {

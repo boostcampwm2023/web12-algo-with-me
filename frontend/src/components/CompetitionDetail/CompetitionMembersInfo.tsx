@@ -2,6 +2,8 @@ import { css } from '@style/css';
 
 import { CompetitionInfo } from '@/apis/competitions';
 
+import { Text } from '../Common';
+
 interface Props {
   competition: CompetitionInfo;
 }
@@ -13,13 +15,25 @@ export default function CompetitionMembersInfo({ competition }: Props) {
   return (
     <section>
       <div className={containerStyle}>
-        <header className={headerStyle}>대회 생성자</header>
-        <p className={contentStyle}>{host}</p>
+        <Text type="title" size="lg">
+          운영진
+        </Text>
+        <div className={contentContainerStyle}>
+          <Text type="body" size="md">
+            {host}
+          </Text>
+        </div>
       </div>
 
       <div className={containerStyle}>
-        <header className={headerStyle}>대회 참여자</header>
-        <p className={contentStyle}>{formattedMembers}</p>
+        <Text type="title" size="lg">
+          참가자
+        </Text>
+        <div className={contentContainerStyle}>
+          <Text type="body" size="md">
+            {formattedMembers}
+          </Text>
+        </div>
       </div>
     </section>
   );
@@ -27,18 +41,19 @@ export default function CompetitionMembersInfo({ competition }: Props) {
 
 const containerStyle = css({
   display: 'flex',
+  width: '900px',
   flexDirection: 'column',
-  marginTop: '16px',
-  padding: '16px',
-  border: '1px solid #ccc',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  gap: '16px',
+  marginTop: '60px',
 });
 
-const headerStyle = css({
-  fontSize: '18px',
-  fontWeight: 'bold',
-  marginBottom: '8px',
-});
-
-const contentStyle = css({
-  fontSize: '16px',
+const contentContainerStyle = css({
+  display: 'flex',
+  width: '100%',
+  padding: '32px 16px',
+  alignItems: 'flex-start',
+  borderRadius: '8px',
+  background: 'surface.alt',
 });

@@ -1,21 +1,22 @@
 import { css, cx } from '@style/css';
 
-import { type HTMLAttributes } from 'react';
+import { VStack, type VStackProps } from '../Common';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends VStackProps {}
 
 export default function CompetitionHeader({ className, children, ...props }: Props) {
   return (
-    <div className={cx(className, headerStyle)} {...props}>
+    <VStack className={cx(className, headerStyle)} as="header" {...props}>
       {children}
-    </div>
+    </VStack>
   );
 }
 
 const headerStyle = css({
-  height: '3.125rem',
-  display: 'flex',
-  justifyContent: 'space-between',
+  height: '4rem',
+  paddingY: '0.5rem',
   borderBottom: '1px solid',
   borderColor: 'border',
+  gap: '1rem',
+  placeItems: 'center',
 });

@@ -108,10 +108,10 @@ const fontStyle = cva({
       },
     },
     {
-      type: 'display',
+      type: 'title',
       size: 'lg',
       css: {
-        fontSize: 'display.lg',
+        fontSize: 'title.lg',
         lineHeight: '28px',
       },
     },
