@@ -1,12 +1,15 @@
 import { css } from '@style/css';
 
 import { Text } from '../Common';
+import Loading from '../Common/Loading';
 
 export default function DashboardLoading() {
   return (
     <div className={pageStyle}>
-      <Text type="display">대회 종료 후 5분 뒤에 집계가 완료됩니다</Text>
-      <div className={loadingIconStyle}></div>
+      <Text className={textStyle} type="display">
+        대회 종료 후 5분 뒤에 집계가 완료됩니다
+      </Text>
+      <Loading size={'60px'} color={'#FFF'} />
     </div>
   );
 }
@@ -21,12 +24,6 @@ const pageStyle = css({
   color: '#fff',
 });
 
-const loadingIconStyle = css({
-  width: '50px',
-  height: '50px',
-  border: '8px solid #fff',
-  borderTop: '8px solid transparent',
-  borderRadius: '50%',
-  animation: 'spin 1s linear infinite',
-  marginTop: '20px',
+const textStyle = css({
+  marginBottom: '20px',
 });
