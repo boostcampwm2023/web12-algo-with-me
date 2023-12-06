@@ -165,6 +165,9 @@ export class DashboardService {
       rankings.push({ email: scores[i], score: scores[i + 1] });
       emails.push(scoreKey + ':' + scores[i]);
     }
+
+    if (emails.length === 0) return { rankings, emails };
+
     const problems = await this.redis.mget(emails);
     this.logger.debug(problems);
     for (const [idx, ranking] of rankings.entries()) {

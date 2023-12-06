@@ -43,7 +43,7 @@ export class DashboardController {
 
   @ApiOperation({ summary: '[백엔드 테스트용] redis 대회 참가, 수정, 대시보드 조회 테스트' })
   @Get('all/:competitionId')
-  async getDashboardTest(@Param('competitionId') competitionId: number = 5) {
+  async dashboardTest(@Param('competitionId') competitionId: number = 5) {
     await this.dashboardService.registerUserAtCompetition(competitionId, 'dhdgn@naver.com');
     await this.dashboardService.registerUserAtCompetition(competitionId, 'qwer@naver.com');
     await this.dashboardService.updateUserSubmission(
@@ -53,7 +53,13 @@ export class DashboardController {
       RESULT.CORRECT,
       new Date(),
     );
-    await this.dashboardService.getTop100DashboardRedis(5, 'dhdgn@naver.com');
+    await this.dashboardService.getTop100DashboardRedis(competitionId, 'dhdgn@naver.com');
+  }
+
+  @ApiOperation({ summary: '[백엔드 테스트용] 대시보드 조회 테스트' })
+  @Get('test/:competitionId')
+  async getDashboardTest(@Param('competitionId') competitionId: number = 5) {
+    return await this.dashboardService.getTop100DashboardRedis(competitionId, 'dhdgn@naver.com');
   }
 
   @ApiOperation({ summary: '대회 종료 이후 대시보드 조회' })
