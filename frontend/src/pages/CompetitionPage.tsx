@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { BreadCrumb, Button, Logo, Space } from '@/components/Common';
+import { BreadCrumb, Button, Link, Logo, Space } from '@/components/Common';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
@@ -61,7 +61,9 @@ export default function CompetitionPage() {
         namespace={'competitions'}
       >
         <CompetitionHeader className={padVerticalStyle}>
-          <Logo size={48}></Logo>
+          <Link to="/">
+            <Logo size={48}></Logo>
+          </Link>
           <BreadCrumb crumbs={crumbs}></BreadCrumb>
           <Space></Space>
           <Button onClick={openDashboardModal}>대시보드 보기</Button>

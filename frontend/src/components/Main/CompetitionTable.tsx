@@ -29,7 +29,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
 
     return `시작까지 ${days}일 ${hours}:${minutes}:${seconds}`;
   } else {
-    return '진행중';
+    return '진행 중';
   }
 }
 
@@ -101,8 +101,10 @@ export default function CompetitionTable() {
             <td className={stateTdStyle}>
               {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
                 <Chip theme="danger">종료</Chip>
-              ) : (
+              ) : formatTimeRemaining(competition.startsAt, competition.endsAt) === '진행 중' ? (
                 <Chip theme="success">진행 중</Chip>
+              ) : (
+                <Chip theme="info">시작 전</Chip>
               )}
             </td>
 
