@@ -29,7 +29,7 @@ export default function Score({ testcaseId, score, submitState }: Props) {
 
   return (
     <VStack className={style}>
-      <Icon.CheckRound color="success" />
+      {isSuccess ? <Icon.CheckRound color="success" /> : <Icon.CancelRound color="danger" />}
       <Text.Body size="lg">테스트케이스{testcaseId}:</Text.Body>
       <Text.Body
         size="lg"
