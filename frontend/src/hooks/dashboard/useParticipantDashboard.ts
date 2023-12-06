@@ -35,9 +35,7 @@ export function useParticipantDashboard(
         email: email,
       });
 
-      setRanks(newDashboard.rankings);
-      setMyRank(newDashboard.myRanking);
-      setTotalProblemCount(newDashboard.totalProblemCount);
+      handleDashboardData(newDashboard);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
