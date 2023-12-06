@@ -24,9 +24,9 @@ function MainPage() {
         <VStack className={linkWrapperStyle}>
           <GoToCreateCompetitionLink />
         </VStack>
-        <VStack className={competitionListWrapperStyle}>
+        <section className={competitionTableWrapperStyle}>
           <CompetitionTable />
-        </VStack>
+        </section>
       </main>
     </>
   );
@@ -60,7 +60,7 @@ const linkWrapperStyle = css({
   margin: '0 auto',
 });
 
-const competitionListWrapperStyle = css({
+const competitionTableWrapperStyle = css({
   width: '100%',
   maxWidth: '1200px',
   margin: '0 auto',
