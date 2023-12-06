@@ -1,15 +1,29 @@
 import { css } from '@style/css';
 
-import type { Rank } from '@/hooks/dashboard/types';
+import { useContext } from 'react';
+
+import { useParticipantDashboard } from '@/hooks/dashboard';
+import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
 
+import AuthContext from '../Auth/AuthContext';
+
 interface Props {
-  ranks: Rank[];
-  myRank: Rank | null;
-  problemCount: number[];
+  useWebsocket: boolean;
+  competitionId: number;
 }
 
-export default function DashboardTable({ ranks, myRank, problemCount }: Props) {
+export default function DashboardTable({ useWebsocket, competitionId }: Props) {
+  const { email } = useContext(AuthContext);
+
+  const { ranks, myRank, totalProblemCount } = useParticipantDashboard(
+    useWebsocket,
+    competitionId,
+    email,
+  );
+
+  const problemCount = range(1, totalProblemCount + 1);
+
   return (
     <table className={tableStyle}>
       <thead>

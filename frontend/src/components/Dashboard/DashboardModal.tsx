@@ -1,11 +1,5 @@
 import { css } from '@style/css';
 
-import { useContext } from 'react';
-
-import { useParticipantDashboard } from '@/hooks/dashboard';
-import { range } from '@/utils/array';
-
-import AuthContext from '../Auth/AuthContext';
 import { Button } from '../Common';
 import DashboardTable from './DashboardTable';
 
@@ -16,10 +10,6 @@ interface Props {
 }
 
 export default function DashboardModal({ isOpen, onClose, competitionId }: Props) {
-  const { email } = useContext(AuthContext);
-  const { ranks, totalProblemCount, myRank } = useParticipantDashboard(true, competitionId, email);
-  const problemCount = range(1, totalProblemCount + 1);
-
   if (!isOpen) {
     return null;
   }
@@ -27,7 +17,7 @@ export default function DashboardModal({ isOpen, onClose, competitionId }: Props
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
       <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <DashboardTable ranks={ranks} myRank={myRank} problemCount={problemCount} />
+        <DashboardTable useWebsocket={true} competitionId={competitionId} />
         <Button onClick={onClose}>닫기</Button>
       </div>
     </div>
