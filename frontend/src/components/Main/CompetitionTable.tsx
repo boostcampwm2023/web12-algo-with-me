@@ -33,7 +33,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
   }
 }
 
-export default function CompetitionList() {
+export default function CompetitionTable() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
   const fetchCompetitions = async () => {
@@ -54,34 +54,34 @@ export default function CompetitionList() {
       <thead className={tableHeaderStyle}>
         <tr className={tableRowStyle}>
           <th className={nameColumnStyle}>
-            <Text type="title" bold={true} size="lg">
+            <Text.Title size="sm" bold>
               대회 이름
-            </Text>
+            </Text.Title>
           </th>
           <th className={timeColumnStyle}>
-            <Text type="title" bold={true} size="lg">
+            <Text.Title size="sm" bold>
               시작 시간
-            </Text>
+            </Text.Title>
           </th>
           <th className={timeColumnStyle}>
-            <Text type="title" size="lg" bold={true}>
+            <Text.Title size="sm" bold>
               종료 시간
-            </Text>
+            </Text.Title>
           </th>
           <th className={stateColumnStyle}>
-            <Text type="title" size="lg" bold={true}>
+            <Text.Title size="sm" bold>
               상태
-            </Text>
+            </Text.Title>
           </th>
           <th className={registrationColumnStyle}>
-            <Text type="title" size="lg" bold={true}>
+            <Text.Title size="sm" bold>
               참여 신청 여부
-            </Text>
+            </Text.Title>
           </th>
           <th className={dashboardColumnStyle}>
-            <Text type="title" size="lg" bold={true}>
+            <Text.Title size="sm" bold>
               대시보드 보기
-            </Text>
+            </Text.Title>
           </th>
         </tr>
       </thead>

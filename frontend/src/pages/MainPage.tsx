@@ -4,7 +4,7 @@ import { HStack, Text, VStack } from '@/components/Common';
 import Logo from '@/components/Common/Logo';
 import Header from '@/components/Header';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
-import CompetitionList from '@/components/Main/CompetitionList';
+import CompetitionTable from '@/components/Main/CompetitionTable';
 import { SITE } from '@/constants';
 
 function MainPage() {
@@ -25,7 +25,7 @@ function MainPage() {
           <GoToCreateCompetitionLink />
         </VStack>
         <VStack className={competitionListWrapperStyle}>
-          <CompetitionList />
+          <CompetitionTable />
         </VStack>
       </main>
     </>
