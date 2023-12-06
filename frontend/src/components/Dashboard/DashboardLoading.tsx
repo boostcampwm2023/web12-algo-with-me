@@ -20,7 +20,7 @@ const pageStyle = css({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'var(--Background, #263238)',
+  backgroundColor: 'background',
   color: '#fff',
 });
 
