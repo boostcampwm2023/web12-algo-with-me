@@ -1,3 +1,2 @@
 export * from './types';
-export * from './useParticipantDashboardsocket';
-export * from './useParticipantDashboardApi';
+export * from './useParticipantDashboard';
