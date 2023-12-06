@@ -1,20 +1,22 @@
-import { css } from '@style/css';
+import { css, cva, cx } from '@style/css';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem } from '@/apis/problems';
+import { Button, HStack, HStackProps, Modal, Space, VStack } from '@/components/Common';
+import { SubmissionForm } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
 import useAuth from '@/hooks/login/useAuth';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
 import * as customLocalStorage from '@/utils/localStorage';
+import { isNil } from '@/utils/type';
 
-import { Button, HStack, HStackProps, Modal, Space, VStack } from '../Common';
+import { SocketContext } from '../Common/Socket/SocketContext';
 import Editor from '../Editor/Editor';
 import { SimulationExecButton } from '../Simulation/SimulationExecButton';
 import { SimulationInputModal } from '../Simulation/SimulationInputModal';
 import { SimulationResultList } from '../Simulation/SimulationResultList';
-import { SubmissionButton } from '../Submission/SubmissionButton';
 import { SubmissionResult } from '../Submission/SubmissionResult';
 import ProblemViewer from './ProblemViewer';
 
@@ -30,6 +32,8 @@ export function ProblemSolveContainer({
   problem,
   ...props
 }: Props) {
+  const [currentTab, setCurrentTab] = useState(0);
+
   const { email } = useAuth();
   const { code, setCode } = useUserCode({
     userId: email,
@@ -46,6 +50,7 @@ export function ProblemSolveContainer({
   };
 
   const handleSimulate = () => {
+    setCurrentTab(0);
     simulation.run(code);
   };
 
@@ -63,6 +68,28 @@ export function ProblemSolveContainer({
     modal.open();
   }
 
+  const { socket, isConnected } = useContext(SocketContext);
+
+  function handleSubmitSolution() {
+    if (isNil(problem.id)) {
+      console.error('존재하지 않는 문제입니다.');
+      return;
+    }
+
+    const form = {
+      problemId: problem.id,
+      code,
+      competitionId,
+    } satisfies SubmissionForm;
+
+    if (isNil(socket) || !isConnected) {
+      alert('연결에 실패했습니다.');
+      return;
+    }
+
+    setCurrentTab(1);
+    socket.emit('submission', form);
+  }
   return (
     <HStack className={css({ height: '100%' })} {...props}>
       <VStack className={problemSolveContainerStyle}>
@@ -78,8 +105,13 @@ export function ProblemSolveContainer({
                 overflow: 'auto',
               })}
             >
-              <SimulationResultList resultList={simulation.results}></SimulationResultList>
-              <SubmissionResult></SubmissionResult>
+              <SimulationResultList
+                className={tabStyle({ visible: currentTab === 0 })}
+                resultList={simulation.results}
+              ></SimulationResultList>
+              <SubmissionResult
+                className={tabStyle({ visible: currentTab === 1 })}
+              ></SubmissionResult>
             </div>
           </section>
         </HStack>
@@ -92,11 +124,17 @@ export function ProblemSolveContainer({
           onExec={handleSimulate}
           onCancel={handleSimulationCancel}
         />
-        <SubmissionButton
-          code={code}
-          problemId={problem.id}
-          competitionId={competitionId}
-        ></SubmissionButton>
+        <Button
+          theme="brand"
+          className={cx(
+            css({
+              paddingX: '2rem',
+            }),
+          )}
+          onClick={handleSubmitSolution}
+        >
+          제출하기
+        </Button>
       </VStack>
       <SimulationInputModal
         simulationInputs={simulation.inputs}
@@ -139,4 +177,17 @@ const resultContainerStyle = css({
   height: '50%',
   overflow: 'auto',
   padding: '1rem',
+});
+
+const tabStyle = cva({
+  variants: {
+    visible: {
+      true: {
+        display: 'block',
+      },
+      false: {
+        display: 'none',
+      },
+    },
+  },
 });

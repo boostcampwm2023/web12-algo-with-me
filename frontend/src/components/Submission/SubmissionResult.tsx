@@ -1,8 +1,7 @@
-import { css } from '@style/css';
+import { cx } from '@style/css';
 
-import { useContext, useEffect, useState } from 'react';
+import { HTMLAttributes, useContext, useEffect, useState } from 'react';
 
-import Connecting from '@/components/Submission/Connecting';
 import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
 
@@ -16,10 +15,11 @@ type SubmitResult = {
   score?: ScoreResult;
 };
 
-export function SubmissionResult() {
-  const { socket, isConnected } = useContext(SocketContext);
+interface Props extends HTMLAttributes<HTMLElement> {}
+
+export function SubmissionResult({ className, ...props }: Props) {
+  const { socket } = useContext(SocketContext);
   const [scoreResults, setScoreResults] = useState<SubmitResult[]>([]);
-  const [submissionMessage, setSubmissionMessage] = useState<string>('');
 
   const handleScoreResult = (
     data: ScoreResult & {
@@ -38,8 +38,8 @@ export function SubmissionResult() {
     };
 
     setScoreResults((results) => {
-      return results.map((result, index) => {
-        if (index === newResult.testcaseId) {
+      return results.map((result) => {
+        if (result.testcaseId === newResult.testcaseId) {
           return newResult;
         }
         return result;
@@ -48,8 +48,7 @@ export function SubmissionResult() {
   };
 
   const handleScoreStart = (rawData: ScoreStart) => {
-    const { message, testcaseNum } = rawData;
-    setSubmissionMessage(message);
+    const { testcaseNum } = rawData;
     setScoreResults(
       range(0, testcaseNum).map((_, index) => ({
         testcaseId: index + 1,
@@ -70,21 +69,10 @@ export function SubmissionResult() {
   }, [socket]);
 
   return (
-    <section className={resultWrapperStyle}>
-      <h3>
-        제출 결과 <Connecting isConnected={isConnected} />
-      </h3>
-      <p>{submissionMessage}</p>
-      {scoreResults.map(({ score, submitState, testcaseId }) => (
-        <Score key={testcaseId} score={score} submitState={submitState} />
+    <section className={cx(className)} {...props}>
+      {scoreResults.map(({ score, submitState, testcaseId }, index) => (
+        <Score key={testcaseId} testcaseId={index + 1} score={score} submitState={submitState} />
       ))}
     </section>
   );
 }
-
-const resultWrapperStyle = css({
-  padding: '24px',
-  height: '300px',
-  overflow: 'auto',
-  margin: '0 auto',
-});
