@@ -19,7 +19,7 @@ export function CompetitionDetailContent({
   competitionSchedule,
 }: Props) {
   const currentDate = new Date();
-  return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
+
   if (currentDate < startsAt) {
     return (
       <BeforeCompetition

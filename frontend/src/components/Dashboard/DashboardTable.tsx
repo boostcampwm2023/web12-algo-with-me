@@ -1,11 +1,24 @@
 import { css } from '@style/css';
 
 import { useParticipantDashboard } from '@/hooks/dashboard';
+import useAuth from '@/hooks/login/useAuth';
 import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
 
-export default function DashboardTable() {
-  const { ranks, totalProblemCount, myRank } = useParticipantDashboard();
+interface Props {
+  useWebsocket: boolean;
+  competitionId: number;
+}
+
+export default function DashboardTable({ useWebsocket, competitionId }: Props) {
+  const { email } = useAuth();
+
+  const { ranks, myRank, totalProblemCount } = useParticipantDashboard(
+    useWebsocket,
+    competitionId,
+    email,
+  );
+
   const problemCount = range(1, totalProblemCount + 1);
 
   return (

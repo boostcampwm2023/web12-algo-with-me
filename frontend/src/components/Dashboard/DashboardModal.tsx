@@ -6,9 +6,10 @@ import DashboardTable from './DashboardTable';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  competitionId: number;
 }
 
-export default function DashboardModal({ isOpen, onClose }: Props) {
+export default function DashboardModal({ isOpen, onClose, competitionId }: Props) {
   if (!isOpen) {
     return null;
   }
@@ -16,7 +17,7 @@ export default function DashboardModal({ isOpen, onClose }: Props) {
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
       <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <DashboardTable />
+        <DashboardTable useWebsocket={true} competitionId={competitionId} />
         <Button onClick={onClose}>닫기</Button>
       </div>
     </div>
