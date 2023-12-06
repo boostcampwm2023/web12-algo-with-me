@@ -70,12 +70,17 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 key={problemId}
                 className={
                   isNil(myRank.problemDict[Number(problemId)])
-                    ? nullProblemCellStyle
+                    ? cellStyle
+                    : myRank.problemDict[Number(problemId)] === -1
+                    ? wrongProblemCellStyle
                     : ProblemCellStyle
                 }
               >
                 <Text type="title" bold>
-                  {myRank.problemDict[Number(problemId)] ?? '-'}
+                  {myRank.problemDict[Number(problemId)] === -1 ||
+                  isNil(myRank.problemDict[Number(problemId)])
+                    ? '-'
+                    : myRank.problemDict[Number(problemId)]}
                 </Text>
               </td>
             ))}
@@ -103,12 +108,17 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 key={problemId}
                 className={
                   isNil(rank.problemDict[Number(problemId)])
-                    ? nullProblemCellStyle
+                    ? cellStyle
+                    : rank.problemDict[Number(problemId)] === -1
+                    ? wrongProblemCellStyle
                     : ProblemCellStyle
                 }
               >
                 <Text type="title" bold>
-                  {rank.problemDict[Number(problemId)] ?? '-'}
+                  {rank.problemDict[Number(problemId)] === -1 ||
+                  isNil(rank.problemDict[Number(problemId)])
+                    ? '-'
+                    : rank.problemDict[Number(problemId)]}
                 </Text>
               </td>
             ))}
@@ -125,7 +135,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
 }
 
 const tableStyle = css({
-  width: '1200px',
+  width: '100%',
   margin: '0 auto',
 });
 
@@ -174,10 +184,10 @@ const centeredCellStyle = css(defaultCellStyle, {
   textAlign: 'center',
 });
 
-const nullProblemCellStyle = css(defaultCellStyle, {
-  background: 'alert.danger.light',
+const wrongProblemCellStyle = css(defaultCellStyle, {
+  background: 'rgba(226, 54, 54, 0.70)',
 });
 
 const ProblemCellStyle = css(defaultCellStyle, {
-  background: 'alert.success.light',
+  background: 'rgba(130, 221, 85, 0.70)',
 });
