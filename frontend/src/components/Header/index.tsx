@@ -18,12 +18,12 @@ export default function Header() {
   return (
     <header className={headerWrapperStyle}>
       <VStack className={headerStyle}>
-        <VStack className={logoTextBoxStyle}>
-          <Logo size="48px" />
-          <Text type="title" bold={true} size="lg" className={textStyle}>
+        <div className={LogoTextBoxStyle}>
+          <Logo size="48px" className={LogoStyle} />
+          <Text.Title bold size="lg" className={textStyle}>
             Algo With Me
-          </Text>
-        </VStack>
+          </Text.Title>
+        </div>
         {isLoggedin ? (
           <Button className={buttonStyle} theme="brand" onClick={handleLogout}>
             로그아웃
@@ -56,14 +56,19 @@ const headerStyle = css({
   justifyContent: 'space-between',
 });
 
-const logoTextBoxStyle = css({
-  gap: '16px',
+const LogoTextBoxStyle = css({
+  display: 'table',
+});
+
+const LogoStyle = css({
+  display: 'inline',
+  marginRight: '16px',
 });
 
 const textStyle = css({
-  color: 'white',
-  display: 'inline-flex',
-  alignItems: 'center',
+  color: 'text',
+  display: 'table-cell',
+  verticalAlign: 'middle',
 });
 
 const buttonStyle = css({
