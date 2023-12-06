@@ -67,7 +67,7 @@ export default function CompetitionPage() {
           <BreadCrumb crumbs={crumbs}></BreadCrumb>
           <Space></Space>
           <Button onClick={openDashboardModal}>대시보드 보기</Button>
-          <SocketTimer onTimeout={handleTimeout} />
+          <SocketTimer onTimeout={handleTimeout} endsAt={competition.endsAt} />
         </CompetitionHeader>
         <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
         <div className={competitionStyle}>

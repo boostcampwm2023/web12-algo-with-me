@@ -1,24 +1,26 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Socket } from '@/utils/socket';
 import { isNil } from '@/utils/type';
 
 interface Props {
   socket: Socket | null;
-  endsAt: Date;
+  endsAt: string;
   socketEvent: string;
   pingTime: number;
 }
+
+const CompetitionNotFound = 'Competition Not Found';
 
 export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }: Props) {
   const timerIntervalId = useRef<NodeJS.Timeout | null>(null);
   const pingIntervalId = useRef<NodeJS.Timeout | null>(null);
 
-  const endTime = useMemo(() => endsAt.getTime(), [endsAt]);
   const [isTimeout, setIsTimeout] = useState(false);
   const [remainMiliSeconds, setRemainMiliSeconds] = useState<number>(-1);
 
   useEffect(() => {
+    if (endsAt === CompetitionNotFound) return;
     if (pingIntervalId.current) clearInterval(pingIntervalId.current);
     if (isNil(socket)) return;
     socket.emit(socketEvent);
@@ -28,21 +30,19 @@ export default function useSocketTimer({ socket, endsAt, socketEvent, pingTime }
     pingIntervalId.current = setInterval(() => {
       socket.emit(socketEvent);
     }, pingTime);
-  }, [socket]);
+  }, [socket, endsAt]);
 
   const handlePingMessage = useCallback(
     (time: Date) => {
       if (timerIntervalId.current) clearInterval(timerIntervalId.current);
-
-      time = typeof time === 'string' ? new Date(time) : time;
-
-      const remainMiliSec = endTime - time.getTime();
+      time = time instanceof Date ? time : new Date(time);
+      const remainMiliSec = new Date(endsAt).getTime() - time.getTime();
       setRemainMiliSeconds(remainMiliSec);
       timerIntervalId.current = setInterval(() => {
         setRemainMiliSeconds((prev) => prev - 1000);
       }, 1000);
     },
-    [endTime],
+    [endsAt],
   );
 
   useEffect(() => {
