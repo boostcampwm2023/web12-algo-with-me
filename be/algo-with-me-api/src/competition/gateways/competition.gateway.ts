@@ -83,7 +83,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       );
       // 유저가 대회 참여자가 맞는지 검증
       const user: User = await this.userService.getByEmail(authTokenPayloadDto.sub);
-      await this.competitionService.isUserJoinedCompetition(Number(competitionId), user.id);
+      await this.competitionService.isUserJoinedCompetition(Number(competitionId), user);
 
       // 동일한 유저의 다른 연결 끊기
       this.server.to(authTokenPayloadDto.sub).disconnectSockets();

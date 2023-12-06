@@ -19,6 +19,7 @@ import * as path from 'path';
 
 import { ProblemService } from './problem.service';
 import { RESULT } from '../competition.enums';
+import { IsJoinableDto } from '../dto/competition.is.joinable.dto';
 import {
   CompetitionProblemResponseDto,
   ITestcases,
@@ -240,10 +241,10 @@ export class CompetitionService {
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
-  async isUserJoinedCompetition(competitionId: number, userId: number) {
-    this.logger.debug(competitionId, userId);
+  async isUserJoinedCompetition(competitionId: number, user: User) {
+    this.logger.debug(competitionId, user.id);
     const competitionParticipant: CompetitionParticipant =
-      await this.competitionParticipantRepository.findOneBy({ competitionId, userId });
+      await this.competitionParticipantRepository.findOneBy({ competitionId, userId: user.id });
 
     if (!competitionParticipant) throw new UnauthorizedException('대회 참여자가 아닙니다.');
     return true;
@@ -351,6 +352,16 @@ export class CompetitionService {
       throw new BadRequestException(`${competitionId}는 이미 종료된 대회입니다.`);
     if (competition.startsAt.getTime() - time.getTime() > 0)
       throw new BadRequestException(`${competitionId}는 아직 시작하지 않은 대회입니다.`);
+  }
+
+  async checkUserCanJoinCompetition(competitionId: number, user: User) {
+    try {
+      await this.isCompetitionOngoing(competitionId);
+      await this.isUserJoinedCompetition(competitionId, user);
+      return new IsJoinableDto(true);
+    } catch (error) {
+      return new IsJoinableDto(false, error.message);
+    }
   }
 
   private assertCompetitionExists(competition: Competition) {

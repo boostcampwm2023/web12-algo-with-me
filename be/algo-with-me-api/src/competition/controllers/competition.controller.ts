@@ -19,6 +19,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { AuthUser } from '../../user/decorators/user.decorators';
 import { User } from '../../user/entities/user.entity';
 import { CompetitionDto } from '../dto/competition.dto';
+import { IsJoinableDto } from '../dto/competition.is.joinable.dto';
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CompetitionResponseDto } from '../dto/competition.response.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
@@ -117,6 +118,21 @@ export class CompetitionController {
   @UseGuards(AuthGuard('jwt'))
   async joinCompetition(@Req() req, @Param('competitionId') competitionId: number) {
     await this.competitionService.joinCompetition(competitionId, req.user.email);
+  }
+
+  @Get('validation/:competitionId')
+  @ApiOperation({
+    summary: '대회 입장 가능 여부 검증',
+    description: '선택한 대회 화면에 입장이 가능한지 확인하는 api 입니다.',
+  })
+  @ApiBearerAuth()
+  @ApiResponse({ type: IsJoinableDto })
+  @UseGuards(AuthGuard('jwt'))
+  async checkUserCanJoinCompetition(
+    @AuthUser() user: User,
+    @Param('competitionId') competitionId: number,
+  ) {
+    return this.competitionService.checkUserCanJoinCompetition(competitionId, user);
   }
 
   // @Post('submissions')
