@@ -49,7 +49,9 @@ export default function DashboardPage() {
           competitionName={competition.name}
           competitionStatusText={competitionStatusText}
         />
-        <DashboardTable useWebsocket={useWebSocket} competitionId={competitionId} />
+        <section className={dashboardTableWrapperStyle}>
+          <DashboardTable useWebsocket={useWebSocket} competitionId={competitionId} />
+        </section>
       </SocketProvider>
     </PageLayout>
   );
@@ -57,4 +59,10 @@ export default function DashboardPage() {
 
 const pageLayoutStyle = css({
   minHeight: '100vh',
+});
+
+const dashboardTableWrapperStyle = css({
+  width: '100%',
+  maxWidth: '1200px',
+  margin: '0 auto',
 });
