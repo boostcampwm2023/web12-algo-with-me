@@ -2,15 +2,16 @@ import { css } from '@style/css';
 
 import { Text } from '../Common';
 import Loading from '../Common/Loading';
+import { PageLayout } from '../Layout/PageLayout';
 
 export default function DashboardLoading() {
   return (
-    <div className={pageStyle}>
+    <PageLayout className={pageStyle}>
       <Text className={textStyle} type="display">
         대회 종료 후 5분 뒤에 집계가 완료됩니다
       </Text>
       <Loading size={'60px'} color={'#FFF'} />
-    </div>
+    </PageLayout>
   );
 }
 
@@ -20,8 +21,6 @@ const pageStyle = css({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'background',
-  color: '#fff',
 });
 
 const textStyle = css({
