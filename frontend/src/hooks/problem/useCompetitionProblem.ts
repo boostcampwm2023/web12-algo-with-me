@@ -28,7 +28,7 @@ export const useCompetitionProblem = (problemId: ProblemId) => {
       return;
     }
 
-    const { data } = problem.testcases as Testcase;
+    const { data } = problem.testcases as unknown as Testcase;
 
     setProblem({
       ...problem,

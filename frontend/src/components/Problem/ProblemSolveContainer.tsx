@@ -45,7 +45,7 @@ export function ProblemSolveContainer({
     save: customLocalStorage.save,
   });
 
-  const simulation = useSimulation(problem.testcases as SimulationInput[]);
+  const simulation = useSimulation(problem.testcases);
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);

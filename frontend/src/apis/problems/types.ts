@@ -33,7 +33,7 @@ export type CompetitionProblem = {
   memoryLimit: number;
   content: string;
   solutionCode: string;
-  testcases: SimulationInput[] | Testcase;
+  testcases: SimulationInput[];
   createdAt: string;
 };
 
