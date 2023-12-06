@@ -1,10 +1,16 @@
 import { createContext } from 'react';
 
-const AuthContext = createContext({
+interface AuthContextProps {
+  isLoggedin: boolean;
+  email: string;
+  login: (email: string) => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextProps>({
   isLoggedin: false,
   email: '',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login: (email: string) => {},
+  login: () => {},
   logout: () => {},
 });
 
