@@ -13,7 +13,6 @@ export default defineConfig({
           success: {
             DEFAULT: { value: '#82DD55' },
             dark: { value: '#355A23' },
-            light: { value: 'rgba(0, 255, 0, 0.7)' },
           },
           warning: {
             DEFAULT: { value: '#EDB95E' },
@@ -22,7 +21,6 @@ export default defineConfig({
           danger: {
             DEFAULT: { value: '#E23636' },
             dark: { value: '#751919' },
-            light: { value: 'rgba(255, 0, 0, 0.7)' },
           },
           info: {
             DEFAULT: { value: '#C8CDD0' },
