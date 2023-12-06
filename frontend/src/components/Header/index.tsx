@@ -61,7 +61,7 @@ const textStyle = css({
 const buttonStyle = css({
   display: 'flex',
   width: '120px',
-  padding: '12px 32px',
+  padding: '12px 20px',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
