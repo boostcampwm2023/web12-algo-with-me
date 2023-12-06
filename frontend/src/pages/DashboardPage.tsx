@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import DashboardLoading from '@/components/Dashboard/DashboardLoading';
-import DashboardStatus from '@/components/Dashboard/Dashboardstatus';
+import DashboardStatus from '@/components/Dashboard/DashboardStatus';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
 import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
