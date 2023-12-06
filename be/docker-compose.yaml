@@ -7,9 +7,12 @@ services:
       - /home/be/algo-with-me/problems/:/algo-with-me/problems/
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+      - /home/be/web12-algo-with-me/be/algo-with-me-api/log/:/algo-with-me-api/log
     network_mode: host
     env_file:
-      ./algo-with-me-api/.env
+      - ./algo-with-me-api/.env
+    environment:
+      TZ: "Asia/Seoul"
     user: be:be
     restart: always
   algo-with-me-score:
@@ -20,11 +23,13 @@ services:
       - /home/be/algo-with-me/problems/:/algo-with-me/problems/
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+      - /home/be/web12-algo-with-me/be/algo-with-me-score/log/:/algo-with-me-score/log
     network_mode: host
     env_file:
       - ./algo-with-me-score/.env
     environment:
       DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
+      TZ: "Asia/Seoul"
     user: be:be
     restart: always
   algo-with-me-docker:
@@ -37,6 +42,8 @@ services:
       - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
     network_mode: bridge
     user: 1001:1001
+    environment:
+      TZ: "Asia/Seoul"
     restart: always
     deploy:
       mode: replicated
