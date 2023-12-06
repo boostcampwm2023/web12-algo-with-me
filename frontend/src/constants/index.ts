@@ -1,6 +1,6 @@
 export const SITE = {
   NAME: 'Alog With Me',
-  PAGE_DESCRIPTION: '천하제일코딩테스트',
+  PAGE_DESCRIPTION: '쉽고 빠르게 만드는 코딩 대회',
 };
 
 export const ROUTE = {
