@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { useEffect, useState } from 'react';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
-import { Chip, Icon, Link, Text } from '@/components/Common';
+import { Chip, Link, Text } from '@/components/Common';
 import secToTime from '@/utils/secToTime';
 
 interface Competition {
@@ -48,7 +48,6 @@ export default function CompetitionTable() {
   useEffect(() => {
     fetchCompetitions();
   }, []);
-  console.log(competitions);
   return (
     <table className={tableStyle}>
       <thead className={tableHeaderStyle}>
@@ -73,11 +72,7 @@ export default function CompetitionTable() {
               상태
             </Text.Title>
           </th>
-          <th className={registrationColumnStyle}>
-            <Text.Title size="sm" bold>
-              참여 신청 여부
-            </Text.Title>
-          </th>
+
           <th className={dashboardColumnStyle}>
             <Text.Title size="sm" bold>
               대시보드 보기
@@ -105,18 +100,12 @@ export default function CompetitionTable() {
             </td>
             <td className={stateTdStyle}>
               {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
-                <Chip className={normalSizeStyle} theme="danger">
-                  종료
-                </Chip>
+                <Chip theme="danger">종료</Chip>
               ) : (
-                <Chip className={wideSizeStyle} theme="success">
-                  진행 중
-                </Chip>
+                <Chip theme="success">진행 중</Chip>
               )}
             </td>
-            <td className={registrationTdStyle}>
-              <Icon.CheckRound size={32} color="success" />
-            </td>
+
             <td className={dashboardTdStyle}>
               <Link to={`/contest/${competition.id}`}>Link</Link>
             </td>
@@ -164,13 +153,10 @@ const timeColumnStyle = css({
   textAlign: 'start',
 });
 const stateColumnStyle = css({
-  width: '80px',
+  width: '100px',
   textAlign: 'center',
 });
-const registrationColumnStyle = css({
-  width: '120px',
-  textAlign: 'center',
-});
+
 const dashboardColumnStyle = css({
   width: '120px',
   textAlign: 'center',
@@ -179,7 +165,7 @@ const dashboardColumnStyle = css({
 const nameTdStyle = css({
   display: 'flex',
   height: '17px',
-  paddingRight: '108px',
+  paddingRight: '220px',
   justifyContent: 'center',
   alignItems: 'center',
   flex: '1 0 0',
@@ -190,20 +176,14 @@ const timeTextStyle = css({
 });
 const stateTdStyle = css({
   display: 'flex',
-  width: '80px',
+  width: '100px',
   padding: '4px 12px',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
 });
-const registrationTdStyle = css({
-  width: '120px',
-  height: '20px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
+
 const dashboardTdStyle = css({
   display: 'flex',
   width: '120px',
@@ -216,12 +196,4 @@ const nameTdTextStyle = css({
   width: '152px',
   height: '17px',
   display: 'flex',
-});
-
-const wideSizeStyle = css({
-  width: '69px',
-});
-
-const normalSizeStyle = css({
-  width: '55px',
 });
