@@ -1,18 +1,23 @@
 import { css } from '@style/css';
 
-import { useParticipantDashboardSocket } from '@/hooks/dashboard';
+import { useContext } from 'react';
+
+import { useParticipantDashboard } from '@/hooks/dashboard';
 import { range } from '@/utils/array';
 
+import AuthContext from '../Auth/AuthContext';
 import { Button } from '../Common';
 import DashboardTable from './DashboardTable';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  competitionId: number;
 }
 
-export default function DashboardModal({ isOpen, onClose }: Props) {
-  const { ranks, totalProblemCount, myRank } = useParticipantDashboardSocket();
+export default function DashboardModal({ isOpen, onClose, competitionId }: Props) {
+  const { email } = useContext(AuthContext);
+  const { ranks, totalProblemCount, myRank } = useParticipantDashboard(true, competitionId, email);
   const problemCount = range(1, totalProblemCount + 1);
 
   if (!isOpen) {
