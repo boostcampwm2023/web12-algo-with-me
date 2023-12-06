@@ -2,7 +2,6 @@ import { css } from '@style/css';
 
 import { Button, Text, VStack } from '../Common';
 import { buttonContainerStyle } from '../CompetitionDetail/styles/styles';
-import { PageLayout } from '../Layout/PageLayout';
 import DashboardTable from './DashboardTable';
 
 interface Props {
@@ -19,7 +18,7 @@ export default function DashboardModal({ isOpen, onClose, competitionId, competi
 
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
-      <PageLayout className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+      <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
         <div className={competitionNameStyle}>
           <Text type="display" size="lg">
             {competitionName}
@@ -31,7 +30,7 @@ export default function DashboardModal({ isOpen, onClose, competitionId, competi
             닫기
           </Button>
         </VStack>
-      </PageLayout>
+      </div>
     </div>
   );
 }
@@ -51,8 +50,9 @@ const modalOverlayStyle = css({
 const modalContentStyle = css({
   padding: '32px',
   position: 'relative',
-  maxWidth: '1264px',
-  maxHeight: '920px',
+  width: '1264px',
+  height: '920px',
+  background: 'background',
 });
 
 const competitionNameStyle = css({
@@ -60,5 +60,8 @@ const competitionNameStyle = css({
 });
 
 const buttonStyle = css({
-  marginTop: '6px',
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
+  margin: '12px',
 });
