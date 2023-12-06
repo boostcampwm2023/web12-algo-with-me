@@ -1,8 +1,8 @@
 export type SimulationInput = {
   id: number;
   input: string;
-  expected?: string;
-  changable?: boolean;
+  expected: string;
+  changable: boolean;
 };
 
 export type SimulationResult = {
@@ -10,4 +10,5 @@ export type SimulationResult = {
   isDone: boolean;
   input: string;
   output: unknown;
+  expected: string;
 };
