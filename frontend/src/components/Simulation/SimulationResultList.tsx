@@ -28,6 +28,7 @@ function SimulationResult({ result }: { result: SimulationResult }) {
         {result.isDone ? <Icon.CheckRound color="success" /> : <Icon.Spinner spin />}
         <HStack className={resultDescriptionStyle}>
           <p>입력: {result.input}</p>
+          <p>기댓값: {result.expected}</p>
           <p>출력: {String(result.output)}</p>
         </HStack>
       </VStack>
