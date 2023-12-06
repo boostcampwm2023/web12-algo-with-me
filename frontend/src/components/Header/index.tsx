@@ -1,6 +1,5 @@
 import { css } from '@style/css';
 
-
 import { Button, Space, Text, VStack } from '@/components/Common';
 import { Logo } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
@@ -26,11 +25,11 @@ export default function Header() {
         <Space />
         {isLoggedin ? (
           <Button className={buttonStyle} theme="brand" onClick={handleLogout}>
-            로그아웃
+            <Text.Body size="lg">로그아웃</Text.Body>
           </Button>
         ) : (
           <Button className={buttonStyle} theme="brand" onClick={handleLogin}>
-            로그인
+            <Text.Body size="lg">로그인</Text.Body>
           </Button>
         )}
       </VStack>
