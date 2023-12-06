@@ -50,7 +50,6 @@ export function useUserCode({
 
   useEffect(() => {
     const userCode = getUserCode([localStorageKey, competitionKey, String(currentProblemIndex)]);
-
     if (typeof userCode === 'string') {
       setCode(userCode);
     } else {

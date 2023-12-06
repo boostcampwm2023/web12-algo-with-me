@@ -3,34 +3,33 @@ import { css, cx } from '@style/css';
 import { HTMLAttributes } from 'react';
 
 import type { ProblemInfo } from '@/apis/problems';
+import { Text } from '@/components/Common';
 
-interface Props extends HTMLAttributes<HTMLElement> {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   problem: ProblemInfo;
 }
+
 export function ProblemHeader({ problem, className, ...props }: Props) {
   return (
-    <section className={cx(rowListStyle, spaceBetweenStyle, underlineStyle, className)} {...props}>
-      <span className={problemTitleStyle}>{problem.title}</span>
-    </section>
+    <div className={cx(className, style)} {...props}>
+      <Text.Title className={problemTitleStyle} size="lg" bold>
+        {problem.title}
+      </Text.Title>
+    </div>
   );
 }
 
-const rowListStyle = css({
-  display: 'flex',
-});
-
-const underlineStyle = css({
+const style = css({
   borderBottom: '1px solid',
   borderColor: 'border',
 });
 
-const spaceBetweenStyle = css({
-  justifyContent: 'space-between',
-});
-
 const problemTitleStyle = css({
   display: 'inline-block',
-  padding: '10px',
+  paddingY: '1rem',
+  paddingX: '1.25rem',
+  marginLeft: '4rem',
+  color: 'brand',
   borderBottom: '2px solid',
   borderColor: 'brand',
 });

@@ -24,3 +24,9 @@ export const isFunction = (type: unknown): type is Fn => {
 
   return false;
 };
+
+export const isNumber = (type: unknown): type is number => {
+  if (typeof type === 'number') return true;
+
+  return false;
+};
