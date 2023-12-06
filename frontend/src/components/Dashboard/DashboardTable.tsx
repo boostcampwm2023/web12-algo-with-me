@@ -1,12 +1,9 @@
 import { css } from '@style/css';
 
-import { useContext } from 'react';
-
 import { useParticipantDashboard } from '@/hooks/dashboard';
+import useAuth from '@/hooks/login/useAuth';
 import { range } from '@/utils/array';
 import { isNil } from '@/utils/type';
-
-import AuthContext from '../Auth/AuthContext';
 
 interface Props {
   useWebsocket: boolean;
@@ -14,7 +11,7 @@ interface Props {
 }
 
 export default function DashboardTable({ useWebsocket, competitionId }: Props) {
-  const { email } = useContext(AuthContext);
+  const { email } = useAuth();
 
   const { ranks, myRank, totalProblemCount } = useParticipantDashboard(
     useWebsocket,
