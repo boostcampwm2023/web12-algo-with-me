@@ -60,11 +60,11 @@ export default function DashboardPage() {
 }
 
 const pageLayoutStyle = css({
-  textAlign: 'center',
   minHeight: '100vh',
 });
 
 const textContainerStyle = css({
+  textAlign: 'center',
   gap: '10px',
   marginTop: '56px',
   marginBottom: '47px',
