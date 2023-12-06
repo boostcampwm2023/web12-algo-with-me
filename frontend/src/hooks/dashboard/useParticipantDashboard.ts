@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
+import { fetchDashboardData } from '@/apis/dashboard';
 import { SocketContext } from '@/components/Common/Socket/SocketContext';
-import api from '@/utils/api';
 
 import type { Dashboard, Rank } from './types';
 
@@ -30,13 +30,7 @@ export function useParticipantDashboard(
 
   const fetchDataApi = async () => {
     try {
-      const response = await api.get(`/dashboards/${competitionId}`, {
-        params: {
-          email,
-        },
-      });
-
-      const newDashboard: Dashboard = response.data;
+      const newDashboard: Dashboard = await fetchDashboardData({ competitionId, email });
 
       setRanks(newDashboard.rankings);
       setMyRank(newDashboard.myRanking);
