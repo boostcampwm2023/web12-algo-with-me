@@ -13,7 +13,7 @@ function MainPage() {
       <Header />
       <main className={style}>
         <HStack className={logoAndTitleContainerStyle}>
-          <Logo size="360px" />
+          <Logo size="220px" />
           <Text type="display" size="lg" className={displayTextStyle}>
             {SITE.NAME}
           </Text>
@@ -38,6 +38,7 @@ const logoAndTitleContainerStyle = css({
   alignItems: 'center',
   gap: '16px',
   color: '#fff',
+  paddingTop: '120px',
 });
 
 const displayTextStyle = css({

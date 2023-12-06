@@ -50,7 +50,7 @@ export default function CompetitionTable() {
   }, []);
   return (
     <table className={tableStyle}>
-      <thead className={tableHeaderStyle}>
+      <thead>
         <tr className={tableRowStyle}>
           <th className={nameColumnStyle}>
             <Text.Title size="sm" bold>
@@ -125,20 +125,10 @@ const tableStyle = css({
   borderRadius: '8px',
 });
 
-const tableHeaderStyle = css({
-  display: 'flex',
-  height: '64px',
-  gap: '10px',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  alignSelf: 'stretch',
-});
-
 const tableRowStyle = css({
-  padding: '24px 16px',
   display: 'flex',
   alignItems: 'center',
+  height: '64px',
   gap: '12px',
   alignSelf: 'stretch',
   justifyContent: 'center',
@@ -165,8 +155,7 @@ const dashboardColumnStyle = css({
 const nameTdStyle = css({
   display: 'flex',
   height: '17px',
-  paddingRight: '220px',
-  justifyContent: 'center',
+
   alignItems: 'center',
   flex: '1 0 0',
 });
@@ -175,13 +164,9 @@ const timeTextStyle = css({
   width: '240px',
 });
 const stateTdStyle = css({
-  display: 'flex',
   width: '100px',
-  padding: '4px 12px',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
 });
 
 const dashboardTdStyle = css({
