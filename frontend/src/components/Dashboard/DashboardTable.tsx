@@ -30,24 +30,24 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
         <tr>
           <th className={headerRankCellStyle}>
             <Text type="title" bold>
-              Rank
+              순위
             </Text>
           </th>
           <th className={headerIdCellStyle}>
             <Text type="title" bold>
-              User Id
+              이름
             </Text>
           </th>
           {problemCount.map((problemId) => (
             <th key={problemId} className={headerProblemCellStyle}>
               <Text type="title" bold>
-                problem{problemId}
+                문제{problemId}
               </Text>
             </th>
           ))}
           <th className={headerScoreCellStyle}>
             <Text type="title" bold>
-              Score
+              총점
             </Text>
           </th>
         </tr>
@@ -55,12 +55,12 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
       <tbody>
         {!isNil(myRank) && (
           <tr>
-            <td className={myRankCellStyle}>
+            <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {myRank.rank}
               </Text>
             </td>
-            <td className={myRankCellStyle}>
+            <td className={cellStyle}>
               <Text type="title" bold>
                 {myRank.email}
               </Text>
@@ -79,7 +79,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 </Text>
               </td>
             ))}
-            <td className={myRankCellStyle}>
+            <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {myRank.score}
               </Text>
@@ -88,7 +88,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
         )}
         {ranks.map((rank, index) => (
           <tr key={rank.email}>
-            <td className={cellStyle}>
+            <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {index + 1}
               </Text>
@@ -112,7 +112,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 </Text>
               </td>
             ))}
-            <td className={cellStyle}>
+            <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {rank.score}
               </Text>
@@ -129,9 +129,9 @@ const tableStyle = css({
   margin: '0 auto',
 });
 
-const commonCellStyle: SystemStyleObject = {
+const defaultCellStyle: SystemStyleObject = {
   height: '64px',
-  padding: '16px',
+  padding: '12px',
   border: '1px solid',
   borderColor: 'border',
   background: 'surface',
@@ -139,44 +139,45 @@ const commonCellStyle: SystemStyleObject = {
 
 const headerRankCellStyle = css(
   {
-    width: '100px',
+    maxWidth: '80px',
   },
-  commonCellStyle,
+  defaultCellStyle,
 );
 
 const headerIdCellStyle = css(
   {
-    width: '200px',
+    maxWidth: '20%',
   },
-  commonCellStyle,
+  defaultCellStyle,
 );
 
 const headerProblemCellStyle = css(
   {
-    width: '150px',
+    maxWidth: '80px',
   },
-  commonCellStyle,
+  defaultCellStyle,
 );
 
 const headerScoreCellStyle = css(
   {
-    width: '120px',
+    maxWidth: '80px',
   },
-  commonCellStyle,
+  defaultCellStyle,
 );
 
-const myRankCellStyle = css(commonCellStyle, {
+const cellStyle = css(defaultCellStyle, {
   background: '',
 });
 
-const cellStyle = css(commonCellStyle, {
+const centeredCellStyle = css(defaultCellStyle, {
   background: '',
+  textAlign: 'center',
 });
 
-const nullProblemCellStyle = css(commonCellStyle, {
+const nullProblemCellStyle = css(defaultCellStyle, {
   background: 'alert.danger.light',
 });
 
-const ProblemCellStyle = css(commonCellStyle, {
+const ProblemCellStyle = css(defaultCellStyle, {
   background: 'alert.success.light',
 });
