@@ -48,7 +48,7 @@ export default function CompetitionTable() {
   useEffect(() => {
     fetchCompetitions();
   }, []);
-
+  console.log(competitions);
   return (
     <table className={tableStyle}>
       <thead className={tableHeaderStyle}>
@@ -105,9 +105,11 @@ export default function CompetitionTable() {
             </td>
             <td className={stateTdStyle}>
               {formatTimeRemaining(competition.startsAt, competition.endsAt) === '종료' ? (
-                <Chip theme="danger">종료</Chip>
+                <Chip className={normalSizeStyle} theme="danger">
+                  종료
+                </Chip>
               ) : (
-                <Chip className={wideStyle} theme="success">
+                <Chip className={wideSizeStyle} theme="success">
                   진행 중
                 </Chip>
               )}
@@ -216,6 +218,10 @@ const nameTdTextStyle = css({
   display: 'flex',
 });
 
-const wideStyle = css({
+const wideSizeStyle = css({
   width: '69px',
+});
+
+const normalSizeStyle = css({
+  width: '55px',
 });
