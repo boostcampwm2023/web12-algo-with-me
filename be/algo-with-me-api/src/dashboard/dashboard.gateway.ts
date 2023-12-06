@@ -28,11 +28,11 @@ export class DashboardGateway implements OnGatewayConnection {
     client.emit('dashboard', dashboard);
   }
 
-  public handleConnection(client: Socket, ...args: any[]) {
+  public async handleConnection(client: Socket, ...args: any[]) {
     try {
       const { competitionId } = client.handshake.query;
       client.data['competitionId'] = competitionId;
-      this.competitionService.isCompetitionFinished(Number(competitionId));
+      await this.competitionService.isCompetitionFinished(Number(competitionId));
       client.join(competitionId);
       this.logger.debug(
         `dashboard 웹소켓 연결 성공, competition id: ${competitionId}, client id: ${client.id}, args: ${args}`,
