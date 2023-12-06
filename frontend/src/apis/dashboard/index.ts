@@ -1,9 +1,9 @@
 import api from '@/utils/api';
 
-import { DashboardFetchData } from './type';
+import { DashboardData, FetchDashboardResponse } from './type';
 
-export const fetchDashboardData = async ({ competitionId, email }: DashboardFetchData) => {
-  const response = await api.get(`/dashboards/${competitionId}`, {
+export const getDashboardData = async ({ competitionId, email }: DashboardData) => {
+  const response = await api.get<FetchDashboardResponse>(`/dashboards/${competitionId}`, {
     params: {
       email,
     },

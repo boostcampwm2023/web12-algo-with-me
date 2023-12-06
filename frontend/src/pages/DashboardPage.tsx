@@ -16,17 +16,21 @@ export default function DashboardPage() {
   const { startsAt, endsAt } = competition;
   const currentTime = new Date();
 
-  let competitionStatusText = '대회 전';
-  if (currentTime >= new Date(startsAt)) {
-    competitionStatusText = currentTime <= new Date(endsAt) ? '진행 중' : '대회 종료';
-  }
+  const determineCompetitionStatus = () => {
+    if (currentTime >= new Date(startsAt)) {
+      return currentTime <= new Date(endsAt) ? '진행 중' : '대회 종료';
+    }
+    return '대회 전';
+  };
 
-  const fiveMinutesAfterEnd = new Date(endsAt);
-  fiveMinutesAfterEnd.setMinutes(fiveMinutesAfterEnd.getMinutes() + 5);
+  const competitionStatusText = determineCompetitionStatus();
 
-  const useWebsocket = currentTime < fiveMinutesAfterEnd;
+  const bufferTimeAfterCompetitionEnd = new Date(endsAt);
+  bufferTimeAfterCompetitionEnd.setMinutes(bufferTimeAfterCompetitionEnd.getMinutes() + 5);
 
-  if (currentTime < fiveMinutesAfterEnd && currentTime >= new Date(endsAt)) {
+  const useWebSocket = currentTime < bufferTimeAfterCompetitionEnd;
+
+  if (currentTime < bufferTimeAfterCompetitionEnd && currentTime >= new Date(endsAt)) {
     return <DashboardLoading />;
   }
 
@@ -43,7 +47,7 @@ export default function DashboardPage() {
           <span className={competitionTitleStyle}>{competition.name}</span>
           <span>{competitionStatusText}</span>
         </section>
-        <DashboardTable useWebsocket={useWebsocket} competitionId={competitionId} />
+        <DashboardTable useWebsocket={useWebSocket} competitionId={competitionId} />
       </SocketProvider>
     </main>
   );
