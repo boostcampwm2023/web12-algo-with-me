@@ -8,15 +8,6 @@ export const SUBMIT_STATE = {
 
 export type SubmitState = (typeof SUBMIT_STATE)[keyof typeof SUBMIT_STATE];
 
-export interface SubmitResult {
-  contestId: number;
-  problemId: number;
-  testcaseId: number;
-  resultStatus: number;
-  elapsedTime: number;
-  memoryUsage: number;
-}
-
 export type ScoreStart = {
   message: string;
   testcaseNum: number;
@@ -26,4 +17,10 @@ export type ScoreResult = {
   problemId: ProblemId;
   result: string;
   stdOut: string;
+};
+
+export type SubmitResult = {
+  testcaseId: number;
+  submitState: SubmitState;
+  score?: ScoreResult;
 };
