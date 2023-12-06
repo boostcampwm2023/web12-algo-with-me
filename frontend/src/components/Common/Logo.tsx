@@ -1,7 +1,11 @@
+import { isNumber } from '@/utils/type';
+
 interface Props {
-  size: string;
+  size: number | `${string}px`;
 }
 
-export default function Logo({ size }: Props) {
-  return <img src="/algo.png" alt="logo" width={size} height={size} />;
+export function Logo({ size }: Props) {
+  const logoSize = isNumber(size) ? `${size}px` : size;
+
+  return <img src="/algo.png" alt="logo" width={logoSize} height={logoSize} />;
 }

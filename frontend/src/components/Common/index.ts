@@ -8,3 +8,5 @@ export * from './Text';
 export * from './Link';
 export * from './Chip';
 export * from './Icon';
+export * from './BreadCrumb';
+export * from './Logo';

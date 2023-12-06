@@ -69,5 +69,10 @@ export default defineConfig({
         },
       },
     },
+    tokens: {
+      animations: {
+        spin: { value: 'spin 1s linear infinite' },
+      },
+    },
   },
 });

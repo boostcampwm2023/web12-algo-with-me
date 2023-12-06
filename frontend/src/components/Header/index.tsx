@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import Logo from '@/components/Common/Logo';
+import { Logo } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
 export default function Header() {
