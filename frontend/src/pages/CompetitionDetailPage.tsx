@@ -39,4 +39,5 @@ const pageStyle = css({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '136px',
+  height: '100vh',
 });
