@@ -144,7 +144,11 @@ export default function CompetitionPage() {
             </VStack>
           </HStack>
         </div>
-        <DashboardModal isOpen={isDashboardModalOpen} onClose={closeDashboardModal} />
+        <DashboardModal
+          isOpen={isDashboardModalOpen}
+          onClose={closeDashboardModal}
+          competitionId={competitionId}
+        />
       </SocketProvider>
       <SimulationInputModal
         simulationInputs={simulation.inputs}
