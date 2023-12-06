@@ -1,6 +1,7 @@
 import { css, cx } from '@style/css';
 
 import { HTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Icon, Text, VStack } from '.';
 
@@ -16,8 +17,19 @@ export function BreadCrumb({ crumbs, className, ...props }: Props) {
       <VStack className={cx(className, style)} {...props}>
         {crumbs.map((crumb, index) => (
           <div className={crumbStyle} key={index}>
-            <Text.Body bold>{crumb}</Text.Body>
-            {index !== lastIndex ? <Icon.ChevronRight size={24} /> : null}
+            {index === 0 ? (
+              <>
+                <Link to="/">
+                  <Text.Body bold>{crumb}</Text.Body>
+                </Link>
+                <Icon.ChevronRight size={24} />
+              </>
+            ) : (
+              <>
+                <Text.Body bold>{crumb}</Text.Body>
+                {index !== lastIndex ? <Icon.ChevronRight size={24} /> : null}
+              </>
+            )}
           </div>
         ))}
       </VStack>
