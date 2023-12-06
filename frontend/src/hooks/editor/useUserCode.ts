@@ -43,8 +43,10 @@ export function useUserCode({
 
   useEffect(() => {
     // 최초에 localStorage에 저장할 객체 만들기.
-    if (competitionKey === '|') return;
-    if (!isNil(getUserCode([localStorageKey]))) return;
+    if (competitionKey === '|' || userId === '') return;
+
+    if (!isNil(getUserCode([localStorageKey, competitionKey]))) return;
+
     save(localStorageKey, { [competitionKey]: {} });
   }, [competitionKey]);
 
@@ -67,6 +69,7 @@ export function useUserCode({
 
     if (code === problem.solutionCode) return;
     origin[competitionKey][currentProblemIndex] = code;
+
     save(localStorageKey, origin);
   }, [code, currentProblemIndex]);
 
