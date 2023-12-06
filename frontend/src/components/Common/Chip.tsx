@@ -17,7 +17,7 @@ export function Chip({ className, children, theme = 'info', ...props }: Props) {
 }
 
 const style = css({
-  borderRadius: 'full',
+  borderRadius: '9999px',
   border: '1px solid',
   paddingX: '1rem',
   paddingY: '0.25rem',

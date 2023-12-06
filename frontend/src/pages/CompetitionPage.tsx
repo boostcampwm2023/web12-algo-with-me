@@ -86,6 +86,7 @@ export default function CompetitionPage() {
           isOpen={isDashboardModalOpen}
           onClose={closeDashboardModal}
           competitionName={competition.name}
+          competitionId={competitionId}
         />
       </SocketProvider>
     </PageLayout>

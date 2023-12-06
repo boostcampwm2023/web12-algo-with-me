@@ -1,11 +1,16 @@
 import { createContext } from 'react';
 
-const AuthContext = createContext({
+interface AuthContextProps {
+  isLoggedin: boolean;
+  email: string;
+  login: (email: string) => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextProps>({
   isLoggedin: false,
   email: '',
-  login: (email: string) => {
-    email;
-  },
+  login: () => {},
   logout: () => {},
 });
 

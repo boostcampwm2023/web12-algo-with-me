@@ -1,13 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 
+import { getDashboardData } from '@/apis/dashboard';
 import { SocketContext } from '@/components/Common/Socket/SocketContext';
-import { isNil } from '@/utils/type';
 
 import type { Dashboard, Rank } from './types';
 
-const INTERVAL_TIME = 5000;
+const REFRESH_INTERVAL = 5000;
 
-export function useParticipantDashboard() {
+export function useParticipantDashboard(
+  useWebSocket: boolean,
+  competitionId: number,
+  email: string,
+) {
   const { socket } = useContext(SocketContext);
   const [ranks, setRanks] = useState<Rank[]>([]);
   const [myRank, setMyRank] = useState<Rank>({
@@ -18,40 +22,56 @@ export function useParticipantDashboard() {
   });
   const [totalProblemCount, setTotalProblemCount] = useState(-1);
 
-  const fetchData = () => {
-    if (isNil(socket)) return;
-    socket.emit('dashboard');
+  const fetchDashboardDataUsingWebSocket = () => {
+    if (socket) {
+      socket.emit('dashboard');
+    }
   };
 
-  function handleDashboard(newDashboard: Dashboard) {
-    setRanks(newDashboard.rankings);
-    setMyRank(newDashboard.myRanking);
-    setTotalProblemCount(newDashboard.totalProblemCount);
-  }
+  const fetchDashboardDataUsingApi = async () => {
+    try {
+      const newDashboard: Dashboard = await getDashboardData({
+        competitionId,
+        email: email,
+      });
+
+      handleDashboardData(newDashboard);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
-    fetchData();
+    if (useWebSocket) {
+      fetchDashboardDataUsingWebSocket();
 
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, INTERVAL_TIME);
+      const intervalId = setInterval(() => {
+        fetchDashboardDataUsingWebSocket();
+      }, REFRESH_INTERVAL);
 
-    return () => clearInterval(intervalId);
-  }, [socket]);
+      return () => clearInterval(intervalId);
+    } else {
+      fetchDashboardDataUsingApi();
+    }
+  }, [useWebSocket, socket, competitionId, email]);
 
   useEffect(() => {
-    if (isNil(socket)) return;
-
-    if (!socket.hasListeners('dashboard')) {
-      socket.on('dashboard', handleDashboard);
+    if (useWebSocket && socket && !socket.hasListeners('dashboard')) {
+      socket.on('dashboard', handleDashboardData);
     }
 
     return () => {
-      if (socket.hasListeners('dashboard')) {
-        socket.off('dashboard', handleDashboard);
+      if (useWebSocket && socket && socket.hasListeners('dashboard')) {
+        socket.off('dashboard', handleDashboardData);
       }
     };
-  }, [socket]);
+  }, [useWebSocket, socket]);
+
+  const handleDashboardData = (newDashboard: Dashboard) => {
+    setRanks(newDashboard.rankings);
+    setMyRank(newDashboard.myRanking);
+    setTotalProblemCount(newDashboard.totalProblemCount);
+  };
 
   return {
     ranks,

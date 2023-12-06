@@ -9,9 +9,10 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   competitionName: string;
+  competitionId: number;
 }
 
-export default function DashboardModal({ isOpen, onClose, competitionName }: Props) {
+export default function DashboardModal({ isOpen, onClose, competitionId, competitionName }: Props) {
   if (!isOpen) {
     return null;
   }
@@ -24,7 +25,7 @@ export default function DashboardModal({ isOpen, onClose, competitionName }: Pro
             {competitionName}
           </Text>
         </div>
-        <DashboardTable />
+        <DashboardTable useWebsocket={true} competitionId={competitionId} />
         <VStack className={buttonContainerStyle}>
           <Button className={buttonStyle} onClick={onClose}>
             닫기

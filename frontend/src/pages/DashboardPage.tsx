@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { HStack, Text } from '@/components/Common';
 import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
+import DashboardLoading from '@/components/Dashboard/DashboardLoading';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
 import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
@@ -17,9 +18,22 @@ export default function DashboardPage() {
   const { startsAt, endsAt } = competition;
   const currentTime = new Date();
 
-  let competitionStatusText = '대회 전';
-  if (currentTime >= new Date(startsAt)) {
-    competitionStatusText = currentTime <= new Date(endsAt) ? '진행 중' : '대회 종료';
+  const determineCompetitionStatus = () => {
+    if (currentTime >= new Date(startsAt)) {
+      return currentTime <= new Date(endsAt) ? '진행 중' : '대회 종료';
+    }
+    return '대회 전';
+  };
+
+  const competitionStatusText = determineCompetitionStatus();
+
+  const bufferTimeAfterCompetitionEnd = new Date(endsAt);
+  bufferTimeAfterCompetitionEnd.setMinutes(bufferTimeAfterCompetitionEnd.getMinutes() + 5);
+
+  const useWebSocket = currentTime < bufferTimeAfterCompetitionEnd;
+
+  if (currentTime < bufferTimeAfterCompetitionEnd && currentTime >= new Date(endsAt)) {
+    return <DashboardLoading />;
   }
 
   return (
@@ -39,7 +53,7 @@ export default function DashboardPage() {
             {competitionStatusText}
           </Text>
         </HStack>
-        <DashboardTable />
+        <DashboardTable useWebsocket={useWebSocket} competitionId={competitionId} />
       </SocketProvider>
     </PageLayout>
   );
