@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { Button, Text, VStack } from '@/components/Common';
+import { Button, Space, Text, VStack } from '@/components/Common';
 import Logo from '@/components/Common/Logo';
 import useAuth from '@/hooks/login/useAuth';
 
@@ -18,12 +18,11 @@ export default function Header() {
   return (
     <header className={headerWrapperStyle}>
       <VStack className={headerStyle}>
-        <div className={LogoTextBoxStyle}>
-          <Logo size="48px" className={LogoStyle} />
-          <Text.Title bold size="lg" className={textStyle}>
-            Algo With Me
-          </Text.Title>
-        </div>
+        <Logo size="48px" />
+        <Text.Title bold size="lg" className={textStyle}>
+          Algo With Me
+        </Text.Title>
+        <Space />
         {isLoggedin ? (
           <Button className={buttonStyle} theme="brand" onClick={handleLogout}>
             로그아웃
@@ -49,26 +48,14 @@ const headerWrapperStyle = css({
 
 const headerStyle = css({
   height: '40px',
-  display: 'flex',
   width: '100%',
   maxWidth: '1200px',
   alignItems: 'center',
-  justifyContent: 'space-between',
-});
-
-const LogoTextBoxStyle = css({
-  display: 'table',
-});
-
-const LogoStyle = css({
-  display: 'inline',
-  marginRight: '16px',
+  gap: '16px',
 });
 
 const textStyle = css({
   color: 'text',
-  display: 'table-cell',
-  verticalAlign: 'middle',
 });
 
 const buttonStyle = css({
