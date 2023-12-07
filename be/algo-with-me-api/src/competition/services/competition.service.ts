@@ -316,6 +316,13 @@ export class CompetitionService {
     await queryRunner.startTransaction();
 
     try {
+      submission = await queryRunner.manager
+        .getRepository(Submission)
+        .createQueryBuilder('submission')
+        .useTransaction(true)
+        .setLock('pessimistic_write')
+        .where('id = :id', { id: scoreResultDto.submissionId })
+        .getOne();
       submission = await queryRunner.manager.findOneBy(Submission, {
         id: scoreResultDto.submissionId,
       });
@@ -327,6 +334,7 @@ export class CompetitionService {
       await queryRunner.commitTransaction();
       await queryRunner.release();
     } catch (error) {
+      this.logger.debug(`트랜잭션 실패 ${error.message}`);
       await queryRunner.rollbackTransaction();
       await queryRunner.release();
       throw error;
