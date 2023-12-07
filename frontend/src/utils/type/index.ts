@@ -1,4 +1,4 @@
-type Nil = undefined | null;
+export type Nil = undefined | null;
 type Fn = (...args: unknown[]) => unknown;
 
 export const isNil = (type: unknown): type is Nil => {

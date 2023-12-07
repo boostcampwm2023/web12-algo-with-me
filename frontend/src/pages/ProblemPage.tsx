@@ -3,45 +3,30 @@ import { css } from '@style/css';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { fetchProblemDetail, type Problem, ProblemId } from '@/apis/problems';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
-
-import axios from 'axios';
-
-interface Problem {
-  id: number;
-  title: string;
-  timeLimit: number;
-  memoryLimit: number;
-  content: string;
-  createdAt: string;
-}
-
-const PROBLEM_API_ENDPOINT = 'http://101.101.208.240:3000/problems/';
-
-const fetchProblem = async (
-  problemId: number,
-  setProblem: (problem: Problem | null) => void,
-  setLoading: (loading: boolean) => void,
-) => {
-  try {
-    const response = await axios.get<Problem>(`${PROBLEM_API_ENDPOINT}${problemId}`);
-    const data = response.data;
-    setProblem(data);
-  } catch (error) {
-    console.error('Error fetching problem:', (error as Error).message);
-  } finally {
-    setLoading(false);
-  }
-};
+import type { Nil } from '@/utils/type';
 
 function ProblemPage() {
   const { id } = useParams<{ id: string }>();
   const problemId = id ? parseInt(id, 10) : -1;
-  const [problem, setProblem] = useState<Problem | null>(null);
+  const [problem, setProblem] = useState<Problem | Nil>(null);
   const [loading, setLoading] = useState(true);
 
+  async function updateProblem(problemId: ProblemId) {
+    try {
+      setLoading(true);
+      const problem = await fetchProblemDetail(problemId);
+
+      setProblem(problem);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    fetchProblem(problemId, setProblem, setLoading);
+    updateProblem(problemId);
   }, [problemId]);
 
   if (loading) {
@@ -52,10 +37,10 @@ function ProblemPage() {
     return <p>Error loading problem data</p>;
   }
   return (
-    <main className={style}>
+    <PageLayout className={style}>
       <span className={problemTitleStyle}>{problem.title}</span>
       <ProblemViewer content={problem.content} />
-    </main>
+    </PageLayout>
   );
 }
 

@@ -4,6 +4,7 @@ import type {
   CompetitionProblem,
   FetchCompetitionProblemResponse,
   FetchProblemListResponse,
+  Problem,
   ProblemId,
   ProblemInfo,
 } from './types';
@@ -49,5 +50,16 @@ export async function fetchCompetitionProblem(
     console.error(err);
 
     return null;
+  }
+}
+
+export async function fetchProblemDetail(problemId: number) {
+  try {
+    const response = await api.get<Problem>(`/problems/${problemId}`);
+    const data = response.data;
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching problem:', (error as Error).message);
   }
 }
