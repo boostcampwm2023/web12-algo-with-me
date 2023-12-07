@@ -1,0 +1,72 @@
+services:
+  algo-with-me-api:
+    image: algo-with-me-api
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+      - /home/be/web12-algo-with-me/be/algo-with-me-api/log/:/algo-with-me-api/log
+    network_mode: host
+    env_file:
+      - ./algo-with-me-api/.env
+    environment:
+      TZ: "Asia/Seoul"
+    user: be:be
+    restart: always
+
+  algo-with-me-score-0:
+    image: algo-with-me-score
+    ports:
+      - 4000:4000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+      - /home/be/web12-algo-with-me/be/algo-with-me-score/log/:/algo-with-me-score/log
+    network_mode: host
+    env_file:
+      - ./algo-with-me-score/.env
+    environment:
+      DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
+      TZ: "Asia/Seoul"
+      SCORE_SERVER_ID: 0
+    user: be:be
+    restart: always
+
+  algo-with-me-score-1:
+    image: algo-with-me-score
+    ports:
+      - 4001:4001
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+      - /home/be/web12-algo-with-me/be/algo-with-me-score/log/:/algo-with-me-score/log
+    network_mode: host
+    env_file:
+      - ./algo-with-me-score/.env
+    environment:
+      DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
+      TZ: "Asia/Seoul"
+      SCORE_SERVER_ID: 1
+    user: be:be
+    restart: always
+
+  algo-with-me-docker:
+    image: algo-with-me-docker
+    ports:
+      - ${DOCKER_PORT_RANGE_START}-${DOCKER_PORT_RANGE_END}:5000
+    volumes:
+      - /home/be/algo-with-me/problems/:/algo-with-me/problems/
+      - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
+      - /home/be/algo-with-me/testcases/:/algo-with-me/testcases/
+    network_mode: bridge
+    user: 1001:1001
+    environment:
+      TZ: "Asia/Seoul"
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: ${DOCKER_CONTAINER_COUNT_ALL}
