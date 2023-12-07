@@ -119,19 +119,22 @@ export default function CompetitionTable() {
 const tableStyle = css({
   background: 'surface',
   display: 'flex',
-  padding: '16px 24px',
+  padding: '1rem 1.5rem',
   flexDirection: 'column',
   color: 'text',
-  borderRadius: '8px',
+  borderRadius: '0.5rem',
 });
 
 const tableRowStyle = css({
   display: 'flex',
   alignItems: 'center',
-  height: '64px',
-  gap: '12px',
+  height: '4rem',
+  gap: '0.75rem',
+  paddingX: '0.5rem',
   alignSelf: 'stretch',
   justifyContent: 'center',
+  borderBottom: '2px solid',
+  borderColor: 'border',
 });
 
 const nameColumnStyle = css({
