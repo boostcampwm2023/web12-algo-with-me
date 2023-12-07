@@ -52,6 +52,7 @@ const modalContentStyle = css({
   position: 'relative',
   width: '1264px',
   height: '920px',
+  borderRadius: '0.5rem',
   background: 'background',
 });
 
