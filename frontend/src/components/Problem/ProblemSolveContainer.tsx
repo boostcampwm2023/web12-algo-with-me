@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem } from '@/apis/problems';
-import { Button, HStack, HStackProps, Modal, Space, VStack } from '@/components/Common';
+import { Button, HStack, HStackProps, Icon, Modal, Space, VStack } from '@/components/Common';
 import { SubmissionForm } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
 import useAuth from '@/hooks/login/useAuth';
@@ -120,13 +120,22 @@ export function ProblemSolveContainer({
         stdOut,
       } satisfies ScoreResult,
     };
-
     submission.changeDoneScoreResult(newResult);
+
+    setResultCount((oldCount) => oldCount - 1);
+    if (result === '정답입니다') {
+      setSuccessCount((oldCount) => oldCount - 1);
+    }
   };
+
+  const [resultCount, setResultCount] = useState(-1);
+  const [successCount, setSuccessCount] = useState(-1);
 
   const handleScoreStart = (rawData: ScoreStart) => {
     const { testcaseNum } = rawData;
     submission.toEvaluatingState(testcaseNum);
+    setResultCount(testcaseNum);
+    setSuccessCount(testcaseNum);
   };
 
   useEffect(() => {
@@ -143,6 +152,12 @@ export function ProblemSolveContainer({
   useEffect(() => {
     submission.emptyResults();
   }, [currentProblemIndex]);
+
+  useEffect(() => {
+    if (resultCount !== 0) return;
+
+    successCount > 0 ? alert('틀렸습니다') : alert('맞았습니다');
+  }, [resultCount]);
 
   return (
     <HStack className={css({ height: '100%' })} {...props}>
@@ -179,7 +194,12 @@ export function ProblemSolveContainer({
           onExec={handleSimulate}
           onCancel={handleSimulationCancel}
         />
-        <Button theme="brand" className={submissionButtonStyle} onClick={handleSubmitSolution}>
+        <Button
+          theme="brand"
+          onClick={handleSubmitSolution}
+          leading={resultCount > 0 ? <Icon.Spinner spin /> : undefined}
+          disabled={resultCount > 0}
+        >
           제출하기
         </Button>
       </VStack>
@@ -236,10 +256,6 @@ const tabStyle = cva({
       },
     },
   },
-});
-
-const submissionButtonStyle = css({
-  paddingX: '2rem',
 });
 
 const simulationModalStyle = css({
