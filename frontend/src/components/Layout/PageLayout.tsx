@@ -16,4 +16,5 @@ const style = css({
   width: '100%',
   color: 'text',
   background: 'background',
+  paddingBottom: '300px',
 });
