@@ -31,6 +31,8 @@ interface Props extends HStackProps {
 const SIMULATION_TAP = 0;
 const SUBMISSION_TAP = 1;
 
+const simulationInputCache: Record<`${CompetitionId}|${number}`, SimulationInput[]> = {};
+
 export function ProblemSolveContainer({
   currentProblemIndex,
   competitionId,
@@ -48,7 +50,13 @@ export function ProblemSolveContainer({
     save: customLocalStorage.save,
   });
 
-  const simulation = useSimulation(problem.testcases);
+  let testcases: SimulationInput[] = [];
+  if (isNil(simulationInputCache[`${competitionId}|${currentProblemIndex}`])) {
+    testcases = problem.testcases;
+  } else {
+    testcases = simulationInputCache[`${competitionId}|${currentProblemIndex}`];
+  }
+  const simulation = useSimulation(testcases);
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -64,6 +72,7 @@ export function ProblemSolveContainer({
   };
 
   const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
+    simulationInputCache[`${competitionId}|${currentProblemIndex}`] = simulationInputs;
     simulation.changeInputs(simulationInputs);
   };
 

@@ -12,9 +12,13 @@ export const useSimulation = (testcases: SimulationInput[]) => {
     return results.some((result) => !result.isDone);
   }, [results]);
 
-  useEffect(() => {
+  function setupTestcase(testcases: SimulationInput[]) {
     setInputs(testcases);
     setResults(testcases.map(createResult));
+  }
+
+  useEffect(() => {
+    setupTestcase(testcases);
   }, [testcases]);
 
   useEffect(() => {
@@ -62,8 +66,7 @@ export const useSimulation = (testcases: SimulationInput[]) => {
   }
 
   function changeInputs(inputs: SimulationInput[]) {
-    setInputs(inputs);
-    setResults(inputs.map(createResult));
+    setupTestcase(inputs);
   }
 
   function cancel() {
