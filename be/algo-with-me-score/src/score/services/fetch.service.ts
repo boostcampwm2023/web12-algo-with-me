@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 import { ScoreResultDto } from '../dtos/score-result.dto';
@@ -38,11 +38,17 @@ export class FetchService {
     testcaseId: number,
     containerId: number,
   ): Promise<ICoderunResponse> {
-    const [dockerServerHost, dockerServerBasePort] = [
+    const [dockerServerHost, dockerServerBasePort, scoreServerId, dockerContainerCount] = [
       process.env.DOCKER_SERVER_HOST,
       process.env.DOCKER_SERVER_PORT,
+      process.env.SCORE_SERVER_ID,
+      process.env.DOCKER_CONTAINER_COUNT,
     ];
-    const dockerServerPort = (parseInt(dockerServerBasePort) + containerId).toString();
+    const dockerServerPort = (
+      parseInt(dockerServerBasePort) +
+      parseInt(scoreServerId) * parseInt(dockerContainerCount) +
+      containerId
+    ).toString();
     const url = `http://${dockerServerHost}:${dockerServerPort}/${competitionId}/${userId}/${problemId}/${testcaseId}`;
     try {
       const response = await fetch(url, { method: 'POST' });

@@ -31,7 +31,7 @@ services:
     environment:
       DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
       TZ: "Asia/Seoul"
-      SELF_PORT: 4000
+      SCORE_SERVER_ID: 0
     user: be:be
     restart: always
 
@@ -50,7 +50,7 @@ services:
     environment:
       DOCKER_CONTAINER_COUNT: ${DOCKER_CONTAINER_COUNT}
       TZ: "Asia/Seoul"
-      SELF_PORT: 4001
+      SCORE_SERVER_ID: 1
     user: be:be
     restart: always
 
