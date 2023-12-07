@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -116,8 +115,8 @@ export class CompetitionController {
   })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async joinCompetition(@Req() req, @Param('competitionId') competitionId: number) {
-    await this.competitionService.joinCompetition(competitionId, req.user.email);
+  async joinCompetition(@AuthUser() user: User, @Param('competitionId') competitionId: number) {
+    await this.competitionService.joinCompetition(competitionId, user);
   }
 
   @Get('validation/:competitionId')
