@@ -1,3 +1,4 @@
+import { CompetitionId } from '@/apis/competitions';
 import api from '@/utils/api';
 
 import type { CompetitionApiData } from './types';
@@ -40,5 +41,15 @@ export async function joinCompetition(data: CompetitionApiData) {
       default:
         return `HTTP Error ${error.response.status}`;
     }
+  }
+}
+
+export async function fetchIsJoinableCompetition(competitionId: CompetitionId): Promise<boolean> {
+  try {
+    const { data } = await api.get(`/competitions/validation/${competitionId}`);
+
+    return data.isJoinable;
+  } catch (err) {
+    return false;
   }
 }
