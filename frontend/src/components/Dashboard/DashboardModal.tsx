@@ -48,7 +48,7 @@ const modalOverlayStyle = css({
 });
 
 const modalContentStyle = css({
-  padding: '32px',
+  padding: '1rem 1.5rem',
   position: 'relative',
   width: '1264px',
   height: '920px',
