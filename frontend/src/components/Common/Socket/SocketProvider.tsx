@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { connect } from '@/utils/socket';
+import { connect, disconnect } from '@/utils/socket';
+import { isNil } from '@/utils/type';
 
 import { SocketContext } from './SocketContext';
 
@@ -46,6 +47,13 @@ export function SocketProvider({
       socket.current.on('disconnect', handleDisconnect);
     }
   }, [socket.current]);
+
+  useEffect(() => {
+    if (isNil(socket.current)) return;
+    return () => {
+      disconnect(`/${namespace}`);
+    };
+  }, [socket]);
 
   return (
     <SocketContext.Provider
