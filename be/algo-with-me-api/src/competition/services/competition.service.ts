@@ -303,11 +303,7 @@ export class CompetitionService {
   }
 
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
-    const submission = await this.submissionRepository.findOneBy({
-      id: scoreResultDto.submissionId,
-    });
-    if (!submission) throw new NotFoundException('제출 기록이 없습니다.');
-
+    let submission: Submission;
     const result = {
       testcaseId: scoreResultDto.testcaseId,
       result: scoreResultDto.result,
@@ -315,14 +311,35 @@ export class CompetitionService {
       memoryUsage: scoreResultDto.memoryUsage,
     };
 
-    submission.detail.push(result);
-    this.submissionRepository.save(submission);
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      submission = await queryRunner.manager.findOneBy(Submission, {
+        id: scoreResultDto.submissionId,
+      });
+      if (!submission) throw new NotFoundException('제출 기록이 없습니다.');
+
+      submission.detail.push(result);
+
+      await queryRunner.manager.update(Submission, submission.id, { detail: submission.detail });
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw error;
+    }
 
     // 모두 제출했는지 확인
     const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
       submission.problemId,
     );
     let totalResult: keyof typeof RESULT = 'CORRECT';
+    this.logger.debug(
+      `채점완료된 테스트 케이스 / 채점 해야할 테스트 케이스: ${submission.detail.length}/${testcaseNum}`,
+    );
     if (testcaseNum === submission.detail.length) {
       const user: User = await this.userRepository.findOneBy({ id: submission.userId });
       const competition: Competition = await this.competitionRepository.findOneBy({
