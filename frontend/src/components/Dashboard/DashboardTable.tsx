@@ -54,7 +54,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
       </thead>
       <tbody>
         {!isNil(myRank) && (
-          <tr className={css({ borderColor: 'brand' })}>
+          <tr className={highlightRowStyle}>
             <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {myRank.rank}
@@ -137,6 +137,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
 const tableStyle = css({
   width: '100%',
   margin: '0 auto',
+  borderCollapse: 'collapse',
 });
 
 const defaultCellStyle: SystemStyleObject = {
@@ -190,4 +191,9 @@ const wrongProblemCellStyle = css(defaultCellStyle, {
 
 const correctProblemCellStyle = css(defaultCellStyle, {
   background: 'rgba(130, 221, 85, 0.70)',
+});
+
+const highlightRowStyle = css({
+  border: '2px solid',
+  borderColor: 'brand',
 });
