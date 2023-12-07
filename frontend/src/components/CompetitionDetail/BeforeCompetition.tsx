@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { CompetitionInfo } from '@/apis/competitions';
 
 import { Button, Chip, Text, VStack } from '../Common';
-import JoinCompetitionButton from '../Main/Buttons/JoinCompetitionButton';
+import JoinCompetitionButton from './Buttons/JoinCompetitionButton';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
 import { buttonContainerStyle } from './styles/styles';
