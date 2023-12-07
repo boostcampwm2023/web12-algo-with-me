@@ -8,11 +8,12 @@ import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import DashboardModal from '@/components/Dashboard/DashboardModal';
-import { PageLayout } from '@/components/Layout/PageLayout';
+import { CompetitionPageLayout } from '@/components/Layout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import { ProblemSolveContainer } from '@/components/Problem/ProblemSolveContainer';
 import SocketTimer from '@/components/SocketTimer';
-import { ROUTE, SITE } from '@/constants';
+import { UserValidator } from '@/components/UserValidator';
+import { SITE } from '@/constants';
 import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
@@ -45,7 +46,7 @@ export default function CompetitionPage() {
   const problemIds = problemList.map((problem) => problem.id);
 
   function handleTimeout() {
-    navigate(`${ROUTE.DASHBOARD}/${competitionId}`);
+    navigate('/');
   }
 
   const { competition } = useCompetition(competitionId);
@@ -53,7 +54,7 @@ export default function CompetitionPage() {
   const crumbs = [SITE.NAME, competition.name ?? ''];
 
   return (
-    <PageLayout className={style}>
+    <CompetitionPageLayout className={style}>
       <SocketProvider
         transports={['websocket']}
         query={{ competitionId: String(competitionId) }}
@@ -90,8 +91,9 @@ export default function CompetitionPage() {
           competitionName={competition.name}
           competitionId={competitionId}
         />
+        <UserValidator />
       </SocketProvider>
-    </PageLayout>
+    </CompetitionPageLayout>
   );
 }
 

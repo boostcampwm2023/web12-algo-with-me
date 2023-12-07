@@ -1,7 +1,14 @@
 import type { SimulationInput } from '@/hooks/simulation';
 
 export type ProblemId = number;
-
+export type Problem = {
+  id: number;
+  title: string;
+  timeLimit: number;
+  memoryLimit: number;
+  content: string;
+  createdAt: string;
+};
 export type ProblemInfo = {
   id: ProblemId;
   title: string;

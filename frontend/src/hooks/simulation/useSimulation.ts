@@ -12,13 +12,17 @@ export const useSimulation = (testcases: SimulationInput[]) => {
     return results.some((result) => !result.isDone);
   }, [results]);
 
-  useEffect(() => {
+  function setupTestcase(testcases: SimulationInput[]) {
     setInputs(testcases);
     setResults(testcases.map(createResult));
+  }
+
+  useEffect(() => {
+    setupTestcase(testcases);
   }, [testcases]);
 
   useEffect(() => {
-    return evaluator.subscribe(({ result: output, error, task }) => {
+    const unsubscriber = evaluator.subscribe(({ result: output, error, task, logs }) => {
       if (!task) return;
 
       setResults((results) => {
@@ -30,16 +34,22 @@ export const useSimulation = (testcases: SimulationInput[]) => {
               ...result,
               isDone: true,
               output: `${error.name}: ${error.message} \n${error.stack}`,
+              logs,
             };
           }
           return {
             ...result,
             isDone: true,
             output,
+            logs,
           };
         });
       });
     });
+
+    return () => {
+      unsubscriber();
+    };
   }, []);
 
   function run(code: string) {
@@ -62,8 +72,7 @@ export const useSimulation = (testcases: SimulationInput[]) => {
   }
 
   function changeInputs(inputs: SimulationInput[]) {
-    setInputs(inputs);
-    setResults(inputs.map(createResult));
+    setupTestcase(inputs);
   }
 
   function cancel() {
@@ -89,5 +98,5 @@ const toEvaluatingState = (simulation: SimulationResult) => {
 };
 
 const createResult = (input: SimulationInput) => {
-  return { ...input, isDone: true, output: '' };
+  return { ...input, isDone: true, output: '', logs: [] };
 };

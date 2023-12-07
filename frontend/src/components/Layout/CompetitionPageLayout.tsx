@@ -4,7 +4,7 @@ import { HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLElement> {}
 
-export function PageLayout({ children, className, ...props }: Props) {
+export function CompetitionPageLayout({ children, className, ...props }: Props) {
   return (
     <main {...props} className={cx(style, className)}>
       {children}
@@ -16,5 +16,4 @@ const style = css({
   width: '100%',
   color: 'text',
   background: 'background',
-  paddingBottom: '300px',
 });

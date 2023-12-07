@@ -1,7 +1,8 @@
 import { css } from '@style/css';
 
-import { HStack, Text, VStack, Logo } from '@/components/Common';
+import { HStack, Logo, Text, VStack } from '@/components/Common';
 import Header from '@/components/Header';
+import { PageLayout } from '@/components/Layout';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
 import CompetitionTable from '@/components/Main/CompetitionTable';
 import { SITE } from '@/constants';
@@ -10,7 +11,7 @@ function MainPage() {
   return (
     <>
       <Header />
-      <main className={style}>
+      <PageLayout>
         <HStack className={logoAndTitleContainerStyle}>
           <Logo size="220px" />
           <Text type="display" size="lg" className={displayTextStyle}>
@@ -26,7 +27,7 @@ function MainPage() {
         <section className={competitionTableWrapperStyle}>
           <CompetitionTable />
         </section>
-      </main>
+      </PageLayout>
     </>
   );
 }
@@ -46,10 +47,6 @@ const displayTextStyle = css({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
-
-const style = css({
-  background: 'background',
 });
 
 const linkWrapperStyle = css({

@@ -52,10 +52,11 @@ export default class EvalTaskManager {
       this.deployTask();
     }
   }
-  receiveTaskEnd({ result, error }: EvalResult, evaluator: Evaluator) {
+  receiveTaskEnd({ result, error, logs }: EvalResult, evaluator: Evaluator) {
     this.taskEndNotifier.notify({
       result,
       error,
+      logs,
       task: evaluator.currentTask,
     });
 
@@ -71,6 +72,7 @@ export default class EvalTaskManager {
         message: '실행 중단',
         stack: '',
       },
+      logs: [],
       task,
     });
   }

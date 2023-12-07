@@ -31,6 +31,14 @@ function SimulationResult({ result }: { result: SimulationResult }) {
         <p>입력: {result.input}</p>
         <p>기댓값: {result.expected}</p>
         <p>출력: {String(result.output)}</p>
+        {result.logs.length > 0 && <p>로그: </p>}
+        {result.logs.map((log, index) => {
+          return (
+            <p key={index} className={css({ color: 'text.light' })}>
+              {log}
+            </p>
+          );
+        })}
       </HStack>
     </VStack>
   );

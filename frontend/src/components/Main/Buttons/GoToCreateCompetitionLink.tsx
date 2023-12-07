@@ -13,13 +13,13 @@ export default function GoToCreateCompetitionLink() {
   };
 
   return (
-    <Button className={buttonStyle} theme="brand" onClick={handleNavigate}>
-      <Link to={isLoggedin ? '/contest/create' : '/login'}>
+    <Link to={isLoggedin ? '/contest/create' : '/login'} underline={false}>
+      <Button className={buttonStyle} theme="brand" onClick={handleNavigate}>
         <Text.Body className={LinkTextStyle} size="lg">
           대회 생성
         </Text.Body>
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   );
 }
 

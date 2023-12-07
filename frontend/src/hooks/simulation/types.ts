@@ -11,4 +11,5 @@ export type SimulationResult = {
   input: string;
   output: unknown;
   expected: string;
+  logs: string[];
 };

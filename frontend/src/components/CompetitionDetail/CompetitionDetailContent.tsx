@@ -1,38 +1,39 @@
+import { HTMLAttributes } from 'react';
+
 import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
 import DuringCompetition from '@/components/CompetitionDetail/DuringCompetition';
+import { useCompetitionRerender } from '@/hooks/competitionDetail';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   competitionId: number;
   competition: CompetitionInfo;
-  startsAt: Date;
-  endsAt: Date;
-  competitionSchedule: string;
 }
 
 export function CompetitionDetailContent({
   competitionId,
   competition,
-  startsAt,
-  endsAt,
-  competitionSchedule,
+  className,
+  ...props
 }: Props) {
   const currentDate = new Date();
+  const startsAt = new Date(competition.startsAt || '');
+  const endsAt = new Date(competition.endsAt || '');
 
-  if (currentDate < startsAt) {
+  const { shouldRerenderDuring, shouldRerenderAfter } = useCompetitionRerender(startsAt, endsAt);
+
+  if ((shouldRerenderAfter && shouldRerenderDuring) || currentDate >= endsAt) {
     return (
-      <BeforeCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
+      <AfterCompetition className={className} {...{ competitionId, competition }} {...props} />
     );
-  } else if (currentDate < endsAt) {
-    return (
-      <DuringCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
-    );
-  } else {
-    return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
   }
+
+  if (shouldRerenderDuring || currentDate >= startsAt) {
+    return (
+      <DuringCompetition className={className} {...{ competitionId, competition }} {...props} />
+    );
+  }
+
+  return <BeforeCompetition className={className} {...{ competitionId, competition }} {...props} />;
 }

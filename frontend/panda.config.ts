@@ -38,7 +38,7 @@ export default defineConfig({
         },
         text: {
           DEFAULT: { value: '#F5F5F5' },
-          light: { value: '#FAFAFA' },
+          light: { value: '#FAFAFA99' },
         },
         border: {
           DEFAULT: { value: '#455A64' },

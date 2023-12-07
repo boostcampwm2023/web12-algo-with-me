@@ -10,7 +10,7 @@ interface Props {
 
 export default function CompetitionMembersInfo({ competition }: Props) {
   const formattedMembers = competition.participants.join(', ');
-  const host = competition.host || 'None';
+  const { maxParticipants, participants, host = 'None' } = competition;
 
   return (
     <section>
@@ -27,7 +27,10 @@ export default function CompetitionMembersInfo({ competition }: Props) {
 
       <div className={containerStyle}>
         <Text type="title" size="lg">
-          참가자
+          참가자{' '}
+          <small className={css({ color: 'text.light' })}>
+            ({participants.length}/{maxParticipants})
+          </small>
         </Text>
         <div className={contentContainerStyle}>
           <Text type="body" size="md">

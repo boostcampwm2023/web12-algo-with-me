@@ -10,3 +10,4 @@ export * from './Chip';
 export * from './Icon';
 export * from './BreadCrumb';
 export * from './Logo';
+export * from './Card';
