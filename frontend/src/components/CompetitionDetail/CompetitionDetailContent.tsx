@@ -4,6 +4,7 @@ import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
 import DuringCompetition from '@/components/CompetitionDetail/DuringCompetition';
+import { useCompetitionRerender } from '@/hooks/competitionDetail';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   competitionId: number;
@@ -20,17 +21,19 @@ export function CompetitionDetailContent({
   const startsAt = new Date(competition.startsAt || '');
   const endsAt = new Date(competition.endsAt || '');
 
-  if (currentDate < startsAt) {
+  const { shouldRerenderDuring, shouldRerenderAfter } = useCompetitionRerender(startsAt, endsAt);
+
+  if ((shouldRerenderAfter && shouldRerenderDuring) || currentDate >= endsAt) {
     return (
-      <BeforeCompetition className={className} {...{ competitionId, competition }} {...props} />
+      <AfterCompetition className={className} {...{ competitionId, competition }} {...props} />
     );
   }
 
-  if (currentDate < endsAt) {
+  if (shouldRerenderDuring || currentDate >= startsAt) {
     return (
       <DuringCompetition className={className} {...{ competitionId, competition }} {...props} />
     );
   }
 
-  return <AfterCompetition className={className} {...{ competitionId, competition }} {...props} />;
+  return <BeforeCompetition className={className} {...{ competitionId, competition }} {...props} />;
 }
