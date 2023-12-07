@@ -21,6 +21,7 @@ import { CompetitionDto } from '../dto/competition.dto';
 import { IsJoinableDto } from '../dto/competition.is.joinable.dto';
 import { CompetitionProblemResponseDto } from '../dto/competition.problem.response.dto';
 import { CompetitionResponseDto } from '../dto/competition.response.dto';
+import { CompetitionSimpleResponseDto } from '../dto/competition.simple-response.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { CompetitionService } from '../services/competition.service';
@@ -38,7 +39,7 @@ export class CompetitionController {
     summary: '대회 정보 전체 조회',
     description: '모든 대회 정보를 조회한다.',
   })
-  @ApiResponse({ type: CompetitionResponseDto })
+  @ApiResponse({ type: CompetitionSimpleResponseDto })
   findAll() {
     return this.competitionService.findAll();
   }

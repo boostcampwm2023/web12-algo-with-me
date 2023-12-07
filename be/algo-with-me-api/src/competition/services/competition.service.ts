@@ -62,9 +62,20 @@ export class CompetitionService {
 
   async findAll() {
     const competitionList = await this.competitionRepository.find();
-    return competitionList.map((competition) => {
-      return CompetitionSimpleResponseDto.from(competition);
-    });
+    const competitionSimpleResponseDtos: CompetitionSimpleResponseDto[] = [];
+    for (const competition of competitionList) {
+      // 대회별 참가자 rows를 조회해야 함. 응답 속도가 늦어진다면 참가자 수를 저장하는 column 추가 필요
+      const joinedUsers: CompetitionParticipant[] =
+        await this.competitionParticipantRepository.find({
+          where: {
+            competitionId: competition.id,
+          },
+        });
+      competitionSimpleResponseDtos.push(
+        CompetitionSimpleResponseDto.from(competition, joinedUsers.length),
+      );
+    }
+    return competitionSimpleResponseDtos;
   }
 
   async findOne(competitionId: number) {

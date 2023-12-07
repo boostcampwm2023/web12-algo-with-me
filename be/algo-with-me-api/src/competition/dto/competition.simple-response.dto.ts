@@ -9,6 +9,7 @@ export class CompetitionSimpleResponseDto {
     name: string,
     detail: string,
     maxParticipants: number,
+    participants: number,
     startsAt: string,
     endsAt: string,
     createdAt: string,
@@ -18,6 +19,7 @@ export class CompetitionSimpleResponseDto {
     this.name = name;
     this.detail = detail;
     this.maxParticipants = maxParticipants;
+    this.participants = participants;
     this.startsAt = startsAt;
     this.endsAt = endsAt;
     this.createdAt = createdAt;
@@ -40,6 +42,9 @@ export class CompetitionSimpleResponseDto {
   @IsNotEmpty()
   maxParticipants: number;
 
+  @ApiProperty({ description: '대회 참여중인 인원' })
+  participants: number;
+
   @ApiProperty({ description: '대회 시작 일시 (ISO string)' })
   @IsNotEmpty()
   startsAt: string;
@@ -56,12 +61,13 @@ export class CompetitionSimpleResponseDto {
   @IsNotEmpty()
   updatedAt: string;
 
-  static from(competition: Competition) {
+  static from(competition: Competition, participants: number) {
     return new CompetitionSimpleResponseDto(
       competition.id,
       competition.name,
       competition.detail,
       competition.maxParticipants,
+      participants,
       competition.startsAt.toISOString(),
       competition.endsAt.toISOString(),
       competition.createdAt.toISOString(),
