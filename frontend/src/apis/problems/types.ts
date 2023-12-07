@@ -6,6 +6,25 @@ export type ProblemInfo = {
   id: ProblemId;
   title: string;
 };
+interface TestcaseBaseDictionary {
+  name: string;
+  type: string;
+}
+
+type ValueType = 'string' | 'number' | 'boolean';
+
+type InputType = ValueType | ValueType[] | ValueType[][];
+
+interface TestcaseDataDictionary {
+  input: InputType[];
+  output: ValueType;
+}
+
+export interface Testcase {
+  data: TestcaseDataDictionary[];
+  input: TestcaseBaseDictionary[];
+  output: TestcaseBaseDictionary;
+}
 
 export type CompetitionProblem = {
   id: ProblemId;

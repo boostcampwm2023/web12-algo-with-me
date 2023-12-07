@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { CompetitionProblem, ProblemId } from '@/apis/problems';
+import type { CompetitionProblem, ProblemId, Testcase } from '@/apis/problems';
 import { fetchCompetitionProblem } from '@/apis/problems';
 import { isNil } from '@/utils/type';
 
@@ -28,12 +28,16 @@ export const useCompetitionProblem = (problemId: ProblemId) => {
       return;
     }
 
-    /**
-     * 서버에서 실제 테스트케이스를 받기 전 임시로 저장한 입력
-     */
+    const { data } = problem.testcases as unknown as Testcase;
+
     setProblem({
       ...problem,
-      testcases: [{ id: 1, input: '1,2', expected: '3', changable: false }],
+      testcases: data.map(({ input, output }, index) => ({
+        id: index + 1,
+        input: input.map((el) => JSON.stringify(el)).join(','),
+        expected: JSON.stringify(output),
+        changable: false,
+      })),
     });
   }
 
