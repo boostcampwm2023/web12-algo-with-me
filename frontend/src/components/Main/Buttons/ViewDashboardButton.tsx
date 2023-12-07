@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function ViewDashboardButton({ competitionId }: Props) {
-  const dashboardLink = `/contest/dashboard/${competitionId}`;
+  const dashboardLink = `/competition/dashboard/${competitionId}`;
 
   return (
     <Link to={dashboardLink}>
