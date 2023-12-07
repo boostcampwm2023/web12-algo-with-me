@@ -46,7 +46,7 @@ export default function CompetitionPage() {
   const problemIds = problemList.map((problem) => problem.id);
 
   function handleTimeout() {
-    navigate('/');
+    navigate(`/competition/detail/${competitionId}`);
   }
 
   const { competition } = useCompetition(competitionId);
