@@ -11,6 +11,6 @@ COPY --chown=be:be ./ ./
 
 RUN pnpm install
 
-EXPOSE 4000
+EXPOSE 4000-4999
 
 CMD ["pnpm", "run", "start:dev"]
