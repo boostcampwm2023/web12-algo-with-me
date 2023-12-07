@@ -2,9 +2,9 @@
 
 <img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
 
-### 데모
+### 서비스 바로가기
 
-[⭐️지금 당장 써보기⭐️](https://www.algo-with-me.site)
+[![알고윗미 이동](./algowithme_go.png)](https://www.algo-with-me.site)
 
 ### 우리는 이런 걸 할 거예요
 - 모두가 참여하고 만들 수 있는 알고리즘 대회 서비스를 만들려고 해요
@@ -67,7 +67,10 @@
 > 발표자는 팀원들로 구성되지만, 다른 캠퍼들도 자유롭게 듣고 질문할 수 있도록 외부적으로 공개하였습니다.
 > 2023/11/08 첫 세미나를 시작으로 5회 진행되었으며, **부스트캠프가 끝나고도 이어갈 예정입니다.**
 
-[미니 개발 세미나 링크](https://glacier-aura-f95.notion.site/6d5e29ae5be3417eb3e963e434b8ec0e?v=9b187ad6575f4eb28de3aa5ee78d6076&pvs=4)
+[미니 개발 세미나 링크 <-- 바로가기](https://glacier-aura-f95.notion.site/6d5e29ae5be3417eb3e963e434b8ec0e?v=9b187ad6575f4eb28de3aa5ee78d6076&pvs=4)
+
+![미니 개발 세미나 5회](./mini_develop_semina.jpg)
+
 
 ## 팀원 소개
 
