@@ -146,6 +146,7 @@ const inputContainerStyle = css({
   borderRadius: '0.5rem',
   marginBottom: '2.25rem',
   height: '30rem',
+  overflow: 'auto',
 });
 
 export { type InputChangeProps };
