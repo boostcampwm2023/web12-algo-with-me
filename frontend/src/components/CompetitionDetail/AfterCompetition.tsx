@@ -3,11 +3,11 @@ import { css, cx } from '@style/css';
 import { HTMLAttributes } from 'react';
 
 import { CompetitionInfo } from '@/apis/competitions';
+import { Card } from '@/components/Common';
 import { formatDate } from '@/utils/date';
 
 import { Chip, Space, Text, VStack } from '../Common';
 import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
-import { Card } from './Card';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
 import ProblemList from './ProblemList';
