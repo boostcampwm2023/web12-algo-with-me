@@ -8,7 +8,7 @@ import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import DashboardModal from '@/components/Dashboard/DashboardModal';
-import { PageLayout } from '@/components/Layout/PageLayout';
+import { CompetitionPageLayout } from '@/components/Layout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import { ProblemSolveContainer } from '@/components/Problem/ProblemSolveContainer';
 import SocketTimer from '@/components/SocketTimer';
@@ -54,7 +54,7 @@ export default function CompetitionPage() {
   const crumbs = [SITE.NAME, competition.name ?? ''];
 
   return (
-    <PageLayout className={style}>
+    <CompetitionPageLayout className={style}>
       <SocketProvider
         transports={['websocket']}
         query={{ competitionId: String(competitionId) }}
@@ -93,7 +93,7 @@ export default function CompetitionPage() {
         />
         <UserValidator />
       </SocketProvider>
-    </PageLayout>
+    </CompetitionPageLayout>
   );
 }
 
