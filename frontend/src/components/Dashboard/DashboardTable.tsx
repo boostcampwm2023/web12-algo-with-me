@@ -54,7 +54,7 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
       </thead>
       <tbody>
         {!isNil(myRank) && (
-          <tr>
+          <tr className={css({ borderColor: 'brand' })}>
             <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {myRank.rank}
