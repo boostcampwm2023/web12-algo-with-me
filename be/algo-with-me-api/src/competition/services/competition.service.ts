@@ -290,6 +290,8 @@ export class CompetitionService {
     const result = {
       testcaseId: scoreResultDto.testcaseId,
       result: scoreResultDto.result,
+      timeUsage: scoreResultDto.timeUsage,
+      memoryUsage: scoreResultDto.memoryUsage,
     };
 
     submission.detail.push(result);
@@ -323,6 +325,7 @@ export class CompetitionService {
     }
     result['problemId'] = submission.problemId;
     result['stdout'] = scoreResultDto.stdout;
+    result['stderr'] = scoreResultDto.stderr;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
 
