@@ -82,7 +82,7 @@ export default function CompetitionTable() {
         {competitions.map((competition) => (
           <tr className={tableRowStyle} key={competition.id}>
             <td className={nameTdStyle}>
-              <Link className={nameTdTextStyle} to={`/competition/dashboard/${competition.id}`}>
+              <Link className={nameTdTextStyle} to={`/competition/detail/${competition.id}`}>
                 {competition.name}
               </Link>
             </td>
@@ -107,7 +107,7 @@ export default function CompetitionTable() {
             </td>
 
             <td className={dashboardTdStyle}>
-              <Link to={`/competition/${competition.id}`}>Link</Link>
+              <Link to={`/competition/dashboard/${competition.id}`}>Link</Link>
             </td>
           </tr>
         ))}
