@@ -44,9 +44,16 @@ export async function joinCompetition(data: CompetitionApiData) {
   }
 }
 
-export async function fetchIsJoinableCompetition(competitionId: CompetitionId): Promise<boolean> {
+export async function fetchIsJoinableCompetition(
+  competitionId: CompetitionId,
+  token: string,
+): Promise<boolean> {
   try {
-    const { data } = await api.get(`/competitions/validation/${competitionId}`);
+    const { data } = await api.get(`/competitions/validation/${competitionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data.isJoinable;
   } catch (err) {
