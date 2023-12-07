@@ -1,6 +1,6 @@
 import { cva, cx } from '@style/css';
 
-import type { HTMLAttributes, MouseEvent } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactElement } from 'react';
 
 import { isNil } from '@/utils/type';
 
@@ -10,6 +10,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   theme?: Theme;
   selected?: boolean;
   disabled?: boolean;
+  leading?: ReactElement;
 }
 
 export function Button({
@@ -17,6 +18,7 @@ export function Button({
   children,
   theme = 'none',
   onClick,
+  leading,
   selected = false,
   disabled = false,
   ...props
@@ -28,13 +30,20 @@ export function Button({
     onClick(evt);
   };
 
+  const hasLeading = !isNil(leading);
+
   return (
     <button
-      className={cx(className, style({ disabled }), themeStyle({ theme, selected, disabled }))}
+      className={cx(
+        className,
+        style({ disabled, hasLeading }),
+        themeStyle({ theme, selected, disabled }),
+      )}
       type="button"
       onClick={isNil(onClick) ? undefined : handleClick}
       {...props}
     >
+      {leading}
       {children}
     </button>
   );
@@ -43,6 +52,7 @@ export function Button({
 const style = cva({
   base: {
     display: 'flex',
+    gap: '0.25rem',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '0.5rem',
@@ -56,6 +66,11 @@ const style = cva({
     disabled: {
       true: {
         cursor: 'not-allowed',
+      },
+    },
+    hasLeading: {
+      true: {
+        paddingLeft: '0.5rem',
       },
     },
   },
