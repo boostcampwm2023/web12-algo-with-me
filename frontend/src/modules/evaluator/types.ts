@@ -12,6 +12,7 @@ export type EvalResult = {
     stack: string;
   };
   result: unknown;
+  logs: string[];
 };
 
 export type TaskEndMessage = EvalResult & { task: EvalMessage | null };

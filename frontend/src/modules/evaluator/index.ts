@@ -32,7 +32,7 @@ function cancelEvaluation() {
 }
 
 function subscribe(listener: Listener<TaskEndMessage>) {
-  taskEndNotifier.subscribe(listener);
+  return taskEndNotifier.subscribe(listener);
 }
 
 export default {
