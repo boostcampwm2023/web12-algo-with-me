@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
 import { Chip, Link, Text } from '@/components/Common';
+import { formatDate } from '@/utils/date';
 import secToTime from '@/utils/secToTime';
 
 interface Competition {
@@ -88,12 +89,12 @@ export default function CompetitionTable() {
             </td>
             <td>
               <Text className={timeTextStyle} type="body" size="md">
-                {new Date(competition.startsAt).toLocaleString()}
+                {formatDate(new Date(competition.startsAt), 'YYYY. MM. DD. hh:mm')}
               </Text>
             </td>
             <td>
               <Text className={timeTextStyle} type="body" size="md">
-                {new Date(competition.endsAt).toLocaleString()}
+                {formatDate(new Date(competition.endsAt), 'YYYY. MM. DD. hh:mm')}
               </Text>
             </td>
             <td className={stateTdStyle}>
