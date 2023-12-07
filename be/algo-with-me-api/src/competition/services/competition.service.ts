@@ -223,22 +223,26 @@ export class CompetitionService {
     );
   }
 
-  async joinCompetition(competitionId: number, email: string) {
+  async joinCompetition(competitionId: number, user: User) {
     const competition: Competition = await this.competitionRepository.findOneBy({
       id: competitionId,
     });
     this.assertCompetitionExists(competition);
-    const user: User = await this.userRepository.findOneBy({ email: email });
-    if (!user) throw new NotFoundException('찾을 수 없는 유저입니다.');
 
-    const isAlreadyJoined: CompetitionParticipant[] =
-      await this.competitionParticipantRepository.find({
-        where: {
-          competitionId: competition.id,
-          userId: user.id,
-        },
-      });
-    if (isAlreadyJoined.length !== 0) throw new BadRequestException('이미 참여중인 유저입니다.');
+    const joinedUsers: CompetitionParticipant[] = await this.competitionParticipantRepository.find({
+      where: {
+        competitionId: competition.id,
+      },
+    });
+
+    for (const joinedUser of joinedUsers) {
+      if (joinedUser.userId === user.id) throw new BadRequestException('이미 참여중인 유저입니다.');
+    }
+
+    if (joinedUsers.length >= competition.maxParticipants) {
+      throw new BadRequestException('해당 대회는 정원이 가득 찼습니다.');
+    }
+
     this.competitionParticipantRepository.save({ competition: competition, user: user });
   }
 
