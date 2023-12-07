@@ -184,6 +184,7 @@ export function ProblemSolveContainer({
         </Button>
       </VStack>
       <SimulationInputModal
+        className={simulationModalStyle}
         simulationInputs={simulation.inputs}
         onSave={handleSaveSimulationInputs}
       ></SimulationInputModal>
@@ -239,4 +240,8 @@ const tabStyle = cva({
 
 const submissionButtonStyle = css({
   paddingX: '2rem',
+});
+
+const simulationModalStyle = css({
+  width: '1000px',
 });
