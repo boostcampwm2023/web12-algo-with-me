@@ -1,38 +1,36 @@
+import { HTMLAttributes } from 'react';
+
 import { CompetitionInfo } from '@/apis/competitions';
 import AfterCompetition from '@/components/CompetitionDetail/AfterCompetition';
 import BeforeCompetition from '@/components/CompetitionDetail/BeforeCompetition';
 import DuringCompetition from '@/components/CompetitionDetail/DuringCompetition';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   competitionId: number;
   competition: CompetitionInfo;
-  startsAt: Date;
-  endsAt: Date;
-  competitionSchedule: string;
 }
 
 export function CompetitionDetailContent({
   competitionId,
   competition,
-  startsAt,
-  endsAt,
-  competitionSchedule,
+  className,
+  ...props
 }: Props) {
   const currentDate = new Date();
+  const startsAt = new Date(competition.startsAt || '');
+  const endsAt = new Date(competition.endsAt || '');
 
   if (currentDate < startsAt) {
     return (
-      <BeforeCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
+      <BeforeCompetition className={className} {...{ competitionId, competition }} {...props} />
     );
-  } else if (currentDate < endsAt) {
-    return (
-      <DuringCompetition
-        {...{ competitionId, competition, startsAt, endsAt, competitionSchedule }}
-      />
-    );
-  } else {
-    return <AfterCompetition {...{ competitionId, competition, competitionSchedule }} />;
   }
+
+  if (currentDate < endsAt) {
+    return (
+      <DuringCompetition className={className} {...{ competitionId, competition }} {...props} />
+    );
+  }
+
+  return <AfterCompetition className={className} {...{ competitionId, competition }} {...props} />;
 }

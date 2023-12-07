@@ -10,7 +10,7 @@ interface Props extends TextProps {
 
 export function Chip({ className, children, theme = 'info', ...props }: Props) {
   return (
-    <Text.Label size="sm" className={cx(className, style, themeStyle({ theme }))} {...props}>
+    <Text.Label size="sm" className={cx(themeStyle({ theme }), className, style)} {...props}>
       {children}
     </Text.Label>
   );
@@ -18,28 +18,30 @@ export function Chip({ className, children, theme = 'info', ...props }: Props) {
 
 const style = css({
   borderRadius: '9999px',
-  border: '1px solid',
   paddingX: '1rem',
   paddingY: '0.25rem',
 });
 
 const themeStyle = cva({
+  base: {
+    border: '1px solid',
+  },
   variants: {
     theme: {
       success: {
-        borderColor: 'alert.success',
+        borderColor: 'alert.success !important',
         background: 'alert.success.dark',
       },
       warning: {
-        borderColor: 'alert.warning',
+        borderColor: 'alert.warning !important',
         background: 'alert.warning.dark',
       },
       danger: {
-        borderColor: 'alert.danger',
+        borderColor: 'alert.danger !important',
         background: 'alert.danger.dark',
       },
       info: {
-        borderColor: 'alert.info',
+        borderColor: 'alert.info !important',
         background: 'alert.info.dark',
       },
     },
