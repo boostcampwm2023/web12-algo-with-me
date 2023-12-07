@@ -129,6 +129,7 @@ export class CompetitionService {
       queryRunner.manager.save(competitionProblems);
       await queryRunner.commitTransaction();
       await queryRunner.release();
+      return CompetitionResponseDto.from(savedCompetition, user.email, []);
     } catch (error) {
       await queryRunner.rollbackTransaction();
       await queryRunner.release();
