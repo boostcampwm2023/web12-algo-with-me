@@ -5,7 +5,15 @@ import { HTMLAttributes } from 'react';
 import { type Theme } from '../types';
 import icons from '/icons.svg?url';
 
-type IconName = 'chevron-right' | 'check-round' | 'cancel-round' | 'spinner' | 'cancel';
+const ICON_NAMES = [
+  'chevron-right',
+  'check-round',
+  'cancel-round',
+  'spinner',
+  'cancel',
+  'minus',
+] as const;
+type IconName = (typeof ICON_NAMES)[number];
 
 interface Props extends HTMLAttributes<HTMLSpanElement> {
   size?: number;
@@ -47,6 +55,7 @@ Icon.CancelRound = ({ ...props }: Omit<Props, 'name'>) => (
 );
 Icon.Spinner = ({ ...props }: Omit<Props, 'name'>) => <Icon name="spinner" {...props}></Icon>;
 Icon.Cancel = ({ ...props }: Omit<Props, 'name'>) => <Icon name="cancel" {...props}></Icon>;
+Icon.Minus = ({ ...props }: Omit<Props, 'name'>) => <Icon name="minus" {...props}></Icon>;
 
 const style = css({
   display: 'inline-block',
