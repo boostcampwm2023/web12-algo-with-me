@@ -22,4 +22,13 @@ export class ScoreResultDto {
 
   @ApiProperty()
   stdout: string;
+
+  @ApiProperty()
+  stderr: string;
+
+  @ApiProperty({ description: 'ms' })
+  timeUsage: number;
+
+  @ApiProperty({ description: 'KB' })
+  memoryUsage: number;
 }
