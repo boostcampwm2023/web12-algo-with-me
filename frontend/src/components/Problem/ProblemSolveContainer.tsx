@@ -28,6 +28,9 @@ interface Props extends HStackProps {
   problem: CompetitionProblem;
 }
 
+const SIMULATION_TAP = 0;
+const SUBMISSION_TAP = 1;
+
 const simulationInputCache: Record<`${CompetitionId}|${number}`, SimulationInput[]> = {};
 
 export function ProblemSolveContainer({
@@ -60,7 +63,7 @@ export function ProblemSolveContainer({
   };
 
   const handleSimulate = () => {
-    setCurrentTab(0);
+    setCurrentTab(SIMULATION_TAP);
     simulation.run(code);
   };
 
@@ -98,7 +101,7 @@ export function ProblemSolveContainer({
       return;
     }
 
-    setCurrentTab(1);
+    setCurrentTab(SUBMISSION_TAP);
     submission.submit(form);
   }
 
@@ -157,11 +160,11 @@ export function ProblemSolveContainer({
               })}
             >
               <SimulationResultList
-                className={tabStyle({ visible: currentTab === 0 })}
+                className={tabStyle({ visible: currentTab === SIMULATION_TAP })}
                 resultList={simulation.results}
               ></SimulationResultList>
               <SubmissionResult
-                className={tabStyle({ visible: currentTab === 1 })}
+                className={tabStyle({ visible: currentTab === SUBMISSION_TAP })}
                 submitResults={submission.scoreResults}
               ></SubmissionResult>
             </div>
