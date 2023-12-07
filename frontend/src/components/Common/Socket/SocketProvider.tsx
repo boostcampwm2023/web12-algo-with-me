@@ -51,7 +51,6 @@ export function SocketProvider({
     if (!socket.current) return;
     return () => {
       disconnect(`/${namespace}`);
-      socket.current.disconnect();
     };
   }, [socket]);
 
