@@ -46,7 +46,7 @@ export default function CompetitionPage() {
   const problemIds = problemList.map((problem) => problem.id);
 
   function handleTimeout() {
-    navigate(`${ROUTE.DASHBOARD}/${competitionId}`);
+    navigate('/');
   }
 
   const { competition } = useCompetition(competitionId);
