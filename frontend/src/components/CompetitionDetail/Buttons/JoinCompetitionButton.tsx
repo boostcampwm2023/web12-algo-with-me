@@ -24,7 +24,7 @@ export default function JoinCompetitionButton(props: { id: number }) {
     const result = await joinCompetition(competitionData);
     alert(result);
     console.log('test');
-    navigate('/', { replace: true });
+    navigate(`/contest/detail/${props.id}`, { replace: true });
   };
   const competitionData: CompetitionApiData = {
     id: props.id,
