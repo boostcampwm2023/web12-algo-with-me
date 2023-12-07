@@ -1,11 +1,12 @@
-import { css, cx } from '@style/css';
+import { css } from '@style/css';
 
 import { useContext, useEffect, useState } from 'react';
 
+import type { ModalProps } from '@/components/Common';
+import { Button, Modal, Text, VStack } from '@/components/Common';
 import type { SimulationInput } from '@/hooks/simulation';
 import { deepCopy } from '@/utils/copy';
 
-import { Button, Modal, type ModalProps } from '../Common';
 import { SimulationInputList } from './SimulationInputList';
 
 interface Props extends ModalProps {
@@ -98,49 +99,53 @@ export function SimulationInputModal({ simulationInputs, onSave, ...props }: Pro
 
   return (
     <Modal {...props}>
-      <div className={cx(rowStyle, paddingStyle)}>
-        <header>테스트 케이스 추가</header>
-        <Button onClick={handleCloseModal}>x</Button>
-      </div>
-      <div className={cx(ListWrapperStyle, rowStyle)}>
-        <section>
-          <div className={rowStyle}>
-            <div>Parameters</div>
-            <Button onClick={handleClickAddButton}>+ 추가</Button>
-          </div>
-          <SimulationInputList
-            inputList={inputs}
-            onChangeInput={handleChangeInput}
-            onDeleteInput={handleDeleteInput}
-          ></SimulationInputList>
-        </section>
-      </div>
-      <div className={positionEndStyle}>
-        <Button onClick={handleSave}>확인</Button>
-      </div>
+      <h3>
+        <Text.Title size="lg" bold>
+          테스트 케이스 추가
+        </Text.Title>
+      </h3>
+      <VStack className={addTestcaseStyle}>
+        <Button theme="none" onClick={handleClickAddButton}>
+          테스트 케이스 추가
+        </Button>
+      </VStack>
+      <section className={inputContainerStyle}>
+        <SimulationInputList
+          inputList={inputs}
+          onChangeInput={handleChangeInput}
+          onDeleteInput={handleDeleteInput}
+        ></SimulationInputList>
+      </section>
+      <VStack className={positionEndStyle}>
+        <Button onClick={handleCloseModal}>닫기</Button>
+        <Button theme="brand" onClick={handleSave}>
+          확인
+        </Button>
+      </VStack>
     </Modal>
   );
 }
 
-const ListWrapperStyle = css({
-  border: '1px solid silver',
-  padding: '1rem',
-  margin: '1rem',
-});
-
-const rowStyle = css({
-  display: 'flex',
-  justifyContent: 'space-between',
+const addTestcaseStyle = css({
+  justifyContent: 'flex-end',
   alignItems: 'center',
-});
-
-const paddingStyle = css({
-  padding: '4px',
+  marginBottom: '1rem',
 });
 
 const positionEndStyle = css({
   display: 'flex',
-  flexDirection: 'row-reverse',
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  placeItems: 'center',
+  gap: '1rem',
+});
+
+const inputContainerStyle = css({
+  background: 'surface',
+  padding: '1rem',
+  borderRadius: '0.5rem',
+  marginBottom: '2.25rem',
+  height: '30rem',
 });
 
 export { type InputChangeProps };
