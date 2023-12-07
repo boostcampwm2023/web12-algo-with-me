@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: '/contest/:id',
+        path: '/competition/:id',
         element: <CompetitionPage />,
       },
       {
@@ -28,16 +28,16 @@ const router = createBrowserRouter([
         element: <ProblemPage />,
       },
       {
-        path: '/contest/create',
+        path: '/competition/create',
         element: <CreateCompetitionPage />,
       },
       { path: '/login', element: <LoginPage /> },
       {
-        path: '/contest/detail/:id',
+        path: '/competition/detail/:id',
         element: <CompetitionDetailPage />,
       },
       {
-        path: '/contest/dashboard/:id',
+        path: '/competition/dashboard/:id',
         element: <DashboardPage />,
       },
     ],

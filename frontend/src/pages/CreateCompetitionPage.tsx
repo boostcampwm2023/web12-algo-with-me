@@ -62,7 +62,7 @@ export default function CompetitionCreatePage() {
       return;
     }
 
-    const TO_DETAIL_PAGE = `/contest/detail/${competition.id}`;
+    const TO_DETAIL_PAGE = `/competition/detail/${competition.id}`;
     navigate(TO_DETAIL_PAGE);
   }
 

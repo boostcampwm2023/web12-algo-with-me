@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function EnterCompetitionButton({ id, startsAt, endsAt }: Props) {
-  const competitionLink = `/contest/${id}`;
+  const competitionLink = `/competition/${id}`;
   const { isLoggedin } = useAuth();
   const navigate = useNavigate();
 

@@ -4,5 +4,5 @@ export const SITE = {
 };
 
 export const ROUTE = {
-  DASHBOARD: '/contest/dashboard',
+  DASHBOARD: '/competition/dashboard',
 };
