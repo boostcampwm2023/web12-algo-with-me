@@ -39,8 +39,9 @@ export default function EnterCompetitionButton({ id, startsAt, endsAt }: Props) 
       return;
     }
 
-    const isJoinable = await fetchIsJoinableCompetition(id);
+    const accessToken = localStorage.getItem('accessToken') ?? '';
 
+    const isJoinable = await fetchIsJoinableCompetition(id, accessToken);
     if (!isJoinable) {
       alert('대회에 참여할 수 없습니다.\n다음부터는 늦지 않게 대회 신청을 해주세요 :)');
       return;
