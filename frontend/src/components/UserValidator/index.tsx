@@ -9,6 +9,7 @@ export function UserValidator() {
   const navigate = useNavigate();
 
   const handleMessage = useCallback(() => {
+    alert('유효하지 않은 접근입니다.');
     navigate('/');
   }, []);
 
