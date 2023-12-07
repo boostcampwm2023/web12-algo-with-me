@@ -23,7 +23,6 @@ export async function evaluate(code: string, params: string) {
 const addConsole = (vm: QuickJSContext, logs: string[]) => {
   const logHandle = vm.newFunction('log', (...args) => {
     const nativeArgs = args.map(vm.dump);
-    // 여기서 결과를 모아서 반환해야함
     logs.push(nativeArgs.toString());
   });
   const consoleHandle = vm.newObject();
