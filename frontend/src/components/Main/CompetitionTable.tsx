@@ -14,8 +14,6 @@ interface Competition {
   maxParticipants: number;
 }
 
-const getCompetitionDetailURL = (competitionId: number) => `/contest/detail/${competitionId}`;
-
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
   const startDate = new Date(startsAt);
@@ -84,7 +82,7 @@ export default function CompetitionTable() {
         {competitions.map((competition) => (
           <tr className={tableRowStyle} key={competition.id}>
             <td className={nameTdStyle}>
-              <Link className={nameTdTextStyle} to={getCompetitionDetailURL(competition.id)}>
+              <Link className={nameTdTextStyle} to={`/competition/dashboard/${competition.id}`}>
                 {competition.name}
               </Link>
             </td>
@@ -109,7 +107,7 @@ export default function CompetitionTable() {
             </td>
 
             <td className={dashboardTdStyle}>
-              <Link to={`/contest/${competition.id}`}>Link</Link>
+              <Link to={`/competition/${competition.id}`}>Link</Link>
             </td>
           </tr>
         ))}
