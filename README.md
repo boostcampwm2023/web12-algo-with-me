@@ -69,7 +69,7 @@
 
 [미니 개발 세미나 링크 <-- 바로가기](https://glacier-aura-f95.notion.site/6d5e29ae5be3417eb3e963e434b8ec0e?v=9b187ad6575f4eb28de3aa5ee78d6076&pvs=4)
 
-![미니 개발 세미나 5회](./mini_develop_semina.jpg)
+![미니 개발 세미나 5회](./semina.jpg)
 
 
 ## 팀원 소개
