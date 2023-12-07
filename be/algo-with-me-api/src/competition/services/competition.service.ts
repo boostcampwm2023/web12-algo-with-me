@@ -61,8 +61,13 @@ export class CompetitionService {
   ) {}
 
   async findAll() {
-    const competitionList = await this.competitionRepository.find();
-    const competitionSimpleResponseDtos: CompetitionSimpleResponseDto[] = [];
+    const competitionList = await this.competitionRepository.find({
+      order: {
+        startsAt: 'DESC',
+      },
+    });
+    const competitionSimpleProgressResponseDtos: CompetitionSimpleResponseDto[] = [];
+    const competitionSimpleNotProgressResponseDtos: CompetitionSimpleResponseDto[] = [];
     for (const competition of competitionList) {
       // 대회별 참가자 rows를 조회해야 함. 응답 속도가 늦어진다면 참가자 수를 저장하는 column 추가 필요
       const joinedUsers: CompetitionParticipant[] =
@@ -71,11 +76,27 @@ export class CompetitionService {
             competitionId: competition.id,
           },
         });
-      competitionSimpleResponseDtos.push(
-        CompetitionSimpleResponseDto.from(competition, joinedUsers.length),
-      );
+      if (this.isInProgress(competition)) {
+        competitionSimpleProgressResponseDtos.push(
+          CompetitionSimpleResponseDto.from(competition, joinedUsers.length),
+        );
+      } else {
+        competitionSimpleNotProgressResponseDtos.push(
+          CompetitionSimpleResponseDto.from(competition, joinedUsers.length),
+        );
+      }
     }
-    return competitionSimpleResponseDtos;
+    return competitionSimpleProgressResponseDtos.concat(competitionSimpleNotProgressResponseDtos);
+  }
+
+  isInProgress(competition: Competition) {
+    const now: Date = new Date();
+    if (
+      now.getTime() - competition.startsAt.getTime() > 0 &&
+      competition.endsAt.getTime() - now.getTime() > 0
+    )
+      return true;
+    return false;
   }
 
   async findOne(competitionId: number) {
