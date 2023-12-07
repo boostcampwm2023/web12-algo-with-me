@@ -42,6 +42,9 @@ export function Button({
 
 const style = cva({
   base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: '0.5rem',
     padding: '0.6rem 1.2rem',
     cursor: 'pointer',

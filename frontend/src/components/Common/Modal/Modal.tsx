@@ -11,7 +11,7 @@ export interface Props extends HTMLAttributes<HTMLDialogElement> {
   onBackdropPressed?: () => void;
 }
 
-export function Modal({ onBackdropPressed, children, ...props }: Props) {
+export function Modal({ onBackdropPressed, children, className, ...props }: Props) {
   const modal = useContext(ModalContext);
   const $dialog = useRef<HTMLDialogElement>(null);
 
@@ -36,7 +36,7 @@ export function Modal({ onBackdropPressed, children, ...props }: Props) {
   return ReactDOM.createPortal(
     <dialog
       ref={$dialog}
-      className={cx(style, dialogStyle)}
+      className={cx(className, style, dialogStyle)}
       aria-modal="true"
       aria-labelledby="dialog-title"
       onClick={handleClickBackdrop}
@@ -53,6 +53,9 @@ Modal.Provider = ModalProvider;
 
 const style = css({
   borderRadius: '0.5rem',
+  padding: '2rem',
+  background: 'background',
+  color: 'text',
 });
 
 const dialogStyle = css({
@@ -60,11 +63,9 @@ const dialogStyle = css({
   left: '50%',
   top: '50%',
   transform: 'translate(-50%,-50%)',
-  width: '600px',
-  height: '400px',
   _backdrop: {
-    background: 'rgba(00,00,00,0.5)',
-    backdropFilter: 'blur(1rem)',
+    background: 'rgba(00,00,00,0.2)',
+    backdropFilter: 'blur(0.1rem)',
   },
 });
 

@@ -40,8 +40,20 @@ Input.TextField = forwardRef(
 );
 
 const inputStyle = css({
-  border: '1px solid black',
+  border: '1px solid',
+  borderColor: 'border',
   width: '20rem',
+  borderRadius: '0.5rem',
+  padding: '0.5rem 0.75rem',
+  background: 'surface.alt',
+  _disabled: {
+    opacity: 0.5,
+    pointerEvents: 'none',
+  },
+  _focus: {
+    outline: '2px solid',
+    outlineColor: 'brand',
+  },
 });
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
