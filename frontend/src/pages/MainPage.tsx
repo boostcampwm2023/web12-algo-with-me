@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { HStack, Text, VStack, Logo } from '@/components/Common';
+import { HStack, Logo, Text, VStack } from '@/components/Common';
 import Header from '@/components/Header';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
 import CompetitionTable from '@/components/Main/CompetitionTable';
