@@ -19,7 +19,7 @@ services:
   algo-with-me-score-0:
     image: algo-with-me-score
     ports:
-      - 4000
+      - 4000:4000
     volumes:
       - /home/be/algo-with-me/problems/:/algo-with-me/problems/
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
@@ -38,7 +38,7 @@ services:
   algo-with-me-score-1:
     image: algo-with-me-score
     ports:
-      - 4001
+      - 4001:4001
     volumes:
       - /home/be/algo-with-me/problems/:/algo-with-me/problems/
       - /home/be/algo-with-me/submissions/:/algo-with-me/submissions/
