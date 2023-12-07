@@ -22,18 +22,30 @@ export function SimulationResultList({ resultList = [], className, ...props }: P
 }
 
 function SimulationResult({ result }: { result: SimulationResult }) {
+  const isRight = String(result.output) === String(result.expected);
+
   return (
-    <>
-      <VStack className={resultContainerStyle}>
-        {result.isDone ? <Icon.CheckRound color="success" /> : <Icon.Spinner spin />}
-        <HStack className={resultDescriptionStyle}>
-          <p>입력: {result.input}</p>
-          <p>기댓값: {result.expected}</p>
-          <p>출력: {String(result.output)}</p>
-        </HStack>
-      </VStack>
-    </>
+    <VStack className={resultContainerStyle}>
+      <Status isDone={result.isDone} isRight={isRight}></Status>
+      <HStack className={resultDescriptionStyle}>
+        <p>입력: {result.input}</p>
+        <p>기댓값: {result.expected}</p>
+        <p>출력: {String(result.output)}</p>
+      </HStack>
+    </VStack>
   );
+}
+
+function Status({ isDone, isRight }: { isDone: boolean; isRight: boolean }) {
+  if (!isDone) {
+    return <Icon.Spinner spin />;
+  }
+
+  if (isRight) {
+    return <Icon.CheckRound color="success" />;
+  }
+
+  return <Icon.CancelRound color="danger" />;
 }
 
 const listStyle = css({
