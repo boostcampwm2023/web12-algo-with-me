@@ -13,7 +13,7 @@ import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import { ProblemSolveContainer } from '@/components/Problem/ProblemSolveContainer';
 import SocketTimer from '@/components/SocketTimer';
 import { UserValidator } from '@/components/UserValidator';
-import { ROUTE, SITE } from '@/constants';
+import { SITE } from '@/constants';
 import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
