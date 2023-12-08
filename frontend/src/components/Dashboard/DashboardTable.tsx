@@ -1,4 +1,4 @@
-import { css } from '@style/css';
+import { css, cva } from '@style/css';
 import { SystemStyleObject } from '@style/types';
 
 import { useParticipantDashboard } from '@/hooks/dashboard';
@@ -65,25 +65,21 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 {myRank.email}
               </Text>
             </td>
-            {problemCount.map((problemId) => (
-              <td
-                key={problemId}
-                className={
-                  isNil(myRank.problemDict[Number(problemId)])
-                    ? cellStyle
-                    : myRank.problemDict[Number(problemId)] === -1
-                    ? wrongProblemCellStyle
-                    : correctProblemCellStyle
-                }
-              >
-                <Text type="title" bold>
-                  {myRank.problemDict[Number(problemId)] === -1 ||
-                  isNil(myRank.problemDict[Number(problemId)])
-                    ? '-'
-                    : myRank.problemDict[Number(problemId)]}
-                </Text>
-              </td>
-            ))}
+            {Object.keys(myRank.problemDict).map((problemId) => {
+              const solvedValue = myRank.problemDict[Number(problemId)];
+              const solvedState = toSolvedState(solvedValue);
+
+              const style = problemCellStyle({
+                solvedState,
+              });
+              return (
+                <td key={problemId} className={style}>
+                  <Text type="title" bold>
+                    {toStateText(solvedState, solvedValue)}
+                  </Text>
+                </td>
+              );
+            })}
             <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {myRank.score}
@@ -103,25 +99,22 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
                 {rank.email}
               </Text>
             </td>
-            {problemCount.map((problemId) => (
-              <td
-                key={problemId}
-                className={
-                  isNil(rank.problemDict[Number(problemId)])
-                    ? cellStyle
-                    : rank.problemDict[Number(problemId)] === -1
-                    ? wrongProblemCellStyle
-                    : correctProblemCellStyle
-                }
-              >
-                <Text type="title" bold>
-                  {rank.problemDict[Number(problemId)] === -1 ||
-                  isNil(rank.problemDict[Number(problemId)])
-                    ? '-'
-                    : rank.problemDict[Number(problemId)]}
-                </Text>
-              </td>
-            ))}
+            {Object.keys(rank.problemDict).map((problemId) => {
+              console.log(rank.problemDict, Number(problemId));
+              const solvedValue = rank.problemDict[Number(problemId)];
+              const solvedState = toSolvedState(solvedValue);
+
+              const style = problemCellStyle({
+                solvedState,
+              });
+              return (
+                <td key={problemId} className={style}>
+                  <Text type="title" bold>
+                    {toStateText(solvedState, solvedValue)}
+                  </Text>
+                </td>
+              );
+            })}
             <td className={centeredCellStyle}>
               <Text type="title" bold>
                 {rank.score}
@@ -132,6 +125,24 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
       </tbody>
     </table>
   );
+}
+
+type ProblemValue = null | number;
+type ProblemState = 'none' | 'wrong' | 'success';
+function toSolvedState(problemValue: ProblemValue): ProblemState {
+  if (isNil(problemValue)) {
+    return 'none';
+  }
+  if (problemValue < 0) {
+    return 'wrong';
+  }
+  return 'success';
+}
+function toStateText(problemState: ProblemState, originValue: ProblemValue) {
+  if (problemState === 'none') return '-';
+  if (problemState === 'wrong') return '-';
+
+  return originValue;
 }
 
 const tableStyle = css({
@@ -185,12 +196,27 @@ const centeredCellStyle = css(defaultCellStyle, {
   textAlign: 'center',
 });
 
-const wrongProblemCellStyle = css(defaultCellStyle, {
-  background: 'rgba(226, 54, 54, 0.70)',
-});
-
-const correctProblemCellStyle = css(defaultCellStyle, {
-  background: 'rgba(130, 221, 85, 0.70)',
+const problemCellStyle = cva({
+  base: {
+    height: '64px',
+    padding: '12px',
+    border: '1px solid',
+    borderColor: 'border',
+    background: 'surface',
+  },
+  variants: {
+    solvedState: {
+      wrong: {
+        background: 'rgba(226, 54, 54, 0.70)',
+      },
+      success: {
+        background: 'rgba(130, 221, 85, 0.70)',
+      },
+      none: {
+        background: 'transparent',
+      },
+    },
+  },
 });
 
 const highlightRowStyle = css({
