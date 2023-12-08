@@ -303,6 +303,9 @@ export class CompetitionService {
   }
 
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
+    this.logger.debug(
+      `제출id:${scoreResultDto.submissionId}, 테케id:${scoreResultDto.testcaseId}, 소켓id:${scoreResultDto.socketId}, 결과:${scoreResultDto.result}, 소모시간(ms):${scoreResultDto.timeUsage}, 소모메모리(KB):${scoreResultDto.memoryUsage}`,
+    );
     let submission: Submission;
     const result = {
       testcaseId: scoreResultDto.testcaseId,
@@ -372,7 +375,7 @@ export class CompetitionService {
         RESULT[totalResult],
         competition.startsAt,
       );
-      
+
       this.server
         .to(scoreResultDto.socketId)
         .emit('problemResult', { message: RESULT[totalResult], problemId: submission.problemId });
