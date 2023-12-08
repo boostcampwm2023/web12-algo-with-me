@@ -13,8 +13,8 @@ export function PageLayout({ children, className, ...props }: Props) {
 }
 
 const style = css({
+  background: 'transparent',
   width: '100%',
   color: 'text',
-  background: 'background',
   paddingBottom: '300px',
 });
