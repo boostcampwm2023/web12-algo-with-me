@@ -2,7 +2,7 @@ import { css } from '@style/css';
 
 import { useContext, useEffect } from 'react';
 
-import Loading from '@/components/Common/Loading';
+import { Loading } from '@/components/Common';
 import useSocketTimer from '@/hooks/timer/useSocketTimer';
 import { formatMilliSecond } from '@/utils/date';
 
