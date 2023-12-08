@@ -24,13 +24,7 @@ export default function GoToCreateCompetitionLink() {
 }
 
 const buttonStyle = css({
-  display: 'flex',
   width: '120px',
-  padding: '12px 24px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
-  color: 'white',
 });
 
 const LinkTextStyle = css({
