@@ -128,6 +128,10 @@ export function ProblemSolveContainer({
     }
   };
 
+  function handleInitCode() {
+    setCode(problem.solutionCode);
+  }
+
   const [resultCount, setResultCount] = useState(-1);
   const [successCount, setSuccessCount] = useState(-1);
 
@@ -189,6 +193,7 @@ export function ProblemSolveContainer({
       <VStack as="footer" className={footerStyle}>
         <Button onClick={handleOpenModal}>테스트 케이스 추가하기</Button>
         <Space></Space>
+        <Button onClick={handleInitCode}>코드 초기화하기</Button>
         <SimulationExecButton
           isRunning={simulation.isRunning}
           onExec={handleSimulate}

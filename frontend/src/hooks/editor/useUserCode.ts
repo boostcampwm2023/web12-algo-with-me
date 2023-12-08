@@ -67,7 +67,6 @@ export function useUserCode({
       return;
     }
 
-    if (code === problem.solutionCode) return;
     origin[competitionKey][currentProblemIndex] = code;
 
     save(localStorageKey, origin);
