@@ -4,7 +4,7 @@ import type { HTMLAttributes, MouseEvent, ReactElement } from 'react';
 
 import { isNil } from '@/utils/type';
 
-type Theme = 'brand' | 'danger' | 'success' | 'warning' | 'none';
+type Theme = 'brand' | 'danger' | 'success' | 'warning' | 'transparent' | 'none';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   theme?: Theme;
@@ -100,10 +100,14 @@ const themeStyle = cva({
       warning: {
         background: 'alert.warning',
       },
+      transparent: {
+        background: 'transparent',
+      },
     },
     selected: {
       true: {
-        filter: 'brightness(1.2)',
+        outline: '2px solid',
+        outlineColor: 'brand',
       },
     },
     disabled: {
@@ -115,4 +119,13 @@ const themeStyle = cva({
       },
     },
   },
+  compoundVariants: [
+    {
+      selected: true,
+      theme: 'transparent',
+      css: {
+        background: 'surface',
+      },
+    },
+  ],
 });
