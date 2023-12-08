@@ -340,6 +340,10 @@ export class CompetitionService {
       throw error;
     }
 
+    result['problemId'] = submission.problemId;
+    result['stderr'] = scoreResultDto.stderr;
+    this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
+
     // 모두 제출했는지 확인
     const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
       submission.problemId,
@@ -368,10 +372,11 @@ export class CompetitionService {
         RESULT[totalResult],
         competition.startsAt,
       );
+      
+      this.server
+        .to(scoreResultDto.socketId)
+        .emit('problemResult', { message: RESULT[totalResult], problemId: submission.problemId });
     }
-    result['problemId'] = submission.problemId;
-    result['stderr'] = scoreResultDto.stderr;
-    this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
 
   async findCompetitionProblemList(competitionId: number) {
