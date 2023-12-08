@@ -72,7 +72,7 @@ export class DashboardService {
       return;
     }
 
-    const time: number = Math.ceil((new Date().getTime() - startsAt.getTime()) / (1000 * 60));
+    const time: number = Math.ceil((new Date().getTime() - startsAt.getTime()) / 1000);
     record[problemId] = time;
     await this.redis
       .multi()
