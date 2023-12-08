@@ -370,7 +370,6 @@ export class CompetitionService {
       );
     }
     result['problemId'] = submission.problemId;
-    result['stdout'] = scoreResultDto.stdout;
     result['stderr'] = scoreResultDto.stderr;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
