@@ -1,9 +1,11 @@
-import Login from '@/components/Login';
+import { css } from '@style/css';
+
+import { Button, HStack, Logo } from '@/components/Common';
+import { PageLayout } from '@/components/Layout';
 
 const GITHUB_AUTH_URL = import.meta.env.VITE_GITHUB_AUTH_URL;
 
 export default function LoginPage() {
-  // 넘겨주는 함수는 handle, 함수를 넘길 때의 프로펄티 네임은 on
   const handleLogin = () => {
     try {
       window.location.href = GITHUB_AUTH_URL;
@@ -13,5 +15,39 @@ export default function LoginPage() {
     }
   };
 
-  return <Login onClickLogin={handleLogin} />;
+  return (
+    <PageLayout className={style}>
+      <HStack as="section" className={loginWrapperStyle}>
+        <Logo size="220px" />
+        <header className={loginHeaderStyle}>Algo With Me</header>
+        <Button theme="brand" className={loginButtonStyle} onClick={handleLogin}>
+          Github으로 로그인
+        </Button>
+      </HStack>
+    </PageLayout>
+  );
 }
+
+const style = css({ position: 'relative' });
+
+const loginWrapperStyle = css({
+  position: 'absolute',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  top: '180px',
+  width: '900px',
+  margin: '0 auto',
+  height: '100%',
+  alignItems: 'center',
+});
+
+const loginHeaderStyle = css({
+  fontSize: '3rem',
+  fontWeight: 'bold',
+  textAlign: 'center',
+  padding: '1rem',
+});
+
+const loginButtonStyle = css({
+  width: '300px',
+});
