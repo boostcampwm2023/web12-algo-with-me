@@ -344,7 +344,6 @@ export class CompetitionService {
     }
 
     result['problemId'] = submission.problemId;
-    result['stderr'] = scoreResultDto.stderr;
     this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
 
     // 모두 제출했는지 확인
@@ -378,7 +377,10 @@ export class CompetitionService {
 
       this.server
         .to(scoreResultDto.socketId)
-        .emit('problemResult', { message: RESULT[totalResult], problemId: submission.problemId });
+        .emit('problemResult', {
+          result: totalResult === 'CORRECT' ? true : false,
+          problemId: submission.problemId,
+        });
     }
   }
 
