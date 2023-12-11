@@ -14,9 +14,10 @@ const FIVE_MIN_BY_MS = 5 * 60 * 1000;
 const VALIDATION_MESSAGE = {
   needLongName: '이름은 1글자 이상이어야합니다',
   needMoreParticipants: '최대 참여 인원은 1명 이상이어야 합니다',
-  tooEarlyStartTime: '대회 시작 시간은 현재보다 5분 늦은 시간부터 가능합니다',
+  tooEarlyStartTime: '대회 시작 시간은 현재보다 5분 이상 늦은 시간부터 가능합니다',
   tooEarlyEndTime: '대회 종료 시간은 대회 시작시간보다 늦게 끝나야합니다',
   needMoreProblems: '대회 문제는 1개 이상이어야합니다',
+  tooShortEndTime: '대회는 최소 5분 이상 진행되어야 합니다.',
 };
 
 export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
@@ -69,7 +70,7 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
         message: VALIDATION_MESSAGE.needMoreParticipants,
       };
     }
-    if (new Date(startsAt) <= new Date(Date.now() + FIVE_MIN_BY_MS)) {
+    if (new Date(startsAt) < new Date(Date.now() + FIVE_MIN_BY_MS)) {
       return {
         isValid: false,
         message: VALIDATION_MESSAGE.tooEarlyStartTime,
@@ -80,6 +81,13 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
       return {
         isValid: false,
         message: VALIDATION_MESSAGE.tooEarlyEndTime,
+      };
+    }
+
+    if (new Date(endsAt).getTime() - new Date(startsAt).getTime() < FIVE_MIN_BY_MS) {
+      return {
+        isValid: false,
+        message: VALIDATION_MESSAGE.tooShortEndTime,
       };
     }
 
