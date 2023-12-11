@@ -100,7 +100,6 @@ export default function DashboardTable({ useWebsocket, competitionId }: Props) {
               </Text>
             </td>
             {Object.keys(rank.problemDict).map((problemId) => {
-              console.log(rank.problemDict, Number(problemId));
               const solvedValue = rank.problemDict[Number(problemId)];
               const solvedState = toSolvedState(solvedValue);
 
