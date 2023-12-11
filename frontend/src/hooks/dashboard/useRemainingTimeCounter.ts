@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+const TIME_INTERVAL = 1000;
+
 export function useRemainingTimeCounter(endsAt: Date) {
   const [remainingTime, setRemainingTime] = useState<string>('');
 
@@ -23,7 +25,7 @@ export function useRemainingTimeCounter(endsAt: Date) {
     const intervalId = setInterval(() => {
       const newRemainingTime = calculateRemainingTime();
       setRemainingTime(newRemainingTime);
-    }, 1000);
+    }, TIME_INTERVAL);
 
     return () => clearInterval(intervalId);
   }, [endsAt]);
