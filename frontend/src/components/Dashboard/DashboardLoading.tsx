@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import { HStack, Loading, Text } from '@/components/Common';
-import { useCalculateRemainingTime } from '@/hooks/dashboard';
+import { useRemainingTimeCounter } from '@/hooks/dashboard';
 
 import Header from '../Header';
 import { PageLayout } from '../Layout/PageLayout';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function DashboardLoading({ endsAt }: Props) {
-  const remainingTime = useCalculateRemainingTime(new Date(endsAt));
+  const remainingTime = useRemainingTimeCounter(new Date(endsAt));
 
   return (
     <>

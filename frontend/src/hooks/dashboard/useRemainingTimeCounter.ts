@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function useCalculateRemainingTime(endsAt: Date) {
+export function useRemainingTimeCounter(endsAt: Date) {
   const [remainingTime, setRemainingTime] = useState<string>('');
 
   useEffect(() => {

@@ -1,4 +1,4 @@
 export * from './types';
 export * from './useParticipantDashboard';
 export * from './useDashboardRenderState';
-export * from './useCalculateRemainingTime';
+export * from './useRemainingTimeCounter';
