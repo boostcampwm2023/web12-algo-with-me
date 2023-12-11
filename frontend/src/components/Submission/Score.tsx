@@ -35,7 +35,7 @@ export default function Score({ testcaseId, score, submitState }: Props) {
         size="lg"
         className={resultTextStyle({ status: isSuccess ? 'success' : 'failed' })}
       >
-        {score?.result ?? ''} ({score?.stdOut ?? ''})
+        {score?.result ?? ''} ({score?.stdout ?? ''})
       </Text.Body>
     </VStack>
   );

@@ -16,7 +16,7 @@ export type ScoreStart = {
 export type ScoreResult = {
   problemId: ProblemId;
   result: string;
-  stdOut: string;
+  stdout: string;
 };
 
 export type SubmitResult = {
