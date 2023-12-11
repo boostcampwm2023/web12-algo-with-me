@@ -26,7 +26,6 @@ export default function CompetitionCreatePage() {
     return problemList.find((problem) => problem.id === problemId);
   }) as ProblemInfo[];
 
-  console.log(unpickedProblems, pickedProblems);
   function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
     form.setName(newName);
