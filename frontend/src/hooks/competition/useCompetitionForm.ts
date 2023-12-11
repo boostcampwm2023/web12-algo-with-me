@@ -33,9 +33,9 @@ export function useCompetitionForm(initialForm: Partial<CompetitionForm> = {}) {
 
   function togglePickedProblem(problemId: ProblemId) {
     if (problemIds.includes(problemId)) {
-      setProblemIds((ids) => ids.filter((id) => id !== problemId).sort());
+      setProblemIds((ids) => ids.filter((id) => id !== problemId));
     } else {
-      setProblemIds((ids) => [...ids, problemId].sort());
+      setProblemIds((ids) => [...ids, problemId]);
     }
   }
 

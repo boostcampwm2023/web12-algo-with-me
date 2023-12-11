@@ -4,14 +4,14 @@ import type { ProblemId, ProblemInfo } from '@/apis/problems';
 
 import { Icon } from '../Common';
 
-interface ProblemListProps {
+interface SelectedProblemListProps {
   problemList: ProblemInfo[];
-  onSelectProblem: (problemId: ProblemId) => void;
+  onCancelProblem: (problemId: ProblemId) => void;
 }
 
-export function SelectableProblemList({ problemList, onSelectProblem }: ProblemListProps) {
-  function handleSelectProblem(id: ProblemId) {
-    onSelectProblem(id);
+export function SelectedProblemList({ problemList, onCancelProblem }: SelectedProblemListProps) {
+  function handleCancelProblem(id: ProblemId) {
+    onCancelProblem(id);
   }
 
   return (
@@ -19,7 +19,7 @@ export function SelectableProblemList({ problemList, onSelectProblem }: ProblemL
       <thead>
         <tr className={dividingStyle}>
           <th className={css({ textAlign: 'left' })}>문제 이름</th>
-          <th className={css({ width: '80px' })}>문제 추가</th>
+          <th className={css({ width: '80px' })}>문제 삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +33,7 @@ export function SelectableProblemList({ problemList, onSelectProblem }: ProblemL
                 cursor: 'pointer',
               })}
             >
-              <Icon.Plus color="success" onClick={() => handleSelectProblem(id)} />
+              <Icon.Minus color="danger" onClick={() => handleCancelProblem(id)} />
             </td>
           </tr>
         ))}
@@ -44,7 +44,7 @@ export function SelectableProblemList({ problemList, onSelectProblem }: ProblemL
 
 const tableStyle = css({
   width: '320px',
-  padding: '24px 16px',
+  padding: '1.5rem 1rem',
   tableLayout: 'fixed',
 });
 

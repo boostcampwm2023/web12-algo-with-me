@@ -10,24 +10,45 @@ import type {
 } from 'react';
 import { Children, cloneElement, forwardRef } from 'react';
 
+import { Text } from '@/components/Common';
+
 interface Props extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode;
+  comment?: string;
   children: ReactElement;
 }
 
-export function Input({ id, label, children, ...props }: Props) {
+export function Input({ id, label, comment, children, ...props }: Props) {
   const child = Children.only(children);
 
   return (
     <div {...props}>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className={labelStyle}>
+        {label}
+      </label>
       {cloneElement(child, {
         id,
         ...child.props,
       })}
+      <Text.Label size="md" className={commentStyle}>
+        {comment}
+      </Text.Label>
     </div>
   );
 }
+
+const labelStyle = css({
+  display: 'block',
+  marginLeft: '0.25rem',
+  marginBottom: '0.5rem',
+});
+
+const commentStyle = css({
+  display: 'block',
+  marginTop: '0.25rem',
+  marginLeft: '0.25rem',
+  color: 'text.light',
+});
 
 interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   error?: boolean;
