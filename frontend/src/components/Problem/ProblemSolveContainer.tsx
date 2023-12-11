@@ -110,14 +110,14 @@ export function ProblemSolveContainer({
       testcaseId: number;
     },
   ) => {
-    const { problemId, result, stdOut, testcaseId } = data;
+    const { problemId, result, stdout, testcaseId } = data;
     const newResult = {
       testcaseId,
       submitState: SUBMIT_STATE.submitted,
       score: {
         problemId,
         result,
-        stdOut,
+        stdout,
       } satisfies ScoreResult,
     };
     submission.changeDoneScoreResult(newResult);
