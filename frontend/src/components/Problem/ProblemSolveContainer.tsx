@@ -3,7 +3,7 @@ import { css, cva } from '@style/css';
 import { useContext, useEffect, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
-import { CompetitionProblem } from '@/apis/problems';
+import { CompetitionProblem, ProblemId } from '@/apis/problems';
 import { Button, HStack, HStackProps, Icon, Modal, Space, VStack } from '@/components/Common';
 import { SubmissionForm } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
@@ -119,25 +119,25 @@ export function ProblemSolveContainer({
       } satisfies ScoreResult,
     };
     submission.changeDoneScoreResult(newResult);
-
-    setResultCount((oldCount) => oldCount - 1);
-    if (result === '정답입니다') {
-      setSuccessCount((oldCount) => oldCount - 1);
-    }
   };
 
   function handleInitCode() {
     setCode(problem.solutionCode);
   }
 
-  const [resultCount, setResultCount] = useState(-1);
-  const [successCount, setSuccessCount] = useState(-1);
+  const [isScoring, setIsScoring] = useState<boolean>(false);
 
   const handleScoreStart = (rawData: ScoreStart) => {
     const { testcaseNum } = rawData;
     submission.toEvaluatingState(testcaseNum);
-    setResultCount(testcaseNum);
-    setSuccessCount(testcaseNum);
+    setIsScoring(true);
+  };
+
+  const handleProblemResult = (data: { result: boolean; problemId: ProblemId }) => {
+    const { result: isSolved } = data;
+
+    setIsScoring(false);
+    alert(isSolved ? '정답입니다' : '오답입니다');
   };
 
   useEffect(() => {
@@ -149,17 +149,14 @@ export function ProblemSolveContainer({
     if (!socket.hasListeners('scoreResult')) {
       socket.on('scoreResult', handleScoreResult);
     }
+    if (!socket.hasListeners('problemResult')) {
+      socket.on('problemResult', handleProblemResult);
+    }
   }, [socket]);
 
   useEffect(() => {
     submission.emptyResults();
   }, [currentProblemIndex]);
-
-  useEffect(() => {
-    if (resultCount !== 0) return;
-
-    successCount > 0 ? alert('틀렸습니다') : alert('맞았습니다');
-  }, [resultCount]);
 
   return (
     <HStack className={css({ height: '100%' })} {...props}>
@@ -200,8 +197,8 @@ export function ProblemSolveContainer({
         <Button
           theme="brand"
           onClick={handleSubmitSolution}
-          leading={resultCount > 0 ? <Icon.Spinner spin /> : undefined}
-          disabled={resultCount > 0}
+          leading={isScoring ? <Icon.Spinner spin /> : undefined}
+          disabled={isScoring}
         >
           제출하기
         </Button>
