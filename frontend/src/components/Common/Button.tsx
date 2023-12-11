@@ -11,6 +11,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   selected?: boolean;
   disabled?: boolean;
   leading?: ReactElement;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export function Button({
@@ -21,6 +22,7 @@ export function Button({
   leading,
   selected = false,
   disabled = false,
+  type = 'button',
   ...props
 }: Props) {
   const handleClick = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +41,7 @@ export function Button({
         style({ disabled, hasLeading }),
         themeStyle({ theme, selected, disabled }),
       )}
-      type="button"
+      type={type}
       onClick={isNil(onClick) ? undefined : handleClick}
       {...props}
     >

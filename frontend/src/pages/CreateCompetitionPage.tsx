@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
@@ -55,7 +55,9 @@ export default function CompetitionCreatePage() {
     form.togglePickedProblem(problemId);
   }
 
-  async function handleSumbitCompetition() {
+  async function handleSumbitCompetition(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     const formData = form.getAllFormData();
     const { isValid, message } = form.validateForm(formData);
 
@@ -80,7 +82,7 @@ export default function CompetitionCreatePage() {
     <>
       <Header></Header>
       <PageLayout>
-        <HStack className={contentStyle}>
+        <HStack as="form" className={contentStyle} onSubmit={handleSumbitCompetition}>
           <h1>대회 생성하기</h1>
           <Input label="대회 이름" comment="대회 이름은 1글자 이상 들어가야 합니다.">
             <Input.TextField
@@ -143,7 +145,7 @@ export default function CompetitionCreatePage() {
               onCancelProblem={handleToggleSelectedProblem}
             ></SelectedProblemList>
           </VStack>
-          <Button theme="brand" onClick={handleSumbitCompetition}>
+          <Button type="submit" theme="brand">
             대회 생성
           </Button>
         </HStack>
