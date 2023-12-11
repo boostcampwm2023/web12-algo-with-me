@@ -21,7 +21,7 @@ export default function DashboardLoading({ endsAt }: Props) {
           <Text className={textStyle} type="display">
             대회 종료 후 5분 뒤에 집계가 완료됩니다
           </Text>
-          <Text className={textStyle} type="display">
+          <Text className={textStyle} type="title">
             남은 시간: {remainingTime}
           </Text>
         </HStack>
