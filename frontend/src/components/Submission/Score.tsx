@@ -36,7 +36,7 @@ export default function Score({ testcaseId, score, submitState }: Props) {
         size="lg"
         className={resultTextStyle({ status: isSuccess ? 'success' : 'failed' })}
       >
-        {result ?? ''} ({`${byteToKB(memoryUsage)}KB, ${(timeUsage / 1000).toFixed(2)}s`})
+        {result} ({`${byteToKB(memoryUsage)}KB, ${(timeUsage / 1000).toFixed(2)}s`})
       </Text.Body>
     </VStack>
   );
