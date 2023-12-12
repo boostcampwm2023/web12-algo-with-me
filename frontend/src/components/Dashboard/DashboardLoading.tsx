@@ -7,11 +7,11 @@ import Header from '../Header';
 import { PageLayout } from '../Layout/PageLayout';
 
 interface Props {
-  endsAt: string;
+  bufferTimeAfterCompetitionEnd: Date;
 }
 
-export default function DashboardLoading({ endsAt }: Props) {
-  const remainingTime = useRemainingTimeCounter(new Date(endsAt));
+export default function DashboardLoading({ bufferTimeAfterCompetitionEnd }: Props) {
+  const remainingTime = useRemainingTimeCounter(new Date(bufferTimeAfterCompetitionEnd));
 
   return (
     <>
