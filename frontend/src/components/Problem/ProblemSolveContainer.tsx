@@ -160,7 +160,7 @@ export function ProblemSolveContainer({
 
   return (
     <HStack className={css({ height: '100%' })} {...props}>
-      <VStack className={problemSolveContainerStyle}>
+      <VStack className={problemSolveContainerStyle} alignItems="stretch">
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
           <Editor height="50%" code={code} onChangeCode={handleChangeCode}></Editor>
@@ -185,7 +185,7 @@ export function ProblemSolveContainer({
           </section>
         </HStack>
       </VStack>
-      <VStack as="footer" className={footerStyle}>
+      <VStack as="footer" alignItems="center" className={footerStyle}>
         <Button onClick={handleOpenModal}>테스트 케이스 추가하기</Button>
         <Space></Space>
         <Button onClick={handleInitCode}>코드 초기화하기</Button>
