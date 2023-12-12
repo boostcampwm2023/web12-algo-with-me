@@ -39,7 +39,7 @@ export default function DashboardPage() {
   );
 
   if (shouldRenderLoading) {
-    return <DashboardLoading endsAt={endsAt} />;
+    return <DashboardLoading bufferTimeAfterCompetitionEnd={bufferTimeAfterCompetitionEnd} />;
   }
 
   return (
