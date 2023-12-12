@@ -86,7 +86,7 @@ export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
       await this.competitionService.isUserJoinedCompetition(Number(competitionId), user);
 
       // 동일한 유저의 다른 연결 끊기
-      this.server.to(authTokenPayloadDto.sub).disconnectSockets();
+      // this.server.to(authTokenPayloadDto.sub).disconnectSockets();
 
       // 만약 종료된 대회에 연결하려고 하면 끊기
       await this.competitionService.isCompetitionFinished(Number(competitionId));
