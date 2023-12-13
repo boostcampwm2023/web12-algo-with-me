@@ -107,11 +107,97 @@ algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인�
 
 <br /><br />
 
-## 기술적 도전
+기승전결
 
+기: 리소스가 조금 주어짐
+승: 그래서 리소스를 최대한 뽑아먹기로함 be:설계 최적화, fe: 코드 프론트에서 돌림
+전: 트러블 슈팅 / 막상 배포하고 나니 새로고침 안댐 (404), 웹소켓 장애 겪음, BE 트랜잭션, 
+결: 해결함 / be는 부하테스트 성공 (200명 확인)
+
+## 문제 해결 과정: 배경
+
+주어진 자원은 2코어, 8GB RAM 네이버 클라우드 인스턴스 하나였습니다.  
+하지만 Web12 코드사피엔스 팀은 부스트캠프 전원(200명)이 참여할 수 있는 서비스를 만들고 싶었습니다.
+
+그래서 저희는 **가진 자원을 어떻게 해야 최대한으로 활용할 수 있을까** 라는 도전과제를 목표로 설정하게 되었습니다.
+
+## 문제 해결 과정: 시도한 것들
+
+#### BE: 아키텍처 설계 최적화
+
+### FE) 클라이언트에서 JS 코드를 테스트할 수 있을까?
+
+> 어떻게 해야 서버로 가는 요청을 줄여서 리소스를 아낄 수 있을까?  
+> 채점은 몰라도 테스트 정도는 클라이언트에서 돌려도 되지 않을까?  
+> Eval을 사용하면 될 것 같긴 한데, Eval을 써도 될까?
+> 
+> [👉 eval을 사용해선 안되는 이유와 대안들](https://www.notion.so/eval-8c82867d1ee94e9f88fb9d6e33859c98?pvs=4)
+
+
+### FE) Eval은 안전할까? 어떻게 해야 안전해질까
+> Eval을 사용하면 무한 루프를 만났을 때 메인스레드가 멈추는 문제가 생긴다.  
+> 웹 워커를 이용해서 스레드를 분리해보자
+>
+> [👉 웹 워커란 무엇인가? & 알고윗미에서의 활용 방안](https://www.notion.so/e260a21a377c43fa893f4834cc786bd4?pvs=4)  
+
+
+> Eval은 언제 위험할까?  
+> Eval은 사이드 이펙트가 발생할 때 위험해  
+> 사이드 이펙트가 일어날 수 없는 순수한 JS 엔진을 올려서 사용해보자  
+>
+> [👉 웹 어셈블리란 무엇인가? & 알고윗미에서의 활용 방안](https://www.notion.so/8172c191ef504137bc494b1c6fa07e87?pvs=4)
+
+### FE) QuickJS는 엄밀한가?
+
+> QuickJS라는 JS 엔진을 사용하면 될 것 같아.  
+> 하지만 이게 정말 모든 브라우저에서 공평하게 동작할까?  
+>
+> [👉 [검증] QuickJS는 모든 브라우저에서 동일한 성능을 보장할 수 있는가?](https://www.notion.so/QuickJS-10f196d0d4b04e0a98132aeec5b4ba9a?pvs=4)  
+> [👉 [검증] QuickJS는 모든 브라우저에서 동일한 Max Call Stack을 보장할 수 있는가?](https://www.notion.so/QuickJS-Max-Call-Stack-2997c58c2f3146d5b7ca372cd9ce5ff4?pvs=4)  
+
+
+### FE) 공정한 환경을 구성하기 위해선 서버와 클라이언트의 시간을 동기화해야한다
+
+> 참여자들은 시험이 정확하게 같은 시간에 시작하고 같은 시간에 끝나기를 기대한다.  
+> 이를 위해서 서버와 클라이언트의 시간을 동기화해야하는데, 어떻게 할 수 있을까?  
+> 서버 비용이 무한하다면 1초마다 Http 요청을 보내면 되지만, 서버 자원은 한정되어있다.  
+> 클라이언트의 Date 객체 만으로는 서버와 시간 동기화가 불가능할까?
+>
+> [👉 Date 내장 객체는 믿을만한가?](https://www.notion.so/Date-420fc688054d4561a37eb6b8e92c257c?pvs=4)
+
+> 브라우저의 Date 내장 객체로는 엄밀한 시간 동기화가 불가능해  
+> 5초 간격으로 시간을 갱신해주는 정도로 요청을 최소화해볼 수 있을까?  
+> setInterval은 얼마나 믿을 수 있을까?  
+>
+> [👉 setInterval은 메인스레드가 바빠도 정확하게 동작할까?](https://www.notion.so/setInterval-bfd9642de1b14922bf6a5b3766d00b13?pvs=4)
+
+
+## 문제 해결 과정: 트러블 슈팅
+
+### FE: 공정한 환경을 구성하기 위해선 서버와 클라이언트의 시간을 동기화해야한다
+
+### 문제 해결 과정: 결과
+
+
+## 트러블 슈팅
+
+[📄 전체 보기](https://glacier-aura-f95.notion.site/8bab4884605b4f38bfcf8c22f4b06648?pvs=4)
+
+- [생명주기, useEffect](https://www.notion.so/useEffect-affad237ee9d42dfbb8fac96dea42ad1)
+- [배포하고 새로고침하면 404페이지가 떠요](https://www.notion.so/404-d6cac3477bf14ce59be66d468d5bb413?pvs=4)
+- [웹소켓 다중 연결 상태 해결](https://glacier-aura-f95.notion.site/f456ba08982b46539731dbcd98b8d97c?pvs=4)
+- [typeorm 트랜잭션, 락](https://www.notion.so/5-e744910299ad4defbc5b3ba4fe81c939?pvs=4)
+- [멀티프로세싱: 코드실행 서버에서 태스크가 타임아웃되어도 멈추지 않고 계속 동작하는 이슈](https://www.notion.so/19ee83956ac74691929f353336b7130e?pvs=4)
+
+<br /><br />
 ### 백엔드
 
 [📄 전체 보기](https://glacier-aura-f95.notion.site/81d32ef434e5496a9dabe4389380a383?pvs=4)
+
+-> 최적화를 고려해 아키텍처를 설계
+-> 롱 풀링, 뭐뭐 무뭐를 고민했지만, 결과적으로 http의 handshake 비용을 줄이기 위해 web socket을 사용하기로 함 (문서 링크)
+-> Redis를 사용하게 된 이유 (문서)
+-> 최종적으로 부하 테스트를 진행했고 모두가 수용 되는 것을 확인 (문서)
 
 - 한정된 자원으로 최대한 많은 사용자를 수용할 것
   - 아키텍처 최적화
@@ -122,6 +208,7 @@ algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인�
 ### 프론트엔드
 
 [📄 전체 보기](https://glacier-aura-f95.notion.site/1eacc4a536ff4ff482f35cf0f2e8138e?pvs=4)
+
 
 - 서버 비용 절감
   - 클라이언트에 JS 런타임 환경 구성을 위해 `WebWorker`와 `WebAssembly`사용
@@ -148,18 +235,6 @@ algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인�
 - [대시보드 어떻게 구현하지](https://glacier-aura-f95.notion.site/82bc461a68464a9cb0bc7dd8aa5e9f1e?pvs=4)
 
 ![미니 개발 세미나 5회](./semina.jpg)
-
-<br /><br />
-
-## 트러블 슈팅
-
-[📄 전체 보기](https://glacier-aura-f95.notion.site/8bab4884605b4f38bfcf8c22f4b06648?pvs=4)
-
-- [생명주기, useEffect](https://www.notion.so/useEffect-affad237ee9d42dfbb8fac96dea42ad1)
-- [배포하고 새로고침하면 404페이지가 떠요](https://www.notion.so/404-d6cac3477bf14ce59be66d468d5bb413?pvs=4)
-- [웹소켓 다중 연결 상태 해결](https://glacier-aura-f95.notion.site/f456ba08982b46539731dbcd98b8d97c?pvs=4)
-- [typeorm 트랜잭션, 락](https://www.notion.so/5-e744910299ad4defbc5b3ba4fe81c939?pvs=4)
-- [멀티프로세싱: 코드실행 서버에서 태스크가 타임아웃되어도 멈추지 않고 계속 동작하는 이슈](https://www.notion.so/19ee83956ac74691929f353336b7130e?pvs=4)
 
 <br /><br />
 
