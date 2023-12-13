@@ -1,8 +1,8 @@
 export const SITE = {
   NAME: 'Algo With Me',
-  PAGE_DESCRIPTION: '쉽고 빠르게 만드는 코딩 대회',
+  PAGE_DESCRIPTION: '누구나 만들고 참여할 수 있는 알고리즘 대회',
 };
 
 export const ROUTE = {
-  DASHBOARD: '/contest/dashboard',
+  DASHBOARD: '/competition/dashboard',
 };

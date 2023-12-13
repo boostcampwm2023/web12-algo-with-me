@@ -12,6 +12,7 @@ const ICON_NAMES = [
   'spinner',
   'cancel',
   'minus',
+  'plus',
 ] as const;
 type IconName = (typeof ICON_NAMES)[number];
 
@@ -56,6 +57,7 @@ Icon.CancelRound = ({ ...props }: Omit<Props, 'name'>) => (
 Icon.Spinner = ({ ...props }: Omit<Props, 'name'>) => <Icon name="spinner" {...props}></Icon>;
 Icon.Cancel = ({ ...props }: Omit<Props, 'name'>) => <Icon name="cancel" {...props}></Icon>;
 Icon.Minus = ({ ...props }: Omit<Props, 'name'>) => <Icon name="minus" {...props}></Icon>;
+Icon.Plus = ({ ...props }: Omit<Props, 'name'>) => <Icon name="plus" {...props}></Icon>;
 
 const style = css({
   display: 'inline-block',

@@ -14,6 +14,19 @@ export async function evaluate(code: string, params: string) {
 
   try {
     return evalCode(vm, code, params, logs);
+  } catch (err) {
+    const error = err as Error;
+    console.log(err);
+    return {
+      time: 0,
+      result: undefined,
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      },
+      logs: logs,
+    };
   } finally {
     vm.dispose();
     runtime.dispose();
@@ -58,8 +71,7 @@ const evalCode = (vm: QuickJSContext, code: string, params: string, logs: string
 };
 
 const toRunableScript = (code: string, params: string) => {
-  return `
-    ${code}\n
+  return `${code}\n
 
     (()=>{
       try {

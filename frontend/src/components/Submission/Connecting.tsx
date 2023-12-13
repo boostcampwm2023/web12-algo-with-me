@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import Loading from '@/components/Common/Loading';
+import { Loading } from '@/components/Common';
 
 interface Props {
   isConnected: boolean;

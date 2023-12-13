@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { fetchCompetitionList } from '@/apis/competitionList';
 import { Chip, Link, Text } from '@/components/Common';
+import { formatDate } from '@/utils/date';
 import secToTime from '@/utils/secToTime';
 
 interface Competition {
@@ -13,8 +14,6 @@ interface Competition {
   endsAt: string;
   maxParticipants: number;
 }
-
-const getCompetitionDetailURL = (competitionId: number) => `/contest/detail/${competitionId}`;
 
 function formatTimeRemaining(startsAt: string, endsAt: string): string {
   const now = new Date();
@@ -84,18 +83,18 @@ export default function CompetitionTable() {
         {competitions.map((competition) => (
           <tr className={tableRowStyle} key={competition.id}>
             <td className={nameTdStyle}>
-              <Link className={nameTdTextStyle} to={getCompetitionDetailURL(competition.id)}>
+              <Link className={nameTdTextStyle} to={`/competition/detail/${competition.id}`}>
                 {competition.name}
               </Link>
             </td>
             <td>
               <Text className={timeTextStyle} type="body" size="md">
-                {new Date(competition.startsAt).toLocaleString()}
+                {formatDate(new Date(competition.startsAt), 'YYYY. MM. DD. hh:mm')}
               </Text>
             </td>
             <td>
               <Text className={timeTextStyle} type="body" size="md">
-                {new Date(competition.endsAt).toLocaleString()}
+                {formatDate(new Date(competition.endsAt), 'YYYY. MM. DD. hh:mm')}
               </Text>
             </td>
             <td className={stateTdStyle}>
@@ -109,7 +108,7 @@ export default function CompetitionTable() {
             </td>
 
             <td className={dashboardTdStyle}>
-              <Link to={`/contest/${competition.id}`}>Link</Link>
+              <Link to={`/competition/dashboard/${competition.id}`}>Link</Link>
             </td>
           </tr>
         ))}
@@ -121,19 +120,22 @@ export default function CompetitionTable() {
 const tableStyle = css({
   background: 'surface',
   display: 'flex',
-  padding: '16px 24px',
+  padding: '1rem 1.5rem',
   flexDirection: 'column',
   color: 'text',
-  borderRadius: '8px',
+  borderRadius: '0.5rem',
 });
 
 const tableRowStyle = css({
   display: 'flex',
   alignItems: 'center',
-  height: '64px',
-  gap: '12px',
+  height: '4rem',
+  gap: '0.75rem',
+  paddingX: '0.5rem',
   alignSelf: 'stretch',
   justifyContent: 'center',
+  borderBottom: '2px solid',
+  borderColor: 'border',
 });
 
 const nameColumnStyle = css({

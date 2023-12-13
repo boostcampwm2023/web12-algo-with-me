@@ -45,7 +45,7 @@ export default function Header() {
 
 const headerWrapperStyle = css({
   width: '100%',
-  height: '64px',
+  height: '4rem',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -53,11 +53,12 @@ const headerWrapperStyle = css({
 });
 
 const headerStyle = css({
+  paddingY: '0.5rem',
   height: '40px',
   width: '100%',
   maxWidth: '1200px',
   alignItems: 'center',
-  gap: '16px',
+  gap: '1rem',
 });
 
 const textStyle = css({
@@ -65,11 +66,5 @@ const textStyle = css({
 });
 
 const buttonStyle = css({
-  display: 'flex',
   width: '120px',
-  padding: '12px 20px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
-  flexShrink: 0,
 });

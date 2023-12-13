@@ -6,7 +6,7 @@ interface Props extends VStackProps {}
 
 export default function CompetitionHeader({ className, children, ...props }: Props) {
   return (
-    <VStack className={cx(className, headerStyle)} as="header" {...props}>
+    <VStack alignItems="center" className={cx(className, headerStyle)} as="header" {...props}>
       {children}
     </VStack>
   );

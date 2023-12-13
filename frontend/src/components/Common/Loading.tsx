@@ -3,7 +3,7 @@ interface Props {
   color: string;
 }
 
-export default function Loading({ size, color }: Props) {
+export function Loading({ size, color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

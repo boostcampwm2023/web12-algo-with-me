@@ -1,45 +1,44 @@
 @layer tokens {
-    :where(:root, :host) {
-  --animations-spin: spin 1s linear infinite;
-  --breakpoints-sm: 640px;
-  --breakpoints-md: 768px;
-  --breakpoints-lg: 1024px;
-  --breakpoints-xl: 1280px;
-  --breakpoints-2xl: 1536px;
-  --sizes-breakpoint-sm: 640px;
-  --sizes-breakpoint-md: 768px;
-  --sizes-breakpoint-lg: 1024px;
-  --sizes-breakpoint-xl: 1280px;
-  --sizes-breakpoint-2xl: 1536px;
-  --colors-background: #263238;
-  --colors-alert-success: #82DD55;
-  --colors-alert-success-dark: #355A23;
-  --colors-alert-warning: #EDB95E;
-  --colors-alert-warning-dark: #8E6F3A;
-  --colors-alert-danger: #E23636;
-  --colors-alert-danger-dark: #751919;
-  --colors-alert-info: #C8CDD0;
-  --colors-alert-info-dark: #444749;
-  --colors-brand: #FFA800;
-  --colors-brand-alt: #FFBB36;
-  --colors-surface: #37474F;
-  --colors-surface-alt: #455A64;
-  --colors-surface-light: #D9D9D9;
-  --colors-text: #F5F5F5;
-  --colors-text-light: #FAFAFA;
-  --colors-border: #455A64;
-  --font-sizes-display-lg: 57px;
-  --font-sizes-display-md: 45px;
-  --font-sizes-display-sm: 36px;
-  --font-sizes-title-lg: 22px;
-  --font-sizes-title-md: 16px;
-  --font-sizes-title-sm: 14px;
-  --font-sizes-body-lg: 16px;
-  --font-sizes-body-md: 14px;
-  --font-sizes-body-sm: 12px;
-  --font-sizes-label-lg: 14px;
-  --font-sizes-label-md: 12px;
-  --font-sizes-label-sm: 11px
-}
+  :where(:root, :host) {
+    --animations-spin: spin 1s linear infinite;
+    --breakpoints-sm: 640px;
+    --breakpoints-md: 768px;
+    --breakpoints-lg: 1024px;
+    --breakpoints-xl: 1280px;
+    --breakpoints-2xl: 1536px;
+    --sizes-breakpoint-sm: 640px;
+    --sizes-breakpoint-md: 768px;
+    --sizes-breakpoint-lg: 1024px;
+    --sizes-breakpoint-xl: 1280px;
+    --sizes-breakpoint-2xl: 1536px;
+    --colors-background: #263238;
+    --colors-alert-success: #82dd55;
+    --colors-alert-success-dark: #355a23;
+    --colors-alert-warning: #edb95e;
+    --colors-alert-warning-dark: #8e6f3a;
+    --colors-alert-danger: #e23636;
+    --colors-alert-danger-dark: #751919;
+    --colors-alert-info: #c8cdd0;
+    --colors-alert-info-dark: #444749;
+    --colors-brand: #ffa800;
+    --colors-brand-alt: #ffbb36;
+    --colors-surface: #37474f;
+    --colors-surface-alt: #455a64;
+    --colors-surface-light: #d9d9d9;
+    --colors-text: #f5f5f5;
+    --colors-text-light: #fafafa99;
+    --colors-border: #455a64;
+    --font-sizes-display-lg: 57px;
+    --font-sizes-display-md: 45px;
+    --font-sizes-display-sm: 36px;
+    --font-sizes-title-lg: 22px;
+    --font-sizes-title-md: 16px;
+    --font-sizes-title-sm: 14px;
+    --font-sizes-body-lg: 16px;
+    --font-sizes-body-md: 14px;
+    --font-sizes-body-sm: 12px;
+    --font-sizes-label-lg: 14px;
+    --font-sizes-label-md: 12px;
+    --font-sizes-label-sm: 11px;
   }
-  
+}

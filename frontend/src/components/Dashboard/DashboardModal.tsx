@@ -1,6 +1,6 @@
 import { css } from '@style/css';
 
-import { Button, Text, VStack } from '../Common';
+import { Button, HStack, Text, VStack } from '../Common';
 import { buttonContainerStyle } from '../CompetitionDetail/styles/styles';
 import DashboardTable from './DashboardTable';
 
@@ -18,19 +18,21 @@ export default function DashboardModal({ isOpen, onClose, competitionId, competi
 
   return (
     <div className={modalOverlayStyle} onClick={onClose}>
-      <div className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <div className={competitionNameStyle}>
+      <HStack className={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+        <h3>
           <Text type="display" size="lg">
             {competitionName}
           </Text>
+        </h3>
+        <div className={tableStyle}>
+          <DashboardTable useWebsocket={true} competitionId={competitionId} />
         </div>
-        <DashboardTable useWebsocket={true} competitionId={competitionId} />
         <VStack className={buttonContainerStyle}>
           <Button className={buttonStyle} onClick={onClose}>
             닫기
           </Button>
         </VStack>
-      </div>
+      </HStack>
     </div>
   );
 }
@@ -48,15 +50,20 @@ const modalOverlayStyle = css({
 });
 
 const modalContentStyle = css({
-  padding: '32px',
+  padding: '1rem 1.5rem',
   position: 'relative',
-  width: '1264px',
-  height: '920px',
+  width: 'calc(100% - 4rem)',
+  minWidth: '900px',
+  height: 'calc(100% - 4rem)',
+  minHeight: '680px',
+  borderRadius: '0.5rem',
   background: 'background',
+  gap: '2rem',
 });
 
-const competitionNameStyle = css({
-  marginBottom: '32px',
+const tableStyle = css({
+  overflow: 'auto',
+  flexGrow: 1,
 });
 
 const buttonStyle = css({

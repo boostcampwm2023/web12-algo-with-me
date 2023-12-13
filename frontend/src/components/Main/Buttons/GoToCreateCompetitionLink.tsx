@@ -13,7 +13,7 @@ export default function GoToCreateCompetitionLink() {
   };
 
   return (
-    <Link to={isLoggedin ? '/contest/create' : '/login'} underline={false}>
+    <Link to={isLoggedin ? '/competition/create' : '/login'} underline={false}>
       <Button className={buttonStyle} theme="brand" onClick={handleNavigate}>
         <Text.Body className={LinkTextStyle} size="lg">
           대회 생성
@@ -24,13 +24,7 @@ export default function GoToCreateCompetitionLink() {
 }
 
 const buttonStyle = css({
-  display: 'flex',
   width: '120px',
-  padding: '12px 24px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
-  color: 'white',
 });
 
 const LinkTextStyle = css({

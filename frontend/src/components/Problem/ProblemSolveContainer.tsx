@@ -3,8 +3,8 @@ import { css, cva } from '@style/css';
 import { useContext, useEffect, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
-import { CompetitionProblem } from '@/apis/problems';
-import { Button, HStack, HStackProps, Modal, Space, VStack } from '@/components/Common';
+import { CompetitionProblem, ProblemId } from '@/apis/problems';
+import { Button, HStack, HStackProps, Icon, Modal, Space, VStack } from '@/components/Common';
 import { SubmissionForm } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
 import useAuth from '@/hooks/login/useAuth';
@@ -105,28 +105,39 @@ export function ProblemSolveContainer({
     submission.submit(form);
   }
 
-  const handleScoreResult = (
-    data: ScoreResult & {
-      testcaseId: number;
-    },
-  ) => {
-    const { problemId, result, stdOut, testcaseId } = data;
+  const handleScoreResult = (data: ScoreResult) => {
+    const { problemId, result, memoryUsage, timeUsage, testcaseId } = data;
     const newResult = {
       testcaseId,
       submitState: SUBMIT_STATE.submitted,
       score: {
         problemId,
+        testcaseId,
         result,
-        stdOut,
+        memoryUsage,
+        timeUsage,
       } satisfies ScoreResult,
     };
-
     submission.changeDoneScoreResult(newResult);
   };
+
+  function handleInitCode() {
+    setCode(problem.solutionCode);
+  }
+
+  const [isScoring, setIsScoring] = useState<boolean>(false);
 
   const handleScoreStart = (rawData: ScoreStart) => {
     const { testcaseNum } = rawData;
     submission.toEvaluatingState(testcaseNum);
+    setIsScoring(true);
+  };
+
+  const handleProblemResult = (data: { result: boolean; problemId: ProblemId }) => {
+    const { result: isSolved } = data;
+
+    setIsScoring(false);
+    alert(isSolved ? '정답입니다' : '오답입니다');
   };
 
   useEffect(() => {
@@ -138,6 +149,9 @@ export function ProblemSolveContainer({
     if (!socket.hasListeners('scoreResult')) {
       socket.on('scoreResult', handleScoreResult);
     }
+    if (!socket.hasListeners('problemResult')) {
+      socket.on('problemResult', handleProblemResult);
+    }
   }, [socket]);
 
   useEffect(() => {
@@ -146,7 +160,7 @@ export function ProblemSolveContainer({
 
   return (
     <HStack className={css({ height: '100%' })} {...props}>
-      <VStack className={problemSolveContainerStyle}>
+      <VStack className={problemSolveContainerStyle} alignItems="stretch">
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
           <Editor height="50%" code={code} onChangeCode={handleChangeCode}></Editor>
@@ -171,15 +185,21 @@ export function ProblemSolveContainer({
           </section>
         </HStack>
       </VStack>
-      <VStack as="footer" className={footerStyle}>
+      <VStack as="footer" alignItems="center" className={footerStyle}>
         <Button onClick={handleOpenModal}>테스트 케이스 추가하기</Button>
         <Space></Space>
+        <Button onClick={handleInitCode}>코드 초기화하기</Button>
         <SimulationExecButton
           isRunning={simulation.isRunning}
           onExec={handleSimulate}
           onCancel={handleSimulationCancel}
         />
-        <Button theme="brand" className={submissionButtonStyle} onClick={handleSubmitSolution}>
+        <Button
+          theme="brand"
+          onClick={handleSubmitSolution}
+          leading={isScoring ? <Icon.Spinner spin /> : undefined}
+          disabled={isScoring}
+        >
           제출하기
         </Button>
       </VStack>
@@ -236,10 +256,6 @@ const tabStyle = cva({
       },
     },
   },
-});
-
-const submissionButtonStyle = css({
-  paddingX: '2rem',
 });
 
 const simulationModalStyle = css({

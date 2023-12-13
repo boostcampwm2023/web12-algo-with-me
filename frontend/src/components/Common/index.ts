@@ -11,3 +11,4 @@ export * from './Icon';
 export * from './BreadCrumb';
 export * from './Logo';
 export * from './Card';
+export * from './Loading';

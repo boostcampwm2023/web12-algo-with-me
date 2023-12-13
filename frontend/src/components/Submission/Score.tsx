@@ -1,6 +1,7 @@
 import { css, cva } from '@style/css';
 
 import { Icon, Text, VStack } from '@/components/Common';
+import { byteToKB } from '@/utils/unit';
 
 import type { ScoreResult, SubmitState } from './types';
 import { SUBMIT_STATE } from './types';
@@ -26,7 +27,7 @@ export default function Score({ testcaseId, score, submitState }: Props) {
   }
 
   const isSuccess = score?.result === '정답입니다';
-
+  const { result = '', memoryUsage = 0, timeUsage = 0 } = score ?? {};
   return (
     <VStack className={style}>
       {isSuccess ? <Icon.CheckRound color="success" /> : <Icon.CancelRound color="danger" />}
@@ -35,7 +36,7 @@ export default function Score({ testcaseId, score, submitState }: Props) {
         size="lg"
         className={resultTextStyle({ status: isSuccess ? 'success' : 'failed' })}
       >
-        {score?.result ?? ''} ({score?.stdOut ?? ''})
+        {result} ({`${byteToKB(memoryUsage)}KB, ${(timeUsage / 1000).toFixed(2)}s`})
       </Text.Body>
     </VStack>
   );

@@ -9,6 +9,7 @@ import DashboardTable from '@/components/Dashboard/DashboardTable';
 import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
+import { useDashboardRerenderState } from '@/hooks/dashboard';
 
 export default function DashboardPage() {
   const { id } = useParams<{ id: string }>();
@@ -32,8 +33,13 @@ export default function DashboardPage() {
 
   const useWebSocket = currentTime < bufferTimeAfterCompetitionEnd;
 
-  if (currentTime < bufferTimeAfterCompetitionEnd && currentTime >= new Date(endsAt)) {
-    return <DashboardLoading />;
+  const shouldRenderLoading = useDashboardRerenderState(
+    new Date(endsAt),
+    bufferTimeAfterCompetitionEnd,
+  );
+
+  if (shouldRenderLoading) {
+    return <DashboardLoading bufferTimeAfterCompetitionEnd={bufferTimeAfterCompetitionEnd} />;
   }
 
   return (

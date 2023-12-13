@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { fetchProblemDetail, type Problem, ProblemId } from '@/apis/problems';
+import { HStack } from '@/components/Common';
+import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import type { Nil } from '@/utils/type';
@@ -37,18 +39,24 @@ function ProblemPage() {
     return <p>Error loading problem data</p>;
   }
   return (
-    <PageLayout className={style}>
-      <span className={problemTitleStyle}>{problem.title}</span>
-      <ProblemViewer content={problem.content} />
-    </PageLayout>
+    <>
+      <Header />
+      <PageLayout>
+        <HStack className={contentStyle}>
+          <span className={problemTitleStyle}>{problem.title}</span>
+          <ProblemViewer content={problem.content} />
+        </HStack>
+      </PageLayout>
+    </>
   );
 }
 
 export default ProblemPage;
 
-const style = css({
-  backgroundColor: '#1e1e1e',
-  color: '#ffffff',
+const contentStyle = css({
+  width: '100%',
+  maxWidth: '1200px',
+  margin: '0 auto',
 });
 
 const problemTitleStyle = css({
