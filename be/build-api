@@ -1,0 +1,6 @@
+docker compose down
+docker container stop algo-with-me-api 2>/dev/null
+docker container rm algo-with-me-api 2>/dev/null
+docker image rm algo-with-me-api 2>/dev/null
+cd algo-with-me-api/
+docker build -t algo-with-me-api .

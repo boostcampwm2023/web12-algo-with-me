@@ -1,0 +1,6 @@
+docker compose down
+docker container stop algo-with-me-score 2>/dev/null
+docker container rm algo-with-me-score 2>/dev/null
+docker image rm algo-with-me-score 2>/dev/null
+cd algo-with-me-score/
+docker build -t algo-with-me-score .

@@ -1,0 +1,7 @@
+docker container stop algo-with-me-api 2>/dev/null
+docker container rm algo-with-me-api 2>/dev/null
+docker container stop algo-with-me-score 2>/dev/null
+docker container rm algo-with-me-score 2>/dev/null
+docker container stop algo-with-me-docker 2>/dev/null
+docker container rm algo-with-me-docker 2>/dev/null
+docker compose up

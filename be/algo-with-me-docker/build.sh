@@ -1,0 +1,1 @@
+sudo docker build . -t algo-with-me-docker:latest
