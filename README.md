@@ -125,14 +125,14 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 ## 기술스택
 
 ### Language
-JS, TS
+`javascript`, `typescript`
 
 ### Skill
-express, nodejs, docker, nestjs, redis, postgresql, typeorm, socketio, github action, nginx, jmeter, docker-compose
-reactjs, panda-css, quickjs-emscripten
+`express`, `nodejs`, `docker`, `nestjs`, `redis`, `postgresql`, `typeorm`, `socketio`, `github action`, `nginx`, `jmeter`, `docker-compose`
+`reactjs`, `panda-css`, `quickjs-emscripten`
 
 ### Etc
-github, notion, github projects, slack
+`github`, `notion`, `github projects`, `slack`
 
 <br /><br />
 
