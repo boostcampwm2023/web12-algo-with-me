@@ -37,16 +37,9 @@
 
 <br /><br />
 
-## 데모 영상
-
-https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
-
-[유튜브 바로가기](https://www.youtube.com/watch?v=gAqy29KDXzQ)
-
-<br /><br />
-
 ## 목차
 
+- [데모 영상](#데모-영상)
 - [프로젝트 핵심 기능](#프로젝트-핵심-기능)
 - [기술적 도전](#기술적-도전)
 - [미니 개발 세미나](#미니-개발-세미나)
@@ -59,11 +52,52 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 프로젝트 핵심 기능
+## 데모 영상
 
-**사용자가 제출한 코드 채점**
+https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
 
-**실시간으로 대회에 참여한 사람들의 순위 확인**
+[유튜브 바로가기](https://www.youtube.com/watch?v=gAqy29KDXzQ)
+
+<br /><br />
+
+## Algo With Me 주요 기능
+
+- 사용자가 제출한 코드 채점
+- 실시간으로 대회에 참여한 사람들의 순위 확인
+
+### 메인 페이지
+![main](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/1f8669e1-bfd1-493c-9272-22e9c92be807)
+algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인할 수 있습니다.
+
+### 대회 생성
+![create](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/9ca5e786-c444-4b3e-9ab7-0b6da945686c)
+대회 생성 페이지 입니다. 최대 참여인원 설정이 가능하고 대회 시간을 지정할 수 있습니다. 등록된 문제를 선택해 대회에 포함시킬 수 있습니다
+
+### 대회 상세 페이지
+![details](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/0112a85e-261e-43d5-917a-8ecfb9c4f057)
+대회 상세 페이지에서는 대회의 시작, 종료 시간, 참가자 등의 정보를 얻을 수 있습니다. 대회 시작 시간이 되면 대회 입장 버튼과 대시보드 보기 버튼이 활성화됩니다.  
+
+### 대회 페이지
+![competition](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/73213e32-5931-4efb-91c4-8c591bd559dd)
+
+### 테스트 케이스 추가
+![testcase1](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/cdce595d-c851-4724-a6b2-d920995ea6ac)
+
+
+### 서버로 코드 채점받기
+![submit-wrong](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/c095c965-d320-402e-aef0-de3155b0b580)
+제출하고 틀린 경우  
+
+![submit-right](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/9b32a0fc-fdea-4399-a1aa-1d785a5a3273)
+제출하고 맞은 경우  
+
+채점 버튼을 누르면 각 테스트케이스 별로 정답 여부와 시간, 메모리 사용량을 받아볼 수 있습니다.
+
+### 대시 보드 확인
+![dashboard](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/d47e4550-9391-40a4-a144-2b83ce3a0e1a)
+
+대회 참여자 순위 100위까지와, 나의 순위를 대회 진행 중 실시간으로 확인할 수 있습니다.  
+대회 참여자가 아니라도 대시보드를 확인할 수 있습니다.
 
 <br /><br />
 
