@@ -31,14 +31,11 @@
 
 **모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**
 
-[📄 노션 바로가기](https://glacier-aura-f95.notion.site/f0866a64081248bda2e9df6366c669a2?v=a0002327d9554095bc01132796d894d8&pvs=4)
+[![알고윗미 체험하기](https://github.com/boostcampwm2023/web12-algo-with-me/assets/49023674/4483a45c-4e26-43d7-97ef-cc8582e08418)](https://www.algo-with-me.site)
 
-[![알고윗미 이동](./algowithme_go.png)](https://www.algo-with-me.site)
+[![프로젝트 문서 바로가기](https://github.com/boostcampwm2023/web12-algo-with-me/assets/49023674/db9a0e7b-d276-44ac-8db5-6c23869312ad)](https://glacier-aura-f95.notion.site/f0866a64081248bda2e9df6366c669a2?v=a0002327d9554095bc01132796d894d8&pvs=4)
 
 <br /><br />
-
-
-
 
 ## 데모 영상
 https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
