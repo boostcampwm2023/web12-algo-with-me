@@ -21,7 +21,7 @@ import { DashboardService } from '@src/dashboard/dashboard.service';
 import { User } from '@src/user/entities/user.entity';
 import { UserService } from '@src/user/services/user.service';
 
-@WebSocketGateway({ namespace: 'competitions' })
+@WebSocketGateway({ namespace: 'competitions', pingInterval: 50000 })
 export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
   @WebSocketServer()
   server: Server;
