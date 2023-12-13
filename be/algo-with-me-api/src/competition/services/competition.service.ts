@@ -303,11 +303,10 @@ export class CompetitionService {
   }
 
   async saveScoreResult(scoreResultDto: ScoreResultDto) {
-    const submission = await this.submissionRepository.findOneBy({
-      id: scoreResultDto.submissionId,
-    });
-    if (!submission) throw new NotFoundException('제출 기록이 없습니다.');
-
+    this.logger.debug(
+      `제출id:${scoreResultDto.submissionId}, 테케id:${scoreResultDto.testcaseId}, 소켓id:${scoreResultDto.socketId}, 결과:${scoreResultDto.result}, 소모시간(ms):${scoreResultDto.timeUsage}, 소모메모리(KB):${scoreResultDto.memoryUsage}`,
+    );
+    let submission: Submission;
     const result = {
       testcaseId: scoreResultDto.testcaseId,
       result: scoreResultDto.result,
@@ -315,14 +314,46 @@ export class CompetitionService {
       memoryUsage: scoreResultDto.memoryUsage,
     };
 
-    submission.detail.push(result);
-    this.submissionRepository.save(submission);
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      submission = await queryRunner.manager
+        .getRepository(Submission)
+        .createQueryBuilder('submission')
+        .useTransaction(true)
+        .setLock('pessimistic_write')
+        .where('id = :id', { id: scoreResultDto.submissionId })
+        .getOne();
+      submission = await queryRunner.manager.findOneBy(Submission, {
+        id: scoreResultDto.submissionId,
+      });
+      if (!submission) throw new NotFoundException('제출 기록이 없습니다.');
+
+      submission.detail.push(result);
+
+      await queryRunner.manager.update(Submission, submission.id, { detail: submission.detail });
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      this.logger.debug(`트랜잭션 실패 ${error.message}`);
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw error;
+    }
+
+    result['problemId'] = submission.problemId;
+    this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
 
     // 모두 제출했는지 확인
     const testcaseNum: number = await this.problemService.getProblemTestcaseNum(
       submission.problemId,
     );
     let totalResult: keyof typeof RESULT = 'CORRECT';
+    this.logger.debug(
+      `채점완료된 테스트 케이스 / 채점 해야할 테스트 케이스: ${submission.detail.length}/${testcaseNum}`,
+    );
     if (testcaseNum === submission.detail.length) {
       const user: User = await this.userRepository.findOneBy({ id: submission.userId });
       const competition: Competition = await this.competitionRepository.findOneBy({
@@ -343,11 +374,14 @@ export class CompetitionService {
         RESULT[totalResult],
         competition.startsAt,
       );
+
+      this.server
+        .to(scoreResultDto.socketId)
+        .emit('problemResult', {
+          result: totalResult === 'CORRECT' ? true : false,
+          problemId: submission.problemId,
+        });
     }
-    result['problemId'] = submission.problemId;
-    result['stdout'] = scoreResultDto.stdout;
-    result['stderr'] = scoreResultDto.stderr;
-    this.server.to(scoreResultDto.socketId).emit('scoreResult', result);
   }
 
   async findCompetitionProblemList(competitionId: number) {
