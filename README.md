@@ -1,3 +1,32 @@
+<div align="center">
+
+<img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
+  
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm2023%2Fweb12-algo-with-me&count_bg=%23FFA800&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
+
+![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
+![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+
+</div>
+
+<br /><br />
+
 # web12-algo-with-me
 
 **모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**
@@ -7,6 +36,9 @@
 [![알고윗미 이동](./algowithme_go.png)](https://www.algo-with-me.site)
 
 <br /><br />
+
+
+
 
 ## 데모 영상
 https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
@@ -124,4 +156,3 @@ github, notion, github projects, slack
 |:-:|:-:|:-:|:-:|:-:|
 | <img src="https://github.com/dev2820.png" width="300px" alt=""/> <br> <sub> **J079 양기조** <br> ([dev2820](https://github.com/dev2820)) | <img src="https://github.com/dmdmdkdkr.png" width="300px" alt=""/> <br> <sub> **J111 이우찬** <br> ([dmdmdkdkr](https://github.com/dmdmdkdkr)) | <img src="https://github.com/mahwin.png" width="300px" alt=""/> <br> <sub> **J140 정유석** <br> ([mahwin](https://github.com/mahwin)) | <img src="https://github.com/rladydgn.png" width="300px" alt=""/> <br> <sub> **J026 김용후** <br> ([rladydgn](https://github.com/rladydgn)) | <img src="https://github.com/yechan2468.png" width="300px" alt=""/> <br> <sub> **J109 이예찬** <br> ([yechan2468](https://github.com/yechan2468)) |
 
-<img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
