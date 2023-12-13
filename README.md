@@ -1,32 +1,40 @@
 # web12-algo-with-me
 
-<img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
-
-### 서비스 바로가기
+## 프로젝트 소개
+**모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**
 
 [![알고윗미 이동](./algowithme_go.png)](https://www.algo-with-me.site)
 
-### 우리는 이런 걸 할 거예요
-- 모두가 참여하고 만들 수 있는 알고리즘 대회 서비스를 만들려고 해요
+## 데모 영상
+https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
 
-### 우리 프로젝트의 핵심 기능
-- 사용자가 제출한 코드를 테스트하고 제출하여 채점받을 수 있어요
-- 실시간으로 대회에 참여한 사람들의 순위를 볼 수 있게 하려고 해요
-- 대회에서 정한 시간에만 코드를 제출하고 채점할 수 있어요
+[유튜브 바로가기](https://www.youtube.com/watch?v=gAqy29KDXzQ)
 
-### 기술적 도전
+## 목차
+[프로젝트 핵심 기능](#프로젝트-핵심-기능)
 
-- BE
-  - 한정된 자원으로 최대한 많은 사용자를 수용할 것
-    - 부하 테스트
-    - 아키텍처 최적화
-      
-- FE
-  - 서버 비용 절감
-    - 캐싱을 최대한 활용
-  - 클라이언트 환경 동기화
-    - 독립적인 런타임 환경 구성
-    - 서버 시간과 클라이언트 시간 동기화       
+[기술적 도전](#기술적-도전)
+
+
+## 프로젝트 핵심 기능
+- 사용자가 제출한 코드 채점
+- 실시간으로 대회에 참여한 사람들의 순위 확인
+
+
+## 기술적 도전
+
+### 백엔드 [🔗바로가기](https://glacier-aura-f95.notion.site/81d32ef434e5496a9dabe4389380a383?pvs=4)
+- 한정된 자원으로 최대한 많은 사용자를 수용할 것
+  - 아키텍처 최적화
+  - 제출, 실시간 순위 데이터 등 통신 비용 절감을 위해 `WebSocket`사용 
+  - 실시간 순위 변동 데이터 저장을 위해 `Redis`사용
+  - 부하 테스트를 통해 모든 부스트캠프 인원(약200명) 수용이 가능한 것을 확인
+ 
+### 프론트엔드 [🔗바로가기](https://glacier-aura-f95.notion.site/1eacc4a536ff4ff482f35cf0f2e8138e?pvs=4)
+- 서버 비용 절감
+  - 클라이언트에 JS 런타임 환경 구성을 위해 `WebWorker`와 `WebAssembly`사용
+- 클라이언트 환경 동기화
+  - 클라이언트와 서버 시간 동기화를 위해 `WebSocket`이용
 
 ## 문서 링크
 
@@ -77,3 +85,5 @@
 | FE | FE | FE | BE | BE |
 |:-:|:-:|:-:|:-:|:-:|
 | <img src="https://github.com/dev2820.png" width="300px" alt=""/> <br> <sub> **J079 양기조** <br> ([dev2820](https://github.com/dev2820)) | <img src="https://github.com/dmdmdkdkr.png" width="300px" alt=""/> <br> <sub> **J111 이우찬** <br> ([dmdmdkdkr](https://github.com/dmdmdkdkr)) | <img src="https://github.com/mahwin.png" width="300px" alt=""/> <br> <sub> **J140 정유석** <br> ([mahwin](https://github.com/mahwin)) | <img src="https://github.com/rladydgn.png" width="300px" alt=""/> <br> <sub> **J026 김용후** <br> ([rladydgn](https://github.com/rladydgn)) | <img src="https://github.com/yechan2468.png" width="300px" alt=""/> <br> <sub> **J109 이예찬** <br> ([yechan2468](https://github.com/yechan2468)) |
+
+<img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
