@@ -2,15 +2,20 @@
 
 <img src='https://github.com/boostcampwm2023/web12-algo-with-me/assets/78193416/c248c976-1eb3-49a4-bd3a-56ad92d5d639' width='200px' >
   
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm2023%2Fweb12-algo-with-me&count_bg=%23FFA800&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm2023%2Fweb12-algo-with-me&count_bg=%23FFA800&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)  
 </div>
 
 <br /><br />
 
 # web12-algo-with-me
 
-**모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**
+Algo With Me는 **모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**입니다.
+
+주요 기능은 다음과 같습니다.
+
+- 사용자가 제출한 코드를 채점할 수 있습니다
+- 실시간으로 대회에 참여한 경쟁자들의 순위를 확인할 수 있습니다
+<br /><br />
 
 [![알고윗미 체험하기](./img/go_to_service.png)](https://www.algo-with-me.site)
 
@@ -40,50 +45,55 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## Algo With Me 주요 기능
+## Algo With Me 기능 설명
 
-- 사용자가 제출한 코드 채점
-- 실시간으로 대회에 참여한 사람들의 순위 확인
+### 코드 채점하기
+![right-wrong](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/4ce4f4b9-1d84-4a4f-a3fe-ad81641af136)
 
-### 메인 페이지
-![main](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/1f8669e1-bfd1-493c-9272-22e9c92be807)
-algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인할 수 있습니다.
-
-### 대회 생성
-![create](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/9ca5e786-c444-4b3e-9ab7-0b6da945686c)
-대회 생성 페이지 입니다. 최대 참여인원 설정이 가능하고 대회 시간을 지정할 수 있습니다. 등록된 문제를 선택해 대회에 포함시킬 수 있습니다
-
-### 대회 상세 페이지
-![details](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/0112a85e-261e-43d5-917a-8ecfb9c4f057)
-대회 상세 페이지에서는 대회의 시작, 종료 시간, 참가자 등의 정보를 얻을 수 있습니다. 대회 시작 시간이 되면 대회 입장 버튼과 대시보드 보기 버튼이 활성화됩니다.  
-
-### 대회 페이지
-![competition](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/73213e32-5931-4efb-91c4-8c591bd559dd)
 대회 페이지는 
 - 문제 화면
 - 코드를 작성할 수 있는 에디터
 - 제출 결과 화면
 
-으로 구성됩니다.
-
-### 테스트 케이스 추가
-![testcase1](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/cdce595d-c851-4724-a6b2-d920995ea6ac)
-제출하기 전 테스트 케이스를 추가하고 내 코드를 실행해볼 수 있습니다.
-
-### 코드 채점하기
-![submit-wrong](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/c095c965-d320-402e-aef0-de3155b0b580)
-제출하고 틀린 경우  
-
-![submit-right](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/9b32a0fc-fdea-4399-a1aa-1d785a5a3273)
-제출하고 맞은 경우  
-
-채점 버튼을 누르면 각 테스트케이스 별로 정답 여부와 시간, 메모리 사용량을 받아볼 수 있습니다.
+으로 구성됩니다.  
+나만의 테스트 케이스를 추가하고 "테스트 실행"버튼을 눌러 실행할 수 있습니다.  
+"제출하기"버튼을 누르면 히든 테스트 케이스들의 정답 여부와 시간, 메모리 사용량을 받아볼 수 있습니다.  
 
 ### 대시 보드 확인
 ![dashboard](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/d47e4550-9391-40a4-a144-2b83ce3a0e1a)
 
 대회 참여자 순위 100위까지와, 나의 순위를 대회 진행 중 실시간으로 확인할 수 있습니다.  
 대회 참여자가 아니라도 대시보드를 확인할 수 있습니다.
+
+### 그 외
+<details>
+  <summary>
+    <h3>메인 페이지</h3>
+  </summary>
+      <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/1f8669e1-bfd1-493c-9272-22e9c92be807" alt="메인 페이지"/>
+    <p>algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인할 수 있습니다.</p>
+</details>
+<details>
+  <summary>
+    <h3>대회 생성</h3>
+  </summary>
+      <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/9ca5e786-c444-4b3e-9ab7-0b6da945686c" alt="대회 생성"/>
+    <p>대회 생성 페이지 입니다. 최대 참여인원 설정이 가능하고 대회 시간을 지정할 수 있습니다. 등록된 문제를 선택해 대회에 포함시킬 수 있습니다</p>
+</details>
+<details>
+  <summary>
+    <h3>대회 상세 페이지</h3>
+  </summary>
+      <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/0112a85e-261e-43d5-917a-8ecfb9c4f057" alt="대회 상세 페이지"/>
+    <p>대회 상세 페이지에서는 대회의 시작, 종료 시간, 참가자 등의 정보를 얻을 수 있습니다. 대회 시작 시간이 되면 대회 입장 버튼과 대시보드 보기 버튼이 활성화됩니다. </p>
+</details>
+<details>
+  <summary>
+    <h3>테스트 케이스 추가</h3>
+  </summary>
+      <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/cdce595d-c851-4724-a6b2-d920995ea6ac" alt="테스트 케이스 추가"/>
+    <p>제출하기 전 테스트 케이스를 추가하고 내 코드를 실행해볼 수 있습니다.</p>
+</details>
 
 <br /><br />
 
