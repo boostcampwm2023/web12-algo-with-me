@@ -319,7 +319,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 🗺️디자인 및 기획
+## 🎸디자인 및 기획
 
 - [스토리맵&백로그](https://www.figma.com/file/gWCcjBIjAStADIuIHnZuFD/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%B5-%26-%EB%B0%B1%EB%A1%9C%EA%B7%B8?type=whiteboard&t=dtVUyaIFru4GF6Ts-0)
 - [목업 디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=0-1&mode=design&t=nggZ8AcV0QhK633S-0)
