@@ -115,7 +115,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 > 어떤 기술을 사용해야 우리 문제를 해결하는 데에 유리할까?
 > 
 > [👉 BE 아키텍처 설계 및 DB ERD 설계](https://glacier-aura-f95.notion.site/BE-DB-ERD-714ca93a27524c478aa7e2cebd155995)  
-> [👉 기술 스택 선정](https://www.notion.so/546cc227d80c4f34ac521e6b0ccdb843?v=870210cc83464a3fa18885cd237bf132&p=c4d9dfa965cd421a866844356d47b693&pm=s)
+> [👉 기술 스택 선정](https://www.notion.so/c4d9dfa965cd421a866844356d47b693)
 
 
 ### BE) 채점 로직
@@ -123,7 +123,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 > 병렬적으로 채점하려면 어떻게 구조를 짜야 할까?  
 > 보안 위협 없이 안전하게 채점할 수 있을까?
 > 
-> [👉 채점서버, 도커서버 실행흐름](https://www.notion.so/API-websocket-b68c13dd6eb44a7fa72492ce7cde14e3?p=fbc4ada36c634e52804c32b125bddc38&pm=s)  
+> [👉 채점서버, 도커서버 실행흐름](https://www.notion.so/API-fbc4ada36c634e52804c32b125bddc38)  
 > [👉 BE 채점서버 아키텍처 관련 회의](https://www.notion.so/BE-0efb2000a49b454098e8b897a757d537)
 
 
@@ -283,7 +283,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 ## 👷아키텍처
 
 ![캡처](https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/ae40d772-d97d-4782-aa28-b1f077648162)
-[아키텍처](https://www.figma.com/file/Muux6igNnXxpQ2wvXhuuL2/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98?type=whiteboard&node-id=0-1&t=71bPh0VNrNYTWHA5-0)
+[아키텍처](https://www.figma.com/file/Muux6igNnXxpQ2wvXhuuL2/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98?type=whiteboard&node-id=83-2359&t=IKGPY5ClHaJ4isaN-4)
 
 <br /><br />
 
@@ -323,7 +323,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 - [스토리맵&백로그](https://www.figma.com/file/gWCcjBIjAStADIuIHnZuFD/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%B5-%26-%EB%B0%B1%EB%A1%9C%EA%B7%B8?type=whiteboard&t=dtVUyaIFru4GF6Ts-0)
 - [목업 디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=0-1&mode=design&t=nggZ8AcV0QhK633S-0)
-- [프로토타입 디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=0-1&mode=design&t=nggZ8AcV0QhK633S-0)
+- [프로토타입 디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=317%3A2&mode=design&t=5rQk2GUg9p6Yze5I-1)
 
 <br /><br />
 
