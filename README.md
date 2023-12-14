@@ -7,7 +7,7 @@
 
 <br /><br />
 
-# 🍀web12-algo-with-me
+# 🏆web12-algo-with-me
 
 Algo With Me는 **모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**입니다.
 
