@@ -7,7 +7,7 @@
 
 <br /><br />
 
-# web12-algo-with-me
+# 🍀web12-algo-with-me
 
 Algo With Me는 **모두가 참여하고 만들 수 있는 알고리즘 대회 서비스**입니다.
 
@@ -23,21 +23,21 @@ Algo With Me는 **모두가 참여하고 만들 수 있는 알고리즘 대회 �
 
 <br /><br />
 
-## 목차
+## 📄목차
 
-- [데모 영상](#데모-영상)
-- [Algo With Me 기능 설명](#Algo-With-Me-기능-설명)
-- [문제 해결 과정](#문제-해결-과정-배경)
-- [미니 개발 세미나](#미니-개발-세미나)
-- [아키텍처](#아키텍처)
-- [기술스택](#기술스택)
-- [디자인 및 기획](#디자인-및-기획)
-- [기타 등등](#기타-등등)
-- [팀원 소개](#팀원-소개)
+- [데모 영상](#🎬데모-영상)
+- [Algo With Me 기능 설명](#🚀Algo-With-Me-기능-설명)
+- [문제 해결 과정](#🥚문제-해결-과정-배경)
+- [미니 개발 세미나](#👨‍👨‍👧‍👧미니-개발-세미나)
+- [아키텍처](#👷🏻‍♂️아키텍처)
+- [기술스택](#🛠️기술스택)
+- [디자인 및 기획](#🗺️디자인-및-기획)
+- [기타 등등](#🎸기타-등등)
+- [팀원 소개](#🙉팀원-소개)
 
 <br /><br />
 
-## 데모 영상
+## 🎬데모 영상
 
 https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4751-45b9-86ee-6dfebec1c629
 
@@ -45,7 +45,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## Algo With Me 기능 설명
+## 🚀Algo With Me 기능 설명
 
 ### 코드 채점하기
 ![right-wrong](https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/4ce4f4b9-1d84-4a4f-a3fe-ad81641af136)
@@ -97,7 +97,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 문제 해결 과정: 배경
+## 🥚문제 해결 과정: 배경
 
 저희 팀에게 주어진 자원은 2코어, 8GB RAM 네이버 클라우드 인스턴스 하나였습니다.  
 하지만 부스트캠프 전원(200명)이 참여할 수 있는 서비스를 만들고 싶었습니다.
@@ -106,7 +106,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br />
 
-## 문제 해결 과정: 시도한 것들
+## 🐣문제 해결 과정: 시도한 것들
 
 
 ### BE) 아키텍처 설계 최적화
@@ -185,7 +185,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br />
 
-## 문제 해결 과정: 트러블 슈팅
+## 🐓문제 해결 과정: 트러블 슈팅
 
 ### BE) 대시보드 데이터 관리를 위한 Redis 설치 과정에서 겪은 트러블슈팅
 
@@ -241,7 +241,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br />
 
-## 문제 해결 과정: 결과
+## 🍗문제 해결 과정: 결과
 
 ### BE) 부하 테스트 결과
 
@@ -253,7 +253,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 미니 개발 세미나
+## 👨‍👨‍👧‍👧미니 개발 세미나
 <div align="center">
   <img src="./semina.jpg" alt="미니 개발 세미나 5회" />
 </div>
@@ -280,14 +280,14 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 아키텍처
+## 👷🏻‍♂️아키텍처
 
 ![캡처](https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/ae40d772-d97d-4782-aa28-b1f077648162)
 [아키텍처](https://www.figma.com/file/Muux6igNnXxpQ2wvXhuuL2/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98?type=whiteboard&node-id=0-1&t=71bPh0VNrNYTWHA5-0)
 
 <br /><br />
 
-## 기술스택
+## 🛠️기술스택
 
 ### Language
 
@@ -319,7 +319,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 디자인 및 기획
+## 🗺️디자인 및 기획
 
 - [스토리맵&백로그](https://www.figma.com/file/gWCcjBIjAStADIuIHnZuFD/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%B5-%26-%EB%B0%B1%EB%A1%9C%EA%B7%B8?type=whiteboard&t=dtVUyaIFru4GF6Ts-0)
 - [목업 디자인](https://www.figma.com/file/V42mrxheeNAvLQMbbvrZli/%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=0-1&mode=design&t=nggZ8AcV0QhK633S-0)
@@ -327,7 +327,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 기타 등등
+## 🎸기타 등등
 
 - [회의록](https://www.notion.so/f19790de606742fcbb3f3ac5f0f13934?pvs=4)
 - [회고](https://glacier-aura-f95.notion.site/2ef691d35dcc47758b4b4a6a774426ea?pvs=4)
@@ -335,7 +335,7 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 
 <br /><br />
 
-## 팀원 소개
+## 🙉팀원 소개
 
 |                                                                    FE                                                                    |                                                                       FE                                                                       |                                                                  FE                                                                   |                                                                     BE                                                                      |                                                                        BE                                                                         |
 | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |
