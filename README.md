@@ -254,6 +254,9 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 <br /><br />
 
 ## 미니 개발 세미나
+<div align="center">
+  <img src="./semina.jpg" alt="미니 개발 세미나 5회" />
+</div>
 
 > **미니 개발 세미나란?**
 >
@@ -261,16 +264,19 @@ https://github.com/boostcampwm2023/web12-algo-with-me/assets/39542757/a5462276-4
 > 5 ~ 10분 동안 자유주제 혹은 프로젝트를 진행하면서 공유하고 싶은 내용을 발표하는 방식으로 진행됩니다.
 > 발표자는 팀원들로 구성되지만, 다른 캠퍼들도 자유롭게 듣고 질문할 수 있도록 외부적으로 공개하였습니다.
 > 2023/11/08 첫 세미나를 시작으로 5회 진행되었으며, **부스트캠프가 끝나고도 이어갈 예정입니다.**
+>
+> [👉 전체 보기](https://glacier-aura-f95.notion.site/6d5e29ae5be3417eb3e963e434b8ec0e?v=9b187ad6575f4eb28de3aa5ee78d6076&pvs=4)  
 
-[📄 전체 보기](https://glacier-aura-f95.notion.site/6d5e29ae5be3417eb3e963e434b8ec0e?v=9b187ad6575f4eb28de3aa5ee78d6076&pvs=4)
+### Best Pick
+| 썸네일 | 한 줄 소개 | 링크 |
+|------|------|------|
+| <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/caf31e79-367a-4188-8bbf-e4aed9da483f" width="250" alt="그대들 어떻게 개발할 것인가?"/> | 제가 개발자의 길을 걷게 되면서 스스로 가지고 있던 개발자의 정의가 어떻게 바뀌었는지 회고하고 질문을 던집니다 | [그대들 어떻게 개발할 것인가?](https://www.notion.so/9984ebe33b084b87928c1d58e6c03ee3?pvs=4) |
+| <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/67ff3412-7804-4b89-8b25-1b013d3c8931" width="250" alt="WebSocket을 선택한 이유"/> | 양방향 통신들의 기법에 대해서 간략히 알아보고, 왜 우리가 webSocket을 선택했는지 공유합니다. | [WebSocket을 선택한 이유](https://www.notion.so/Algo-With-Me-webSocket-fc2156159b4149f28d21ccd89191dca1) |
+| <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/3442d63d-99d3-4808-94ef-251de15043ec" width="250" alt="클린 코드, 주석"/> | 클린 코드를 왜 지향해야 하는지, 클린 코드와 주석의 상관관계는 무엇인지에 대해 설명합니다. | [클린 코드, 주석](https://www.notion.so/4cbd33cf9de14ea4aed81b56691e256f) |
+| <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/ea3003f0-62fe-4897-a33e-324e52d72256" width="250" alt="Why MSA?"/> | MicroService Architecture가 무엇인지, 어떤 장점이 있는지, 언제 사용해야 하는지 살펴봅니다. | [Why MSA?](https://www.notion.so/Why-MSA-970268092045436aa0af6c36f134d675?pvs=4) |
+| <img src="https://github.com/boostcampwm2023/web12-algo-with-me/assets/40891497/017fe44b-b6ab-4973-8d88-d841e361434b" width="250" alt="대시보드 어떻게 구현하지"/> | 대시보드 실시간 갱신을 위해 WebSocket과 Redis를 도입하여 사용하게 된 과정을 소개합니다. | [대시보드 어떻게 구현하지](https://glacier-aura-f95.notion.site/82bc461a68464a9cb0bc7dd8aa5e9f1e?pvs=4) |
 
-- [그대들 어떻게 개발할 것인가?](https://www.notion.so/9984ebe33b084b87928c1d58e6c03ee3?pvs=4)
-- [webSocket을 선택한 이유](https://www.notion.so/Algo-With-Me-webSocket-fc2156159b4149f28d21ccd89191dca1)
-- [클린 코드, 주석](https://www.notion.so/4cbd33cf9de14ea4aed81b56691e256f)
-- [Why MSA?](https://www.notion.so/Why-MSA-970268092045436aa0af6c36f134d675?pvs=4)
-- [대시보드 어떻게 구현하지](https://glacier-aura-f95.notion.site/82bc461a68464a9cb0bc7dd8aa5e9f1e?pvs=4)
 
-![미니 개발 세미나 5회](./semina.jpg)
 
 <br /><br />
 
