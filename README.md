@@ -287,10 +287,12 @@ algo-with-me 메인페이지입니다. 현재까지의 모든 대회를 확인�
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
+![TypeORM](https://img.shields.io/badge/TypeORM-FF4716?logo=typeorm&logoColor=white&style=for-the-badge)
 
 ### FE Skill 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![PandaCSS](https://img.shields.io/badge/PandaCSS-FDE047?logo=panda-css&logoColor=black&style=for-the-badge)
 
 ### Etc
 ![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
