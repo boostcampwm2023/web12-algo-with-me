@@ -3,11 +3,18 @@ import * as reactRouterDom from 'react-router-dom';
 import AuthProvider from '@/components/Auth/AuthProvider';
 import Header from '@/components/Header';
 
+import '@/utils/test/localStorage';
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import { cleanup, render } from '@testing-library/react';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+
 const CORRECT_TOKEN = 'correct';
 const INCORRECT_TOKEN = 'inCorrect';
+
+beforeEach(() => {
+  cleanup();
+  localStorage.clear();
+});
 
 const useLocationReturn = (token: string) => ({
   state: '',
@@ -33,7 +40,6 @@ describe('Header 컴포넌트 검증 with 올바른 토큰', () => {
         <Header />
       </AuthProvider>,
     );
-
     expect(await findByText(/로그아웃/i)).toBeInTheDocument();
   });
 });
@@ -48,6 +54,36 @@ describe('Header 컴포넌트 검증 with 잘못된 토큰', () => {
       </AuthProvider>,
     );
 
+    expect(await findByText(/로그인/i)).toBeInTheDocument();
+  });
+});
+
+describe('Header 컴포넌트 검증 with 올바른 LocalStorage 값', () => {
+  test('로그아웃 버튼이 보여야 한다.', async () => {
+    localStorage.setItem('accessToken', CORRECT_TOKEN);
+    // @ts-expect-error ts-ignore
+    vi.spyOn(reactRouterDom, 'useLocation').mockReturnValue('');
+
+    const { findByText } = render(
+      <AuthProvider>
+        <Header />
+      </AuthProvider>,
+    );
+    expect(await findByText(/로그아웃/i)).toBeInTheDocument();
+  });
+});
+
+describe('Header 컴포넌트 검증 with 잘못된 LocalStorage 값', () => {
+  test('로그인 버튼이 보여야 한다.', async () => {
+    localStorage.setItem('accessToken', INCORRECT_TOKEN);
+    // @ts-expect-error ts-ignore
+    vi.spyOn(reactRouterDom, 'useLocation').mockReturnValue('');
+
+    const { findByText } = render(
+      <AuthProvider>
+        <Header />
+      </AuthProvider>,
+    );
     expect(await findByText(/로그인/i)).toBeInTheDocument();
   });
 });
