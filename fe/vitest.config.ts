@@ -9,10 +9,12 @@ export default defineConfig({
     root: __dirname,
     setupFiles: ['./vitest.setup.ts'],
     environment: 'jsdom',
+    include: ['./src/test/*.test.ts', './src/test/*.test.tsx'],
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@style': path.resolve(__dirname, './styled-system'),
     },
   },
 });
