@@ -6,7 +6,8 @@ import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem, ProblemId } from '@/apis/problems';
 import { Button, HStack, HStackProps, Icon, Modal, Space, VStack } from '@/components/Common';
 import { SubmissionForm } from '@/hooks/competition';
-import { useUserCode } from '@/hooks/editor/useUserCode';
+import type { LangaugeType } from '@/hooks/editor/types';
+import { useUserCodeInfo } from '@/hooks/editor/useUserCodeInfo';
 import useAuth from '@/hooks/login/useAuth';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
 import { useSubmitSolution } from '@/hooks/submission/useSubmitSolution';
@@ -15,6 +16,7 @@ import { isNil } from '@/utils/type';
 
 import { SocketContext } from '../Common/Socket/SocketContext';
 import Editor from '../Editor/Editor';
+import { LanguageSelector } from '../Editor/LanguageSelector';
 import { SimulationExecButton } from '../Simulation/SimulationExecButton';
 import { SimulationInputModal } from '../Simulation/SimulationInputModal';
 import { SimulationResultList } from '../Simulation/SimulationResultList';
@@ -42,13 +44,16 @@ export function ProblemSolveContainer({
   const [currentTab, setCurrentTab] = useState(0);
 
   const { email } = useAuth();
-  const { code, setCode } = useUserCode({
+  const { code, setCode, language, setLanguage } = useUserCodeInfo({
     userId: email,
     problem,
     competitionId,
     currentProblemIndex,
     save: customLocalStorage.save,
+    defaultLanguage: 'JavaScript',
   });
+
+  console.log(language);
 
   let testcases: SimulationInput[] = [];
   if (isNil(simulationInputCache[`${competitionId}|${currentProblemIndex}`])) {
@@ -140,6 +145,10 @@ export function ProblemSolveContainer({
     alert(isSolved ? '정답입니다' : '오답입니다');
   };
 
+  const handleLanguageChange = (newLanguage: LangaugeType) => {
+    setLanguage(newLanguage);
+  };
+
   useEffect(() => {
     if (isNil(socket)) return;
 
@@ -158,11 +167,20 @@ export function ProblemSolveContainer({
     submission.emptyResults();
   }, [currentProblemIndex]);
 
+  const options: LangaugeType[] = ['JavaScript', 'C++'];
+
   return (
     <HStack className={css({ height: '100%' })} {...props}>
       <VStack className={problemSolveContainerStyle} alignItems="stretch">
         <ProblemViewer className={problemStyle} content={problem.content}></ProblemViewer>
         <HStack className={solutionStyle}>
+          <div className={LanguageBoxStyle}>
+            <LanguageSelector
+              options={options}
+              language={language}
+              onChangeLanguage={handleLanguageChange}
+            />
+          </div>
           <Editor height="50%" code={code} onChangeCode={handleChangeCode}></Editor>
           <section className={resultContainerStyle}>
             <div
@@ -260,4 +278,10 @@ const tabStyle = cva({
 
 const simulationModalStyle = css({
   width: '1000px',
+});
+
+const LanguageBoxStyle = css({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  padding: '4px 16px',
 });

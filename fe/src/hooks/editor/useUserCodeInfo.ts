@@ -4,11 +4,15 @@ import { CompetitionProblem } from '@/apis/problems';
 import { Dictionary, JSONType } from '@/types';
 import { isDictionary, isNil } from '@/utils/type';
 
+import type { LangaugeType } from './types';
+
 interface UseUserCode {
   userId: string;
   problem: CompetitionProblem;
   competitionId: number;
   currentProblemIndex: number;
+  defaultLanguage: LangaugeType;
+
   save: (key: string, origin: JSONType) => void;
 }
 
@@ -16,14 +20,16 @@ interface Origin {
   [key: string]: { [key: number]: string };
 }
 
-export function useUserCode({
+export function useUserCodeInfo({
   userId,
   problem,
   competitionId,
   currentProblemIndex,
+  defaultLanguage,
   save,
 }: UseUserCode) {
   const [code, setCode] = useState<string>(problem.solutionCode);
+  const [language, setLanguage] = useState<LangaugeType>(defaultLanguage);
   const [oldProblemIndex, setOldProblemIndex] = useState<number>(-1);
 
   const localStorageKey = 'savedCode';
@@ -72,5 +78,5 @@ export function useUserCode({
     save(localStorageKey, origin);
   }, [code, currentProblemIndex]);
 
-  return { code, setCode };
+  return { code, setCode, language, setLanguage };
 }
