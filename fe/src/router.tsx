@@ -9,6 +9,7 @@ import ProblemPage from '@/pages/ProblemPage';
 import App from './App';
 import CompetitionDetailPage from './pages/CompetitionDetailPage';
 import DashboardPage from './pages/DashboardPage';
+import TestCompetitionPage from './pages/TestCompetitionPage';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: '/competition/dashboard/:id',
         element: <DashboardPage />,
+      },
+      {
+        path: '/competition/test',
+        element: <TestCompetitionPage />,
       },
     ],
   },
