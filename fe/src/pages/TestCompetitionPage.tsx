@@ -1,0 +1,103 @@
+import { css } from '@style/css';
+
+import { useMemo, useState } from 'react';
+
+import { BreadCrumb, Link, Logo, Space } from '@/components/Common';
+import CompetitionHeader from '@/components/Competition/CompetitionHeader';
+import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
+import { CompetitionPageLayout } from '@/components/Layout';
+import { ProblemHeader } from '@/components/Problem/ProblemHeader';
+import { TestProblemSolveContainer } from '@/components/Problem/TestProblemSolveContainer';
+import { UserValidator } from '@/components/UserValidator';
+import { SITE } from '@/constants';
+import { useCompetition } from '@/hooks/competition';
+import { useCompetitionProblem } from '@/hooks/problem';
+
+export default function TestCompetitionPage() {
+  const competitionId: number = 2;
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+
+  const problemList = [
+    {
+      id: 1,
+      title: 'A+B',
+    },
+    {
+      id: 2,
+      title: '팬린드롬 수',
+    },
+    {
+      id: 3,
+      title: '회의실 배정',
+    },
+  ];
+
+  const currentProblem = useMemo(() => {
+    if (problemList.length > 0) {
+      return problemList[currentProblemIndex];
+    }
+    return null;
+  }, [problemList, currentProblemIndex]);
+
+  const { problem } = useCompetitionProblem(currentProblem?.id ?? -1);
+
+  const problemIds = problemList.map((problem) => problem.id);
+
+  const { competition } = useCompetition(competitionId);
+
+  const crumbs = [SITE.NAME, competition.name ?? ''];
+
+  return (
+    <CompetitionPageLayout className={style}>
+      <CompetitionHeader className={padVerticalStyle}>
+        <Link to="/">
+          <Logo size={48}></Logo>
+        </Link>
+        <BreadCrumb crumbs={crumbs}></BreadCrumb>
+        <Space></Space>
+      </CompetitionHeader>
+      <ProblemHeader className={padVerticalStyle} problem={problem}></ProblemHeader>
+      <div className={competitionStyle}>
+        <aside className={asideStyle}>
+          <CompetitionProblemSelector
+            problemIds={problemIds}
+            currentIndex={currentProblemIndex}
+            onChangeProblemIndex={setCurrentProblemIndex}
+          />
+        </aside>
+        <TestProblemSolveContainer
+          competitionId={competitionId}
+          problem={problem}
+          currentProblemIndex={currentProblemIndex}
+        ></TestProblemSolveContainer>
+      </div>
+      <UserValidator />
+    </CompetitionPageLayout>
+  );
+}
+
+const style = css({
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const competitionStyle = css({
+  flexGrow: '1',
+  overflow: 'hidden',
+});
+
+const padVerticalStyle = css({
+  paddingX: '1rem',
+});
+
+const asideStyle = css({
+  float: 'left',
+  flexShrink: 0,
+  borderRight: '1px solid',
+  borderColor: 'border',
+  padding: '0.5rem',
+  width: '5rem',
+  height: '100%',
+});
