@@ -10,7 +10,6 @@ import { ProblemHeader } from '@/components/Problem/ProblemHeader';
 import { TestProblemSolveContainer } from '@/components/Problem/TestProblemSolveContainer';
 import { UserValidator } from '@/components/UserValidator';
 import { SITE } from '@/constants';
-import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 
 export default function TestCompetitionPage() {
@@ -23,12 +22,12 @@ export default function TestCompetitionPage() {
       title: 'A+B',
     },
     {
-      id: 2,
-      title: '팬린드롬 수',
+      id: 9,
+      title: '달팽이는 올라가고 싶다',
     },
     {
-      id: 3,
-      title: '회의실 배정',
+      id: 10,
+      title: '피보나치 수의 연속합',
     },
   ];
 
@@ -43,9 +42,7 @@ export default function TestCompetitionPage() {
 
   const problemIds = problemList.map((problem) => problem.id);
 
-  const { competition } = useCompetition(competitionId);
-
-  const crumbs = [SITE.NAME, competition.name ?? ''];
+  const crumbs = [SITE.NAME, 'sandbox'];
 
   return (
     <CompetitionPageLayout className={style}>
