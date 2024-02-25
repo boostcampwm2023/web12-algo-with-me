@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import { HStack, Logo, Text, VStack } from '@/components/Common';
-import EnterTestCompetitionButton from '@/components/CompetitionDetail/Buttons/EnterTestCompetitionButton';
+import EnterSandboxCompetitionButton from '@/components/CompetitionDetail/Buttons/EnterSandboxCompetitionButton';
 import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout';
 import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
@@ -23,7 +23,7 @@ function MainPage() {
           </Text>
         </HStack>
         <VStack className={linkWrapperStyle}>
-          <EnterTestCompetitionButton />
+          <EnterSandboxCompetitionButton />
           <GoToCreateCompetitionLink />
         </VStack>
         <section className={competitionTableWrapperStyle}>

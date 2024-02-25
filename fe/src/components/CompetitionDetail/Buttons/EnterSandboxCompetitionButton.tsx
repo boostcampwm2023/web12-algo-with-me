@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/Common';
 
-export default function EnterTestCompetitionButton() {
-  const competitionLink = `/competition/test`;
+export default function EnterSandboxCompetitionButton() {
+  const competitionLink = `/competition/Sandbox`;
   const navigate = useNavigate();
 
   const handleNavigate = async () => {

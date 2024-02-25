@@ -7,12 +7,12 @@ import CompetitionHeader from '@/components/Competition/CompetitionHeader';
 import CompetitionProblemSelector from '@/components/Competition/CompetitionProblemSelector';
 import { CompetitionPageLayout } from '@/components/Layout';
 import { ProblemHeader } from '@/components/Problem/ProblemHeader';
-import { TestProblemSolveContainer } from '@/components/Problem/TestProblemSolveContainer';
+import { SandboxProblemSolveContainer } from '@/components/Problem/SandboxProblemSolveContainer';
 import { UserValidator } from '@/components/UserValidator';
 import { SITE } from '@/constants';
 import { useCompetitionProblem } from '@/hooks/problem';
 
-export default function TestCompetitionPage() {
+export default function SandboxCompetitionPage() {
   const competitionId: number = 2;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
 
@@ -62,11 +62,11 @@ export default function TestCompetitionPage() {
             onChangeProblemIndex={setCurrentProblemIndex}
           />
         </aside>
-        <TestProblemSolveContainer
+        <SandboxProblemSolveContainer
           competitionId={competitionId}
           problem={problem}
           currentProblemIndex={currentProblemIndex}
-        ></TestProblemSolveContainer>
+        ></SandboxProblemSolveContainer>
       </div>
       <UserValidator />
     </CompetitionPageLayout>

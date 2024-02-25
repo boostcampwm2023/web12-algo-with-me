@@ -9,7 +9,7 @@ import ProblemPage from '@/pages/ProblemPage';
 import App from './App';
 import CompetitionDetailPage from './pages/CompetitionDetailPage';
 import DashboardPage from './pages/DashboardPage';
-import TestCompetitionPage from './pages/TestCompetitionPage';
+import SandboxCompetitionPage from './pages/SandboxCompetitionPage';
 
 const router = createBrowserRouter([
   {
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: '/competition/test',
-        element: <TestCompetitionPage />,
+        path: '/competition/Sandbox',
+        element: <SandboxCompetitionPage />,
       },
     ],
   },
