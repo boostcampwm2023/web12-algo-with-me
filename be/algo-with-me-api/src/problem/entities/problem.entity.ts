@@ -9,6 +9,7 @@ import {
 
 import { CompetitionProblem } from './competition.problem.entity';
 import { Submission } from '../../competition/entities/submission.entity';
+import { ProblemLanguage } from './problem.language.entity';
 
 @Entity()
 export class Problem {
@@ -35,6 +36,9 @@ export class Problem {
 
   @OneToMany(() => CompetitionProblem, (competitionProblem) => competitionProblem.problem)
   competitionProblems: CompetitionProblem[];
+
+  @OneToMany(() => ProblemLanguage, (problemLanguage) => problemLanguage.problem)
+  problemLanguages: ProblemLanguage[];
 
   @CreateDateColumn()
   createdAt: Date;

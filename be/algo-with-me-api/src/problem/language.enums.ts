@@ -1,4 +1,4 @@
-export const Language = {
+export const LANGUAGES = {
   JavaScript: 'JavaScript',
   Python3: 'Python3',
 } as const;
@@ -11,7 +11,7 @@ interface ILanguageMetadata {
   stringDefaultValue: string;
   booleanDefaultValue: string;
 }
-export const LanguagesMetadata: { [key in keyof typeof Language]: ILanguageMetadata } = {
+export const LanguagesMetadata: { [key in keyof typeof LANGUAGES]: ILanguageMetadata } = {
   JavaScript: {
     oneLineComment: '//',
     indent: '  ',

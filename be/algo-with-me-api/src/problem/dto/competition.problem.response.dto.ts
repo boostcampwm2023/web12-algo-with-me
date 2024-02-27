@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Language } from '../language.enums';
+import { LANGUAGES } from '../language.enums';
 
 export type TestcaseParameterMetadata = { name: string; type: string };
 export type TestcaseData = { input: any[]; output: any };
@@ -16,7 +16,7 @@ export class CompetitionProblemResponseDto {
     timeLimit: number,
     memoryLimit: number,
     content: string,
-    solutionCode: { [key in keyof typeof Language]: string },
+    solutionCode: { [key in keyof typeof LANGUAGES]: string },
     testcases: ITestcases,
     createdAt: Date,
   ) {
@@ -46,7 +46,7 @@ export class CompetitionProblemResponseDto {
   content: string;
 
   @ApiProperty({ description: '초기 코드' })
-  solutionCode: { [key in keyof typeof Language]: string };
+  solutionCode: { [key in keyof typeof LANGUAGES]: string };
 
   @ApiProperty({ description: '공개 테스트 케이스' })
   testcases: ITestcases;
