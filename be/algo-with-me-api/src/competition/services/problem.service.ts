@@ -49,7 +49,7 @@ export class ProblemService {
     output: IParameter,
   ): string {
     const inputParams = this.getInputParams(inputs);
-    const parameterDescriptions = this.getParameterDescriptions(inputs, output, language);
+    const parameterDescriptions = this.getParameterDescriptions(inputs, language);
     const returnStatement = this.getSolutionCodeReturnStatement(output, language);
     switch (language) {
       case Language.JavaScript:
@@ -65,17 +65,11 @@ export class ProblemService {
     return inputs.map((x) => x.name).join(', ');
   }
 
-  private getParameterDescriptions(
-    inputs: IParameter[],
-    output: IParameter,
-    language: keyof typeof Language,
-  ) {
+  private getParameterDescriptions(inputs: IParameter[], language: keyof typeof Language) {
     const languageMetadata = LanguagesMetadata[language];
-    const parameters = inputs.concat(output);
-    return parameters
+    return inputs
       .map(
-        (x) =>
-          `${languageMetadata.indent}${languageMetadata.oneLineComment} ${x.name}: ${x.datatype}`,
+        (x) => `${languageMetadata.indent}${languageMetadata.oneLineComment} ${x.name}: ${x.type}`,
       )
       .join(`\n`);
   }
@@ -85,23 +79,24 @@ export class ProblemService {
     language: keyof typeof Language,
   ): string {
     let result = this.getDefaultReturnValue(output, language);
-    for (const char of output.datatype) {
+    const languageMetadata = LanguagesMetadata[language];
+    for (const char of output.type) {
       if (char === '[') {
         result = `[${result}]`;
       }
     }
-    result = `${LanguagesMetadata[language].indent}return ${result}`;
+    result = `${languageMetadata.indent}return ${result}${languageMetadata.endOfSentence}`;
     return result;
   }
 
   private getDefaultReturnValue(output: IParameter, language: keyof typeof Language): string {
     let result: string;
     const languageMetadata = LanguagesMetadata[language];
-    if (output.datatype.startsWith('integer')) {
+    if (output.type.startsWith('integer')) {
       result = languageMetadata.integerDefaultValue;
-    } else if (output.datatype.startsWith('string')) {
+    } else if (output.type.startsWith('string')) {
       result = languageMetadata.stringDefaultValue;
-    } else if (output.datatype.startsWith('boolean')) {
+    } else if (output.type.startsWith('boolean')) {
       result = languageMetadata.booleanDefaultValue;
     }
     return result;

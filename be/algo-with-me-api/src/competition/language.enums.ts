@@ -6,6 +6,7 @@ export const Language = {
 interface ILanguageMetadata {
   oneLineComment: string;
   indent: string;
+  endOfSentence: string;
   integerDefaultValue: string;
   stringDefaultValue: string;
   booleanDefaultValue: string;
@@ -14,6 +15,7 @@ export const LanguagesMetadata: { [key in keyof typeof Language]: ILanguageMetad
   JavaScript: {
     oneLineComment: '//',
     indent: '  ',
+    endOfSentence: ';',
     integerDefaultValue: '0',
     stringDefaultValue: "''",
     booleanDefaultValue: 'true',
@@ -21,6 +23,7 @@ export const LanguagesMetadata: { [key in keyof typeof Language]: ILanguageMetad
   Python3: {
     oneLineComment: '//',
     indent: '    ',
+    endOfSentence: '',
     integerDefaultValue: '0',
     stringDefaultValue: "''",
     booleanDefaultValue: 'True',
@@ -41,5 +44,5 @@ export type ParameterDataType =
 
 export interface IParameter {
   name: string;
-  datatype: ParameterDataType;
+  type: ParameterDataType;
 }
