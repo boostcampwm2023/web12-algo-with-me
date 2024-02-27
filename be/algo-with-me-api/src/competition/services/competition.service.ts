@@ -238,11 +238,14 @@ export class CompetitionService {
       });
     }
 
-    const solutionCode = this.problemService.generateSolutionCode(
-      Language.JavaScript,
-      metadata.input as IParameter[],
-      metadata.output as IParameter,
-    );
+    const solutionCode = {} as { [key in keyof typeof Language]: string };
+    for (const language of Object.keys(Language)) {
+      solutionCode[language] = this.problemService.generateSolutionCode(
+        language as keyof typeof Language,
+        metadata.input as IParameter[],
+        metadata.output as IParameter,
+      );
+    }
 
     const testcases: ITestcases = {
       input: metadata.input,
