@@ -9,7 +9,7 @@ import { CreateProblemDto } from '../dto/create-problem.dto';
 import { ProblemResponseDto } from '../dto/problem.response.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { Problem } from '../entities/problem.entity';
-import { Language, IParameter, LanguagesMetadata } from '../language.enums';
+import { LANGUAGES, IParameter, LanguagesMetadata } from '../language.enums';
 
 @Injectable()
 export class ProblemService {
@@ -44,7 +44,7 @@ export class ProblemService {
   }
 
   generateSolutionCode(
-    language: keyof typeof Language,
+    language: keyof typeof LANGUAGES,
     inputs: IParameter[],
     output: IParameter,
   ): string {
@@ -52,9 +52,9 @@ export class ProblemService {
     const parameterDescriptions = this.getParameterDescriptions(inputs, language);
     const returnStatement = this.getSolutionCodeReturnStatement(output, language);
     switch (language) {
-      case Language.JavaScript:
+      case LANGUAGES.JavaScript:
         return `function solution(${inputParams}) {\n${parameterDescriptions}\n${returnStatement}\n}\n`;
-      case Language.Python3:
+      case LANGUAGES.Python3:
         return `def solution(${inputParams}):\n${parameterDescriptions}\n${returnStatement}\n`;
       default:
         throw new Error(`${language} 언어는 지원하지 않는 프로그래밍 언어입니다`);
@@ -65,7 +65,7 @@ export class ProblemService {
     return inputs.map((x) => x.name).join(', ');
   }
 
-  private getParameterDescriptions(inputs: IParameter[], language: keyof typeof Language) {
+  private getParameterDescriptions(inputs: IParameter[], language: keyof typeof LANGUAGES) {
     const languageMetadata = LanguagesMetadata[language];
     return inputs
       .map(
@@ -76,7 +76,7 @@ export class ProblemService {
 
   private getSolutionCodeReturnStatement(
     output: IParameter,
-    language: keyof typeof Language,
+    language: keyof typeof LANGUAGES,
   ): string {
     let result = this.getDefaultReturnValue(output, language);
     const languageMetadata = LanguagesMetadata[language];
@@ -89,7 +89,7 @@ export class ProblemService {
     return result;
   }
 
-  private getDefaultReturnValue(output: IParameter, language: keyof typeof Language): string {
+  private getDefaultReturnValue(output: IParameter, language: keyof typeof LANGUAGES): string {
     let result: string;
     const languageMetadata = LanguagesMetadata[language];
     if (output.type.startsWith('integer')) {

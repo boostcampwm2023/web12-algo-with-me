@@ -38,7 +38,7 @@ import { CompetitionParticipant } from '../entities/competition.participant.enti
 import { CompetitionProblem } from '../../problem/entities/competition.problem.entity';
 import { Problem } from '../../problem/entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
-import { Language, IParameter } from '../../problem/language.enums';
+import { LANGUAGES, IParameter } from '../../problem/language.enums';
 
 @Injectable()
 export class CompetitionService {
@@ -238,10 +238,10 @@ export class CompetitionService {
       });
     }
 
-    const solutionCode = {} as { [key in keyof typeof Language]: string };
-    for (const language of Object.keys(Language)) {
+    const solutionCode = {} as { [key in keyof typeof LANGUAGES]: string };
+    for (const language of Object.keys(LANGUAGES)) {
       solutionCode[language] = this.problemService.generateSolutionCode(
-        language as keyof typeof Language,
+        language as keyof typeof LANGUAGES,
         metadata.input as IParameter[],
         metadata.output as IParameter,
       );

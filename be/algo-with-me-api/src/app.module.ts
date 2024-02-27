@@ -10,13 +10,15 @@ import { AuthModule } from './auth/auth.module';
 import { CompetitionModule } from './competition/competition.module';
 import { Competition } from './competition/entities/competition.entity';
 import { CompetitionParticipant } from './competition/entities/competition.participant.entity';
-import { CompetitionProblem } from './problem/entities/competition.problem.entity';
-import { Problem } from './problem/entities/problem.entity';
 import { Submission } from './competition/entities/submission.entity';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { Dashboard } from './dashboard/entities/dashboard.entity';
 import winstonConfig from './log/logger.config';
 import { LoggerMiddleware } from './log/logger.middleware';
+import { CompetitionProblem } from './problem/entities/competition.problem.entity';
+import { Language } from './problem/entities/language.entity';
+import { Problem } from './problem/entities/problem.entity';
+import { ProblemLanguage } from './problem/entities/problem.language.entity';
 import { ProblemModule } from './problem/problem.module';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
@@ -45,6 +47,8 @@ config();
         CompetitionProblem,
         CompetitionParticipant,
         Dashboard,
+        Language,
+        ProblemLanguage,
       ],
       logging: true,
     }),
