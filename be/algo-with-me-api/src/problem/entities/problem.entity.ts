@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 
 import { CompetitionProblem } from './competition.problem.entity';
-import { Submission } from '../../competition/entities/submission.entity';
 import { ProblemLanguage } from './problem.language.entity';
+import { Submission } from '../../competition/entities/submission.entity';
 
 @Entity()
 export class Problem {
