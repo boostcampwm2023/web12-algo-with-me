@@ -17,6 +17,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { Dashboard } from './dashboard/entities/dashboard.entity';
 import winstonConfig from './log/logger.config';
 import { LoggerMiddleware } from './log/logger.middleware';
+import { ProblemModule } from './problem/problem.module';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 
@@ -66,6 +67,7 @@ config();
     AuthModule,
     UserModule,
     DashboardModule,
+    ProblemModule,
   ],
 })
 export class AppModule {
