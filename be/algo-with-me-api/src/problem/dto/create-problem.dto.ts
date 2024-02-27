@@ -35,7 +35,6 @@ export class CreateProblemDto {
     problem.memoryLimit = this.memoryLimit;
     problem.testcaseNum = this.testcaseNum;
     problem.frameCode = this.frameCode;
-    problem.solutionCode = this.solutionCode;
     return problem;
   }
 }

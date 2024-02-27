@@ -30,9 +30,6 @@ export class Problem {
   @Column('text')
   frameCode: string;
 
-  @Column('text')
-  solutionCode: string;
-
   @OneToMany(() => Submission, (submission) => submission.problem)
   submissions: Submission[];
 
