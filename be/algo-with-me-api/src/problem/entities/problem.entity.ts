@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { CompetitionProblem } from './competition.problem.entity';
-import { Submission } from './submission.entity';
+import { Submission } from '../../competition/entities/submission.entity';
 
 @Entity()
 export class Problem {

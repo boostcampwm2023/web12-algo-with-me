@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Competition } from './competition.entity';
 import { Problem } from './problem.entity';
+import { Competition } from '../../competition/entities/competition.entity';
 
 @Entity()
 export class CompetitionProblem {

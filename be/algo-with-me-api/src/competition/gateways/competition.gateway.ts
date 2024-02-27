@@ -13,7 +13,7 @@ import { Server, Socket } from 'socket.io';
 
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { CompetitionService } from '../services/competition.service';
-import { ProblemService } from '../services/problem.service';
+import { ProblemService } from '../../problem/services/problem.service';
 
 import { AuthTokenPayloadDto } from '@src/auth/dto/auth.token.payload.dto';
 import { AuthService } from '@src/auth/services/auth.service';

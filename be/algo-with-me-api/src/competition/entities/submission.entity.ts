@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { Competition } from './competition.entity';
-import { Problem } from './problem.entity';
+import { Problem } from '../../problem/entities/problem.entity';
 import { RESULT } from '../competition.enums';
 
 import { User } from '@src/user/entities/user.entity';

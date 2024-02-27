@@ -5,10 +5,9 @@ import { DashboardController } from './dashboard.controller';
 import { DashboardGateway } from './dashboard.gateway';
 import { DashboardService } from './dashboard.service';
 import { Dashboard } from './entities/dashboard.entity';
-
-import { CompetitionModule } from '@src/competition/competition.module';
-import { Competition } from '@src/competition/entities/competition.entity';
-import { CompetitionProblem } from '@src/competition/entities/competition.problem.entity';
+import { CompetitionModule } from '../competition/competition.module';
+import { Competition } from '../competition/entities/competition.entity';
+import { CompetitionProblem } from '../problem/entities/competition.problem.entity';
 
 @Module({
   imports: [
