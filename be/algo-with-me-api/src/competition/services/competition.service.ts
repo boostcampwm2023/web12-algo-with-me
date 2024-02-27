@@ -18,27 +18,27 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { ProblemService } from './problem.service';
+import { DashboardService } from '../../dashboard/dashboard.service';
+import { User } from '../../user/entities/user.entity';
 import { RESULT } from '../competition.enums';
+import { CompetitionDto } from '../dto/competition.dto';
 import { IsJoinableDto } from '../dto/competition.is.joinable.dto';
 import {
   CompetitionProblemResponseDto,
   ITestcases,
   TestcaseData,
 } from '../dto/competition.problem.response.dto';
+import { CompetitionResponseDto } from '../dto/competition.response.dto';
+import { CompetitionSimpleResponseDto } from '../dto/competition.simple-response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
+import { Competition } from '../entities/competition.entity';
 import { CompetitionParticipant } from '../entities/competition.participant.entity';
 import { CompetitionProblem } from '../entities/competition.problem.entity';
 import { Problem } from '../entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
-
-import { CompetitionDto } from '@src/competition/dto/competition.dto';
-import { CompetitionResponseDto } from '@src/competition/dto/competition.response.dto';
-import { CompetitionSimpleResponseDto } from '@src/competition/dto/competition.simple-response.dto';
-import { Competition } from '@src/competition/entities/competition.entity';
-import { DashboardService } from '@src/dashboard/dashboard.service';
-import { User } from '@src/user/entities/user.entity';
+import { Language, IParameter } from '../language.enums';
 
 @Injectable()
 export class CompetitionService {
@@ -237,6 +237,13 @@ export class CompetitionService {
         output: JSON.parse(fs.readFileSync(`${filename}.ans`).toString()),
       });
     }
+
+    const solutionCode = this.problemService.generateSolutionCode(
+      Language.JavaScript,
+      metadata.input as IParameter[],
+      metadata.output as IParameter,
+    );
+
     const testcases: ITestcases = {
       input: metadata.input,
       output: metadata.output,
@@ -249,7 +256,7 @@ export class CompetitionService {
       problem.timeLimit,
       problem.memoryLimit,
       content,
-      problem.solutionCode,
+      solutionCode,
       testcases,
       problem.createdAt,
     );
@@ -375,12 +382,10 @@ export class CompetitionService {
         competition.startsAt,
       );
 
-      this.server
-        .to(scoreResultDto.socketId)
-        .emit('problemResult', {
-          result: totalResult === 'CORRECT' ? true : false,
-          problemId: submission.problemId,
-        });
+      this.server.to(scoreResultDto.socketId).emit('problemResult', {
+        result: totalResult === 'CORRECT' ? true : false,
+        problemId: submission.problemId,
+      });
     }
   }
 
