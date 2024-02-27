@@ -17,7 +17,7 @@ import { existsSync, readFileSync } from 'fs';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ProblemService } from './problem.service';
+import { ProblemService } from '../../problem/services/problem.service';
 import { DashboardService } from '../../dashboard/dashboard.service';
 import { User } from '../../user/entities/user.entity';
 import { RESULT } from '../competition.enums';
@@ -27,18 +27,18 @@ import {
   CompetitionProblemResponseDto,
   ITestcases,
   TestcaseData,
-} from '../dto/competition.problem.response.dto';
+} from '../../problem/dto/competition.problem.response.dto';
 import { CompetitionResponseDto } from '../dto/competition.response.dto';
 import { CompetitionSimpleResponseDto } from '../dto/competition.simple-response.dto';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
-import { ProblemSimpleResponseDto } from '../dto/problem.simple.response.dto';
+import { ProblemSimpleResponseDto } from '../../problem/dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { Competition } from '../entities/competition.entity';
 import { CompetitionParticipant } from '../entities/competition.participant.entity';
-import { CompetitionProblem } from '../entities/competition.problem.entity';
-import { Problem } from '../entities/problem.entity';
+import { CompetitionProblem } from '../../problem/entities/competition.problem.entity';
+import { Problem } from '../../problem/entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
-import { Language, IParameter } from '../language.enums';
+import { Language, IParameter } from '../../problem/language.enums';
 
 @Injectable()
 export class CompetitionService {

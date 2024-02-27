@@ -6,10 +6,9 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Repository } from 'typeorm';
 
 import { Dashboard } from './entities/dashboard.entity';
-
-import { RESULT } from '@src/competition/competition.enums';
-import { Competition } from '@src/competition/entities/competition.entity';
-import { CompetitionProblem } from '@src/competition/entities/competition.problem.entity';
+import { RESULT } from '../competition/competition.enums';
+import { Competition } from '../competition/entities/competition.entity';
+import { CompetitionProblem } from '../problem/entities/competition.problem.entity';
 
 // TODO: 서버가 여러개가 될 경우 트랜잭션 관련 문제 발생할 수 있음
 @Injectable()

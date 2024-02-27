@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-import { Problem } from '../entities/problem.entity';
+import { Problem } from '../../problem/entities/problem.entity';
 import { Submission } from '../entities/submission.entity';
 
 import { User } from '@src/user/entities/user.entity';

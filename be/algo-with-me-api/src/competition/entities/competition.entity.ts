@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import { CompetitionParticipant } from './competition.participant.entity';
-import { CompetitionProblem } from './competition.problem.entity';
+import { CompetitionProblem } from '../../problem/entities/competition.problem.entity';
 import { Submission } from './submission.entity';
 
 import { Dashboard } from '@src/dashboard/entities/dashboard.entity';
