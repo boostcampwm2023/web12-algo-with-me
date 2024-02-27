@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { ProblemLanguage } from './problem.language.entity';
+import { Submission } from '../../competition/entities/submission.entity';
 
 @Entity()
 export class Language {
@@ -19,6 +20,9 @@ export class Language {
 
   @OneToMany(() => ProblemLanguage, (ProblemLanguage) => ProblemLanguage.problem)
   problemLanguages: ProblemLanguage[];
+
+  @OneToMany(() => Submission, (submission) => submission.problem)
+  submissions: Submission[];
 
   @CreateDateColumn()
   createdAt: Date;

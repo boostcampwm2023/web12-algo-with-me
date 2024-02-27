@@ -9,11 +9,10 @@ import {
 } from 'typeorm';
 
 import { CompetitionParticipant } from './competition.participant.entity';
-import { CompetitionProblem } from '../../problem/entities/competition.problem.entity';
 import { Submission } from './submission.entity';
-
-import { Dashboard } from '@src/dashboard/entities/dashboard.entity';
-import { User } from '@src/user/entities/user.entity';
+import { Dashboard } from '../../dashboard/entities/dashboard.entity';
+import { CompetitionProblem } from '../../problem/entities/competition.problem.entity';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Competition {

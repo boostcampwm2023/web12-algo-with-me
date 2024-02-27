@@ -8,10 +8,10 @@ import {
 } from 'typeorm';
 
 import { Competition } from './competition.entity';
+import { Language } from '../../problem/entities/language.entity';
 import { Problem } from '../../problem/entities/problem.entity';
+import { User } from '../../user/entities/user.entity';
 import { RESULT } from '../competition.enums';
-
-import { User } from '@src/user/entities/user.entity';
 
 @Entity()
 export class Submission {
@@ -48,6 +48,12 @@ export class Submission {
 
   @ManyToOne(() => User, (user) => user.submissions, { nullable: false })
   user: User;
+
+  @Column()
+  languageId: number;
+
+  @ManyToOne(() => Language, (language) => language.submissions, { nullable: false })
+  language: Language;
 
   @CreateDateColumn()
   createdAt: Date;
