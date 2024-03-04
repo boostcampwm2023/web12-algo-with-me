@@ -1,7 +1,7 @@
 import * as reactRouterDom from 'react-router-dom';
 
 import AuthProvider from '@/components/Auth/AuthProvider';
-import Header from '@/components/Header';
+import { Header } from '@/components/Header';
 
 import '@/utils/test/localStorage';
 import '@testing-library/jest-dom';
