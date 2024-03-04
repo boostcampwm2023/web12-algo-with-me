@@ -3,8 +3,7 @@ import { css } from '@style/css';
 import { HStack, Logo, Text, VStack } from '@/components/Common';
 import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout';
-import GoToCreateCompetitionLink from '@/components/Main/Buttons/GoToCreateCompetitionLink';
-import CompetitionTable from '@/components/Main/CompetitionTable';
+import { CompetitionTable, CreateCompetitionButton, SandboxButton } from '@/components/Main';
 import { SITE } from '@/constants';
 
 function MainPage() {
@@ -22,7 +21,8 @@ function MainPage() {
           </Text>
         </HStack>
         <VStack className={linkWrapperStyle}>
-          <GoToCreateCompetitionLink />
+          <SandboxButton />
+          <CreateCompetitionButton />
         </VStack>
         <section className={competitionTableWrapperStyle}>
           <CompetitionTable />
@@ -55,6 +55,7 @@ const linkWrapperStyle = css({
   justifyContent: 'flex-end',
   padding: '1rem 0',
   margin: '0 auto',
+  gap: '1rem',
 });
 
 const competitionTableWrapperStyle = css({

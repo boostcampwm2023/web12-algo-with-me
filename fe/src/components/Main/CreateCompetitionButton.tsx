@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { Button, Link, Text } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
-export default function GoToCreateCompetitionLink() {
+export function CreateCompetitionButton() {
   const { isLoggedin } = useAuth();
 
   const handleNavigate = () => {
