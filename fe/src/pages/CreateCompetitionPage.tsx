@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { ProblemId, ProblemInfo } from '@/apis/problems';
 import { Button, HStack, Input, VStack } from '@/components/Common';
-import Header from '@/components/Header';
+import { Header } from '@/components/Header';
 import { PageLayout } from '@/components/Layout';
 import { SelectableProblemList } from '@/components/Problem/SelectableProblemList';
 import { SelectedProblemList } from '@/components/Problem/SelectedProblemList';

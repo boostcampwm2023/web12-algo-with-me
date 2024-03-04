@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import type { CompetitionProblem, ProblemId, Testcase } from '@/apis/problems';
+import type {
+  CompetitionProblem,
+  ProblemId,
+  Testcase,
+  TestcaseDataDictionary,
+} from '@/apis/problems';
 import { fetchCompetitionProblem } from '@/apis/problems';
 import { isNil } from '@/utils/type';
 
@@ -10,10 +15,19 @@ const notFoundProblem: CompetitionProblem = {
   timeLimit: 0,
   memoryLimit: 0,
   content: 'The requested problem could not be found.',
-  solutionCode: '',
+  solutionCode: {},
   testcases: [],
   createdAt: new Date().toISOString(),
 };
+
+export function testcaseFormatting(data: TestcaseDataDictionary[]) {
+  return data.map(({ input, output }, index) => ({
+    id: index + 1,
+    input: input.map((el) => JSON.stringify(el)).join(','),
+    expected: JSON.stringify(output),
+    changable: false,
+  }));
+}
 
 export const useCompetitionProblem = (problemId: ProblemId) => {
   const [problem, setProblem] = useState<CompetitionProblem>(notFoundProblem);
@@ -32,12 +46,7 @@ export const useCompetitionProblem = (problemId: ProblemId) => {
 
     setProblem({
       ...problem,
-      testcases: data.map(({ input, output }, index) => ({
-        id: index + 1,
-        input: input.map((el) => JSON.stringify(el)).join(','),
-        expected: JSON.stringify(output),
-        changable: false,
-      })),
+      testcases: testcaseFormatting(data),
     });
   }
 
