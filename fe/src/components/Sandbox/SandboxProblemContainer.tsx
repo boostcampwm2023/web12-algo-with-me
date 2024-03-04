@@ -1,16 +1,18 @@
 import { css, cva } from '@style/css';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { FetchCompetitionProblemResponse } from '@/apis/problems';
-import { Button, HStack, Space, VStack } from '@/components/Common';
+import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationExecButton } from '@/components/Simulation/SimulationExecButton';
+import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
 import { testcaseFormatting } from '@/hooks/problem';
-import { useSimulation } from '@/hooks/simulation';
 // import { ScoreResult, ScoreStart, SUBMIT_STATE } from '@/componenets/Submission/types';
+import { SimulationInput } from '@/hooks/simulation';
+import { useSimulation } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
 
 interface Props {
@@ -23,18 +25,19 @@ const SUBMISSION_TAP = 1;
 
 export function SandboxProblemContainer({ problem, tabIndex }: Props) {
   const [code, setCode] = useState<string>(problem.solutionCode['JavaScript'] as string);
+
   const [currentTab, setCurrentTab] = useState(0);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+
   useEffect(() => {
     if (isNil(problem.solutionCode['JavaScript'])) return;
     setCode(problem.solutionCode['JavaScript'] as string);
   }, []);
 
+  const simulation = useSimulation(testcaseFormatting(problem.testcases.data), tabIndex);
+
   useEffect(() => {
     setCode(problem.solutionCode['JavaScript'] as string);
   }, [tabIndex]);
-
-  const simulation = useSimulation(testcaseFormatting(problem.testcases.data));
 
   const handleSimulate = () => {
     setCurrentTab(SIMULATION_TAP);
@@ -44,13 +47,18 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
   const handleSimulationCancel = () => {
     simulation.cancel();
   };
+  const modal = useContext(Modal.Context);
 
   const handleOpenModal = () => {
-    isOpenModal ? setIsOpenModal(false) : setIsOpenModal(true);
+    modal.open();
   };
 
   const handleInitCode = () => {
     setCode(problem.solutionCode['JavaScript'] as string);
+  };
+
+  const handleSaveSimulationInputs = (simulationInputs: SimulationInput[]) => {
+    simulation.changeInputs(simulationInputs);
   };
 
   return (
@@ -82,6 +90,7 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
       </VStack>
       <VStack as="footer" alignItems="center" className={footerStyle}>
         <Button onClick={handleOpenModal}>테스트 케이스 추가하기</Button>
+
         <Space></Space>
         <Button onClick={handleInitCode}>코드 초기화하기</Button>
         <SimulationExecButton
@@ -98,6 +107,11 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
           제출하기
         </Button>
       </VStack>
+      <SimulationInputModal
+        className={simulationModalStyle}
+        simulationInputs={simulation.inputs}
+        onSave={handleSaveSimulationInputs}
+      ></SimulationInputModal>
     </HStack>
   );
 }
@@ -146,4 +160,8 @@ const tabStyle = cva({
       },
     },
   },
+});
+
+const simulationModalStyle = css({
+  width: '1000px',
 });
