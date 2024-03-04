@@ -3,14 +3,14 @@ import { css, cva } from '@style/css';
 import { useContext, useEffect, useState } from 'react';
 
 import { FetchCompetitionProblemResponse } from '@/apis/problems';
-import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
+import { Button, HStack, Icon, Modal, Space, VStack } from '@/components/Common';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationExecButton } from '@/components/Simulation/SimulationExecButton';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
+import { SubmissionResult } from '@/components/Submission/SubmissionResult';
 import { testcaseFormatting } from '@/hooks/problem';
-// import { ScoreResult, ScoreStart, SUBMIT_STATE } from '@/componenets/Submission/types';
 import { SimulationInput } from '@/hooks/simulation';
 import { useSimulation } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
@@ -28,12 +28,19 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const [isScoring, setIsScoring] = useState(false);
+
   useEffect(() => {
     if (isNil(problem.solutionCode['JavaScript'])) return;
     setCode(problem.solutionCode['JavaScript'] as string);
   }, []);
 
   const simulation = useSimulation(testcaseFormatting(problem.testcases.data), tabIndex);
+
+  function handleSubmitSolution() {
+    setCurrentTab(SUBMISSION_TAP);
+    setIsScoring(false);
+  }
 
   useEffect(() => {
     setCode(problem.solutionCode['JavaScript'] as string);
@@ -80,10 +87,22 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
                 className={tabStyle({ visible: currentTab === SIMULATION_TAP })}
                 resultList={simulation.results}
               ></SimulationResultList>
-              {/* <SubmissionResult
+              <SubmissionResult
                 className={tabStyle({ visible: currentTab === SUBMISSION_TAP })}
-                submitResults={}
-              ></SubmissionResult> */}
+                submitResults={[
+                  {
+                    testcaseId: 1,
+                    submitState: 2,
+                    score: {
+                      problemId: 1,
+                      testcaseId: 1,
+                      result: 'pass',
+                      memoryUsage: 100,
+                      timeUsage: 100,
+                    },
+                  },
+                ]}
+              ></SubmissionResult>
             </div>
           </section>
         </HStack>
@@ -100,9 +119,9 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
         />
         <Button
           theme="brand"
-          // onClick={handleSubmitSolution}
-          // leading={isScoring ? <Icon.Spinner spin /> : undefined}
-          // disabled={isScoring}
+          onClick={handleSubmitSolution}
+          leading={isScoring ? <Icon.Spinner spin /> : undefined}
+          disabled={isScoring}
         >
           제출하기
         </Button>

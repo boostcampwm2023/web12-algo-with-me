@@ -24,7 +24,6 @@ const MAX_INPUT_COUNT = 10;
 
 export function SimulationInputModal({ simulationInputs, onSave, ...props }: Props) {
   const modal = useContext(Modal.Context);
-  console.log(simulationInputs);
   const [inputs, setInputs] = useState<SimulationInput[]>(deepCopy(simulationInputs));
 
   useEffect(() => {

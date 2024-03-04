@@ -84,6 +84,7 @@ export function ProblemSolveContainer({
 
   const { socket, isConnected } = useContext(SocketContext);
   const submission = useSubmitSolution(socket);
+
   function handleSubmitSolution() {
     if (isNil(problem.id)) {
       console.error('존재하지 않는 문제입니다.');
