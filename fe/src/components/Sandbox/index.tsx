@@ -14,9 +14,6 @@ import { sandboxProblemInfo } from './sandbox.problem.info.ts';
 import { SandboxProblemContainer } from './SandboxProblemContainer.tsx';
 export function Sandbox() {
   const [tabIndex, setTabIndex] = useState(0);
-  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-  // const [sandboxProblemInfo, setSandboxProblemInfo] = useState(sandboxProblemInfo);
-
   const crumbs = [SITE.NAME, '둘러 보기'];
   const [problemsInfo, setProblemsInfo] = useState<FetchCompetitionProblemResponse[]>([]);
   const problemIds = sandboxProblemInfo.problemIds;
@@ -51,11 +48,7 @@ export function Sandbox() {
                 onChangeProblemIndex={setTabIndex}
               />
             </aside>
-            <SandboxProblemContainer
-              tabIndex={tabIndex}
-              problem={problemsInfo[tabIndex]}
-              currentProblemIndex={currentProblemIndex}
-            />
+            <SandboxProblemContainer tabIndex={tabIndex} problem={problemsInfo[tabIndex]} />
           </div>
         </>
       )}

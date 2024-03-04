@@ -4,7 +4,7 @@ import evaluator from '@/modules/evaluator';
 
 import type { SimulationInput, SimulationResult } from './types';
 
-export const useSimulation = (testcases: SimulationInput[]) => {
+export const useSimulation = (testcases: SimulationInput[], tabIndex = 0) => {
   const [inputs, setInputs] = useState<SimulationInput[]>([]);
   const [results, setResults] = useState<SimulationResult[]>([]);
 
@@ -19,7 +19,7 @@ export const useSimulation = (testcases: SimulationInput[]) => {
 
   useEffect(() => {
     setupTestcase(testcases);
-  }, []);
+  }, [tabIndex]);
 
   useEffect(() => {
     const unsubscriber = evaluator.subscribe(({ result: output, error, task, logs }) => {
