@@ -10,7 +10,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function ProblemHeader({ problem, className, ...props }: Props) {
-  console.log(problem);
   return (
     <div className={cx(className, style)} {...props}>
       <Text.Title className={problemTitleStyle} size="lg" bold>
