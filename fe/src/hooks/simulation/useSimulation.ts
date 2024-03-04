@@ -19,7 +19,7 @@ export const useSimulation = (testcases: SimulationInput[]) => {
 
   useEffect(() => {
     setupTestcase(testcases);
-  }, [testcases]);
+  }, []);
 
   useEffect(() => {
     const unsubscriber = evaluator.subscribe(({ result: output, error, task, logs }) => {

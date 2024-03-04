@@ -1,7 +1,7 @@
 import { css } from '@style/css';
 
 import { HStack, Logo, Text, VStack } from '@/components/Common';
-import Header from '@/components/Header';
+import { Header } from '@/components/Header';
 import { PageLayout } from '@/components/Layout';
 import { CompetitionTable, CreateCompetitionButton, SandboxButton } from '@/components/Main';
 import { SITE } from '@/constants';

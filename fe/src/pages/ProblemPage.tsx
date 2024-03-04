@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import { fetchProblemDetail, type Problem, ProblemId } from '@/apis/problems';
 import { HStack } from '@/components/Common';
-import Header from '@/components/Header';
+import { Header } from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import type { Nil } from '@/utils/type';

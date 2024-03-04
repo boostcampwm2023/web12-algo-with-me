@@ -6,7 +6,7 @@ import { SocketProvider } from '@/components/Common/Socket/SocketProvider';
 import DashboardLoading from '@/components/Dashboard/DashboardLoading';
 import DashboardStatus from '@/components/Dashboard/DashboardStatus';
 import DashboardTable from '@/components/Dashboard/DashboardTable';
-import Header from '@/components/Header';
+import { Header } from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
 import { useDashboardRerenderState } from '@/hooks/dashboard';

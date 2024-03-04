@@ -1,7 +1,6 @@
 import api from '@/utils/api';
 
 import type {
-  CompetitionProblem,
   FetchCompetitionProblemResponse,
   FetchProblemListResponse,
   Problem,
@@ -39,7 +38,7 @@ export async function fetchCompetitionProblemList(competitionId: number): Promis
 
 export async function fetchCompetitionProblem(
   problemId: ProblemId,
-): Promise<CompetitionProblem | null> {
+): Promise<FetchCompetitionProblemResponse | null> {
   try {
     const { data } = await api.get<FetchCompetitionProblemResponse>(
       `/competitions/problems/${problemId}/`,
@@ -62,4 +61,8 @@ export async function fetchProblemDetail(problemId: number) {
   } catch (error) {
     console.error('Error fetching problem:', (error as Error).message);
   }
+}
+
+export async function fetchProblems(problemIds: number[]) {
+  return Promise.all(problemIds.map((problemId) => fetchCompetitionProblem(problemId)));
 }

@@ -6,7 +6,7 @@ import { Button, Space, Text, VStack } from '@/components/Common';
 import { Logo } from '@/components/Common';
 import useAuth from '@/hooks/login/useAuth';
 
-export default function Header() {
+export function Header() {
   const { changeLoginInfo, changeLogoutInfo, isLoggedin } = useAuth();
 
   const handleLogin = () => {

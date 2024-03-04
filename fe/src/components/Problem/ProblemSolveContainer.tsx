@@ -1,6 +1,6 @@
 import { css, cva } from '@style/css';
 
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
 import { CompetitionProblem, ProblemId } from '@/apis/problems';
@@ -121,9 +121,10 @@ export function ProblemSolveContainer({
     submission.changeDoneScoreResult(newResult);
   };
 
-  function handleInitCode() {
-    setCode(problem.solutionCode);
-  }
+  const handleInitCode = useCallback(() => {
+    if (isNil(problem)) return;
+    setCode(problem.solutionCode['JavaScript'] as string);
+  }, [problem]);
 
   const [isScoring, setIsScoring] = useState<boolean>(false);
 

@@ -3,7 +3,7 @@ import { css } from '@style/css';
 import { HStack, Loading, Text } from '@/components/Common';
 import { useRemainingTimeCounter } from '@/hooks/dashboard';
 
-import Header from '../Header';
+import { Header } from '../Header';
 import { PageLayout } from '../Layout/PageLayout';
 
 interface Props {
