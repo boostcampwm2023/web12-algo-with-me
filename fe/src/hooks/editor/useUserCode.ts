@@ -23,7 +23,7 @@ export function useUserCode({
   currentProblemIndex,
   save,
 }: UseUserCode) {
-  const [code, setCode] = useState<string>(problem.solutionCode);
+  const [code, setCode] = useState<string>('');
   const [oldProblemIndex, setOldProblemIndex] = useState<number>(-1);
 
   const localStorageKey = 'savedCode';
@@ -55,7 +55,7 @@ export function useUserCode({
     if (typeof userCode === 'string') {
       setCode(userCode);
     } else {
-      setCode(problem.solutionCode);
+      setCode(problem.solutionCode['JavaScript'] as string);
     }
   }, [problem]);
 
