@@ -32,7 +32,7 @@ function formatTimeRemaining(startsAt: string, endsAt: string): string {
   }
 }
 
-export default function CompetitionTable() {
+export function CompetitionTable() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
 
   const fetchCompetitions = async () => {

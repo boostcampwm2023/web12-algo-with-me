@@ -7,7 +7,7 @@ interface Props {
   competitionId: CompetitionId;
 }
 
-export default function ViewDashboardButton({ competitionId }: Props) {
+export function ViewDashboardButton({ competitionId }: Props) {
   const dashboardLink = `/competition/dashboard/${competitionId}`;
 
   return (

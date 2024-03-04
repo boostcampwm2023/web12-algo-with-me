@@ -7,7 +7,7 @@ import { Card } from '@/components/Common';
 import { formatDate } from '@/utils/date';
 
 import { Chip, Space, Text, VStack } from '../Common';
-import ViewDashboardButton from '../Main/Buttons/ViewDashboardButton';
+import { ViewDashboardButton } from '../Main';
 import CompetitionDetailInfo from './CompetitionDetailInfo';
 import CompetitionMembersInfo from './CompetitionMembersInfo';
 import ProblemList from './ProblemList';
