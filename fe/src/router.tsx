@@ -1,14 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import CompetitionPage from '@/pages/CompetitionPage';
-import CreateCompetitionPage from '@/pages/CreateCompetitionPage';
-import LoginPage from '@/pages/LoginPage';
-import MainPage from '@/pages/MainPage';
-import ProblemPage from '@/pages/ProblemPage';
+import {
+  CompetitionDetailPage,
+  CompetitionPage,
+  CreateCompetitionPage,
+  DashboardPage,
+  LoginPage,
+  MainPage,
+  ProblemPage,
+  SandboxPage,
+} from '@/pages';
 
 import App from './App';
-import CompetitionDetailPage from './pages/CompetitionDetailPage';
-import DashboardPage from './pages/DashboardPage';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +43,7 @@ const router = createBrowserRouter([
         path: '/competition/dashboard/:id',
         element: <DashboardPage />,
       },
+      { path: '/sandbox', element: <SandboxPage /> },
     ],
   },
 ]);

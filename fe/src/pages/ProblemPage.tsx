@@ -10,7 +10,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import type { Nil } from '@/utils/type';
 
-function ProblemPage() {
+export function ProblemPage() {
   const { id } = useParams<{ id: string }>();
   const problemId = id ? parseInt(id, 10) : -1;
   const [problem, setProblem] = useState<Problem | Nil>(null);
@@ -50,8 +50,6 @@ function ProblemPage() {
     </>
   );
 }
-
-export default ProblemPage;
 
 const contentStyle = css({
   width: '100%',

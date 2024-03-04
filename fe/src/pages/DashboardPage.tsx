@@ -11,7 +11,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
 import { useDashboardRerenderState } from '@/hooks/dashboard';
 
-export default function DashboardPage() {
+export function DashboardPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
 

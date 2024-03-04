@@ -13,7 +13,7 @@ import { useCompetitionForm } from '@/hooks/competition/useCompetitionForm';
 import { useProblemList } from '@/hooks/problem/useProblemList';
 import { isNil } from '@/utils/type';
 
-export default function CompetitionCreatePage() {
+export function CreateCompetitionPage() {
   const navigate = useNavigate();
 
   const form = useCompetitionForm();
