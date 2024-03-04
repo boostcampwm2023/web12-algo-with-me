@@ -18,7 +18,7 @@ import { useCompetition } from '@/hooks/competition';
 import { useCompetitionProblem } from '@/hooks/problem';
 import { useCompetitionProblemList } from '@/hooks/problem/useCompetitionProblemList';
 
-export default function CompetitionPage() {
+export function CompetitionPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const competitionId: number = id ? parseInt(id, 10) : -1;

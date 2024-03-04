@@ -6,7 +6,7 @@ import { PageLayout } from '@/components/Layout';
 import { CompetitionTable, CreateCompetitionButton, SandboxButton } from '@/components/Main';
 import { SITE } from '@/constants';
 
-function MainPage() {
+export function MainPage() {
   return (
     <>
       <Header />
@@ -31,8 +31,6 @@ function MainPage() {
     </>
   );
 }
-
-export default MainPage;
 
 const logoAndTitleContainerStyle = css({
   alignItems: 'center',

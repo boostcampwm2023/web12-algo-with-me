@@ -4,9 +4,8 @@ import { Button, HStack, Logo } from '@/components/Common';
 import { PageLayout } from '@/components/Layout';
 
 const GITHUB_AUTH_URL = import.meta.env.VITE_GITHUB_AUTH_URL;
-console.log(GITHUB_AUTH_URL);
 
-export default function LoginPage() {
+export function LoginPage() {
   const handleLogin = () => {
     try {
       window.location.href = GITHUB_AUTH_URL;

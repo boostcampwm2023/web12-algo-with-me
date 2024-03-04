@@ -3,7 +3,9 @@
 // import { useMemo, useState } from 'react';
 // import { useNavigate, useParams } from 'react-router-dom';
 
-export function Sandbox() {}
+export function Sandbox() {
+  return <h1>h1</h1>;
+}
 
 // import { BreadCrumb, Button, Link, Logo, Space } from '@/components/Common';
 // import { SocketProvider } from '@/components/Common/Socket/SocketProvider';

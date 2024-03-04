@@ -4,7 +4,7 @@ import { Button, Link, Text } from '@/components/Common';
 
 export function SandboxButton() {
   return (
-    <Link to={'/'} underline={false}>
+    <Link to={'/sandbox'} underline={false}>
       <Button className={buttonStyle} theme="brand">
         <Text.Body className={LinkTextStyle} size="lg">
           둘러 보기

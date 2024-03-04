@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { useCompetition } from '@/hooks/competition';
 
-export default function CompetitionDetailPage() {
+export function CompetitionDetailPage() {
   const { id } = useParams<{ id: string }>();
   const competitionId: number = id ? parseInt(id, 10) : -1;
   const { competition } = useCompetition(competitionId);
