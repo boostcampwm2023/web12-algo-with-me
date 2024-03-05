@@ -3,6 +3,22 @@ export const LANGUAGES = {
   Python3: 'Python3',
 } as const;
 
+const LANGUAGE_IDS = {
+  JavaScript: 1,
+  Python: 2,
+} as const;
+
+export function getLanguageIdByName(languageName: keyof typeof LANGUAGES) {
+  if (!(languageName in LANGUAGE_IDS)) {
+    throw new Error(
+      `${languageName} 언어는 지원하지 않는 언어입니다. 지원하는 언어: ${Object.keys(
+        LANGUAGE_IDS,
+      ).join(', ')}`,
+    );
+  }
+  return LANGUAGE_IDS[languageName];
+}
+
 interface ILanguageMetadata {
   oneLineComment: string;
   indent: string;
