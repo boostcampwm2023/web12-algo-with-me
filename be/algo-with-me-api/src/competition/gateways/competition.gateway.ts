@@ -11,15 +11,14 @@ import {
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Server, Socket } from 'socket.io';
 
+import { AuthTokenPayloadDto } from '../../auth/dto/auth.token.payload.dto';
+import { AuthService } from '../../auth/services/auth.service';
+import { DashboardService } from '../../dashboard/dashboard.service';
+import { ProblemService } from '../../problem/services/problem.service';
+import { User } from '../../user/entities/user.entity';
+import { UserService } from '../../user/services/user.service';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { CompetitionService } from '../services/competition.service';
-import { ProblemService } from '../../problem/services/problem.service';
-
-import { AuthTokenPayloadDto } from '@src/auth/dto/auth.token.payload.dto';
-import { AuthService } from '@src/auth/services/auth.service';
-import { DashboardService } from '@src/dashboard/dashboard.service';
-import { User } from '@src/user/entities/user.entity';
-import { UserService } from '@src/user/services/user.service';
 
 @WebSocketGateway({ namespace: 'competitions' })
 export class CompetitionGateWay implements OnGatewayConnection, OnGatewayInit {
