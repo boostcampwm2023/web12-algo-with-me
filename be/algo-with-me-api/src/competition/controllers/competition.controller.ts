@@ -15,14 +15,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
+import { CompetitionProblemResponseDto } from '../../problem/dto/competition.problem.response.dto';
+import { ProblemSimpleResponseDto } from '../../problem/dto/problem.simple.response.dto';
 import { AuthUser } from '../../user/decorators/user.decorators';
 import { User } from '../../user/entities/user.entity';
 import { CompetitionDto } from '../dto/competition.dto';
 import { IsJoinableDto } from '../dto/competition.is.joinable.dto';
-import { CompetitionProblemResponseDto } from '../../problem/dto/competition.problem.response.dto';
 import { CompetitionResponseDto } from '../dto/competition.response.dto';
 import { CompetitionSimpleResponseDto } from '../dto/competition.simple-response.dto';
-import { ProblemSimpleResponseDto } from '../../problem/dto/problem.simple.response.dto';
 import { ScoreResultDto } from '../dto/score-result.dto';
 import { CompetitionService } from '../services/competition.service';
 
