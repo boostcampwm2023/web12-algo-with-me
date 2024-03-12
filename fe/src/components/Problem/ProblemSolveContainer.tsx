@@ -56,6 +56,7 @@ export function ProblemSolveContainer({
   } else {
     testcases = simulationInputCache[`${competitionId}|${currentProblemIndex}`];
   }
+
   const simulation = useSimulation(testcases);
 
   const handleChangeCode = (newCode: string) => {
@@ -63,7 +64,6 @@ export function ProblemSolveContainer({
   };
 
   const handleSimulate = () => {
-    console.log('??');
     setCurrentTab(SIMULATION_TAP);
     simulation.run(code);
   };
