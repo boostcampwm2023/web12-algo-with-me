@@ -22,7 +22,7 @@ export function SocketProvider({
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const socket = useRef(
-    connect(`/${namespace}`, {
+    connect(`${namespace}`, {
       transports,
       query,
       auth: {
@@ -51,7 +51,7 @@ export function SocketProvider({
   useEffect(() => {
     if (!socket.current.connected) return;
     return () => {
-      disconnect(`/${namespace}`);
+      disconnect(`${namespace}`);
     };
   }, [socket.current.connected]);
 
