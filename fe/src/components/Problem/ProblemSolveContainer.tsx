@@ -63,6 +63,7 @@ export function ProblemSolveContainer({
   };
 
   const handleSimulate = () => {
+    console.log('??');
     setCurrentTab(SIMULATION_TAP);
     simulation.run(code);
   };
@@ -95,6 +96,7 @@ export function ProblemSolveContainer({
       problemId: problem.id,
       code,
       competitionId,
+      language: 'JavaScript',
     } satisfies SubmissionForm;
 
     if (isNil(socket) || !isConnected) {

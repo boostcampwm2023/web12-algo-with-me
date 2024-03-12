@@ -9,6 +9,7 @@ export type SubmissionForm = {
   competitionId: number;
   problemId: ProblemId;
   code: string;
+  language: string;
 };
 
 const notFoundCompetition: CompetitionInfo = {
