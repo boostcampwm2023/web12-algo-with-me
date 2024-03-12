@@ -29,6 +29,7 @@ export function SubmissionButton({ code, problemId, competitionId, className, ..
       problemId,
       code,
       competitionId,
+      language: 'JavaScript',
     } satisfies SubmissionForm;
 
     if (isNil(socket) || !isConnected) {
