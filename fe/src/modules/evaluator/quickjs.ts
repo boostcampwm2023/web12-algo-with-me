@@ -1,4 +1,4 @@
-import type { QuickJSContext, QuickJSWASMModule } from 'quickjs-emscripten';
+import type { QuickJSContext, QuickJSRuntime, QuickJSWASMModule } from 'quickjs-emscripten';
 import { getQuickJS } from 'quickjs-emscripten';
 
 const MEM_LIMIT = 1024 * 1024; // 1GB
@@ -13,7 +13,7 @@ export async function evaluate(code: string, params: string) {
   addConsole(vm, logs);
 
   try {
-    return evalCode(vm, code, params, logs);
+    return evalCode(vm, runtime, code, params, logs);
   } catch (err) {
     const error = err as Error;
     console.log(err);
@@ -53,12 +53,22 @@ const createRuntime = (quickjs: QuickJSWASMModule) => {
   return runtime;
 };
 
-const evalCode = (vm: QuickJSContext, code: string, params: string, logs: string[] = []) => {
+const evalCode = (
+  vm: QuickJSContext,
+  runtime: QuickJSRuntime,
+  code: string,
+  params: string,
+  logs: string[] = [],
+) => {
   const script = toRunableScript(code, params);
 
   const startTime = performance.now();
+
+  const startMemory = runtime.dumpMemoryUsage();
   const result = vm.unwrapResult(vm.evalCode(script));
+  const endMemory = runtime.dumpMemoryUsage();
   const endTime = performance.now();
+
   const { error, value } = vm.dump(result);
   result.dispose();
 
@@ -67,6 +77,8 @@ const evalCode = (vm: QuickJSContext, code: string, params: string, logs: string
     result: value,
     error,
     logs: logs,
+    startMemory,
+    endMemory,
   };
 };
 
