@@ -1,19 +1,22 @@
 import { css, cva } from '@style/css';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { FetchCompetitionProblemResponse } from '@/apis/problems';
-import { Button, HStack, Icon, Modal, Space, VStack } from '@/components/Common';
+import { Button, HStack, Modal, Space, VStack } from '@/components/Common';
 import Editor from '@/components/Editor/Editor';
 import ProblemViewer from '@/components/Problem/ProblemViewer';
 import { SimulationExecButton } from '@/components/Simulation/SimulationExecButton';
 import { SimulationInputModal } from '@/components/Simulation/SimulationInputModal';
 import { SimulationResultList } from '@/components/Simulation/SimulationResultList';
-import { SubmissionResult } from '@/components/Submission/SubmissionResult';
 import { testcaseFormatting } from '@/hooks/problem';
 import { SimulationInput } from '@/hooks/simulation';
 import { useSimulation } from '@/hooks/simulation';
 import { isNil } from '@/utils/type';
+
+import { sandboxProblemInfo } from './sandbox.problem.info';
+import { SandboxSubmissionButton } from './SandboxSubmissionButton';
+import { SandboxSubmissionResult } from './SandboxSubmissionResult';
 
 interface Props {
   tabIndex: number;
@@ -28,19 +31,21 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
 
   const [currentTab, setCurrentTab] = useState(0);
 
-  const [isScoring, setIsScoring] = useState(false);
-
   useEffect(() => {
     if (isNil(problem.solutionCode['JavaScript'])) return;
     setCode(problem.solutionCode['JavaScript'] as string);
   }, []);
 
-  const simulation = useSimulation(testcaseFormatting(problem.testcases.data), tabIndex);
+  const simulationTestcases = useMemo(() => {
+    return testcaseFormatting(problem.testcases.data);
+  }, [problem.id]);
 
-  function handleSubmitSolution() {
-    setCurrentTab(SUBMISSION_TAP);
-    setIsScoring(false);
-  }
+  const submissionTestcases = useMemo(() => {
+    return [...sandboxProblemInfo.testcase[problem.id as 1]];
+  }, [problem.id]);
+
+  const simulation = useSimulation(simulationTestcases, tabIndex);
+  const submissionSimulation = useSimulation(submissionTestcases, tabIndex);
 
   useEffect(() => {
     setCode(problem.solutionCode['JavaScript'] as string);
@@ -51,9 +56,19 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
     simulation.run(code);
   };
 
+  const handleSubmitSimulate = () => {
+    setCurrentTab(SUBMISSION_TAP);
+    submissionSimulation.run(code);
+  };
+
   const handleSimulationCancel = () => {
     simulation.cancel();
   };
+
+  const handleSubmissionCancel = () => {
+    submissionSimulation.cancel();
+  };
+
   const modal = useContext(Modal.Context);
 
   const handleOpenModal = () => {
@@ -75,34 +90,15 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
         <HStack className={solutionStyle}>
           <Editor height="50%" code={code} onChangeCode={setCode} />
           <section className={resultContainerStyle}>
-            <div
-              className={css({
-                borderRadius: '0.5rem',
-                bg: 'surface',
-                maxHeight: '100%',
-                overflow: 'auto',
-              })}
-            >
+            <div className={scoreWrapperStyle}>
               <SimulationResultList
                 className={tabStyle({ visible: currentTab === SIMULATION_TAP })}
                 resultList={simulation.results}
               ></SimulationResultList>
-              <SubmissionResult
+              <SandboxSubmissionResult
                 className={tabStyle({ visible: currentTab === SUBMISSION_TAP })}
-                submitResults={[
-                  {
-                    testcaseId: 1,
-                    submitState: 2,
-                    score: {
-                      problemId: 1,
-                      testcaseId: 1,
-                      result: 'pass',
-                      memoryUsage: 100,
-                      timeUsage: 100,
-                    },
-                  },
-                ]}
-              ></SubmissionResult>
+                resultList={submissionSimulation.results}
+              ></SandboxSubmissionResult>
             </div>
           </section>
         </HStack>
@@ -117,14 +113,13 @@ export function SandboxProblemContainer({ problem, tabIndex }: Props) {
           onExec={handleSimulate}
           onCancel={handleSimulationCancel}
         />
-        <Button
-          theme="brand"
-          onClick={handleSubmitSolution}
-          leading={isScoring ? <Icon.Spinner spin /> : undefined}
-          disabled={isScoring}
+        <SandboxSubmissionButton
+          isRunning={submissionSimulation.isRunning}
+          onExec={handleSubmitSimulate}
+          onCancel={handleSubmissionCancel}
         >
           제출하기
-        </Button>
+        </SandboxSubmissionButton>
       </VStack>
       <SimulationInputModal
         className={simulationModalStyle}
@@ -183,4 +178,12 @@ const tabStyle = cva({
 
 const simulationModalStyle = css({
   width: '1000px',
+});
+
+const scoreWrapperStyle = css({
+  borderRadius: '0.5rem',
+  bg: 'surface',
+  height: '100%',
+  maxHeight: '500px',
+  overflow: 'auto',
 });

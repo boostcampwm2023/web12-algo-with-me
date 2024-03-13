@@ -1,13 +1,13 @@
 import { css } from '@style/css';
 
+import { SandboxLayout } from '@/components/Layout/SandboxLayout';
 import { Sandbox } from '@/components/Sandbox';
-
 export function SandboxPage() {
   return (
     <>
-      <div className={style}>
+      <SandboxLayout className={style}>
         <Sandbox />
-      </div>
+      </SandboxLayout>
     </>
   );
 }

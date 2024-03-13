@@ -12,4 +12,6 @@ export type SimulationResult = {
   output: unknown;
   expected: string;
   logs: string[];
+  time?: number;
+  memory?: number;
 };

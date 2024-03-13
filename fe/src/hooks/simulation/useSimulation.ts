@@ -4,6 +4,18 @@ import evaluator from '@/modules/evaluator';
 
 import type { SimulationInput, SimulationResult } from './types';
 
+function getMemoryUsage(startMemory: string, endMemory: string) {
+  const memoryIdx = 20;
+  function filteringMemoryInfo(memoryInfo: string) {
+    return memoryInfo.split('\n').filter((line) => line.includes('memory used'))[0];
+  }
+  function parsingMemoryInfo(memoryInfo: string) {
+    return filteringMemoryInfo(memoryInfo).split(' ')[memoryIdx];
+  }
+
+  return parseInt(parsingMemoryInfo(endMemory)) - parseInt(parsingMemoryInfo(startMemory));
+}
+
 export const useSimulation = (testcases: SimulationInput[], tabIndex = 0) => {
   const [inputs, setInputs] = useState<SimulationInput[]>([]);
   const [results, setResults] = useState<SimulationResult[]>([]);
@@ -13,7 +25,7 @@ export const useSimulation = (testcases: SimulationInput[], tabIndex = 0) => {
   }, [results]);
 
   function setupTestcase(testcases: SimulationInput[]) {
-    setInputs(testcases);
+    setInputs([...testcases]);
     setResults(testcases.map(createResult));
   }
 
@@ -22,30 +34,34 @@ export const useSimulation = (testcases: SimulationInput[], tabIndex = 0) => {
   }, [tabIndex, testcases]);
 
   useEffect(() => {
-    const unsubscriber = evaluator.subscribe(({ result: output, error, task, logs }) => {
-      if (!task) return;
+    const unsubscriber = evaluator.subscribe(
+      ({ result: output, error, task, logs, time, startMemory, endMemory }) => {
+        if (!task) return;
 
-      setResults((results) => {
-        return results.map((result) => {
-          if (result.id !== task.clientId) return result;
+        setResults((results) => {
+          return results.map((result) => {
+            if (result.id !== task.clientId) return result;
 
-          if (error) {
+            if (error) {
+              return {
+                ...result,
+                isDone: true,
+                output: `${error.name}: ${error.message} \n${error.stack}`,
+                logs,
+              };
+            }
             return {
               ...result,
               isDone: true,
-              output: `${error.name}: ${error.message} \n${error.stack}`,
+              output,
               logs,
+              time,
+              memory: getMemoryUsage(startMemory, endMemory),
             };
-          }
-          return {
-            ...result,
-            isDone: true,
-            output,
-            logs,
-          };
+          });
         });
-      });
-    });
+      },
+    );
 
     return () => {
       unsubscriber();
@@ -98,5 +114,5 @@ const toEvaluatingState = (simulation: SimulationResult) => {
 };
 
 const createResult = (input: SimulationInput) => {
-  return { ...input, isDone: true, output: '', logs: [] };
+  return { ...input, isDone: true, output: '', logs: [], time: 0, memory: 0 };
 };

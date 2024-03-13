@@ -1,7 +1,25 @@
 export const sandboxProblemInfo = {
   problemIds: [1, 9, 10],
   testcase: {
-    0: [
+    1: [
+      {
+        id: 1,
+        input: '0,0',
+        expected: '0',
+        changable: false,
+      },
+      {
+        id: 2,
+        input: '0,-123',
+        expected: '-123',
+        changable: false,
+      },
+      {
+        id: 3,
+        input: '-123,1239172813',
+        expected: '1239172690',
+        changable: false,
+      },
       {
         id: 4,
         input: '1,2',
@@ -45,7 +63,25 @@ export const sandboxProblemInfo = {
         changable: false,
       },
     ],
-    1: [
+    9: [
+      {
+        id: 1,
+        input: '2,1,5',
+        expected: '4',
+        changable: false,
+      },
+      {
+        id: 2,
+        input: '5,1,6',
+        expected: '2',
+        changable: false,
+      },
+      {
+        id: 3,
+        input: '100,99,1000000000',
+        expected: '999999901',
+        changable: false,
+      },
       {
         id: 4,
         input: '1000000000,999999999,1000000000',
@@ -89,7 +125,25 @@ export const sandboxProblemInfo = {
         changable: false,
       },
     ],
-    2: [
+    10: [
+      {
+        id: 1,
+        input: '3,9',
+        expected: '53',
+        changable: false,
+      },
+      {
+        id: 2,
+        input: '1,2',
+        expected: '1',
+        changable: false,
+      },
+      {
+        id: 3,
+        input: '1,30',
+        expected: '2178307',
+        changable: false,
+      },
       {
         id: 4,
         input: '13,27',
@@ -134,4 +188,4 @@ export const sandboxProblemInfo = {
       },
     ],
   },
-};
+} as const;
