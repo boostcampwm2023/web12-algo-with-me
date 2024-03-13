@@ -52,12 +52,18 @@ export default class EvalTaskManager {
       this.deployTask();
     }
   }
-  receiveTaskEnd({ result, error, logs }: EvalResult, evaluator: Evaluator) {
+  receiveTaskEnd(
+    { result, error, logs, time, startMemory, endMemory }: EvalResult,
+    evaluator: Evaluator,
+  ) {
     this.taskEndNotifier.notify({
       result,
       error,
       logs,
       task: evaluator.currentTask,
+      time,
+      startMemory,
+      endMemory,
     });
 
     evaluator.isIdle = true;
@@ -73,6 +79,9 @@ export default class EvalTaskManager {
         stack: '',
       },
       logs: [],
+      time: 0,
+      startMemory: '',
+      endMemory: '',
       task,
     });
   }

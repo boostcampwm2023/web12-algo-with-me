@@ -13,6 +13,9 @@ export type EvalResult = {
   };
   result: unknown;
   logs: string[];
+  time: number;
+  startMemory: string;
+  endMemory: string;
 };
 
 export type TaskEndMessage = EvalResult & { task: EvalMessage | null };
