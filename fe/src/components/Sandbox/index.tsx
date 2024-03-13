@@ -19,7 +19,7 @@ export function Sandbox() {
   const problemIds = sandboxProblemInfo.problemIds;
 
   useEffect(() => {
-    fetchProblems(problemIds).then((res) => {
+    fetchProblems(problemIds as [1, 9, 10]).then((res) => {
       if (isNil(res)) return;
       setProblemsInfo(res as FetchCompetitionProblemResponse[]);
     });
@@ -29,7 +29,7 @@ export function Sandbox() {
     <>
       {problemsInfo.length && (
         <>
-          <CompetitionHeader>
+          <CompetitionHeader className={padVerticalStyle}>
             <Link to="/">
               <Logo size={48}></Logo>
             </Link>
@@ -43,7 +43,7 @@ export function Sandbox() {
           <div className={competitionStyle}>
             <aside className={asideStyle}>
               <CompetitionProblemSelector
-                problemIds={problemIds}
+                problemIds={problemIds as [1, 9, 10]}
                 currentIndex={tabIndex}
                 onChangeProblemIndex={setTabIndex}
               />
@@ -62,7 +62,7 @@ const padVerticalStyle = css({
 
 const competitionStyle = css({
   flexGrow: '1',
-  // overflow: 'hidden',
+  overflow: 'hidden',
 });
 
 const asideStyle = css({

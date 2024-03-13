@@ -57,7 +57,7 @@ export function ProblemSolveContainer({
     testcases = simulationInputCache[`${competitionId}|${currentProblemIndex}`];
   }
 
-  const simulation = useSimulation(testcases);
+  const simulation = useSimulation(testcases, currentTab);
 
   const handleChangeCode = (newCode: string) => {
     setCode(newCode);
@@ -162,6 +162,8 @@ export function ProblemSolveContainer({
     submission.emptyResults();
   }, [currentProblemIndex]);
 
+  console.log(simulation.results);
+
   return (
     <HStack className={css({ height: '100%' })} {...props}>
       <VStack className={problemSolveContainerStyle} alignItems="stretch">
@@ -169,14 +171,7 @@ export function ProblemSolveContainer({
         <HStack className={solutionStyle}>
           <Editor height="50%" code={code} onChangeCode={handleChangeCode}></Editor>
           <section className={resultContainerStyle}>
-            <div
-              className={css({
-                borderRadius: '0.5rem',
-                bg: 'surface',
-                maxHeight: '100%',
-                overflow: 'auto',
-              })}
-            >
+            <div className={scoreWrapperStyle}>
               <SimulationResultList
                 className={tabStyle({ visible: currentTab === SIMULATION_TAP })}
                 resultList={simulation.results}
@@ -264,4 +259,11 @@ const tabStyle = cva({
 
 const simulationModalStyle = css({
   width: '1000px',
+});
+
+const scoreWrapperStyle = css({
+  borderRadius: '0.5rem',
+  bg: 'surface',
+  maxHeight: '100%',
+  overflow: 'auto',
 });
