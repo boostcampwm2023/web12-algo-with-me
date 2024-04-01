@@ -1,11 +1,11 @@
-type Key = string | number | symbol;
+import { type Key } from './type';
 
-class Node {
+class Node<T> {
   key: Key;
-  value: unknown;
-  prev: Node | null;
-  next: Node | null;
-  constructor(key: Key, value: unknown) {
+  value: T;
+  prev: Node<T> | null;
+  next: Node<T> | null;
+  constructor(key: Key, value: T) {
     this.key = key;
     this.value = value;
     this.prev = null;
@@ -13,9 +13,9 @@ class Node {
   }
 }
 
-class DoublyLinkedList {
-  head: Node | null;
-  tail: Node | null;
+class DoublyLinkedList<T> {
+  head: Node<T> | null;
+  tail: Node<T> | null;
   size: number;
   constructor() {
     this.head = null;
@@ -23,7 +23,7 @@ class DoublyLinkedList {
     this.size = 0;
   }
 
-  insertHead(node: Node) {
+  insertHead(node: Node<T>) {
     if (this.head === null) {
       this.head = node;
       this.tail = node;
@@ -35,12 +35,12 @@ class DoublyLinkedList {
     this.size++;
   }
 
-  swapToHead(node: Node) {
+  swapToHead(node: Node<T>) {
     this.remove(node);
     this.insertHead(node);
   }
 
-  remove(node: Node) {
+  remove(node: Node<T>) {
     const { prev, next } = node;
     if (prev === null && next === null) {
       // 노드가 하나일 때
