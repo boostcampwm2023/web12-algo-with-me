@@ -162,8 +162,6 @@ export function ProblemSolveContainer({
     submission.emptyResults();
   }, [currentProblemIndex]);
 
-  console.log(simulation.results);
-
   return (
     <HStack className={css({ height: '100%' })} {...props}>
       <VStack className={problemSolveContainerStyle} alignItems="stretch">

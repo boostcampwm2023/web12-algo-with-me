@@ -1,4 +1,7 @@
+import { createKey } from '@/utils/lru';
+import { LRU } from '@/utils/lru/LRU';
 import type { Observer } from '@/utils/observer';
+import { isNil } from '@/utils/type';
 
 import type { Evaluator } from './createEvaluator';
 import type { EvalMessage, EvalResult, TaskEndMessage } from './types';
@@ -7,12 +10,25 @@ export default class EvalTaskManager {
   queuedTasks: EvalMessage[] = [];
   evaluators: Evaluator[] = [];
   taskEndNotifier: Observer<TaskEndMessage>;
+  cacheManager: LRU<TaskEndMessage>;
 
-  constructor(taskEndNotifier: Observer<TaskEndMessage>, evaluators: Evaluator[]) {
+  constructor(
+    taskEndNotifier: Observer<TaskEndMessage>,
+    evaluators: Evaluator[],
+    cacheManager: LRU<TaskEndMessage>,
+  ) {
     this.taskEndNotifier = taskEndNotifier;
     this.evaluators = evaluators;
-
+    this.cacheManager = cacheManager;
     this.setupEvaluators();
+  }
+
+  getCachedResult(key: string) {
+    return this.cacheManager.get(key);
+  }
+
+  setCachedResult(key: string, value: TaskEndMessage) {
+    this.cacheManager.set(key, value);
   }
 
   setupEvaluators() {
@@ -52,23 +68,24 @@ export default class EvalTaskManager {
       this.deployTask();
     }
   }
-  receiveTaskEnd(
-    { result, error, logs, time, startMemory, endMemory }: EvalResult,
-    evaluator: Evaluator,
-  ) {
-    this.taskEndNotifier.notify({
-      result,
-      error,
-      logs,
+  receiveTaskEnd(data: EvalResult, evaluator: Evaluator) {
+    const resiveResult = {
+      ...data,
       task: evaluator.currentTask,
-      time,
-      startMemory,
-      endMemory,
-    });
+    };
 
-    evaluator.isIdle = true;
-    evaluator.currentTask = null;
-    this.deployTask();
+    this.taskEndNotifier.notify(resiveResult);
+
+    if (isNil(evaluator.currentTask)) return;
+    const { code, param } = evaluator.currentTask;
+    const keyPromise = createKey(code, param);
+
+    keyPromise.then((key) => {
+      this.setCachedResult(key, resiveResult);
+      evaluator.isIdle = true;
+      evaluator.currentTask = null;
+      this.deployTask();
+    });
   }
   notifyTaskCanceled(task: EvalMessage | null) {
     this.taskEndNotifier.notify({
