@@ -1,7 +1,10 @@
 import { type Key } from './type';
 import { minify } from 'terser';
 
-export async function createKey(code: string, param: Key) {
+export * from './LRU';
+export * from './DoblyLinkedList';
+
+export async function createKey(code: string, param: Key = '') {
   const compressed = await minify(code);
   return await sha256Hash([compressed.code, param].join(','));
 }
