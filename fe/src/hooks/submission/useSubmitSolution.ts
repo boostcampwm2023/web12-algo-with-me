@@ -45,6 +45,7 @@ export function useSubmitSolution(socket: Socket | null) {
     changeDoneScoreResult,
     toEvaluatingState,
     emptyResults,
+    setScoreResults,
     scoreResults,
   };
 }

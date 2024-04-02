@@ -1,16 +1,18 @@
 import { css, cva } from '@style/css';
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { CompetitionId } from '@/apis/competitions';
-import { CompetitionProblem, ProblemId } from '@/apis/problems';
+import { CompetitionProblem } from '@/apis/problems';
 import { Button, HStack, HStackProps, Icon, Modal, Space, VStack } from '@/components/Common';
 import { SubmissionForm } from '@/hooks/competition';
 import { useUserCode } from '@/hooks/editor/useUserCode';
 import useAuth from '@/hooks/login/useAuth';
 import { SimulationInput, useSimulation } from '@/hooks/simulation';
 import { useSubmitSolution } from '@/hooks/submission/useSubmitSolution';
+import { deepCopy } from '@/utils/copy';
 import * as customLocalStorage from '@/utils/localStorage';
+import { createKey, LRU } from '@/utils/lru';
 import { isNil } from '@/utils/type';
 
 import { SocketContext } from '../Common/Socket/SocketContext';
@@ -19,7 +21,7 @@ import { SimulationExecButton } from '../Simulation/SimulationExecButton';
 import { SimulationInputModal } from '../Simulation/SimulationInputModal';
 import { SimulationResultList } from '../Simulation/SimulationResultList';
 import { SubmissionResult } from '../Submission/SubmissionResult';
-import { ScoreResult, ScoreStart, SUBMIT_STATE } from '../Submission/types';
+import { ScoreResult, ScoreStart, SUBMIT_STATE, SubmitResult } from '../Submission/types';
 import ProblemViewer from './ProblemViewer';
 
 interface Props extends HStackProps {
@@ -57,6 +59,8 @@ export function ProblemSolveContainer({
     testcases = simulationInputCache[`${competitionId}|${currentProblemIndex}`];
   }
 
+  const lruRef = useRef(new LRU<SubmitResult[]>(10));
+
   const simulation = useSimulation(testcases, currentTab);
 
   const handleChangeCode = (newCode: string) => {
@@ -86,7 +90,7 @@ export function ProblemSolveContainer({
   const { socket, isConnected } = useContext(SocketContext);
   const submission = useSubmitSolution(socket);
 
-  function handleSubmitSolution() {
+  async function handleSubmitSolution() {
     if (isNil(problem.id)) {
       console.error('존재하지 않는 문제입니다.');
       return;
@@ -105,7 +109,14 @@ export function ProblemSolveContainer({
     }
 
     setCurrentTab(SUBMISSION_TAP);
-    submission.submit(form);
+    const key = await createKey(code, problem.id);
+
+    if (isNil(lruRef.current) || isNil(lruRef.current.get(key))) {
+      submission.submit(form);
+      return;
+    }
+
+    submission.setScoreResults(lruRef.current.get(key) as SubmitResult[]);
   }
 
   const handleScoreResult = (data: ScoreResult) => {
@@ -137,10 +148,13 @@ export function ProblemSolveContainer({
     setIsScoring(true);
   };
 
-  const handleProblemResult = (data: { result: boolean; problemId: ProblemId }) => {
+  const handleProblemResult = async (data: { result: boolean }) => {
     const { result: isSolved } = data;
 
     setIsScoring(false);
+
+    const key = await createKey(code, problem.id);
+    lruRef.current.set(key, deepCopy<SubmitResult[]>(submission.scoreResults));
     alert(isSolved ? '정답입니다' : '오답입니다');
   };
 
