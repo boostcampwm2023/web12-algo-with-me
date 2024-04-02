@@ -54,8 +54,6 @@ export const useSimulation = (testcases: SimulationInput[], tabIndex = 0) => {
     setResults(testcases.map(createResult));
   }
 
-  console.log(results);
-
   useEffect(() => {
     setupTestcase(testcases);
   }, [tabIndex, testcases]);
